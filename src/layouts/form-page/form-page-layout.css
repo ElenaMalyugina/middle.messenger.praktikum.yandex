@@ -15,7 +15,7 @@
 
 .form-block{
     padding: 40px 20px;
-    box-shadow: 0 0 6px rgba(0,0,0, .14);
+    box-shadow: 0 0 6px var(--shadow-color);
     width: 340px;
     max-width: 100%;
     border-radius: 12px;

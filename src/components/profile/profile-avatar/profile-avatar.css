@@ -17,7 +17,7 @@
         display: flex;
         content: "Поменять \A аватар";
         white-space: pre-wrap;
-        background-color: rgba(0,0,0,.5);
+        background-color: var(--shadow-color2);
         color: var(--third-color);
         font-size: 14px;
         font-weight: 500;
