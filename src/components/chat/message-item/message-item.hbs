@@ -2,7 +2,7 @@
     <div class="message-item__content">
         {{#if file}}
         <figure class="message-item__file-block">
-            {{> custom-img className="message-item__file" src=file.path }}
+            {{> custom-img className="message-item__file" src=file.path alt="Прикрепленная картинка" }}
         </figure>
         {{/if}}
         {{{content}}}
