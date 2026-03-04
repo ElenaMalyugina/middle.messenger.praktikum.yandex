@@ -15,3 +15,16 @@ https://www.figma.com/design/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link
 
 Демо тут
 https://mf1-messenger.netlify.app
+
+Пути 
+"/chat" - чат;
+"/" - чат;
+"/login" -  логин
+/registration" - регистрация;
+"/profile" - профиль;    
+"/edit-profile" - редактирование профиля;    
+"/change-password" - смена пароля ;
+"/not-found" - не найдено
+"/server-error" - 500 ошибка
+
+
