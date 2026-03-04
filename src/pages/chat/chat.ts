@@ -165,7 +165,7 @@ const dialogShow = (selectorButton: string, selectorPopup: string, activeClass: 
         const button = document.querySelector(selectorButton);
         if(!button || !button.contains(e.target as Node)) return;
 
-        const popup = document.querySelector(selectorPopup) as HTMLDialogElement;
+        const popup = document.querySelector<HTMLDialogElement>(selectorPopup);
         if(!popup) return;
 
         if(!popup.open){
@@ -197,7 +197,7 @@ const modalShow = (selector:string, params: {})=>{
         const button = document.querySelector(selector);
         if(!button || !button.contains(e.target as Node)) return;
 
-        const modal = document.querySelector("#chat-modal") as HTMLDialogElement;
+        const modal = document.querySelector<HTMLDialogElement>("#chat-modal");
         if(!modal) return;
         modal.showModal();
         const content = Handlebars.compile(addUser)(params);
@@ -208,7 +208,7 @@ const modalShow = (selector:string, params: {})=>{
 const modalHide = (selector: string)=>{
     document.addEventListener("click", function(e:Event){
         e.stopPropagation();
-        const modal = document.querySelector(selector) as HTMLDialogElement;
+        const modal = document.querySelector<HTMLDialogElement>(selector);
         if(!modal) return;
 
         if (e.target === modal) {
