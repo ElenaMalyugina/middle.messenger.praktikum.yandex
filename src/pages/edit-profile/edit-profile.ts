@@ -20,4 +20,4 @@ Handlebars.registerPartial("text-row-editable", textRowEditableTemplate);
 Handlebars.registerPartial("profile-page-layout", profilePageLayout);
 
 const currentForm = "editProfileForm";
-export default Handlebars.compile(editProfileTemplate)({currentForm})
+export default Handlebars.compile(editProfileTemplate)({currentForm});

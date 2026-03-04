@@ -22,4 +22,4 @@ Handlebars.registerPartial("profile-menu", profileMenuTemplate);
 Handlebars.registerPartial("text-row-block", textRowBlockTemplate);
 Handlebars.registerPartial("profile-page-layout", profilePageLayout);
 
-export default Handlebars.compile(profileTemplate)({})
+export default Handlebars.compile(profileTemplate)({});
