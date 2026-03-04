@@ -26,5 +26,3 @@ https://mf1-messenger.netlify.app
 "/change-password" - смена пароля ;
 "/not-found" - не найдено
 "/server-error" - 500 ошибка
-
-
