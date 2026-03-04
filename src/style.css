@@ -16,7 +16,7 @@
     --border: 1px solid var(--border-color);
     --outline: 1px solid var(--second-color);
     --img-back: #EFEFEF;
-        
+
     box-sizing: border-box;
 }
 
@@ -26,7 +26,7 @@
   height: 1px;
   margin: -1px;
   border: 0;
-  padding: 0;  
+  padding: 0;
   white-space: nowrap;
   clip-path: inset(100%);
   clip: rect(0 0 0 0);
@@ -67,7 +67,7 @@ body{
         background-color: var(--third-color);
         color: var(--second-color);
         transition: all, 0.3s;
-    }    
+    }
 }
 
 .button:hover{
@@ -108,7 +108,7 @@ body{
     height: 32px;
     border: none;
     cursor: pointer;
-    border-radius: 50%;   
+    border-radius: 50%;
 }
 
 .blue-round-button{
@@ -122,7 +122,7 @@ body{
 
     &--active{
         outline: var(--outline);
-    }    
+    }
 }
 
 .blue-round-button{
@@ -134,7 +134,7 @@ body{
 .attache-button{
     @extend .round-button;
     background: url("/img/attache.svg") center center no-repeat;
-   
+
     &--active{
         background-image: url("/img/attache-hover.svg");
     }

@@ -1,7 +1,7 @@
 .messages-box{
     display: flex;
-    flex-direction: column;    
-    height: 100%;       
+    flex-direction: column;
+    height: 100%;
 }
 
 .messages-box__messages-list{
@@ -11,7 +11,7 @@
 .messages-box__messages-list-scroll{
     height: 100%;
     overflow: auto;
-    flex: 1;    
+    flex: 1;
 }
 
 .messages-box__time{

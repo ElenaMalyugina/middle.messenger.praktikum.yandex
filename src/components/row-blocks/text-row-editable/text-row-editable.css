@@ -1,7 +1,7 @@
 @import url("../text-row-block/text-row-block.css");
 
 .text-row__td--editable{
-    padding: 0;    
+    padding: 0;
 }
 
 .text-row__label{
@@ -13,7 +13,7 @@
 .text-row__input{
     text-align: left;
     border-bottom-color: transparent;
-    padding: 0 0 4px 0; 
+    padding: 0 0 4px 0;
 
     &-focus{
         border-bottom-color: var(--second-color);

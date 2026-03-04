@@ -1,14 +1,13 @@
- <div class="chat"> 
+ <div class="chat">
    {{> chat-sidebar}}
    {{#> chat-body}}
       {{#if isSelectedChat}}
          {{> messages-box}}
-      {{else}}    
+      {{else}}
          {{> no-messages}}
       {{/if}}
-   {{/chat-body}}      
+   {{/chat-body}}
  </div>
  <div class="modal-container" id="modal-container">
    {{#> custom-popup className="modal-popup" id="chat-modal"}}{{/custom-popup}}
  </div>
- 

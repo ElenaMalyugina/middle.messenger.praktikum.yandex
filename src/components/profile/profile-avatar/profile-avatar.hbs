@@ -2,11 +2,11 @@
     <div class="profile__container">
         <figure class="profile-avatar__wrapper">
             {{#if editable}}
-                {{#> upload-file className="avatar-label" for="avatar" title="Изменить файл" name="avatar" form=currentForm }} 
-                    {{> custom-img className="profile-avatar__img" src="/img/avatar-profile.png" alt="Иванов Иван Иванович"}} 
-                {{/upload-file}}      
+                {{#> upload-file className="avatar-label" for="avatar" title="Изменить файл" name="avatar" form=currentForm }}
+                    {{> custom-img className="profile-avatar__img" src="/img/avatar-profile.png" alt="Иванов Иван Иванович"}}
+                {{/upload-file}}
             {{else}}
-                {{> custom-img className="profile-avatar__img" src="/img/avatar-profile.png" alt="Иванов Иван Иванович"}}             
+                {{> custom-img className="profile-avatar__img" src="/img/avatar-profile.png" alt="Иванов Иван Иванович"}}
             {{/if}}
         </figure>
         <h1 class="profile-header profile-avatar__header">Иван</h1>

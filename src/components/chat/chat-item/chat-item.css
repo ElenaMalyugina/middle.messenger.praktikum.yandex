@@ -6,7 +6,7 @@
     cursor: pointer;
 
     &--active{
-        background-color: var(--selected-color);        
+        background-color: var(--selected-color);
     }
 }
 
@@ -27,8 +27,8 @@
 
 .chat-item__message{
     margin: 0;
-    font-size: 12px; 
-    
+    font-size: 12px;
+
     *{
         font-size: inherit;
     }
@@ -42,7 +42,7 @@
 .chat-item__top{
     display: flex;
     gap: 16px;
-    justify-content: space-between;    
+    justify-content: space-between;
     align-items: flex-start;
 }
 

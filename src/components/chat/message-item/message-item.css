@@ -8,7 +8,7 @@
 
     &--self{
         background-color: var(--selected-color);
-        border-bottom-right-radius:0;        
+        border-bottom-right-radius:0;
     }
 
     &__content{

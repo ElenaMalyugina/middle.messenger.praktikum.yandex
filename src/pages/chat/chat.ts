@@ -44,8 +44,8 @@ Handlebars.registerPartial("chat-sidebar", chatSidebarTemplate);
 Handlebars.registerPartial("chat-search", chatSearchTemplate);
 Handlebars.registerPartial("chat-avatar", chatAvatarTemplate);
 Handlebars.registerPartial("chat-header", chatHeaderTemplate);
-Handlebars.registerPartial("chats-list", chatsListTemplate); 
-Handlebars.registerPartial("chat-item", chatItemTemplate); 
+Handlebars.registerPartial("chats-list", chatsListTemplate);
+Handlebars.registerPartial("chat-item", chatItemTemplate);
 Handlebars.registerPartial("chat-body", chatBody);
 Handlebars.registerPartial("messages-box", messagesBoxTemplate);
 Handlebars.registerPartial("messages-box-header", messagesBoxHeaderTemplate);
@@ -61,7 +61,7 @@ Handlebars.registerPartial("add-user-content", addUser);
 Handlebars.registerHelper("isAuthor", function(userId){
     if(userId === 111){  //для демо пусть будет автор - это юзер 111
         return true;
-    }   
+    }
     return false;
 });
 
@@ -70,7 +70,7 @@ Handlebars.registerHelper('concat', function() {
   return Array.prototype.slice.call(arguments, 0, -1).join('');
 });
 
-//Получение даты в читаемом формате 
+//Получение даты в читаемом формате
 Handlebars.registerHelper("getDayAndYear", function(dateString){
     return getDayYearString(dateString);
 })
@@ -83,20 +83,20 @@ Handlebars.registerHelper("getTime", function(dateString){
 let isSelectedChat = false;
 
 //для демо смены класса временное решение
-const setChatActive = ()=>{    
+const setChatActive = ()=>{
     document.addEventListener("click", function(e: Event){
-        const target = e.target as HTMLElement;  
-        const isTargetChatItem = target.classList.contains("js-chat-item") || target.closest(".js-chat-item");        
+        const target = e.target as HTMLElement;
+        const isTargetChatItem = target.classList.contains("js-chat-item") || target.closest(".js-chat-item");
         if(!isTargetChatItem) return;
 
         const chatItems = document.querySelectorAll(".js-chats-list .js-chat-item");
         const classActive = "chat-item--active";
-        chatItems.forEach(el=> el.classList.remove(classActive));          
-        target.closest(".js-chat-item")?.classList.add(classActive);   
-        isSelectedChat = true;      
-        
+        chatItems.forEach(el=> el.classList.remove(classActive));
+        target.closest(".js-chat-item")?.classList.add(classActive);
+        isSelectedChat = true;
+
         const sidebar = document.querySelector("#chat-sidebar");
-        const classSidebarActive = "chat__sidebar--active"; 
+        const classSidebarActive = "chat__sidebar--active";
         if(sidebar){
             if(sidebar.classList.contains(classSidebarActive)){
                 sidebar.classList.remove(classSidebarActive);
@@ -104,7 +104,7 @@ const setChatActive = ()=>{
         }
 
         //Только для демо
-        const newMessagesBoxTemplate = Handlebars.compile(messagesBoxTemplate)({chats, messages});  
+        const newMessagesBoxTemplate = Handlebars.compile(messagesBoxTemplate)({chats, messages});
         const rootMessagesBlock = document.querySelector("#chat-body");
         if(!rootMessagesBlock)return;
 
@@ -115,14 +115,14 @@ const setChatActive = ()=>{
 const toggleSidebarVisible = ()=>{
     const mobileBreakpoint = 700;
     document.addEventListener("click", function(e: Event){
-        if(window.innerWidth > mobileBreakpoint) return;    
+        if(window.innerWidth > mobileBreakpoint) return;
 
         const sidebar = document.querySelector("#chat-sidebar");
-        const target = e.target as HTMLElement;  
-        
+        const target = e.target as HTMLElement;
+
         if(!sidebar || ! sidebar.contains(e.target as Node)) return;
 
-        const classActive = "chat__sidebar--active";       
+        const classActive = "chat__sidebar--active";
 
         target.addEventListener("click", ()=>{
             if(!target.classList.contains(classActive)){
@@ -135,7 +135,7 @@ const toggleSidebarVisible = ()=>{
 const thisMessages = [...messages];
 
 //добавление свойства смены даты
-const messagesWithIsChangedDate = thisMessages.map((mess:any, i, sourceMessages)=>{ 
+const messagesWithIsChangedDate = thisMessages.map((mess:any, i, sourceMessages)=>{
     mess.isChangedDate = false;
     const isChangedDate = i==0 || mess.time !== sourceMessages[i-1].time;
 
@@ -147,12 +147,12 @@ const messagesWithIsChangedDate = thisMessages.map((mess:any, i, sourceMessages)
 
 //закрытие попапов
 const popupClose = (popup:HTMLDialogElement, button:Element, activeClass:string )=>{
-    const popupCloseHandler = function(e: Event){ 
+    const popupCloseHandler = function(e: Event){
         if (!popup.contains(e.target as Node) && popup.open) {
-            popup.close(); 
+            popup.close();
             button.classList.remove(activeClass);
-            document.removeEventListener("click", popupCloseHandler);      
-        }       
+            document.removeEventListener("click", popupCloseHandler);
+        }
     }
     //гарантия, что не будет доп. экземпляров
     document.removeEventListener("click", popupCloseHandler);
@@ -167,7 +167,7 @@ const dialogShow = (selectorButton: string, selectorPopup: string, activeClass: 
 
         const popup = document.querySelector(selectorPopup) as HTMLDialogElement;
         if(!popup) return;
-        
+
         if(!popup.open){
             popup.show();
             popupClose(popup, button, activeClass);
@@ -176,27 +176,27 @@ const dialogShow = (selectorButton: string, selectorPopup: string, activeClass: 
         else{
             button.classList.remove(activeClass);
         }
-    })     
+    })
 }
 
-//настройки для модалок 
+//настройки для модалок
 const modalAddUser = {
     title: "Добавить пользователя",
-    action: "/chat", 
+    action: "/chat",
     buttonText: "Добавить"
-} 
+}
 const modalDeleteUser = {
     title: "Удалить пользователя",
-    action: "/chat", 
+    action: "/chat",
     buttonText: "Удалить"
-} 
+}
 
 //открытие модального окна
 const modalShow = (selector:string, params: {})=>{
     document.addEventListener("click", function(e){
         const button = document.querySelector(selector);
         if(!button || !button.contains(e.target as Node)) return;
-        
+
         const modal = document.querySelector("#chat-modal") as HTMLDialogElement;
         if(!modal) return;
         modal.showModal();

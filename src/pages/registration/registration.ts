@@ -5,7 +5,7 @@ import formPageLayout from "/src/layouts/form-page/form-page-layout.hbs?raw";
 import inputBlock from "/src/components/row-blocks/input-block/input-block.hbs?raw";
 import registrationTemplate from "./registration.hbs?raw";
 
-Handlebars.registerPartial("form-page-layout", formPageLayout); 
-Handlebars.registerPartial("input-block", inputBlock); 
+Handlebars.registerPartial("form-page-layout", formPageLayout);
+Handlebars.registerPartial("input-block", inputBlock);
 
 export default Handlebars.compile(registrationTemplate)({});

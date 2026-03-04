@@ -10,7 +10,7 @@ import { getError } from "./pages/errors/errorsHelper";
 import EditProfile from "./pages/edit-profile/edit-profile";
 import ChangePassword from "./pages/change-password/change-password";
 
-const entryNode = document.getElementById("app")!; 
+const entryNode = document.getElementById("app")!;
 let compiledTemplate = "";
 
 //для демо роутинг
@@ -39,9 +39,9 @@ switch (window.location.pathname){
         compiledTemplate = errors(customError);
         break;
     }
-       
 
-    default: {  
+
+    default: {
         window.location.href = "/not-found";
     }
 }

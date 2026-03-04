@@ -1,6 +1,6 @@
 .messages-list{
     list-style-type: none;
-    padding:20px var(--padding);    
+    padding:20px var(--padding);
 }
 
 .messages-list__time{

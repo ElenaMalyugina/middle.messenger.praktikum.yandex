@@ -1,7 +1,7 @@
 .chat{
     display: flex;
     height: 100%;
-    --padding: 40px;  
+    --padding: 40px;
 }
 
 .chat__sidebar{
@@ -47,7 +47,7 @@
         position: absolute;
         left: -310px;
         border-right: 10px solid var(--selected-color);
-                              
+
         &--active{
             width: 100%;
             left: 0;

@@ -15,8 +15,8 @@ svg{
     }
 }
 
-.popup__item:last-child{  
-    @extend .popup__item--last;    
+.popup__item:last-child{
+    @extend .popup__item--last;
 }
 
 .popup__row{
