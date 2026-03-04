@@ -1,0 +1,19 @@
+.messages-box{
+    display: flex;
+    flex-direction: column;    
+    height: 100%;       
+}
+
+.messages-box__messages-list{
+    margin: 0;
+}
+
+.messages-box__messages-list-scroll{
+    height: 100%;
+    overflow: auto;
+    flex: 1;    
+}
+
+.messages-box__time{
+    text-align: center;
+}

@@ -1,0 +1,14 @@
+.popup{
+    background-color: var(--third-color);
+    border: var(--border);
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, .5);
+    border-radius: 12px;
+    margin: 0;
+}
+
+.modal-popup{
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+}
+

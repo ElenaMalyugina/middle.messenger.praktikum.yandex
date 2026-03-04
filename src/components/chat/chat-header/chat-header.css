@@ -1,0 +1,8 @@
+.chat-header{
+    padding: 10px 20px;    
+}
+
+.chat-header__link-wrapper{
+    text-align: right;
+    margin-bottom: 10px;
+}

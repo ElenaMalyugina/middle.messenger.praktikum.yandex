@@ -1,0 +1,22 @@
+{{#> custom-form className="popup-files" action="/chat" id="popup-form"}}
+    <ul class="popup__list popup-files__list">
+        <li class="popup__item popup-files__item">
+            {{#> upload-file className="popup-files-label popup__row" for="upload-photo" name="photo"}} 
+                {{>image-icon}}
+                <span class="popup__text">Фото или Видео</span>
+            {{/upload-file}}
+        </li>
+        <li class="popup__item popup-files__item">
+            {{#> upload-file className="popup-files-label popup__row" for="upload-file" name="file"}} 
+                {{>file-icon}}
+                <span class="popup__text">Файл</span>
+            {{/upload-file}}
+        </li>
+        <li class="popup__item popup-files__item">
+            {{#> upload-file className="popup-files-label popup__row" for="upload-location" name="location"}} 
+                {{>location-icon}}
+                <span class="popup__text">Локация</span>
+            {{/upload-file}}
+        </li>
+    </ul>
+{{/custom-form}}

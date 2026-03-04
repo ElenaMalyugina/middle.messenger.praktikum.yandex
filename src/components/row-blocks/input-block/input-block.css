@@ -1,0 +1,44 @@
+.input-block__label{
+    display: block;
+    font-size: 10px;
+    color: transparent;
+    font-weight: 500;     
+}
+
+.input-block__input{
+    display: block;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--second-color);
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--text-color);
+    
+    &--focus{
+        outline: none; 
+
+        &::placeholder{
+            color:transparent;
+        }
+    }
+}
+
+.input-block__input:focus{
+    @extend .input-block__input--focus;
+}
+
+.input-block__label--focus{
+    color: #999;
+}
+
+.input-block:focus-within{
+    .input-block__label{
+        @extend .input-block__label--focus;
+    }
+}
+
+.input-block__error{
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--error-color);
+}

@@ -1,0 +1,38 @@
+.message-item{
+    background-color: var(--back-color);
+    border: var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    width: fit-content;
+    font-size: 14px;
+
+    &--self{
+        background-color: var(--selected-color);
+        border-bottom-right-radius:0;        
+    }
+
+    &__content{
+        margin-bottom: 6px;
+    }
+
+    &__bottom{
+        display: flex;
+        gap: 5px;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    &__file-block{
+        margin:0 0 4px 0;
+    }
+
+    &__file{
+        max-width: 100%;
+    }
+
+    &__time{
+        &--self{
+            color: var(--second-color);
+        }
+    }
+}

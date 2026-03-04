@@ -1,0 +1,25 @@
+@import url("../text-row-block/text-row-block.css");
+
+.text-row__td--editable{
+    padding: 0;    
+}
+
+.text-row__label{
+    color: var(--text-color);
+    font-size: 14px;
+    padding: 0 0 3px 0;
+}
+
+.text-row__input{
+    text-align: left;
+    border-bottom-color: transparent;
+    padding: 0 0 4px 0; 
+
+    &-focus{
+        border-bottom-color: var(--second-color);
+    }
+}
+
+.text-row__input:focus{
+    @extend .text-row__input-focus;
+}

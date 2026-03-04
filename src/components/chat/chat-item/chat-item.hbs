@@ -1,0 +1,19 @@
+<li class="chat-item js-chat-item">  
+  {{> chat-avatar addClass="chat-item__chat-avatar"}}
+  <div class="chat-item__content">
+    <div class="chat-item__top">
+      <h3 class="chat-item__title">
+        {{title}}        
+      </h3>
+      <time class="time chat-item__date" datetime="{{lastMessage.time}}">{{lastMessage.time}}</time>
+    </div>
+    <p class="chat-item__message">
+      {{{lastMessage.text}}}
+    </p>
+    {{#if unreadСount}}
+      <span class="chat-item__counter">
+        {{unreadСount}}
+      </span>
+    {{/if}}  
+  </div> 
+</li>

@@ -1,0 +1,18 @@
+.chat-search__input{
+    display: block;
+    width: 100%;
+    background: var(--img-back);
+    border-radius: 5px;
+    border: none;
+    padding: 6px 10px;
+    font-size: 12px;
+    text-align: center;
+
+    &--focus{
+        outline: 1px solid var(--second-color);
+    }
+}
+
+.chat-search__input:focus{
+    @extend .chat-search__input--focus;
+}

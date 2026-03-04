@@ -1,0 +1,24 @@
+.message-send{
+    border-top: var(--border);
+    padding: 20px var(--padding);
+    background-color: var(--third-color);
+    position: relative;
+}
+
+.message-send__flex{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.message-send__input{
+    flex: 1;
+}
+
+.message-send__attache-popup{
+    position: absolute;
+    bottom: 60px;
+    left: 40px;
+    margin: 0;
+}
