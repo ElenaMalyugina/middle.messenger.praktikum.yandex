@@ -54,3 +54,4 @@ document.addEventListener("submit", (e)=>{
     const target = e.target as HTMLFormElement;
     window.location.href = target.getAttribute("action") || "/";
 })
+

@@ -27,13 +27,13 @@
     @extend .input-block__input--focus;
 }
 
-.input-block__label--focus{
+.input-block__label--input-not-empty{
     color: #999;
 }
 
-.input-block:focus-within{
+.input-block--input-not-empty, .input-block:focus-within {
     .input-block__label{
-        @extend .input-block__label--focus;
+        @extend .input-block__label--input-not-empty;
     }
 }
 
