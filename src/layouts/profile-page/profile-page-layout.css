@@ -1,0 +1,26 @@
+.profile{
+    display: flex;
+}
+
+.profile-body{
+    flex: 1;
+    padding: 20px;
+    padding-top: 8vh;
+}
+
+.profile__container{
+    max-width: 510px;
+    margin: auto;
+}
+
+.profile__table{
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.profile-form__button{
+    display: block;
+    margin: auto;
+}
+
+

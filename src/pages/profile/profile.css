@@ -1,0 +1,22 @@
+.profile__section{
+    margin-bottom: 3vh;
+
+    &--last{
+        margin-bottom: 0;
+    }
+}
+
+.profile__section:last-child{
+    @extend .profile__section--last;
+}
+
+.profile-header{
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.profile-menu-box{
+    margin: 0;
+}

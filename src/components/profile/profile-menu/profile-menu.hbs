@@ -1,0 +1,20 @@
+<section class="profile__section profile-menu profile__profile-menu">
+    <div class="profile__container">
+        <menu class="profile-menu-box">
+            <ul class="profile-menu__list">
+                <li class="text-row profile-menu__item">
+                    {{> custom-link className="link profile-menu__link" href="/edit-profile" text="Изменить профиль" }}
+                </li>
+                <li class="text-row profile-menu__item">
+                    {{> custom-link className="link profile-menu__link" href="/change-password" text="Изменить пароль"}}
+                </li>
+                <li class="text-row profile-menu__item">
+                    {{> custom-link className="link link--red profile-menu__link" href="/login" text="Выйти"}}
+                </li>
+                <li class="text-row profile-menu__item">
+                    {{> custom-link className="link link--red profile-menu__link" href="/server-error" text="для демо 500 ошибка"}}
+                </li>
+            </ul>
+        </menu>
+    </div>
+</section>

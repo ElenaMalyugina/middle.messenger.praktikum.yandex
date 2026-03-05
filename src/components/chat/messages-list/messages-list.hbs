@@ -1,0 +1,8 @@
+<ul class="messages-list messages-box__messages-list">
+    {{#each messages as | messageItem |}}
+        {{#if isChangedDate}}
+        <li class="time messages-list__time">{{#getDayAndYear time}}{{/getDayAndYear}}</li>
+        {{/if}}
+        {{> message-item block="chat" }}
+    {{/each}}
+</ul>

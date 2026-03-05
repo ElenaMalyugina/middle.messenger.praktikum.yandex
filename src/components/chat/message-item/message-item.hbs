@@ -1,0 +1,16 @@
+<li class="message-item {{block}}__message-item {{#if (isAuthor user_id)}} message-item--self chat__message-item--self {{/if}}" tabindex="0">
+    <div class="message-item__content">
+        {{#if file}}
+        <figure class="message-item__file-block">
+            {{> custom-img className="message-item__file" src=file.path alt="Прикрепленная картинка" }}
+        </figure>
+        {{/if}}
+        {{{content}}}
+    </div>
+    <div class="message-item__bottom">
+        {{#if (isAuthor user_id)}}
+            {{> custom-img src="/img/read.svg" alt=""}}
+        {{/if}}
+        <time class="time message-item__time {{#if (isAuthor user_id)}}message-item__time--self{{/if}}" datetime="{{time}}">{{#getTime time}}{{/getTime}}</time>
+    </div>
+</li>

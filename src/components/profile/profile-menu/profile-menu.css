@@ -1,0 +1,12 @@
+.profile-menu-box{
+    padding: 0;
+}
+
+.profile-menu__list{
+    padding: 0;
+    list-style: none;
+}
+
+.profile-menu__item{
+    padding-left: 0;
+}

@@ -1,0 +1,33 @@
+.error-page{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.error-block__header{
+    font-size: 44px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.error-block__text{
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.error-block{
+    text-align: center;
+
+    &__header{
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    &__text{
+        margin-top: 0;
+        margin-bottom: 40px;
+    }
+}

@@ -1,0 +1,14 @@
+.sidebar{
+    background-color: var(--back-color);
+    border-right: var(--border);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.sidebar__chat-nav{
+    overflow: auto;
+    height: 100%;
+}

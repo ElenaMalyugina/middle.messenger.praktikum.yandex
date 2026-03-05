@@ -1,0 +1,11 @@
+{{#> form-page-layout}}
+<h1 class="form-header form-block__header">Вход</h1>
+{{#> custom-form className="form" action="/" method="POST" id="login-form"}}
+    {{> input-block type="text" label="Логин" name="login"}}
+    {{> input-block type="password" label="Пароль" name="password"}}
+    {{> custom-button className="button form-block__button" type="submit" text="Войти"}}
+{{/custom-form}}
+<div class="form-block__link-wrapper">
+    {{> custom-link className="link form-block__link" href="/registration" text="Нет аккаунта?"}}
+</div>
+{{/form-page-layout }}
