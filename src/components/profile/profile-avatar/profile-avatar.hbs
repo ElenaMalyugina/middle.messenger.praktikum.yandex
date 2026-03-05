@@ -3,10 +3,10 @@
         <figure class="profile-avatar__wrapper">
             {{#if editable}}
                 {{#> upload-file className="avatar-label" for="avatar" title="Изменить файл" name="avatar" form=currentForm }}
-                    {{> custom-img className="profile-avatar__img" src="/img/avatar-profile.png" alt="Иванов Иван Иванович"}}
+                    {{> custom-img className="profile-avatar__img" src="/img/avatar-profile.png" alt="Иванов Иван Иванович" width="130" height="130"}}
                 {{/upload-file}}
             {{else}}
-                {{> custom-img className="profile-avatar__img" src="/img/avatar-profile.png" alt="Иванов Иван Иванович"}}
+                {{> custom-img className="profile-avatar__img" src="/img/avatar-profile.png" alt="Иванов Иван Иванович" width="130" height="130" }}
             {{/if}}
         </figure>
         <h1 class="profile-header profile-avatar__header">Иван</h1>
