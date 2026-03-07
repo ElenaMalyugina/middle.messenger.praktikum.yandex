@@ -52,7 +52,7 @@ const renderRoute=()=>{
     entryNode.innerHTML = compiledTemplate;
 }
 
-
+//предотвращение 404 на гиттхаб
 window.addEventListener('popstate', () => renderRoute());
 renderRoute();
 
