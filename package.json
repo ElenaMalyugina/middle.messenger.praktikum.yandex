@@ -10,13 +10,11 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "start": "tsc && vite build && vite preview",
-    "predeploy" : "npm run build",
-    "deploy" : "gh-pages -d dist"
+    "start": "tsc && vite build && vite preview"
   },
   "devDependencies": {
+    "@types/node": "^25.3.5",
     "autoprefixer": "^10.4.27",
-    "gh-pages": "^6.3.0",
     "postcss": "^8.5.8",
     "postcss-extend-rule": "^4.0.0",
     "postcss-nested": "^7.0.2",
