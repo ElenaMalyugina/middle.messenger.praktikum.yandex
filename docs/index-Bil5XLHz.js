@@ -66,16 +66,16 @@ Expecting `+x.join(", ")+", got '"+(this.terminals_[k]||k)+"'":L="Parse error on
         {{> chats-list }}\r
     </nav>\r
 {{/sidebar}}\r
-`,qr=`<section class="chat-search">
-    <search>
-        {{#> custom-form className="search-form" action="./chat" method="GET" id="search-form"}}
-            {{> custom-input className="chat-search__input" type="search" placeholder="Поиск"}}
-        {{/custom-form}}
-    </search>
-</section>
-`,Tr=`<figure class="chat-avatar {{addClass}}">
-  {{> custom-img className="chat-avatar__img" src=(concat "./img/" avatarUrl) alt=title width="48" height="48"}}
-</figure>
+`,qr=`<section class="chat-search">\r
+    <search>\r
+        {{#> custom-form className="search-form" action="./chat" method="GET" id="search-form"}}\r
+            {{> custom-input className="chat-search__input" type="search" placeholder="Поиск"}}\r
+        {{/custom-form}}\r
+    </search>\r
+</section>\r
+`,Tr=`<figure class="chat-avatar {{addClass}}">\r
+  {{> custom-img className="chat-avatar__img" src=(concat "./img/" avatarUrl) alt=title width="48" height="48"}}\r
+</figure>\r
 `,Hr=`<ul class="chats-list  sidebar__chat-list js-chats-list">\r
     {{#each chats as | chatItem |}}\r
         {{> chat-item }}\r
@@ -103,12 +103,12 @@ Expecting `+x.join(", ")+", got '"+(this.terminals_[k]||k)+"'":L="Parse error on
     {{/if}}\r
   </div>\r
 </li>\r
-`,Vr=`<header class="chat-header">
-    <div class="chat-header__link-wrapper">
-        {{> custom-link className="link link--light" href="./profile" text="Профиль >" }}
-    </div>
-    {{> chat-search}}
-</header>
+`,Vr=`<header class="chat-header">\r
+    <div class="chat-header__link-wrapper">\r
+        {{> custom-link className="link link--light" href="./profile" text="Профиль >" }}\r
+    </div>\r
+    {{> chat-search}}\r
+</header>\r
 `,Ur=`<main class="chat-body" id="chat-body">\r
     {{> @partial-block }}\r
 </main>\r
@@ -137,60 +137,60 @@ Expecting `+x.join(", ")+", got '"+(this.terminals_[k]||k)+"'":L="Parse error on
         {{> message-item block="chat" }}\r
     {{/each}}\r
 </ul>\r
-`,Kr=`<li class="message-item {{block}}__message-item {{#if (isAuthor user_id)}} message-item--self chat__message-item--self {{/if}}" tabindex="0">
-    <div class="message-item__content">
-        {{#if file}}
-        <figure class="message-item__file-block">
-            {{> custom-img className="message-item__file" src=file.path alt="Прикрепленная картинка" }}
-        </figure>
-        {{/if}}
-        {{{content}}}
-    </div>
-    <div class="message-item__bottom">
-        {{#if (isAuthor user_id)}}
-            {{> custom-img src="./img/read.svg" alt=""}}
-        {{/if}}
-        <time class="time message-item__time {{#if (isAuthor user_id)}}message-item__time--self{{/if}}" datetime="{{time}}">{{#getTime time}}{{/getTime}}</time>
-    </div>
-</li>
-`,Zr=`<section class="message-send messages-box__message-send">
-    <h2 class="visually-hidden message-send__header">Отправить сообщение</h2>
-    {{#> custom-form className="message-send__form" action="./chat" method="POST" id="message-send-form"}}
-        <div class="message-send__flex">
-            {{> custom-button className="attache-button message-send__attache-button" id="attache-button" type="button" text="Прикрепить"}}
-            {{> custom-textarea name="message" className="chat__input message-send__input" id="message" rows="1" placeholder="Сообщение"}}
-            {{> custom-button className="blue-round-button message-send__button" type="submit" text="Отправить" id="attache-button"}}
-        </div>
-    {{/custom-form}}
-    {{#> custom-popup className="popup attache-popup message-send__attache-popup" id="attache-popup"}}
-        {{> popup-files-content}}
-    {{/custom-popup}}
-</section>
+`,Kr=`<li class="message-item {{block}}__message-item {{#if (isAuthor user_id)}} message-item--self chat__message-item--self {{/if}}" tabindex="0">\r
+    <div class="message-item__content">\r
+        {{#if file}}\r
+        <figure class="message-item__file-block">\r
+            {{> custom-img className="message-item__file" src=file.path alt="Прикрепленная картинка" }}\r
+        </figure>\r
+        {{/if}}\r
+        {{{content}}}\r
+    </div>\r
+    <div class="message-item__bottom">\r
+        {{#if (isAuthor user_id)}}\r
+            {{> custom-img src="./img/read.svg" alt=""}}\r
+        {{/if}}\r
+        <time class="time message-item__time {{#if (isAuthor user_id)}}message-item__time--self{{/if}}" datetime="{{time}}">{{#getTime time}}{{/getTime}}</time>\r
+    </div>\r
+</li>\r
+`,Zr=`<section class="message-send messages-box__message-send">\r
+    <h2 class="visually-hidden message-send__header">Отправить сообщение</h2>\r
+    {{#> custom-form className="message-send__form" action="./chat" method="POST" id="message-send-form"}}\r
+        <div class="message-send__flex">\r
+            {{> custom-button className="attache-button message-send__attache-button" id="attache-button" type="button" text="Прикрепить"}}\r
+            {{> custom-textarea name="message" className="chat__input message-send__input" id="message" rows="1" placeholder="Сообщение"}}\r
+            {{> custom-button className="blue-round-button message-send__button" type="submit" text="Отправить" id="attache-button"}}\r
+        </div>\r
+    {{/custom-form}}\r
+    {{#> custom-popup className="popup attache-popup message-send__attache-popup" id="attache-popup"}}\r
+        {{> popup-files-content}}\r
+    {{/custom-popup}}\r
+</section>\r
 `,Jr=`<section class="no-message">\r
     <h2 class="no-message__header">Выберите чат чтобы отправить сообщение</h2>\r
 </section>\r
-`,zr=`{{#> custom-form className="popup-files" action="./chat" id="popup-form"}}
-    <ul class="popup__list popup-files__list">
-        <li class="popup__item popup-files__item">
-            {{#> upload-file className="popup-files-label popup__row" for="upload-photo" name="photo"}}
-                {{>image-icon}}
-                <span class="popup__text">Фото или Видео</span>
-            {{/upload-file}}
-        </li>
-        <li class="popup__item popup-files__item">
-            {{#> upload-file className="popup-files-label popup__row" for="upload-file" name="file"}}
-                {{>file-icon}}
-                <span class="popup__text">Файл</span>
-            {{/upload-file}}
-        </li>
-        <li class="popup__item popup-files__item">
-            {{#> upload-file className="popup-files-label popup__row" for="upload-location" name="location"}}
-                {{>location-icon}}
-                <span class="popup__text">Локация</span>
-            {{/upload-file}}
-        </li>
-    </ul>
-{{/custom-form}}
+`,zr=`{{#> custom-form className="popup-files" action="./chat" id="popup-form"}}\r
+    <ul class="popup__list popup-files__list">\r
+        <li class="popup__item popup-files__item">\r
+            {{#> upload-file className="popup-files-label popup__row" for="upload-photo" name="photo"}}\r
+                {{>image-icon}}\r
+                <span class="popup__text">Фото или Видео</span>\r
+            {{/upload-file}}\r
+        </li>\r
+        <li class="popup__item popup-files__item">\r
+            {{#> upload-file className="popup-files-label popup__row" for="upload-file" name="file"}}\r
+                {{>file-icon}}\r
+                <span class="popup__text">Файл</span>\r
+            {{/upload-file}}\r
+        </li>\r
+        <li class="popup__item popup-files__item">\r
+            {{#> upload-file className="popup-files-label popup__row" for="upload-location" name="location"}}\r
+                {{>location-icon}}\r
+                <span class="popup__text">Локация</span>\r
+            {{/upload-file}}\r
+        </li>\r
+    </ul>\r
+{{/custom-form}}\r
 `,Qr=`<ul class="popup__list popup-user__list">\r
     <li class="popup__item popup-user__item">\r
         {{#>extended-button className="popup__row" id="user-button-add"}}\r
@@ -239,33 +239,33 @@ Expecting `+x.join(", ")+", got '"+(this.terminals_[k]||k)+"'":L="Parse error on
     {{> custom-input className="input-block__input js-float-input" type=type name=name id=name placeholder=label }}\r
     <p class="input-block__error" id="js-{{name}}"></p>\r
 </div>\r
-`,an=`{{#> form-page-layout}}
-<h1 class="form-header form-block__header">Вход</h1>
-{{#> custom-form className="form" action="/" method="POST" id="login-form"}}
-    {{> input-block type="text" label="Логин" name="login"}}
-    {{> input-block type="password" label="Пароль" name="password"}}
-    {{> custom-button className="button form-block__button" type="submit" text="Войти"}}
-{{/custom-form}}
-<div class="form-block__link-wrapper">
-    {{> custom-link className="link form-block__link" href="./registration" text="Нет аккаунта?"}}
-</div>
-{{/form-page-layout }}
-`;E.registerPartial("form-page-layout",Dt);E.registerPartial("input-block",qt);const on="login";document.addEventListener("DOMContentLoaded",()=>{Bt(".js-float-block","input-block--input-not-empty")});const ln=E.compile(an)({block:on}),un=`{{#> form-page-layout}}
-    <h1 class="form-header form-block__header">Регистрация</h1>
-    {{#> custom-form className="form" action="/login" method="POST" id="registration-form"}}
-        {{> input-block type="email" label="Почта" name="email"}}
-        {{> input-block type="text" label="Логин" name="login"}}
-        {{> input-block type="text" label="Имя" name="first_name"}}
-        {{> input-block type="text" label="Фамилия" name="second_name"}}
-        {{> input-block type="text" label="Телефон" name="phone"}}
-        {{> input-block type="password" label="Пароль" name="password"}}
-        {{> input-block type="password" label="Пароль (еще раз)" name="repeatPassword"}}
-        {{> custom-button className="button form-block__button" type="submit" text="Зарегистрироваться"}}
-    {{/custom-form}}
-    <div class="form-block__link-wrapper">
-        {{> custom-link className="link form-block__link" href="./login" text="Есть аккаунт?" }}
-    </div>
-{{/form-page-layout }}
+`,an=`{{#> form-page-layout}}\r
+<h1 class="form-header form-block__header">Вход</h1>\r
+{{#> custom-form className="form" action="/" method="POST" id="login-form"}}\r
+    {{> input-block type="text" label="Логин" name="login"}}\r
+    {{> input-block type="password" label="Пароль" name="password"}}\r
+    {{> custom-button className="button form-block__button" type="submit" text="Войти"}}\r
+{{/custom-form}}\r
+<div class="form-block__link-wrapper">\r
+    {{> custom-link className="link form-block__link" href="./registration" text="Нет аккаунта?"}}\r
+</div>\r
+{{/form-page-layout }}\r
+`;E.registerPartial("form-page-layout",Dt);E.registerPartial("input-block",qt);const on="login";document.addEventListener("DOMContentLoaded",()=>{Bt(".js-float-block","input-block--input-not-empty")});const ln=E.compile(an)({block:on}),un=`{{#> form-page-layout}}\r
+    <h1 class="form-header form-block__header">Регистрация</h1>\r
+    {{#> custom-form className="form" action="/login" method="POST" id="registration-form"}}\r
+        {{> input-block type="email" label="Почта" name="email"}}\r
+        {{> input-block type="text" label="Логин" name="login"}}\r
+        {{> input-block type="text" label="Имя" name="first_name"}}\r
+        {{> input-block type="text" label="Фамилия" name="second_name"}}\r
+        {{> input-block type="text" label="Телефон" name="phone"}}\r
+        {{> input-block type="password" label="Пароль" name="password"}}\r
+        {{> input-block type="password" label="Пароль (еще раз)" name="repeatPassword"}}\r
+        {{> custom-button className="button form-block__button" type="submit" text="Зарегистрироваться"}}\r
+    {{/custom-form}}\r
+    <div class="form-block__link-wrapper">\r
+        {{> custom-link className="link form-block__link" href="./login" text="Есть аккаунт?" }}\r
+    </div>\r
+{{/form-page-layout }}\r
 `;E.registerPartial("form-page-layout",Dt);E.registerPartial("input-block",qt);const cn="registration";document.addEventListener("DOMContentLoaded",()=>{Bt(".js-float-block","input-block--input-not-empty")});const pn=E.compile(un)({block:cn}),hn=`<tr class="text-row-block">\r
     <td class="text-row text-row__td text-row__label">\r
         {{label}}\r
@@ -281,25 +281,25 @@ Expecting `+x.join(", ")+", got '"+(this.terminals_[k]||k)+"'":L="Parse error on
         {{> @partial-block }}\r
     </main>\r
 </div>\r
-`,Ht=`{{#> sidebar block="profile" }}
-    <nav class="profile-sidebar__nav">
-        {{> custom-link className="blue-round-button blue-round-button--revert" href="./profile" text="Главная страница профиля" }}
-    </nav>
-{{/sidebar}}
-`,Ft=`<section class="profile__section profile-avatar profile__profile-avatar">
-    <div class="profile__container">
-        <figure class="profile-avatar__wrapper">
-            {{#if editable}}
-                {{#> upload-file className="avatar-label" for="avatar" title="Изменить файл" name="avatar" form=currentForm }}
-                    {{> custom-img className="profile-avatar__img" src="./img/avatar-profile.png" alt="Иванов Иван Иванович" width="130" height="130"}}
-                {{/upload-file}}
-            {{else}}
-                {{> custom-img className="profile-avatar__img" src="./img/avatar-profile.png" alt="Иванов Иван Иванович" width="130" height="130" }}
-            {{/if}}
-        </figure>
-        <h1 class="profile-header profile-avatar__header">Иван</h1>
-    </div>
-</section>
+`,Ht=`{{#> sidebar block="profile" }}\r
+    <nav class="profile-sidebar__nav">\r
+        {{> custom-link className="blue-round-button blue-round-button--revert" href="./profile" text="Главная страница профиля" }}\r
+    </nav>\r
+{{/sidebar}}\r
+`,Ft=`<section class="profile__section profile-avatar profile__profile-avatar">\r
+    <div class="profile__container">\r
+        <figure class="profile-avatar__wrapper">\r
+            {{#if editable}}\r
+                {{#> upload-file className="avatar-label" for="avatar" title="Изменить файл" name="avatar" form=currentForm }}\r
+                    {{> custom-img className="profile-avatar__img" src="./img/avatar-profile.png" alt="Иванов Иван Иванович" width="130" height="130"}}\r
+                {{/upload-file}}\r
+            {{else}}\r
+                {{> custom-img className="profile-avatar__img" src="./img/avatar-profile.png" alt="Иванов Иван Иванович" width="130" height="130" }}\r
+            {{/if}}\r
+        </figure>\r
+        <h1 class="profile-header profile-avatar__header">Иван</h1>\r
+    </div>\r
+</section>\r
 `,fn=`<section class="profile__section profile-info profile__profile-info">\r
     <div class="profile__container">\r
         <table class="profile-table profile__table profile-info__table">\r
@@ -314,39 +314,39 @@ Expecting `+x.join(", ")+", got '"+(this.terminals_[k]||k)+"'":L="Parse error on
         </table>\r
     </div>\r
 </section>\r
-`,dn=`<section class="profile__section profile-menu profile__profile-menu">
-    <div class="profile__container">
-        <menu class="profile-menu-box">
-            <ul class="profile-menu__list">
-                <li class="text-row profile-menu__item">
-                    {{> custom-link className="link profile-menu__link" href="./edit-profile" text="Изменить профиль" }}
-                </li>
-                <li class="text-row profile-menu__item">
-                    {{> custom-link className="link profile-menu__link" href="./change-password" text="Изменить пароль"}}
-                </li>
-                <li class="text-row profile-menu__item">
-                    {{> custom-link className="link link--red profile-menu__link" href="./login" text="Выйти"}}
-                </li>
-                <li class="text-row profile-menu__item">
-                    {{> custom-link className="link link--red profile-menu__link" href="./server-error" text="для демо 500 ошибка"}}
-                </li>
-            </ul>
-        </menu>
-    </div>
-</section>
+`,dn=`<section class="profile__section profile-menu profile__profile-menu">\r
+    <div class="profile__container">\r
+        <menu class="profile-menu-box">\r
+            <ul class="profile-menu__list">\r
+                <li class="text-row profile-menu__item">\r
+                    {{> custom-link className="link profile-menu__link" href="./edit-profile" text="Изменить профиль" }}\r
+                </li>\r
+                <li class="text-row profile-menu__item">\r
+                    {{> custom-link className="link profile-menu__link" href="./change-password" text="Изменить пароль"}}\r
+                </li>\r
+                <li class="text-row profile-menu__item">\r
+                    {{> custom-link className="link link--red profile-menu__link" href="./login" text="Выйти"}}\r
+                </li>\r
+                <li class="text-row profile-menu__item">\r
+                    {{> custom-link className="link link--red profile-menu__link" href="./server-error" text="для демо 500 ошибка"}}\r
+                </li>\r
+            </ul>\r
+        </menu>\r
+    </div>\r
+</section>\r
 `,mn=`{{#> profile-page-layout}}\r
     {{> profile-info}}\r
     {{> profile-menu}}\r
 {{/profile-page-layout}}\r
-`;E.registerPartial("sidebar",Le);E.registerPartial("profile-sidebar",Ht);E.registerPartial("profile-avatar",Ft);E.registerPartial("profile-info",fn);E.registerPartial("profile-menu",dn);E.registerPartial("text-row-block",hn);E.registerPartial("profile-page-layout",Tt);const gn=E.compile(mn)({}),vn=`<main class="error-page">
-    <div class="error-page__container">
-        <section class="error-block">
-            <h1 class="error-block__header">{{code}}</h1>
-            <p class="error-block__text">{{text}}</p>
-            {{> custom-link className="link error-block__link" href="./" text="Назад к чатам" }}
-        </section>
-    </div>
-</main>
+`;E.registerPartial("sidebar",Le);E.registerPartial("profile-sidebar",Ht);E.registerPartial("profile-avatar",Ft);E.registerPartial("profile-info",fn);E.registerPartial("profile-menu",dn);E.registerPartial("text-row-block",hn);E.registerPartial("profile-page-layout",Tt);const gn=E.compile(mn)({}),vn=`<main class="error-page">\r
+    <div class="error-page__container">\r
+        <section class="error-block">\r
+            <h1 class="error-block__header">{{code}}</h1>\r
+            <p class="error-block__text">{{text}}</p>\r
+            {{> custom-link className="link error-block__link" href="./" text="Назад к чатам" }}\r
+        </section>\r
+    </div>\r
+</main>\r
 `,vt=E.compile(vn),_n=[{code:404,text:"Не туда попали"},{code:500,text:"Мы уже фиксим"}];function _t(h){return _n.filter(d=>d.code==h)[0]}const bn=`<tr class="text-row-block text-row-block--editable">\r
     <td class="text-row text-row__td text-row__td--editable text-row__label">\r
         {{> custom-label className="input-block__label text-row__label" for=name text=label }}\r
@@ -386,9 +386,9 @@ Expecting `+x.join(", ")+", got '"+(this.terminals_[k]||k)+"'":L="Parse error on
         {{#> custom-form action="/login" className="profile-form" id="profile-form"}}\r
             <table class="profile-table profile__table profile-form__table">\r
                 <tbody>\r
-                    {{> text-row-editable label="Старый пароль" name="old_password"}}\r
-                    {{> text-row-editable label="Новый пароль" name="new_password"}}\r
-                    {{> text-row-editable label="Повторить пароль" name="repeat-new-password"}}\r
+                    {{> text-row-editable label="Старый пароль" type="password" name="old_password"}}\r
+                    {{> text-row-editable label="Новый пароль" type="password" name="new_password"}}\r
+                    {{> text-row-editable label="Повторить пароль" type="password" name="repeat-new-password"}}\r
                 </tbody>\r
             </table>\r
             {{> custom-button className="button profile-form__button" type="submit" text="Сохранить"}}\r
