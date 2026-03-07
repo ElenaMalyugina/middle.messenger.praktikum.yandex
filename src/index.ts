@@ -11,14 +11,15 @@ import EditProfile from "./pages/edit-profile/edit-profile";
 import ChangePassword from "./pages/change-password/change-password";
 
 const entryNode = document.getElementById("app")!;
+const baseUrl = process.env.NODE_ENV === 'production' ? '/middle.messenger.praktikum.yandex/' : '/';
 
-const renderRoute=()=>{
+const renderRoute=(pathname:string)=>{
     let compiledTemplate = "";
 
     const baseUrl = process.env.NODE_ENV === 'production' ? '/middle.messenger.praktikum.yandex' : '';
 
     //для демо роутинг
-    switch (window.location.pathname){
+    switch (pathname){
         case `${baseUrl}/chat`: compiledTemplate = Chat;
             break;
         case `${baseUrl}/`: compiledTemplate = Chat;
@@ -53,8 +54,9 @@ const renderRoute=()=>{
 }
 
 //предотвращение 404 на гиттхаб
-window.addEventListener('popstate', () => renderRoute());
-renderRoute();
+
+window.addEventListener('popstate', () => renderRoute(window.location.pathname));
+renderRoute(window.location.pathname);
 
 //для демо
 document.addEventListener("submit", (e)=>{
@@ -63,3 +65,11 @@ document.addEventListener("submit", (e)=>{
     window.location.href = target.getAttribute("action") || "/";
 })
 
+document.addEventListener("a", (e)=>{
+    e.preventDefault();
+    const target = e.target as Node;
+    if(!target) return;
+    const path = baseUrl + ((target as HTMLAnchorElement).getAttribute("href") || '');
+    renderRoute(path)
+
+})
