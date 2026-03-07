@@ -39,7 +39,7 @@ const renderRoute=(pathname:string)=>{
             compiledTemplate = errors(customError);
             break;
         }
-        case `/server-error`: {
+        case `${baseUrl}/server-error`: {
             const customError = getError(500);
             compiledTemplate = errors(customError);
             break;
