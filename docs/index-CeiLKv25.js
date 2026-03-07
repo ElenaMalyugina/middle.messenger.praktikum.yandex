@@ -137,22 +137,22 @@ Expecting `+x.join(", ")+", got '"+(this.terminals_[k]||k)+"'":L="Parse error on
         {{> message-item block="chat" }}\r
     {{/each}}\r
 </ul>\r
-`,Kr=`<li class="message-item {{block}}__message-item {{#if (isAuthor user_id)}} message-item--self chat__message-item--self {{/if}}" tabindex="0">\r
-    <div class="message-item__content">\r
-        {{#if file}}\r
-        <figure class="message-item__file-block">\r
-            {{> custom-img className="message-item__file" src=file.path alt="Прикрепленная картинка" }}\r
-        </figure>\r
-        {{/if}}\r
-        {{{content}}}\r
-    </div>\r
-    <div class="message-item__bottom">\r
-        {{#if (isAuthor user_id)}}\r
-            {{> custom-img src="./img/read.svg" alt=""}}\r
-        {{/if}}\r
-        <time class="time message-item__time {{#if (isAuthor user_id)}}message-item__time--self{{/if}}" datetime="{{time}}">{{#getTime time}}{{/getTime}}</time>\r
-    </div>\r
-</li>\r
+`,Kr=`<li class="message-item {{block}}__message-item {{#if (isAuthor user_id)}} message-item--self chat__message-item--self {{/if}}" tabindex="0">
+    <div class="message-item__content">
+        {{#if file}}
+        <figure class="message-item__file-block">
+            {{> custom-img className="message-item__file" src=(concat "./" file.path) alt="Прикрепленная картинка" }}
+        </figure>
+        {{/if}}
+        {{{content}}}
+    </div>
+    <div class="message-item__bottom">
+        {{#if (isAuthor user_id)}}
+            {{> custom-img src="./img/read.svg" alt=""}}
+        {{/if}}
+        <time class="time message-item__time {{#if (isAuthor user_id)}}message-item__time--self{{/if}}" datetime="{{time}}">{{#getTime time}}{{/getTime}}</time>
+    </div>
+</li>
 `,Zr=`<section class="message-send messages-box__message-send">\r
     <h2 class="visually-hidden message-send__header">Отправить сообщение</h2>\r
     {{#> custom-form className="message-send__form" action="./chat" method="POST" id="message-send-form"}}\r
