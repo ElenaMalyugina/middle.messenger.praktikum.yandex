@@ -13,36 +13,39 @@ import ChangePassword from "./pages/change-password/change-password";
 const entryNode = document.getElementById("app")!;
 let compiledTemplate = "";
 
+const baseUrl = process.env.NODE_ENV === 'production' ? '/middle.messenger.praktikum.yandex' : '';
+
+console.log('Режим работы:', process.env.NODE_ENV);
+
 //для демо роутинг
 switch (window.location.pathname){
-    case "/chat": compiledTemplate = Chat;
+    case `${baseUrl}/chat`: compiledTemplate = Chat;
         break;
-    case "/": compiledTemplate = Chat;
+    case `${baseUrl}/`: compiledTemplate = Chat;
         break;
-    case "/login": compiledTemplate = Login;
+    case `${baseUrl}/login`: compiledTemplate = Login;
         break;
-    case "/registration": compiledTemplate = Registration;
+    case `${baseUrl}/registration`: compiledTemplate = Registration;
         break;
-    case "/profile": compiledTemplate = Profile;
+    case `${baseUrl}/profile`: compiledTemplate = Profile;
         break;
-    case "/edit-profile": compiledTemplate = EditProfile;
+    case `${baseUrl}/edit-profile`: compiledTemplate = EditProfile;
         break;
-     case "/change-password": compiledTemplate = ChangePassword;
+    case `${baseUrl}/change-password`: compiledTemplate = ChangePassword;
         break;
-    case "/not-found": {
+    case `${baseUrl}/not-found`: {
         const customError = getError(404);
         compiledTemplate = errors(customError);
         break;
     }
-    case "/server-error": {
+    case `/server-error`: {
         const customError = getError(500);
         compiledTemplate = errors(customError);
         break;
     }
 
-
     default: {
-        window.location.href = "/not-found";
+        window.location.href = `${baseUrl}/not-found`;
     }
 }
 

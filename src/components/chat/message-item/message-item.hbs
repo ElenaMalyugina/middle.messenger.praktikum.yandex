@@ -9,7 +9,7 @@
     </div>
     <div class="message-item__bottom">
         {{#if (isAuthor user_id)}}
-            {{> custom-img src="/img/read.svg" alt=""}}
+            {{> custom-img src="./img/read.svg" alt=""}}
         {{/if}}
         <time class="time message-item__time {{#if (isAuthor user_id)}}message-item__time--self{{/if}}" datetime="{{time}}">{{#getTime time}}{{/getTime}}</time>
     </div>
