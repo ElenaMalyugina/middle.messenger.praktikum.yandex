@@ -46,7 +46,9 @@ const renderRoute=(pathname:string)=>{
         }
 
         default: {
-            window.location.href = `${baseUrl}/not-found`;
+            debugger
+            const customError = getError(404);
+            compiledTemplate = errors(customError);
         }
     }
 
