@@ -11,45 +11,50 @@ import EditProfile from "./pages/edit-profile/edit-profile";
 import ChangePassword from "./pages/change-password/change-password";
 
 const entryNode = document.getElementById("app")!;
-let compiledTemplate = "";
 
-const baseUrl = process.env.NODE_ENV === 'production' ? '/middle.messenger.praktikum.yandex' : '';
+const renderRoute=()=>{
+    let compiledTemplate = "";
 
-console.log('Режим работы:', process.env.NODE_ENV);
+    const baseUrl = process.env.NODE_ENV === 'production' ? '/middle.messenger.praktikum.yandex' : '';
 
-//для демо роутинг
-switch (window.location.pathname){
-    case `${baseUrl}/chat`: compiledTemplate = Chat;
-        break;
-    case `${baseUrl}/`: compiledTemplate = Chat;
-        break;
-    case `${baseUrl}/login`: compiledTemplate = Login;
-        break;
-    case `${baseUrl}/registration`: compiledTemplate = Registration;
-        break;
-    case `${baseUrl}/profile`: compiledTemplate = Profile;
-        break;
-    case `${baseUrl}/edit-profile`: compiledTemplate = EditProfile;
-        break;
-    case `${baseUrl}/change-password`: compiledTemplate = ChangePassword;
-        break;
-    case `${baseUrl}/not-found`: {
-        const customError = getError(404);
-        compiledTemplate = errors(customError);
-        break;
+    //для демо роутинг
+    switch (window.location.pathname){
+        case `${baseUrl}/chat`: compiledTemplate = Chat;
+            break;
+        case `${baseUrl}/`: compiledTemplate = Chat;
+            break;
+        case `${baseUrl}/login`: compiledTemplate = Login;
+            break;
+        case `${baseUrl}/registration`: compiledTemplate = Registration;
+            break;
+        case `${baseUrl}/profile`: compiledTemplate = Profile;
+            break;
+        case `${baseUrl}/edit-profile`: compiledTemplate = EditProfile;
+            break;
+        case `${baseUrl}/change-password`: compiledTemplate = ChangePassword;
+            break;
+        case `${baseUrl}/not-found`: {
+            const customError = getError(404);
+            compiledTemplate = errors(customError);
+            break;
+        }
+        case `/server-error`: {
+            const customError = getError(500);
+            compiledTemplate = errors(customError);
+            break;
+        }
+
+        default: {
+            window.location.href = `${baseUrl}/not-found`;
+        }
     }
-    case `/server-error`: {
-        const customError = getError(500);
-        compiledTemplate = errors(customError);
-        break;
-    }
 
-    default: {
-        window.location.href = `${baseUrl}/not-found`;
-    }
+    entryNode.innerHTML = compiledTemplate;
 }
 
-entryNode.innerHTML = compiledTemplate;
+
+window.addEventListener('popstate', () => renderRoute());
+renderRoute();
 
 //для демо
 document.addEventListener("submit", (e)=>{
