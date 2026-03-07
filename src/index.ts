@@ -71,7 +71,7 @@ document.addEventListener("click", (e)=>{
     if(!target || !target) return;
     const href = (target as HTMLAnchorElement).getAttribute("href");
     if(!href) return;
-    const path = baseUrl + href.replace('/', "");
+    const path = baseUrl + href.replace('./', "");
     renderRoute(path)
 
 })
