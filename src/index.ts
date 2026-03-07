@@ -65,11 +65,13 @@ document.addEventListener("submit", (e)=>{
     window.location.href = target.getAttribute("action") || "/";
 })
 
-document.addEventListener("a", (e)=>{
+document.addEventListener("click", (e)=>{
     e.preventDefault();
     const target = e.target as Node;
-    if(!target) return;
-    const path = baseUrl + ((target as HTMLAnchorElement).getAttribute("href") || '');
+    if(!target || !target) return;
+    const href = (target as HTMLAnchorElement).getAttribute("href");
+    if(!href) return;
+    const path = baseUrl + href.replace('/', "");
     renderRoute(path)
 
 })
