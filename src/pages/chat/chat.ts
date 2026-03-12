@@ -239,6 +239,6 @@ class Chat extends Block{
     protected template = chatTemplate;
 }
 
-export default new Chat({}).element();
+export default Chat;
 
 

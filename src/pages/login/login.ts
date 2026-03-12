@@ -24,7 +24,7 @@ class Login extends Block{
     protected template = LoginTemplate;
 }
 
-export default new Login({}).element();
+export default Login;
 
 
 

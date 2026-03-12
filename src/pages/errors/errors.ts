@@ -10,6 +10,7 @@ interface ErrorProps extends BlockOwnProps {
 class Errors extends Block<Partial<ErrorProps>>{
     static componentName = "Errors";
     protected template = ErrorsTemplate;
+
 }
 
 export default Errors;

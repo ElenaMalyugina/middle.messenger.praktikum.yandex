@@ -30,4 +30,4 @@ class Profile extends Block{
     protected template = profileTemplate;
 }
 
-export default new Profile({}).element();
+export default Profile;

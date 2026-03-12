@@ -12,4 +12,4 @@ class ChangePassword extends Block{
     protected template = changePasswordTemplate;
 }
 
-export default new ChangePassword({}).element();
+export default ChangePassword;

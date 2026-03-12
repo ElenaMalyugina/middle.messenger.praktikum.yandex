@@ -23,4 +23,4 @@ class Registration extends Block{
     protected template = registrationTemplate;
 }
 
-export default new Registration({}).element();
+export default Registration;

@@ -28,4 +28,4 @@ class EditProfile extends Block{
     protected template = editProfileTemplate;
 }
 
-export default new EditProfile({}).element();
+export default EditProfile;

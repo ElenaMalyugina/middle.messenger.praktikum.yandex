@@ -17,19 +17,19 @@ let compiledElement: Element | null = null;
 
 //для демо роутинг
 switch (window.location.pathname){
-    case "/chat": compiledElement = Chat;
+    case "/chat": compiledElement = new Chat({}).element();
         break;
-    case "/": compiledElement = Chat;
+    case "/": compiledElement = new Chat({}).element();
         break;
-    case "/login": compiledElement = Login;
+    case "/login": compiledElement = new Login({}).element();
         break;
-    case "/registration": compiledElement = Registration;
+    case "/registration": compiledElement = new Registration({}).element();
         break;
-    case "/profile": compiledElement = Profile;
+    case "/profile": compiledElement = new Profile({}).element();
         break;
-    case "/edit-profile": compiledElement = EditProfile;
+    case "/edit-profile": compiledElement = new EditProfile({}).element();
         break;
-     case "/change-password": compiledElement = ChangePassword;
+     case "/change-password": compiledElement = new ChangePassword({}).element();
         break;
     case "/not-found": {
         const customError = getError(404);
