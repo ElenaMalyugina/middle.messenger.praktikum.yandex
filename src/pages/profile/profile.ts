@@ -13,6 +13,7 @@ import profileAvatarTemplate from "/src/components/profile/profile-avatar/profil
 import profileInfoTemplate from "/src/components/profile/profile-info/profile-info.hbs?raw";
 import profileMenuTemplate from "/src/components/profile/profile-menu/profile-menu.hbs?raw";
 import profileTemplate from "/src/pages/profile/profile.hbs?raw";
+import Block from "../../framework/Block";
 
 Handlebars.registerPartial("sidebar", sidebarTemplate);
 Handlebars.registerPartial("profile-sidebar", profileSidebarTemplate);
@@ -22,4 +23,11 @@ Handlebars.registerPartial("profile-menu", profileMenuTemplate);
 Handlebars.registerPartial("text-row-block", textRowBlockTemplate);
 Handlebars.registerPartial("profile-page-layout", profilePageLayout);
 
-export default Handlebars.compile(profileTemplate)({});
+//export default Handlebars.compile(profileTemplate)({});
+
+class Profile extends Block{
+    static componentName = 'Profile';
+    protected template = profileTemplate;
+}
+
+export default new Profile({}).element();

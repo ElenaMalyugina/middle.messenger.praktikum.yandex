@@ -5,6 +5,7 @@ import Handlebars from "handlebars";
 import formPageLayout from "/src/layouts/form-page/form-page-layout.hbs?raw";
 import inputBlock from "/src/components/row-blocks/input-block/input-block.hbs?raw";
 import registrationTemplate from "./registration.hbs?raw";
+import Block from "../../framework/Block";
 
 Handlebars.registerPartial("form-page-layout", formPageLayout);
 Handlebars.registerPartial("input-block", inputBlock);
@@ -15,4 +16,11 @@ document.addEventListener("DOMContentLoaded", ()=>{
     floatLabels(".js-float-block", "input-block--input-not-empty");
 })
 
-export default Handlebars.compile(registrationTemplate)({block});
+//export default Handlebars.compile(registrationTemplate)({block});
+
+class Registration extends Block{
+    static componentName = 'Registration';
+    protected template = registrationTemplate;
+}
+
+export default new Registration({}).element();

@@ -5,48 +5,55 @@ import Chat from "./pages/chat/chat";
 import Login from "./pages/login/login";
 import Registration from "./pages/registration/registration";
 import Profile from "./pages/profile/profile";
-import errors from "./pages/errors/errors";
+import Errors from "./pages/errors/errors";
 import { getError } from "./pages/errors/errorsHelper";
 import EditProfile from "./pages/edit-profile/edit-profile";
 import ChangePassword from "./pages/change-password/change-password";
 
+
 const entryNode = document.getElementById("app")!;
-let compiledTemplate = "";
+let compiledTemplate: string = "";
+let compiledElement: Element | null = null;
 
 //для демо роутинг
 switch (window.location.pathname){
-    case "/chat": compiledTemplate = Chat;
+    case "/chat": compiledElement = Chat;
         break;
-    case "/": compiledTemplate = Chat;
+    case "/": compiledElement = Chat;
         break;
-    case "/login": compiledTemplate = Login;
+    case "/login": compiledElement = Login;
         break;
-    case "/registration": compiledTemplate = Registration;
+    case "/registration": compiledElement = Registration;
         break;
-    case "/profile": compiledTemplate = Profile;
+    case "/profile": compiledElement = Profile;
         break;
-    case "/edit-profile": compiledTemplate = EditProfile;
+    case "/edit-profile": compiledElement = EditProfile;
         break;
-     case "/change-password": compiledTemplate = ChangePassword;
+     case "/change-password": compiledElement = ChangePassword;
         break;
     case "/not-found": {
         const customError = getError(404);
-        compiledTemplate = errors(customError);
+        compiledElement = new Errors(customError).element();
         break;
     }
     case "/server-error": {
         const customError = getError(500);
-        compiledTemplate = errors(customError);
+        compiledElement = new Errors(customError).element();
         break;
     }
-
 
     default: {
         window.location.href = "/not-found";
     }
 }
 
+
 entryNode.innerHTML = compiledTemplate;
+
+if(compiledElement){
+    entryNode.appendChild(compiledElement);
+}
+
 
 //для демо
 document.addEventListener("submit", (e)=>{

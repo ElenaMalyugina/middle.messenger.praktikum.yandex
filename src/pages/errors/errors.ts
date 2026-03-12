@@ -1,5 +1,15 @@
+import Block, {type BlockOwnProps } from "../../framework/Block";
 import "./errors.css";
-import Handlebars from "handlebars";
 import ErrorsTemplate from "./errors.hbs?raw";
 
-export default Handlebars.compile(ErrorsTemplate);
+interface ErrorProps extends BlockOwnProps {
+    code: number;
+    text: string;
+}
+
+class Errors extends Block<Partial<ErrorProps>>{
+    static componentName = "Errors";
+    protected template = ErrorsTemplate;
+}
+
+export default Errors;

@@ -31,13 +31,16 @@ import messagesBoxHeaderTemplate from "/src/components/chat/messages-box-header/
 import messagesListTemplate from "/src/components/chat/messages-list/messages-list.hbs?raw";
 import messageItemTemplate from "/src/components/chat/message-item/message-item.hbs?raw";
 import messageSendTemplate from "/src/components/chat/message-send/message-send.hbs?raw";
-import noMessagesTemplate from "/src/components/chat/no-messages/no-messages.hbs?raw";
+//import noMessagesTemplate from "/src/components/chat/no-messages/no-messages.hbs?raw";
 import popupFiles from "/src/components/chat/popup-contents/popup-files/popup-files.hbs?raw";
 import popupUser from "/src/components/chat/popup-contents/popup-user/popup-user.hbs?raw";
 import addUser from "/src/components/chat/modal-contents/add-delete-user/add-delete-user.hbs?raw";
+import { registerComponent } from './../../framework/RegisterComponent';
 import chatTemplate from "./chat.hbs?raw";
 import {chats}  from "../../mocks/chats.ts";
 import { messages } from "../../mocks/messages";
+import NoMessages from "../../components/chat/no-messages/no-messages.ts";
+import Block from "../../framework/Block.ts";
 
 Handlebars.registerPartial("sidebar", sidebarTemplate);
 Handlebars.registerPartial("chat-sidebar", chatSidebarTemplate);
@@ -52,10 +55,13 @@ Handlebars.registerPartial("messages-box-header", messagesBoxHeaderTemplate);
 Handlebars.registerPartial("messages-list", messagesListTemplate);
 Handlebars.registerPartial("message-item", messageItemTemplate);
 Handlebars.registerPartial("message-send", messageSendTemplate);
-Handlebars.registerPartial("no-messages", noMessagesTemplate);
+//Handlebars.registerPartial("no-messages", noMessagesTemplate);
 Handlebars.registerPartial("popup-files-content", popupFiles);
 Handlebars.registerPartial("popup-user-content", popupUser);
 Handlebars.registerPartial("add-user-content", addUser);
+
+
+registerComponent(NoMessages);
 
 //установка css-классов для сообщения автора
 Handlebars.registerHelper("isAuthor", function(userId){
@@ -226,5 +232,13 @@ modalShow("#user-button-add", modalAddUser);
 modalShow("#user-button-delete", modalDeleteUser);
 modalHide("#chat-modal");
 
-export default Handlebars.compile(chatTemplate)({chats, messagesWithIsChangedDate, isSelectedChat});
+//export default Handlebars.compile(chatTemplate)({chats, messagesWithIsChangedDate, isSelectedChat});
+
+class Chat extends Block{
+    static componentName = 'Chat';
+    protected template = chatTemplate;
+}
+
+export default new Chat({}).element();
+
 

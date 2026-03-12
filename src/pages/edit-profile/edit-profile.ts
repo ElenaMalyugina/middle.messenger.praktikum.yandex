@@ -11,6 +11,7 @@ import profileSidebarTemplate from "/src/components/profile/profile-sidebar/prof
 import profileAvatarTemplate from "/src/components/profile/profile-avatar/profile-avatar.hbs?raw";
 import profileInfoFormTemplate from "/src/components/profile/profile-info-form/profile-info-form.hbs?raw";
 import editProfileTemplate from "/src/pages/edit-profile/edit-profile.hbs?raw";
+import Block from "../../framework/Block";
 
 Handlebars.registerPartial("sidebar", sidebarTemplate);
 Handlebars.registerPartial("profile-sidebar", profileSidebarTemplate);
@@ -20,4 +21,11 @@ Handlebars.registerPartial("text-row-editable", textRowEditableTemplate);
 Handlebars.registerPartial("profile-page-layout", profilePageLayout);
 
 const currentForm = "editProfileForm";
-export default Handlebars.compile(editProfileTemplate)({currentForm});
+//export default Handlebars.compile(editProfileTemplate)({currentForm});
+
+class EditProfile extends Block{
+    static componentName = 'EditProfile';
+    protected template = editProfileTemplate;
+}
+
+export default new EditProfile({}).element();
