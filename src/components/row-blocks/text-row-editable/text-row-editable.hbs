@@ -1,9 +1,9 @@
 <tr class="text-row-block text-row-block--editable">
     <td class="text-row text-row__td text-row__td--editable text-row__label">
-        {{> custom-label className="input-block__label text-row__label" for=name text=label }}
+        {{{ Label className="input-block__label text-row__label" forEl=name text=label }}}
     </td>
     <td class="text-row text-row__td text-row__td--editable text-row__value">
-        {{> custom-input className="input-block__input text-row__input" type=type name=name id=name value=value }}
+        {{{ Input className="input-block__input text-row__input" type=type name=name id=name value=value ref=name }}}
     </td>
 </tr>
 <tr class="text-row-block text-row-block--error">

@@ -1,5 +1,5 @@
-<div class="input-block {{block}}__input-block js-float-block">
-    {{> custom-label className="input-block__label" for=name text=label}}
-    {{> custom-input className="input-block__input js-float-input" type=type name=name id=name placeholder=label }}
+<div class="input-block {{block}}__input-block js-float-block" ref="container">
+    {{{ Label className="input-block__label" forEl=name text=label }}}
+    {{{ Input className="input-block__input js-float-input" type=type name=name id=name placeholder=label ref=name }}}
     <p class="input-block__error" id="js-{{name}}"></p>
 </div>

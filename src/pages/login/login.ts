@@ -1,30 +1,29 @@
 import "/src/layouts/form-page/form-page-layout.css";
 import "/src/components/row-blocks/input-block/input-block.css";
-import Block from "./../../framework/Block";
-import { floatLabels } from "../../utils/input-utils";
 import Handlebars from "handlebars";
+import { registerComponent } from "../../framework/RegisterComponent";
+import Block from "./../../framework/Block";
 import formPageLayout from "/src/layouts/form-page/form-page-layout.hbs?raw";
-import inputBlock from "/src/components/row-blocks/input-block/input-block.hbs?raw";
-import LoginTemplate from "./login.hbs?raw";
+import loginTemplate from "./login.hbs?raw";
+import { tempSubmitHandler } from "../../framework/FormHandler";
+import InputBlock from "../../components/row-blocks/input-block/input-block";
 
 Handlebars.registerPartial("form-page-layout", formPageLayout);
-Handlebars.registerPartial("input-block", inputBlock);
+registerComponent(InputBlock); //не сюда
 
-const block = "login";
-
-document.addEventListener("DOMContentLoaded", ()=>{
-    floatLabels(".js-float-block", "input-block--input-not-empty");
-})
-
-
-
-class Login extends Block{
+export default class Login extends Block{
     static componentName = 'Login';
+    protected template = loginTemplate;
 
-    protected template = LoginTemplate;
+    protected events = {
+        submit: (event: Event) => {
+            event.preventDefault();
+            tempSubmitHandler(this.refs);
+        },
+    };
 }
 
-export default Login;
+
 
 
 

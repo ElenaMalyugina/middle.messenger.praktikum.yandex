@@ -12,6 +12,11 @@ import popup from "./popup/popup.hbs?raw";
 import uploadFile from "./upload-file/upload-file.hbs?raw";
 import form from "./form/form.hbs?raw";
 
+import { registerComponent } from '../framework/RegisterComponent';
+import Input from "./input/input";
+import Label from "./label/label";
+
+
 
 export const customInput = Handlebars.registerPartial("custom-input", input);
 export const customLabel = Handlebars.registerPartial("custom-label", label);
@@ -23,4 +28,10 @@ export const customExtendedButton = Handlebars.registerPartial("extended-button"
 export const customImg = Handlebars.registerPartial("custom-img", img);
 export const customPopup = Handlebars.registerPartial("custom-popup", popup);
 export const customForm = Handlebars.registerPartial("custom-form", form);
+
+registerComponent(Input);
+registerComponent(Label);
+
+
+
 

@@ -55,10 +55,4 @@ if(compiledElement){
 }
 
 
-//для демо
-document.addEventListener("submit", (e)=>{
-    e.preventDefault();
-    const target = e.target as HTMLFormElement;
-    window.location.href = target.getAttribute("action") || "/";
-})
 
