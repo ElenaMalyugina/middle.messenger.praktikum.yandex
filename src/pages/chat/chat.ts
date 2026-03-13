@@ -1,6 +1,5 @@
 import "/src/components/sidebar/sidebar.css";
 import "./chat.css";
-import "/src/components/row-blocks/input-block/input-block.css";
 import "/src/components/chat/chat-sidebar/chat-sidebar.css";
 import "/src/components/chat/chat-search/chat-search.css";
 import "/src/components/chat/chat-header/chat-header.css";

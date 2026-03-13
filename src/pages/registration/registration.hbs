@@ -8,9 +8,9 @@
         {{{ InputBlock block="registration" type="text" label="Телефон" name="phone"}}}
         {{{ InputBlock block="registration" type="password" label="Пароль" name="password"}}}
         {{{ InputBlock block="registration" type="password" label="Пароль (еще раз)" name="repeatPassword"}}}
-        {{> custom-button className="button form-block__button" type="submit" text="Зарегистрироваться"}}
+        {{{ Button className="button form-block__button" type="submit" text="Зарегистрироваться"}}}
     {{/custom-form}}
     <div class="form-block__link-wrapper">
-        {{> custom-link className="link form-block__link" href="/login" text="Есть аккаунт?" }}
+        {{{ Link className="link form-block__link" href="/login" text="Есть аккаунт?" }}}
     </div>
 {{/form-page-layout }}

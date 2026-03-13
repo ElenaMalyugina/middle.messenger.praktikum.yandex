@@ -1,5 +1,4 @@
 import "/src/layouts/form-page/form-page-layout.css";
-import "/src/components/row-blocks/input-block/input-block.css";
 import Handlebars from "handlebars";
 import Block from "../../framework/Block";
 import formPageLayout from "/src/layouts/form-page/form-page-layout.hbs?raw";

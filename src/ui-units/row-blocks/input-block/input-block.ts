@@ -1,3 +1,4 @@
+import "./input-block.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import inputBlockTemplate from "./input-block.hbs?raw";
 
@@ -13,7 +14,7 @@ export default class InputBlock extends Block<Partial<InputBlockProps>>{
     protected template = inputBlockTemplate;
 
     protected events = {
-        input: (event: Event) => {
+        input: () => {
             const keys = Object.keys(this.refs);
             const notEmptyInputClass = "input-block--input-not-empty";
             const container = this.refs["container"];
