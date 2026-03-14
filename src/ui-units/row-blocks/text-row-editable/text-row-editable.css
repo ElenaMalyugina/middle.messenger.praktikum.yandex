@@ -1,13 +1,17 @@
 @import url("../text-row-block/text-row-block.css");
 
 .text-row__td--editable{
-    padding: 0;
+    padding-bottom: 0;
+}
+
+.text-row__value{
+    position: relative;
 }
 
 .text-row__label{
     color: var(--text-color);
     font-size: 14px;
-    padding: 0 0 3px 0;
+    padding: 0;
 }
 
 .text-row__input{
@@ -22,4 +26,10 @@
 
 .text-row__input:focus{
     @extend .text-row__input-focus;
+}
+
+.text-row__error{
+    position: absolute;
+    top: 100%;
+
 }

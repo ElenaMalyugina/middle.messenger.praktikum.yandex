@@ -16,6 +16,7 @@ import Link from "./link/link";
 import Textarea from "./textarea/textarea";
 import Img from "./img/img";
 import Form from "./form/form";
+import TextRowEditable from "./row-blocks/text-row-editable/text-row-editable";
 
 
 //export const customInput = Handlebars.registerPartial("custom-input", input);
@@ -34,6 +35,7 @@ registerComponent(Input);
 registerComponent(Textarea);
 registerComponent(Label);
 registerComponent(InputBlock);
+registerComponent(TextRowEditable);
 registerComponent(Button);
 registerComponent(Link);
 registerComponent(Img);

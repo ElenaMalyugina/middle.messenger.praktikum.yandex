@@ -9,9 +9,12 @@ import profilePageLayout from "/src/layouts/profile-page/profile-page-layout.hbs
 import sidebarTemplate from "/src/components/sidebar/sidebar.hbs?raw";
 import profileSidebarTemplate from "/src/components/profile/profile-sidebar/profile-sidebar.hbs?raw";
 import profileAvatarTemplate from "/src/components/profile/profile-avatar/profile-avatar.hbs?raw";
-import profileInfoFormTemplate from "/src/components/profile/profile-info-form/profile-info-form.hbs?raw";
+import profileInfoFormTemplate from "/src/components/profile/profile-info-form/partials/profile-info-form.hbs?raw";
 import editProfileTemplate from "/src/pages/edit-profile/edit-profile.hbs?raw";
 import Block from "../../framework/Block";
+import { registerComponent } from "../../framework/RegisterComponent";
+import ProfileInfoFormBlock from "../../components/profile/profile-info-form/profile-info-form-block";
+import ProfileInfoForm from "../../components/profile/profile-info-form/partials/profile-info-form";
 
 Handlebars.registerPartial("sidebar", sidebarTemplate);
 Handlebars.registerPartial("profile-sidebar", profileSidebarTemplate);
@@ -22,6 +25,8 @@ Handlebars.registerPartial("profile-page-layout", profilePageLayout);
 
 const currentForm = "editProfileForm";
 //export default Handlebars.compile(editProfileTemplate)({currentForm});
+
+registerComponent(ProfileInfoFormBlock);
 
 class EditProfile extends Block{
     static componentName = 'EditProfile';

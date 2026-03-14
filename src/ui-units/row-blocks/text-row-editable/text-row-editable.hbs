@@ -3,12 +3,13 @@
         {{{ Label className="input-block__label text-row__label" forEl=name text=label }}}
     </td>
     <td class="text-row text-row__td text-row__td--editable text-row__value">
-        {{{ Input className="input-block__input text-row__input" type=type name=name id=name value=value ref=name }}}
+        {{{
+            Input className="input-block__input text-row__input"
+            type=type name=name id=name value=value ref=name
+            onValidate=onValidate cleanValidate=cleanValidate
+        }}}
+        <p class="input-block__error text-row__error" id="js-{{name}}" ref="error"></p>
     </td>
 </tr>
-<tr class="text-row-block text-row-block--error">
-    <td class="text-row__error" colspan="2">
-        <p class="input-block__error" id="js-{{name}}"></p>
-    </td>
-</tr>
+
 
