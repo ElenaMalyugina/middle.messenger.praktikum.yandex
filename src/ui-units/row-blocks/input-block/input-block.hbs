@@ -1,5 +1,9 @@
 <div class="input-block {{block}}__input-block js-float-block" ref="container">
     {{{ Label className="input-block__label" forEl=name text=label }}}
-    {{{ Input className="input-block__input js-float-input" type=type name=name id=name placeholder=label ref=name }}}
-    <p class="input-block__error" id="js-{{name}}"></p>
+    {{{
+        Input className="input-block__input js-float-input" type=type
+        name=name id=name placeholder=label ref=name
+        onValidate=onValidate cleanValidate=cleanValidate floatLabel=floatLabel
+    }}}
+    <p class="input-block__error js-error" id="js-error-{{name}}" ref="error"></p>
 </div>

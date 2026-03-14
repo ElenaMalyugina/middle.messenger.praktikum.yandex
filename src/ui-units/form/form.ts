@@ -1,5 +1,5 @@
 import Block, {type BlockOwnProps }  from "../../framework/Block";
-import { tempSubmitHandler } from "../../framework/FormHandler";
+import { tempSubmitHandler } from "../../services/formService";
 
 interface FormProps extends BlockOwnProps{
     id: string;
