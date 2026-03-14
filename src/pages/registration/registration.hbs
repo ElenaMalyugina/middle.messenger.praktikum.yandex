@@ -1,15 +1,7 @@
 {{#> form-page-layout}}
     <h1 class="form-header form-block__header">Регистрация</h1>
-    {{#> custom-form className="form" action="/login" method="POST" id="registration-form"}}
-        {{{ InputBlock block="registration" type="email" label="Почта" name="email"}}}
-        {{{ InputBlock block="registration" type="text" label="Логин" name="login"}}}
-        {{{ InputBlock block="registration" type="text" label="Имя" name="first_name"}}}
-        {{{ InputBlock block="registration" type="text" label="Фамилия" name="second_name"}}}
-        {{{ InputBlock block="registration" type="text" label="Телефон" name="phone"}}}
-        {{{ InputBlock block="registration" type="password" label="Пароль" name="password"}}}
-        {{{ InputBlock block="registration" type="password" label="Пароль (еще раз)" name="repeatPassword"}}}
-        {{{ Button className="button form-block__button" type="submit" text="Зарегистрироваться"}}}
-    {{/custom-form}}
+    {{{ RegistrationForm className="form" action="/" method="POST" id="registration-form" }}}
+
     <div class="form-block__link-wrapper">
         {{{ Link className="link form-block__link" href="/login" text="Есть аккаунт?" }}}
     </div>
