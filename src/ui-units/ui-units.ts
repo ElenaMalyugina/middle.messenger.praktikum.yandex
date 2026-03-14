@@ -4,7 +4,7 @@ import extendedButton from "./extended-button/extended-button.hbs?raw";
 import "./popup/popup.css";
 import popup from "./popup/popup.hbs?raw";
 import uploadFile from "./upload-file/upload-file.hbs?raw";
-import form from "./form/form.hbs?raw";
+//import form from "./form/form.hbs?raw";
 
 
 import { registerComponent } from '../framework/RegisterComponent';
@@ -15,6 +15,7 @@ import Button from "./button/button";
 import Link from "./link/link";
 import Textarea from "./textarea/textarea";
 import Img from "./img/img";
+import Form from "./form/form";
 
 
 //export const customInput = Handlebars.registerPartial("custom-input", input);
@@ -26,8 +27,9 @@ export const customUploadFile = Handlebars.registerPartial("upload-file", upload
 export const customExtendedButton = Handlebars.registerPartial("extended-button", extendedButton);
 //export const customImg = Handlebars.registerPartial("custom-img", img);
 export const customPopup = Handlebars.registerPartial("custom-popup", popup);
-export const customForm = Handlebars.registerPartial("custom-form", form);
+//export const Form = Handlebars.registerPartial("custom-form", form);
 
+registerComponent(Form);
 registerComponent(Input);
 registerComponent(Textarea);
 registerComponent(Label);
