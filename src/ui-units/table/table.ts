@@ -15,7 +15,8 @@ export default class Table extends Block<Partial<TableProps>>{
         super(props);
     }
 
-    //в текущей реализации базового Block таблицы строим вручную, т.к. плейсхолдер <div data-atribute=...></div> ставится вне таблицы
+    /*в текущей реализации базового Block, если внутри таблицы - компоненты-наследники Block,
+     таблицы строим вручную, т.к. плейсхолдер <div data-atribute=...></div> ставится вне таблицы*/
     protected componentDidMount(): void {
         const form = this.refs["tbody"];
 
