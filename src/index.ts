@@ -10,7 +10,6 @@ import { getError } from "./pages/errors/errorsHelper";
 import EditProfile from "./pages/edit-profile/edit-profile";
 import ChangePassword from "./pages/change-password/change-password";
 
-
 const entryNode = document.getElementById("app")!;
 let compiledTemplate: string = "";
 let compiledElement: Element | null = null;

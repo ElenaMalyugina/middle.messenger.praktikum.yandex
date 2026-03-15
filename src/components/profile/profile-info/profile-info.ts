@@ -1,5 +1,4 @@
 import Block, { type BlockOwnProps } from "../../../framework/Block";
-import { registerComponent } from "../../../framework/RegisterComponent";
 import TextRowBlock from "../../../ui-units/row-blocks/text-row-block/text-row-block";
 import ProfileInfoBlockTemplate from "./profile-info.hbs?raw";
 

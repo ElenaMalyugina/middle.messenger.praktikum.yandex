@@ -21,17 +21,9 @@ import Table from "./table/table";
 import TextRowBlock from "./row-blocks/text-row-block/text-row-block";
 import TextRowEditable from "./row-blocks/text-row-editable/text-row-editable";
 
-
-//export const customInput = Handlebars.registerPartial("custom-input", input);
-//export const customLabel = Handlebars.registerPartial("custom-label", label);
 export const customUploadFile = Handlebars.registerPartial("upload-file", uploadFile);
-//export const customTextarea = Handlebars.registerPartial("custom-textarea", textarea);
-//export const customLink = Handlebars.registerPartial("custom-link", link);
-//export const customButton = Handlebars.registerPartial("custom-button", button);
 export const customExtendedButton = Handlebars.registerPartial("extended-button", extendedButton);
-//export const customImg = Handlebars.registerPartial("custom-img", img);
 export const customPopup = Handlebars.registerPartial("custom-popup", popup);
-//export const Form = Handlebars.registerPartial("custom-form", form);
 
 registerComponent(Table);
 registerComponent(Form);

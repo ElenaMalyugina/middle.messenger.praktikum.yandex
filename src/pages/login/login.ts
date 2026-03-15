@@ -1,12 +1,10 @@
-import "/src/layouts/form-page/form-page-layout.css";
-import Handlebars from "handlebars";
 import Block from "./../../framework/Block";
-import formPageLayout from "/src/layouts/form-page/form-page-layout.hbs?raw";
-import loginTemplate from "./login.hbs?raw";
 import { registerComponent } from "../../framework/RegisterComponent";
+import FormPageLayout from "../../layouts/form-page/form-page-layout";
+import loginTemplate from "./login.hbs?raw";
 import LoginForm from "./partials/login-form";
 
-Handlebars.registerPartial("form-page-layout", formPageLayout);
+FormPageLayout.register();
 registerComponent(LoginForm);
 
 export default class Login extends Block {
