@@ -12,8 +12,5 @@ registerComponent(RegistrationForm);
 export default class Registration extends Block{
     static componentName = 'Registration';
     protected template = registrationTemplate;
-
-
-
 }
 

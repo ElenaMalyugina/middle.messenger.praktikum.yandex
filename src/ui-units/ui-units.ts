@@ -19,6 +19,7 @@ import Form from "./form/form";
 import TextRowEditable from "./row-blocks/text-row-editable/text-row-editable";
 import ErrorMessage from "./error-message/error-message";
 import Table from "./table/table";
+import TextRowBlock from "./row-blocks/text-row-block/text-row-block";
 
 
 //export const customInput = Handlebars.registerPartial("custom-input", input);
@@ -39,6 +40,7 @@ registerComponent(Textarea);
 registerComponent(Label);
 registerComponent(InputBlock);
 registerComponent(ErrorMessage);
+registerComponent(TextRowBlock);
 registerComponent(TextRowEditable);
 registerComponent(Button);
 registerComponent(Link);

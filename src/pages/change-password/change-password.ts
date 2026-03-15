@@ -10,9 +10,7 @@ import ProfileChangePasswordBlock from "../../components/profile/profile-change-
 //export default Handlebars.compile(changePasswordTemplate)({})
 registerComponent(ProfileChangePasswordBlock);
 
-class ChangePassword extends Block{
+export default class ChangePassword extends Block{
     static componentName = 'ChangePassword';
     protected template = changePasswordTemplate;
 }
-
-export default ChangePassword;

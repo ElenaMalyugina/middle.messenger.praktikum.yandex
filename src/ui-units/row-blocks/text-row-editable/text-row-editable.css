@@ -24,7 +24,7 @@
     }
 }
 
-.text-row__input:focus{
+.text-row__input:focus, .text-row__input:hover{
     @extend .text-row__input-focus;
 }
 

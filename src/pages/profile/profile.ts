@@ -14,6 +14,8 @@ import profileInfoTemplate from "/src/components/profile/profile-info/profile-in
 import profileMenuTemplate from "/src/components/profile/profile-menu/profile-menu.hbs?raw";
 import profileTemplate from "/src/pages/profile/profile.hbs?raw";
 import Block from "../../framework/Block";
+import { registerComponent } from "../../framework/RegisterComponent";
+import ProfileInfoBlock from "../../components/profile/profile-info/profile-info";
 
 Handlebars.registerPartial("sidebar", sidebarTemplate);
 Handlebars.registerPartial("profile-sidebar", profileSidebarTemplate);
@@ -24,10 +26,9 @@ Handlebars.registerPartial("text-row-block", textRowBlockTemplate);
 Handlebars.registerPartial("profile-page-layout", profilePageLayout);
 
 //export default Handlebars.compile(profileTemplate)({});
+registerComponent(ProfileInfoBlock);
 
-class Profile extends Block{
+export default class Profile extends Block{
     static componentName = 'Profile';
     protected template = profileTemplate;
 }
-
-export default Profile;

@@ -28,9 +28,7 @@ Handlebars.registerPartial("profile-page-layout", profilePageLayout);
 
 registerComponent(ProfileInfoFormBlock);
 
-class EditProfile extends Block{
+export default class EditProfile extends Block{
     static componentName = 'EditProfile';
     protected template = editProfileTemplate;
 }
-
-export default EditProfile;
