@@ -6,7 +6,7 @@ interface TextRowEditableProps extends Partial<BlockOwnProps>{
     type: string;
     label: string;
     name: string;
-    value: string;
+    value?: string;
     errorMessage?: string | null;
     onValidate?: (val:unknown)=>void;
     cleanValidate?: ()=>void;
