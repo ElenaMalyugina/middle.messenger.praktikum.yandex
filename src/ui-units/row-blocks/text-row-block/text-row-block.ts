@@ -1,3 +1,4 @@
+import "./text-row-block.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import textRowBlockTemplate from "./text-row-block.hbs?raw";
 

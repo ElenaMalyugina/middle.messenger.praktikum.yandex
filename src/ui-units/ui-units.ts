@@ -16,10 +16,10 @@ import Link from "./link/link";
 import Textarea from "./textarea/textarea";
 import Img from "./img/img";
 import Form from "./form/form";
-import TextRowEditable from "./row-blocks/text-row-editable/text-row-editable";
 import ErrorMessage from "./error-message/error-message";
 import Table from "./table/table";
 import TextRowBlock from "./row-blocks/text-row-block/text-row-block";
+import TextRowEditable from "./row-blocks/text-row-editable/text-row-editable";
 
 
 //export const customInput = Handlebars.registerPartial("custom-input", input);

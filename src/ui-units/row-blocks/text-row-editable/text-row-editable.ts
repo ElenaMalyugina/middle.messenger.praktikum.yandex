@@ -1,3 +1,4 @@
+import "./text-row-editable.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import { initialError, validateRequired, type formError } from "../../../services/validationService";
 import textRowEditableTemplate from "./text-row-editable.hbs?raw";

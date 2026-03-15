@@ -1,9 +1,8 @@
 import "./profile.css";
-import "/src/ui-units/row-blocks/text-row-block/text-row-block.css";
 import "/src/layouts/profile-page/profile-page-layout.css";
 import "/src/components/profile/profile-sidebar/profile-sidebar.css";
 import "/src/components/profile/profile-avatar/profile-avatar.css";
-import "/src/components/profile/profile-menu/profile-menu.css";
+
 import Handlebars from "handlebars";
 import textRowBlockTemplate from "/src/ui-units/row-blocks/text-row-block/text-row-block.hbs?raw";
 import profilePageLayout from "/src/layouts/profile-page/profile-page-layout.hbs?raw";
@@ -16,6 +15,7 @@ import profileTemplate from "/src/pages/profile/profile.hbs?raw";
 import Block from "../../framework/Block";
 import { registerComponent } from "../../framework/RegisterComponent";
 import ProfileInfoBlock from "../../components/profile/profile-info/profile-info";
+import ProfileMenu from "../../components/profile/profile-menu/profile-menu";
 
 Handlebars.registerPartial("sidebar", sidebarTemplate);
 Handlebars.registerPartial("profile-sidebar", profileSidebarTemplate);
@@ -25,8 +25,8 @@ Handlebars.registerPartial("profile-menu", profileMenuTemplate);
 Handlebars.registerPartial("text-row-block", textRowBlockTemplate);
 Handlebars.registerPartial("profile-page-layout", profilePageLayout);
 
-//export default Handlebars.compile(profileTemplate)({});
 registerComponent(ProfileInfoBlock);
+registerComponent(ProfileMenu);
 
 export default class Profile extends Block{
     static componentName = 'Profile';
