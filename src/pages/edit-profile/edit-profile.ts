@@ -23,7 +23,7 @@ Handlebars.registerPartial("profile-info-form", profileInfoFormTemplate);
 Handlebars.registerPartial("text-row-editable", textRowEditableTemplate);
 Handlebars.registerPartial("profile-page-layout", profilePageLayout);
 
-const currentForm = "editProfileForm";
+//const currentForm = "editProfileForm";
 //export default Handlebars.compile(editProfileTemplate)({currentForm});
 
 registerComponent(ProfileInfoFormBlock);

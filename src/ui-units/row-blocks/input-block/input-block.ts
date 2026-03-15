@@ -8,7 +8,7 @@ interface InputBlockProps extends Partial<BlockOwnProps>{
     type: string;
     label: string;
     name: string;
-    errorText: string | null;
+    errorMessage: string | null;
     onValidate: (val:unknown)=>void;
     cleanValidate: ()=>void;
     floatLabel: (el:HTMLInputElement)=>void;
@@ -43,18 +43,12 @@ export default class InputBlock extends Block<Partial<InputBlockProps>>{
     onValidate=(val:unknown)=>{
         //потом доделать валидацию
         const error:formError = validateRequired(val);
-        const errorTextBlock = this.refs["error"];
-        if(!errorTextBlock) return;
-        errorTextBlock.textContent = error.text;
-        //this.setProps({errorText: errorText});
+        this.setProps({errorMessage: error.text});
     }
 
     cleanValidate=()=>{
         const error:formError = initialError;
-        const errorTextBlock = this.refs["error"];
-        if(!errorTextBlock) return;
-        errorTextBlock.textContent = error.text;
-        //this.setProps({errorText: errorText});
+        this.setProps({errorMessage: error.text});
     }
 
 }

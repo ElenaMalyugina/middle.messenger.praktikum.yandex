@@ -13,6 +13,7 @@ export default abstract class Form extends Block<Partial<FormProps>>{
     protected events = {
         submit: (event: Event) => {
             event.preventDefault();
+            debugger
             tempSubmitHandler(this.refs);
         },
     };

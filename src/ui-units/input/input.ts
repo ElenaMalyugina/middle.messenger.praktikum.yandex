@@ -37,6 +37,8 @@ export default class Input extends Block<Partial<InputProps>>{
                     if(this.props.onValidate){
                         this.props.onValidate(this.refs[el].value);
                     }
+
+                    //this.setProps({value: this.refs[el].value});
                 }
             });
         },

@@ -8,7 +8,7 @@
             type=type name=name id=name value=value ref=name
             onValidate=onValidate cleanValidate=cleanValidate
         }}}
-        <p class="input-block__error text-row__error" id="js-{{name}}" ref="error"></p>
+        {{{ ErrorMessage className="input-block__error text-row__error" id="js-{{name}}" ref="error" message=errorMessage }}}
     </td>
 </tr>
 

@@ -8,7 +8,7 @@ interface TextRowEditableProps extends Partial<BlockOwnProps>{
     label: string;
     name: string;
     value: string;
-    errorText: string | null;
+    errorMessage: string | null;
     onValidate: (val:unknown)=>void;
     cleanValidate: ()=>void;
 }
@@ -28,18 +28,12 @@ export default class TextRowEditable extends Block<Partial<TextRowEditableProps>
     onValidate=(val:unknown)=>{
         //потом доделать валидацию
         const error:formError = validateRequired(val);
-        const errorTextBlock = this.refs["error"];
-        if(!errorTextBlock) return;
-        errorTextBlock.textContent = error.text;
-        //this.setProps({errorText: errorText});
+        this.setProps({errorMessage: error.text});
     }
 
     cleanValidate=()=>{
         const error:formError = initialError;
-        const errorTextBlock = this.refs["error"];
-        if(!errorTextBlock) return;
-        errorTextBlock.textContent = error.text;
-        //this.setProps({errorText: errorText});
+        this.setProps({errorMessage: error.text});
     }
 
 }

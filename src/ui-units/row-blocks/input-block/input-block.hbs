@@ -5,5 +5,5 @@
         name=name id=name placeholder=label ref=name
         onValidate=onValidate cleanValidate=cleanValidate floatLabel=floatLabel
     }}}
-    <p class="input-block__error js-error" id="js-error-{{name}}" ref="error"></p>
+    {{{ ErrorMessage className="input-block__error js-error" id="js-error-{{name}}" ref="error" message=errorMessage }}}
 </div>
