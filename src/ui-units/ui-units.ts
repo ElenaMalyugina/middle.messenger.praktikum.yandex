@@ -18,6 +18,7 @@ import Img from "./img/img";
 import Form from "./form/form";
 import TextRowEditable from "./row-blocks/text-row-editable/text-row-editable";
 import ErrorMessage from "./error-message/error-message";
+import Table from "./table/table";
 
 
 //export const customInput = Handlebars.registerPartial("custom-input", input);
@@ -31,6 +32,7 @@ export const customExtendedButton = Handlebars.registerPartial("extended-button"
 export const customPopup = Handlebars.registerPartial("custom-popup", popup);
 //export const Form = Handlebars.registerPartial("custom-form", form);
 
+registerComponent(Table);
 registerComponent(Form);
 registerComponent(Input);
 registerComponent(Textarea);
@@ -41,6 +43,7 @@ registerComponent(TextRowEditable);
 registerComponent(Button);
 registerComponent(Link);
 registerComponent(Img);
+
 
 
 

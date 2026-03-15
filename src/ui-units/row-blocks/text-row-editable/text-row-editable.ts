@@ -3,14 +3,13 @@ import { initialError, validateRequired, type formError } from "../../../service
 import textRowEditableTemplate from "./text-row-editable.hbs?raw";
 
 interface TextRowEditableProps extends Partial<BlockOwnProps>{
-    block: string;
     type: string;
     label: string;
     name: string;
     value: string;
-    errorMessage: string | null;
-    onValidate: (val:unknown)=>void;
-    cleanValidate: ()=>void;
+    errorMessage?: string | null;
+    onValidate?: (val:unknown)=>void;
+    cleanValidate?: ()=>void;
 }
 
 export default class TextRowEditable extends Block<Partial<TextRowEditableProps>>{
