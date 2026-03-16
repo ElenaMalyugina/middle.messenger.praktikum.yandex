@@ -27,8 +27,8 @@ import chatHeaderTemplate from "/src/components/chat/chat-header/chat-header.hbs
 import chatBody from "/src/components/chat/chat-body/chat-body.hbs?raw";
 import messagesBoxTemplate from "/src/components/chat/messages-box/messages-box.hbs?raw";
 import messagesBoxHeaderTemplate from "/src/components/chat/messages-box-header/messages-box-header.hbs?raw";
-import messagesListTemplate from "/src/components/chat/messages-list/messages-list.hbs?raw";
-import messageItemTemplate from "/src/components/chat/message-item/message-item.hbs?raw";
+//import messagesListTemplate from "/src/components/chat/messages-list/messages-list.hbs?raw";
+//import messageItemTemplate from "/src/components/chat/message-item/message-item.hbs?raw";
 import messageSendTemplate from "/src/components/chat/message-send/message-send.hbs?raw";
 //import noMessagesTemplate from "/src/components/chat/no-messages/no-messages.hbs?raw";
 import popupFiles from "/src/components/chat/popup-contents/popup-files/popup-files.hbs?raw";
@@ -38,27 +38,32 @@ import { registerComponent } from './../../framework/RegisterComponent';
 import chatTemplate from "./chat.hbs?raw";
 import {chats}  from "../../mocks/chats.ts";
 import { messages } from "../../mocks/messages";
+
 import NoMessages from "../../components/chat/no-messages/no-messages.ts";
-import Block from "../../framework/Block.ts";
+import Block, { type BlockOwnProps } from "../../framework/Block.ts";
 import ChatSidebar from "../../components/chat/chat-sidebar/chat-sidebar.ts";
 import ChatsList from "../../components/chat/chats-list/chats-list.ts";
 import ChatItem from "../../components/chat/chat-item/chat-item.ts";
 import ChatAvatar from "../../components/chat/chat-avatar/chat-avatar.ts";
 import MessageItem from "../../components/chat/message-item/message-item.ts";
 import MessagesList from "../../components/chat/messages-list/messages-list.ts";
+import ChatBody from "../../components/chat/chat-body/chat-body.ts";
+import MessagesBox from "../../components/chat/messages-box/messages-box.ts";
 
 ChatSidebar.register();
+ChatBody.register();
+MessagesBox.register();
 //Handlebars.registerPartial("sidebar", sidebarTemplate);
 //Handlebars.registerPartial("chat-sidebar", chatSidebarTemplate);
 Handlebars.registerPartial("chat-search", chatSearchTemplate);
 Handlebars.registerPartial("chat-avatar", chatAvatarTemplate);
 Handlebars.registerPartial("chat-header", chatHeaderTemplate);
-Handlebars.registerPartial("chats-list", chatsListTemplate);
+//Handlebars.registerPartial("chats-list", chatsListTemplate);
 //Handlebars.registerPartial("chat-item", chatItemTemplate);
-Handlebars.registerPartial("chat-body", chatBody);
+//Handlebars.registerPartial("chat-body", chatBody);
 Handlebars.registerPartial("messages-box", messagesBoxTemplate);
 Handlebars.registerPartial("messages-box-header", messagesBoxHeaderTemplate);
-Handlebars.registerPartial("messages-list", messagesListTemplate);
+//Handlebars.registerPartial("messages-list", messagesListTemplate);
 //Handlebars.registerPartial("message-item", messageItemTemplate);
 Handlebars.registerPartial("message-send", messageSendTemplate);
 //Handlebars.registerPartial("no-messages", noMessagesTemplate);
@@ -96,10 +101,10 @@ Handlebars.registerHelper("getTime", function(dateString){
     return getTimeString(dateString);
 })
 
-let isSelectedChat = false;
+//let isSelectedChat = false;
 
 //для демо смены класса временное решение
-const setChatActive = ()=>{
+/*const setChatActive = ()=>{
     document.addEventListener("click", function(e: Event){
         const target = e.target as HTMLElement;
         const isTargetChatItem = target.classList.contains("js-chat-item") || target.closest(".js-chat-item");
@@ -120,13 +125,13 @@ const setChatActive = ()=>{
         }
 
         //Только для демо
-        const newMessagesBoxTemplate = Handlebars.compile(messagesBoxTemplate)({chats, messages});
-        const rootMessagesBlock = document.querySelector("#chat-body");
-        if(!rootMessagesBlock)return;
+        //const newMessagesBoxTemplate = Handlebars.compile(messagesBoxTemplate)({chats, messages});
+        //const rootMessagesBlock = document.querySelector("#chat-body");
+        //if(!rootMessagesBlock)return;
 
-        rootMessagesBlock.innerHTML = newMessagesBoxTemplate;
+        //rootMessagesBlock.innerHTML = newMessagesBoxTemplate;
     });
-}
+}*/
 
 const toggleSidebarVisible = ()=>{
     const mobileBreakpoint = 700;
@@ -148,10 +153,10 @@ const toggleSidebarVisible = ()=>{
     })
 }
 
-const thisMessages = [...messages];
+//const thisMessages = [...messages];
 
 //добавление свойства смены даты
-const messagesWithIsChangedDate = thisMessages.map((mess:any, i, sourceMessages)=>{
+/*const messagesWithIsChangedDate = thisMessages.map((mess:any, i, sourceMessages)=>{
     mess.isChangedDate = false;
     const isChangedDate = i==0 || mess.time !== sourceMessages[i-1].time;
 
@@ -159,7 +164,7 @@ const messagesWithIsChangedDate = thisMessages.map((mess:any, i, sourceMessages)
         mess.isChangedDate = true;
     }
     return mess;
-})
+})*/
 
 //закрытие попапов
 const popupClose = (popup:HTMLDialogElement, button:Element, activeClass:string )=>{
@@ -235,7 +240,7 @@ const modalHide = (selector: string)=>{
 }
 
 toggleSidebarVisible();
-setChatActive();
+//setChatActive();
 dialogShow("#attache-button", "#attache-popup", "attache-button--active");
 dialogShow("#user-button", "#user-popup", "dots-button--active");
 modalShow("#user-button-add", modalAddUser);
@@ -243,11 +248,48 @@ modalShow("#user-button-delete", modalDeleteUser);
 modalHide("#chat-modal");
 
 //export default Handlebars.compile(chatTemplate)({chats, messagesWithIsChangedDate, isSelectedChat});
+interface ChatProps extends BlockOwnProps{
+    isSelectedChat: boolean
+}
 
-
-class Chat extends Block{
+class Chat extends Block<Partial<ChatProps>>{
     static componentName = 'Chat';
     protected template = chatTemplate;
+
+     protected render(): void {
+         super.render()
+         this.setChatActive();
+     }
+
+    setChatActive = ()=>{
+        document.addEventListener("click", (e: Event)=>{
+        const target = e.target as HTMLElement;
+        const isTargetChatItem = target.classList.contains("js-chat-item") || target.closest(".js-chat-item");
+        if(!isTargetChatItem) return;
+
+        const chatItems = document.querySelectorAll(".js-chats-list .js-chat-item");
+        const classActive = "chat-item--active";
+        chatItems.forEach(el=> el.classList.remove(classActive));
+        target.closest(".js-chat-item")?.classList.add(classActive);
+        this.setProps({isSelectedChat:true});
+
+        const sidebar = document.querySelector("#chat-sidebar");
+        const classSidebarActive = "chat__sidebar--active";
+        if(sidebar){
+            if(sidebar.classList.contains(classSidebarActive)){
+                sidebar.classList.remove(classSidebarActive);
+            }
+        }
+
+        //Только для демо
+        //const newMessagesBoxTemplate = Handlebars.compile(messagesBoxTemplate)({chats, messages});
+        //const rootMessagesBlock = document.querySelector("#chat-body");
+        //if(!rootMessagesBlock)return;
+
+        //rootMessagesBlock.innerHTML = newMessagesBoxTemplate;
+    });
+}
+
 }
 
 export default Chat;

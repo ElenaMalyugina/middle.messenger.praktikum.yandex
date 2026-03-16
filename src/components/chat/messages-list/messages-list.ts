@@ -14,7 +14,24 @@ export default class MessagesList extends Block<Partial<MessagesListProps>>{
 
     constructor(props: MessagesListProps){
         super(props)
-        this.setProps({messages: [...messages]})
+
+        const thisMessages = [...messages];
+        //добавление свойства смены даты
+        const messagesWithIsChangedDate = thisMessages.map((mess:any, i, sourceMessages)=>{
+            mess.isChangedDate = false;
+            const isChangedDate = i==0 || mess.time !== sourceMessages[i-1].time;
+
+            if(isChangedDate){
+                mess.isChangedDate = true;
+            }
+            return mess;
+        })
+
+        const resMessages = messagesWithIsChangedDate;
+
+        this.setProps({messages: resMessages })
 
     }
+
+
 }
