@@ -14,6 +14,7 @@ import TextRowEditable from "./row-blocks/text-row-editable/text-row-editable";
 import UploadFile from "./upload-file/upload-file";
 import Popup from "./popup/popup";
 import ExtendedButton from "./extended-button/extended-button";
+import Sidebar from './sidebar/sidebar';
 
 registerComponent(Table);
 registerComponent(Form);
@@ -28,6 +29,7 @@ registerComponent(Button);
 registerComponent(Link);
 registerComponent(Img);
 
+Sidebar.register();
 UploadFile.register();
 Popup.register();
 ExtendedButton.register();

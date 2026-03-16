@@ -1,4 +1,4 @@
-import "/src/components/sidebar/sidebar.css";
+//import "/src/components/sidebar/sidebar.css";
 import "./chat.css";
 import "/src/components/chat/chat-sidebar/chat-sidebar.css";
 import "/src/components/chat/chat-search/chat-search.css";
@@ -17,7 +17,7 @@ import "/src/components/chat/popup-contents/popup-contents.css";
 import "/src/components/chat/modal-contents/modal-contents.css";
 import Handlebars from "handlebars";
 import {getDayYearString, getTimeString} from "../../utils/datetime.ts";
-import sidebarTemplate from "/src/components/sidebar/sidebar.hbs?raw";
+//import sidebarTemplate from "/src/components/sidebar/sidebar.hbs?raw";
 import chatSidebarTemplate from "/src/components/chat/chat-sidebar/chat-sidebar.hbs?raw";
 import chatSearchTemplate from "/src/components/chat/chat-search/chat-search.hbs?raw";
 import chatAvatarTemplate from "/src/components/chat/chat-avatar/chat-avatar.hbs?raw";
@@ -41,7 +41,7 @@ import { messages } from "../../mocks/messages";
 import NoMessages from "../../components/chat/no-messages/no-messages.ts";
 import Block from "../../framework/Block.ts";
 
-Handlebars.registerPartial("sidebar", sidebarTemplate);
+//Handlebars.registerPartial("sidebar", sidebarTemplate);
 Handlebars.registerPartial("chat-sidebar", chatSidebarTemplate);
 Handlebars.registerPartial("chat-search", chatSearchTemplate);
 Handlebars.registerPartial("chat-avatar", chatAvatarTemplate);
