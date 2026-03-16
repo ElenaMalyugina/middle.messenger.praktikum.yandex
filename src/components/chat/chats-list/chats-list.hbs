@@ -1,6 +1,6 @@
 <ul class="chats-list  sidebar__chat-list js-chats-list">
     {{#each chats as | chatItem |}}
-        {{> chat-item }}
+        {{{ ChatItem avatarUrl=avatarUrl title=title unreadСount=unreadСount lastMessage=lastMessage }}}
     {{/each}}
 </ul>
 
