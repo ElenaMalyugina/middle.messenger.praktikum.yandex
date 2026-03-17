@@ -14,7 +14,9 @@ export default class MessagesList extends Block<Partial<MessagesListProps>>{
 
     constructor(props: MessagesListProps){
         super(props)
+    }
 
+    protected componentDidMount(): void {
         const thisMessages = [...messages];
         //добавление свойства смены даты
         const messagesWithIsChangedDate = thisMessages.map((mess:any, i, sourceMessages)=>{
@@ -29,9 +31,6 @@ export default class MessagesList extends Block<Partial<MessagesListProps>>{
 
         const resMessages = messagesWithIsChangedDate;
 
-        this.setProps({messages: resMessages })
-
+        this.setProps({messages: resMessages });
     }
-
-
 }

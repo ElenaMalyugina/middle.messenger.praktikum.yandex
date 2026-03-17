@@ -46,7 +46,6 @@ import PopupUser from "../../components/chat/popup-contents/popup-user/popup-use
 
 ChatSidebar.register();
 ChatBody.register();
-MessagesBox.register();
 
 //Handlebars.registerPartial("popup-files-content", popupFiles);
 //Handlebars.registerPartial("popup-user-content", popupUser);
@@ -60,6 +59,7 @@ registerComponent(ChatHeader);
 registerComponent(ChatSearch);
 registerComponent(ChatSearchForm);
 registerComponent(NoMessages);
+registerComponent(MessagesBox);
 registerComponent(MessagesBoxHeader);
 registerComponent(MessagesList);
 registerComponent(MessageItem);
@@ -246,10 +246,10 @@ class Chat extends Block<Partial<ChatProps>>{
     static componentName = 'Chat';
     protected template = chatTemplate;
 
-     protected render(): void {
-         super.render()
-         this.setChatActive();
-     }
+    protected render(): void {
+        super.render()
+        //this.setChatActive();
+    }
 
     setChatActive = ()=>{
         document.addEventListener("click", (e: Event)=>{

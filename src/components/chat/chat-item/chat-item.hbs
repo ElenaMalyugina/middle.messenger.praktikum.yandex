@@ -1,5 +1,5 @@
-<li class="chat-item js-chat-item">
-  {{{ ChatAvatar avatarUrl=avatarUrl addClass="chat-item__chat-avatar" }}}
+<li class="chat-item js-chat-item {{#if isActiveClass}}chat-item--active{{/if}}">
+  {{{ ChatAvatar avatarUrl=avatarUrl addClass="chat-item__chat-avatar"  }}}
   <div class="chat-item__content">
     <div class="chat-item__top">
       <h3 class="chat-item__title">

@@ -1,4 +1,5 @@
 import Handlebars from 'handlebars';
+import { deepEqual } from '../utils/deepEqual';
 
 export interface BlockOwnProps {
   __children?: Array<{
@@ -48,7 +49,7 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
 
     // Пока предположим, что свойства простые и в объекте
     const isNeedRerender  = this.isNeedRerender(newProps, this.props);
-
+    //debugger
     if(isNeedRerender){
       this.props = { ...this.props, ...newProps, __children: [], __refs: {} } as Props;
       this.render();
@@ -59,8 +60,16 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
   // Пока предположим, что свойства простые и в объекте
   private isNeedRerender(newProps: Partial<BlockOwnProps>, oldProps: BlockOwnProps): boolean {
     return (Object.keys(newProps) as Array<keyof BlockOwnProps>).some(
-      key => newProps[key] !== oldProps[key]
+        key => {
+            if(typeof newProps[key] !== "object"){
+                return newProps[key] !== oldProps[key]
+            }
+            else{
+                return !deepEqual(newProps[key], oldProps[key]);
+            }
+        }
     );
+
   }
 
   /** В базовом классе здесь ничего нет */

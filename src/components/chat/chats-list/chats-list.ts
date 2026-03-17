@@ -7,16 +7,32 @@ import { chats } from "../../../mocks/chats";
 
 interface ChatsListProps extends BlockOwnProps{
     chats: ChatItemProps[];
+    chatActive: unknown;
+
 }
 
 export default class ChatsList extends Block<Partial<ChatsListProps>>{
     static componentName = 'ChatsList';
     protected template = ChatsListTemplate;
 
+
     constructor(props: ChatsListProps){
         super(props);
-
-        this.setProps({chats: [...chats]})
     }
 
+    protected selectChat=(id: number)=>{
+        this.children.forEach(chatItem=>{
+            const isActive = chatItem.props.id === id;
+            chatItem.setProps({isActiveClass: isActive});
+        })
+    }
+
+    protected componentDidMount(): void {
+        this.setProps({
+            chats: chats.map(chat => ({
+                ...chat,
+                selectChatEmit: this.selectChat
+            }))
+        });
+    }
 }
