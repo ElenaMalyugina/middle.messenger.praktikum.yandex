@@ -10,12 +10,15 @@ interface InputProps extends BlockOwnProps {
     value: string;
     required: boolean;
     ref: string;
-    onValidate: (val:unknown)=>void;
-    cleanValidate: ()=>void;
     floatLabel?: (el:HTMLInputElement)=>void;
 }
 
-export default class Input extends Block<Partial<InputProps>>{
+interface ValidatedElement{
+    onValidate: (val:unknown)=>void;
+    cleanValidate: ()=>void;
+}
+
+export default class Input extends Block<Partial<InputProps&ValidatedElement>>{
     static componentName = "Input";
     protected template = InputTemplate;
 
