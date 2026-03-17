@@ -28,7 +28,7 @@ switch (window.location.pathname){
         break;
     case "/edit-profile": compiledElement = new EditProfile({}).element();
         break;
-     case "/change-password": compiledElement = new ChangePassword({}).element();
+    case "/change-password": compiledElement = new ChangePassword({}).element();
         break;
     case "/not-found": {
         const customError = getError(404);

@@ -9,10 +9,10 @@ interface InputProps extends BlockOwnProps {
     placeholder: string;
     value: string;
     required: boolean;
+    ref: string;
     onValidate: (val:unknown)=>void;
     cleanValidate: ()=>void;
-    floatLabel: (el:HTMLInputElement)=>void;
-    ref: string;
+    floatLabel?: (el:HTMLInputElement)=>void;
 }
 
 export default class Input extends Block<Partial<InputProps>>{

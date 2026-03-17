@@ -17,27 +17,13 @@ import "/src/components/chat/popup-contents/popup-contents.css";
 import "/src/components/chat/modal-contents/modal-contents.css";
 import Handlebars from "handlebars";
 import {getDayYearString, getTimeString} from "../../utils/datetime.ts";
-//import sidebarTemplate from "/src/components/sidebar/sidebar.hbs?raw";
-//import chatSidebarTemplate from "/src/components/chat/chat-sidebar/chat-sidebar.hbs?raw";
-import chatSearchTemplate from "/src/components/chat/chat-search/chat-search.hbs?raw";
-import chatAvatarTemplate from "/src/components/chat/chat-avatar/chat-avatar.hbs?raw";
-import chatsListTemplate from "/src/components/chat/chats-list/chats-list.hbs?raw";
-import chatItemTemplate from "/src/components/chat/chat-item/chat-item.hbs?raw";
-import chatHeaderTemplate from "/src/components/chat/chat-header/chat-header.hbs?raw";
-import chatBody from "/src/components/chat/chat-body/chat-body.hbs?raw";
-import messagesBoxTemplate from "/src/components/chat/messages-box/messages-box.hbs?raw";
-import messagesBoxHeaderTemplate from "/src/components/chat/messages-box-header/messages-box-header.hbs?raw";
-//import messagesListTemplate from "/src/components/chat/messages-list/messages-list.hbs?raw";
-//import messageItemTemplate from "/src/components/chat/message-item/message-item.hbs?raw";
 import messageSendTemplate from "/src/components/chat/message-send/message-send.hbs?raw";
-//import noMessagesTemplate from "/src/components/chat/no-messages/no-messages.hbs?raw";
 import popupFiles from "/src/components/chat/popup-contents/popup-files/popup-files.hbs?raw";
 import popupUser from "/src/components/chat/popup-contents/popup-user/popup-user.hbs?raw";
 import addUser from "/src/components/chat/modal-contents/add-delete-user/add-delete-user.hbs?raw";
 import { registerComponent } from './../../framework/RegisterComponent';
 import chatTemplate from "./chat.hbs?raw";
-import {chats}  from "../../mocks/chats.ts";
-import { messages } from "../../mocks/messages";
+
 
 import NoMessages from "../../components/chat/no-messages/no-messages.ts";
 import Block, { type BlockOwnProps } from "../../framework/Block.ts";
@@ -49,24 +35,17 @@ import MessageItem from "../../components/chat/message-item/message-item.ts";
 import MessagesList from "../../components/chat/messages-list/messages-list.ts";
 import ChatBody from "../../components/chat/chat-body/chat-body.ts";
 import MessagesBox from "../../components/chat/messages-box/messages-box.ts";
+import ChatHeader from "../../components/chat/chat-header/chat-header.ts";
+import ChatSearch from "../../components/chat/chat-search/chat-search.ts";
+import MessagesBoxHeader from "../../components/chat/messages-box-header/messages-box-header.ts";
+import MessageSend from "../../components/chat/message-send/message-send.ts";
+import MessagesSendForm from "../../components/chat/message-send/form/messages-send-form.ts";
 
 ChatSidebar.register();
 ChatBody.register();
 MessagesBox.register();
-//Handlebars.registerPartial("sidebar", sidebarTemplate);
-//Handlebars.registerPartial("chat-sidebar", chatSidebarTemplate);
-Handlebars.registerPartial("chat-search", chatSearchTemplate);
-Handlebars.registerPartial("chat-avatar", chatAvatarTemplate);
-Handlebars.registerPartial("chat-header", chatHeaderTemplate);
-//Handlebars.registerPartial("chats-list", chatsListTemplate);
-//Handlebars.registerPartial("chat-item", chatItemTemplate);
-//Handlebars.registerPartial("chat-body", chatBody);
-Handlebars.registerPartial("messages-box", messagesBoxTemplate);
-Handlebars.registerPartial("messages-box-header", messagesBoxHeaderTemplate);
-//Handlebars.registerPartial("messages-list", messagesListTemplate);
-//Handlebars.registerPartial("message-item", messageItemTemplate);
-Handlebars.registerPartial("message-send", messageSendTemplate);
-//Handlebars.registerPartial("no-messages", noMessagesTemplate);
+
+//Handlebars.registerPartial("message-send", messageSendTemplate);
 Handlebars.registerPartial("popup-files-content", popupFiles);
 Handlebars.registerPartial("popup-user-content", popupUser);
 Handlebars.registerPartial("add-user-content", addUser);
@@ -74,9 +53,14 @@ Handlebars.registerPartial("add-user-content", addUser);
 registerComponent(ChatsList);
 registerComponent(ChatItem);
 registerComponent(ChatAvatar);
+registerComponent(ChatHeader);
+registerComponent(ChatSearch);
 registerComponent(NoMessages);
+registerComponent(MessagesBoxHeader);
 registerComponent(MessagesList);
 registerComponent(MessageItem);
+registerComponent(MessageSend);
+registerComponent(MessagesSendForm);
 
 //установка css-классов для сообщения автора
 Handlebars.registerHelper("isAuthor", function(userId){
