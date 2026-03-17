@@ -1,6 +1,6 @@
 import Block from "../../../framework/Block";
 import { registerComponent } from "../../../framework/RegisterComponent";
-import ProfileInfoForm from "./partials/profile-info-form";
+import ProfileInfoForm from "./form/profile-info-form";
 import ProfileInfoFormBlockTemplate from "./profile-info-form-block.hbs?raw";
 
 registerComponent(ProfileInfoForm);

@@ -17,8 +17,8 @@ import "/src/components/chat/popup-contents/popup-contents.css";
 import "/src/components/chat/modal-contents/modal-contents.css";
 import Handlebars from "handlebars";
 import {getDayYearString, getTimeString} from "../../utils/datetime.ts";
-import messageSendTemplate from "/src/components/chat/message-send/message-send.hbs?raw";
-import popupFiles from "/src/components/chat/popup-contents/popup-files/popup-files.hbs?raw";
+//import messageSendTemplate from "/src/components/chat/message-send/message-send.hbs?raw";
+import popupFiles from "/src/components/chat/popup-contents/popup-files/popup-files-form.hbs?raw";
 import popupUser from "/src/components/chat/popup-contents/popup-user/popup-user.hbs?raw";
 import addUser from "/src/components/chat/modal-contents/add-delete-user/add-delete-user.hbs?raw";
 import { registerComponent } from './../../framework/RegisterComponent';
@@ -40,27 +40,33 @@ import ChatSearch from "../../components/chat/chat-search/chat-search.ts";
 import MessagesBoxHeader from "../../components/chat/messages-box-header/messages-box-header.ts";
 import MessageSend from "../../components/chat/message-send/message-send.ts";
 import MessagesSendForm from "../../components/chat/message-send/form/messages-send-form.ts";
+import { ChatSearchForm } from "../../components/chat/chat-search/form/chat-search-form.ts";
+import PopupFilesForm from "../../components/chat/popup-contents/popup-files/popup-files-form.ts";
+import PopupUser from "../../components/chat/popup-contents/popup-user/popup-user.ts";
 
 ChatSidebar.register();
 ChatBody.register();
 MessagesBox.register();
 
-//Handlebars.registerPartial("message-send", messageSendTemplate);
-Handlebars.registerPartial("popup-files-content", popupFiles);
-Handlebars.registerPartial("popup-user-content", popupUser);
+//Handlebars.registerPartial("popup-files-content", popupFiles);
+//Handlebars.registerPartial("popup-user-content", popupUser);
 Handlebars.registerPartial("add-user-content", addUser);
+
 
 registerComponent(ChatsList);
 registerComponent(ChatItem);
 registerComponent(ChatAvatar);
 registerComponent(ChatHeader);
 registerComponent(ChatSearch);
+registerComponent(ChatSearchForm);
 registerComponent(NoMessages);
 registerComponent(MessagesBoxHeader);
 registerComponent(MessagesList);
 registerComponent(MessageItem);
 registerComponent(MessageSend);
 registerComponent(MessagesSendForm);
+registerComponent(PopupFilesForm);
+registerComponent(PopupUser);
 
 //установка css-классов для сообщения автора
 Handlebars.registerHelper("isAuthor", function(userId){
