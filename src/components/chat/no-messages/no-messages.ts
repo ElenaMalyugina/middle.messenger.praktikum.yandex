@@ -1,3 +1,5 @@
+
+import "./no-messages.css";
 import Block from "./../../../framework/Block";
 import NoMessageTemplate from "./no-messages.hbs?raw";
 

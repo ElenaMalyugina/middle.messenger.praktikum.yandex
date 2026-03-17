@@ -4,17 +4,15 @@ import type { ChatItemProps } from "../chat-item/chat-item";
 import ChatsListTemplate from "./chats-list.hbs?raw";
 import { chats } from "../../../mocks/chats";
 
-
 interface ChatsListProps extends BlockOwnProps{
     chats: ChatItemProps[];
-    chatActive: unknown;
-
+    setSelectedChat: ()=>void;
+    setSelectedChatProps:()=>void;
 }
 
 export default class ChatsList extends Block<Partial<ChatsListProps>>{
     static componentName = 'ChatsList';
     protected template = ChatsListTemplate;
-
 
     constructor(props: ChatsListProps){
         super(props);
@@ -25,6 +23,7 @@ export default class ChatsList extends Block<Partial<ChatsListProps>>{
             const isActive = chatItem.props.id === id;
             chatItem.setProps({isActiveClass: isActive});
         })
+        this.props.setSelectedChat()
     }
 
     protected componentDidMount(): void {

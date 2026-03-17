@@ -10,6 +10,11 @@
     z-index: 10;
 }
 
+.chat__body{
+    flex: 1;
+    height: 100%;
+}
+
 .chat__message-item{
     margin-bottom: 12px;
 
