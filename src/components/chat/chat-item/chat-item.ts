@@ -7,12 +7,12 @@ export interface ChatItemProps extends BlockOwnProps{
     title: string;
     avatarUrl: string;
     unreadСount:number;
-    isActiveClass?: string;
+    isActive: boolean;
     lastMessage:{
         time:string;
         text: string;
     };
-    selectChatEmit?: (id:unknown)=>void
+    selectChatEmit?: (id:number)=>void
 }
 
 
@@ -21,9 +21,13 @@ export default class ChatItem extends Block<Partial<ChatItemProps>>{
     static componentName = 'ChatItem';
     protected template = ChatItemTemplate;
 
+    public getId():number{
+        return this.props.id || -1;
+    }
+
     protected events = {
         click: () => {
-            if(this.props.selectChatEmit){
+            if(this.props.selectChatEmit && this.props.id){
                 this.props.selectChatEmit(this.props.id);
             }
         }

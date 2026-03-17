@@ -31,7 +31,6 @@ export default class MessagesList extends Block<Partial<MessagesListProps>>{
         })
 
         const resMessages = messagesWithIsChangedDate;
-        console.log(resMessages)
 
         this.setProps({messages: resMessages });
     }

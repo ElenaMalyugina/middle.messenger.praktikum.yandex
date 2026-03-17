@@ -1,12 +1,6 @@
  <div class="chat">
-   {{> ChatSidebar }}
-   <main class="chat__body" id="chat-body">
-      {{#if isSelectedChat}}
-        {{{ MessagesBox }}}
-      {{else}}
-        {{{ NoMessages }}}
-      {{/if}}
-   </main>
+    {{> ChatSidebar }}
+    {{{ ChatBody }}}
  </div>
  <div class="modal-container" id="modal-container">
    {{#> custom-popup className="modal-popup" id="chat-modal"}}{{/custom-popup}}

@@ -3,11 +3,12 @@ import Block, { type BlockOwnProps } from "../../../framework/Block";
 import type { ChatItemProps } from "../chat-item/chat-item";
 import ChatsListTemplate from "./chats-list.hbs?raw";
 import { chats } from "../../../mocks/chats";
+import ChatItem from "../chat-item/chat-item";
 
 interface ChatsListProps extends BlockOwnProps{
     chats: ChatItemProps[];
     setSelectedChat: ()=>void;
-    setSelectedChatProps:()=>void;
+    selectedChatEmit:(id: number)=>void;
 }
 
 export default class ChatsList extends Block<Partial<ChatsListProps>>{
@@ -20,17 +21,24 @@ export default class ChatsList extends Block<Partial<ChatsListProps>>{
 
     protected selectChat=(id: number)=>{
         this.children.forEach(chatItem=>{
-            const isActive = chatItem.props.id === id;
-            chatItem.setProps({isActiveClass: isActive});
+            if (chatItem instanceof ChatItem) {
+                const isActive = chatItem.getId() === id;
+                chatItem.setProps({isActive: isActive});
+            }
         })
-        this.props.setSelectedChat()
+
+        //прокидываем событие наверх
+        if(this.props.selectedChatEmit){
+            this.props.selectedChatEmit(id);
+        }
     }
 
     protected componentDidMount(): void {
         this.setProps({
             chats: chats.map(chat => ({
                 ...chat,
-                selectChatEmit: this.selectChat
+                selectChatEmit: this.selectChat,
+                isActive: false
             }))
         });
     }

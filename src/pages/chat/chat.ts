@@ -23,6 +23,7 @@ import MessagesSendForm from "../../components/chat/message-send/form/messages-s
 import ChatSearchForm from "../../components/chat/chat-search/form/chat-search-form.ts";
 import PopupFilesForm from "../../components/chat/popup-contents/popup-files/popup-files-form.ts";
 import PopupUser from "../../components/chat/popup-contents/popup-user/popup-user.ts";
+import ChatBody from "../../components/chat/chat-body/chat-body.ts";
 
 ChatSidebar.register();
 Handlebars.registerPartial("add-user-content", addUser);
@@ -33,6 +34,7 @@ registerComponent(ChatAvatar);
 registerComponent(ChatHeader);
 registerComponent(ChatSearch);
 registerComponent(ChatSearchForm);
+registerComponent(ChatBody);
 registerComponent(NoMessages);
 registerComponent(MessagesBox);
 registerComponent(MessagesBoxHeader);
@@ -159,22 +161,28 @@ modalShow("#user-button-add", modalAddUser);
 modalShow("#user-button-delete", modalDeleteUser);
 modalHide("#chat-modal");
 
-//export default Handlebars.compile(chatTemplate)({chats, messagesWithIsChangedDate, isSelectedChat});
 interface ChatProps extends BlockOwnProps{
     isSelectedChat: boolean;
-    setSelectedChatProps: ()=>void;
+    selectedChatEmit: (id:number)=>void;
 }
 
 export default class Chat extends Block<Partial<ChatProps>>{
     static componentName = 'Chat';
     protected template = chatTemplate;
 
-    setIsSelectedChat=()=>{
-       this.setProps({ isSelectedChat: true});
+    //возможно, нужно что-то типа общего контекста, чтобы не прокидывать событие на 2 этажа вверх, пока пусть так
+    setIsSelectedChat=(id:number)=>{
+        console.log(id); // Потенциально можем запросить с бэка список сообщений в чате
+        //чтобы не перерисовывались чаты, когда нужно перерисовать только блок с сообщениями
+        const chatBody = this.children.find(item => item.constructor.name === 'ChatBody');
+        if(chatBody){
+            chatBody.setProps({ isSelectedChat: true});
+        }
     }
 
-    protected componentDidMount(): void {
-        this.setProps({ setSelectedChatProps: this.setIsSelectedChat })
+    constructor(props: ChatProps) {
+        super(props);
+        this.setProps({ selectedChatEmit: this.setIsSelectedChat });
     }
 }
 
