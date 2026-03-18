@@ -162,8 +162,7 @@ modalShow("#user-button-delete", modalDeleteUser);
 modalHide("#chat-modal");
 
 interface ChatProps extends BlockOwnProps{
-    isSelectedChat: boolean;
-    selectedChatEmit: (id:number)=>void;
+    selectedChatEmit?: (id:number)=>void;
 }
 
 export default class Chat extends Block<ChatProps>{

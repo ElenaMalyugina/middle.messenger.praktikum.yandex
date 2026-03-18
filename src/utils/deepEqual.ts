@@ -1,26 +1,45 @@
-export const deepEqual = (obj1:unknown, obj2:unknown)=> {
-    // Проверка на идентичность
+export const deepEqual = (obj1: unknown, obj2: unknown): boolean => {
+    // 1. Идентичные значения (включая примитивы)
     if (obj1 === obj2) return true;
 
-    // Если один из аргументов не объект или null
-    if (typeof obj1 !== 'object' || obj1 === null ||
-        typeof obj2 !== 'object' || obj2 === null) {
+    // 2. Проверка на null и тип объекта
+    if (
+        obj1 === null || obj2 === null ||
+        typeof obj1 !== 'object' || typeof obj2 !== 'object'
+    ) {
         return false;
     }
 
-    // Получение ключей
-    const keys1 = Object.keys(obj1);
-    const keys2 = Object.keys(obj2);
+    // 3. Проверка на массивы (массивы — особый случай)
+    if (Array.isArray(obj1) && Array.isArray(obj2)) {
+        if (obj1.length !== obj2.length) return false;
+        for (let i = 0; i < obj1.length; i++) {
+        if (!deepEqual(obj1[i], obj2[i])) return false;
+        }
+        return true;
+    }
 
-    // Сравнение количества ключей
+    // 4. Если один массив, другой нет — не равны
+    if (Array.isArray(obj1) || Array.isArray(obj2)) return false;
+
+    // 5. Приведение к объектам с типизацией
+    const o1 = obj1 as Record<string, unknown>;
+    const o2 = obj2 as Record<string, unknown>;
+
+    // 6. Получение ключей с учётом всех собственных перечисляемых свойств
+    const keys1 = Object.keys(o1);
+    const keys2 = Object.keys(o2);
+
+    // 7. Сравнение количества ключей
     if (keys1.length !== keys2.length) return false;
 
-    // Рекурсивное сравнение значений
+    // 8. Рекурсивное сравнение значений
     for (const key of keys1) {
-        if (!keys2.includes(key) || !deepEqual(obj1[key], obj2[key])) {
-        return false;
-        }
+        // Проверка существования ключа во втором объекте
+        if (!(key in o2)) return false;
+        // Рекурсивное сравнение значений
+        if (!deepEqual(o1[key], o2[key])) return false;
     }
 
-  return true;
-}
+    return true;
+};
