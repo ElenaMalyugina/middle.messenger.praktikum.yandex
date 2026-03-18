@@ -8,7 +8,7 @@ interface MessagesListProps extends BlockOwnProps{
     messages: MessageItemProps[];
 }
 
-export default class MessagesList extends Block<Partial<MessagesListProps>>{
+export default class MessagesList extends Block<MessagesListProps>{
     static componentName = 'MessagesList';
     protected template = MessagesListTemplate;
 

@@ -11,7 +11,7 @@ interface InputProps extends BlockOwnProps {
     height: number;
 }
 
-export default class Img extends Block<Partial<InputProps>>{
+export default class Img extends Block<InputProps>{
     static componentName = "Img";
     protected template = imgTemplate;
 

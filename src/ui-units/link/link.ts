@@ -8,7 +8,7 @@ interface LinkProps extends BlockOwnProps{
     text: string;
 }
 
-export default class Link extends Block<Partial<LinkProps>>{
+export default class Link extends Block<LinkProps>{
     static componentName = 'Link';
     protected template = linkTemplate;
 }

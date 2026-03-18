@@ -17,7 +17,7 @@ const createTableRows = (): (Element | null)[]=> {
     ];
 }
 
-export default class ProfileInfoBlock extends Block<Partial<ProfileInfoBlockProps>> {
+export default class ProfileInfoBlock extends Block<ProfileInfoBlockProps> {
     static componentName = 'ProfileInfoBlock';
     protected template = ProfileInfoBlockTemplate;
 

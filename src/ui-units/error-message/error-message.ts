@@ -8,7 +8,7 @@ interface ErrorMessageProps extends BlockOwnProps{
     ref: string;
 }
 
-export default class ErrorMessage extends Block<Partial<ErrorMessageProps>>{
+export default class ErrorMessage extends Block<ErrorMessageProps>{
     static componentName = "ErrorMessage";
     protected template = ErrorMessageTemplate;
 }

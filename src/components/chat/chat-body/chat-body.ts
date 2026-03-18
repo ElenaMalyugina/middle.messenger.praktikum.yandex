@@ -5,7 +5,7 @@ interface ChatBodyProps extends BlockOwnProps{
     isSelectedChat: boolean;
 }
 
-export default class ChatBody extends Block<Partial<ChatBodyProps>>{
+export default class ChatBody extends Block<ChatBodyProps>{
     static componentName = 'ChatBody';
     protected template = ChatBodyTemplate;
 

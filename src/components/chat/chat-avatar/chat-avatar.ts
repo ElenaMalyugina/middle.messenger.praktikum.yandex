@@ -11,7 +11,7 @@ interface ChatAvatarSettings extends BlockOwnProps{
 
 type ChatAvatarCombinedProps= UserAvatar & ChatAvatarSettings;
 
-export default class ChatAvatar extends Block<Partial<ChatAvatarCombinedProps>>{
+export default class ChatAvatar extends Block<ChatAvatarCombinedProps>{
     static componentName = 'ChatAvatar';
     protected template = ChatAvatarTemplate;
 }

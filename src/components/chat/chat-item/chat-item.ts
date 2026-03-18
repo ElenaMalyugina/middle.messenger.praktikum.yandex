@@ -17,7 +17,7 @@ export interface ChatItemProps extends BlockOwnProps{
 
 
 
-export default class ChatItem extends Block<Partial<ChatItemProps>>{
+export default class ChatItem extends Block<ChatItemProps>{
     static componentName = 'ChatItem';
     protected template = ChatItemTemplate;
 

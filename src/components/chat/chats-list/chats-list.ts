@@ -11,7 +11,7 @@ interface ChatsListProps extends BlockOwnProps{
     selectedChatEmit:(id: number)=>void;
 }
 
-export default class ChatsList extends Block<Partial<ChatsListProps>>{
+export default class ChatsList extends Block<ChatsListProps>{
     static componentName = 'ChatsList';
     protected template = ChatsListTemplate;
 

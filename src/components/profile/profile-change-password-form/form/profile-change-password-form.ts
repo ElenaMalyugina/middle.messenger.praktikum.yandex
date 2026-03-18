@@ -11,7 +11,6 @@ const createFormRows = (): (Element | null)[]=> {
         new TextRowEditable({ label: "Старый пароль", type:"password", name:"old_password"}).element(),
         new TextRowEditable({ label:"Новый пароль", type:"password",  name:"new_password"}).element(),
         new TextRowEditable({ label:"Старый пароль", type:"password",  name:"repeat-new-password"}).element(),
-
     ];
 }
 

@@ -17,10 +17,11 @@ export interface MessageItemProps{
     }
     type: string;
     isAuthor: boolean;
-
 }
 
-export default class MessageItem extends Block<Partial<MessageItemSettingsProps&MessageItemProps>>{
+type MessageItemCombinedProps = MessageItemSettingsProps&MessageItemProps
+
+export default class MessageItem extends Block<MessageItemCombinedProps>{
     static componentName = 'MessageItem';
     protected template = MessageItemTemplate;
 

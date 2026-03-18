@@ -7,7 +7,7 @@ interface LabelProps extends BlockOwnProps{
     text: string;
 }
 
-export default class Label extends Block<Partial<LabelProps>>{
+export default class Label extends Block<LabelProps>{
     static componentName = 'Label';
     protected template = labelTemplate;
 }
