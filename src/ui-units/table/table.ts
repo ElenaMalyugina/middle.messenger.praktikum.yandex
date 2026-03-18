@@ -5,7 +5,7 @@ interface TableProps extends BlockOwnProps{
     rows: HTMLElement[];
 }
 
-export default class Table extends Block<Partial<TableProps>>{
+export default class Table extends Block<TableProps>{
     static componentName = 'Table';
     protected template = TableTemplate;
 

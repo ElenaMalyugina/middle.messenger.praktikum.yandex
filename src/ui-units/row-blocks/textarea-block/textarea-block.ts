@@ -2,7 +2,7 @@ import Block, { type BlockOwnProps } from "../../../framework/Block";
 import { initialError, validateRequired, type formError } from "../../../services/validationService";
 import TextareBlockTemplate from "./textarea-block.hbs?raw";
 
-interface TextareaBlockProps extends Partial<BlockOwnProps>{
+interface TextareaBlockProps extends BlockOwnProps{
     block: string;
     type: string;
     label: string;
@@ -13,7 +13,7 @@ interface TextareaBlockProps extends Partial<BlockOwnProps>{
     onInput: (el:HTMLInputElement)=>void;
 }
 
-export default class TextareaBlock extends Block<Partial<TextareaBlockProps>>{
+export default class TextareaBlock extends Block<TextareaBlockProps>{
     static componentName = 'TextareaBlock';
     protected template = TextareBlockTemplate;
 

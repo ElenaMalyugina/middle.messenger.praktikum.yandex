@@ -2,12 +2,12 @@ import "./text-row-block.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import textRowBlockTemplate from "./text-row-block.hbs?raw";
 
-interface TextRowBlockProps extends Partial<BlockOwnProps>{
+interface TextRowBlockProps extends BlockOwnProps{
     label: string;
     value: string;
 }
 
-export default class TextRowBlock extends Block<Partial<TextRowBlockProps>>{
+export default class TextRowBlock extends Block<TextRowBlockProps>{
     static componentName = 'TextRowBlock';
     protected template = textRowBlockTemplate;
 

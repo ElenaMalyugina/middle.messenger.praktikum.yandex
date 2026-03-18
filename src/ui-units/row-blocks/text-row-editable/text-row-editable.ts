@@ -3,7 +3,7 @@ import Block, { type BlockOwnProps } from "../../../framework/Block";
 import { initialError, validateRequired, type formError } from "../../../services/validationService";
 import textRowEditableTemplate from "./text-row-editable.hbs?raw";
 
-interface TextRowEditableProps extends Partial<BlockOwnProps>{
+interface TextRowEditableProps extends BlockOwnProps{
     type: string;
     label: string;
     name: string;
@@ -13,7 +13,7 @@ interface TextRowEditableProps extends Partial<BlockOwnProps>{
     cleanValidate?: ()=>void;
 }
 
-export default class TextRowEditable extends Block<Partial<TextRowEditableProps>>{
+export default class TextRowEditable extends Block<TextRowEditableProps>{
     static componentName = 'TextRowEditable';
     protected template = textRowEditableTemplate;
 

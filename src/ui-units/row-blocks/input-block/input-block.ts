@@ -3,7 +3,7 @@ import Block, { type BlockOwnProps } from "../../../framework/Block";
 import inputBlockTemplate from "./input-block.hbs?raw";
 import { initialError, validateRequired, type formError } from "../../../services/validationService";
 
-interface InputBlockProps extends Partial<BlockOwnProps>{
+interface InputBlockProps extends BlockOwnProps{
     block: string;
     type: string;
     label: string;
@@ -14,7 +14,7 @@ interface InputBlockProps extends Partial<BlockOwnProps>{
     onInput: (el:HTMLInputElement)=>void;
 }
 
-export default class InputBlock extends Block<Partial<InputBlockProps>>{
+export default class InputBlock extends Block<InputBlockProps>{
     static componentName = 'InputBlock';
     protected template = inputBlockTemplate;
 
