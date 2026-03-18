@@ -8,12 +8,12 @@ interface ProfileInfoFormProps extends FormProps{
 
 const createFormRows = (): (Element | null)[]=> {
     return [
-        new TextRowEditable({ label: "Почта", value: "pochta@yandex.ru", name: "email", type:"email"}).element(),
-        new TextRowEditable({ label: "Логин", value: "ivanivanov", name: "login", type:"text"}).element(),
-        new TextRowEditable({ label: "Имя", value: "Иван", name: "first_name", type:"text" }).element(),
-        new TextRowEditable({ label: "Фамилия", value: "Иванов", name: "second_name", type:"text" }).element(),
-        new TextRowEditable({ label: "Имя в чате", value: "Иван", name: "display_name", type:"text" }).element(),
-        new TextRowEditable({ label: "Телефон", value: "+7 (909) 967 30 30", name: "phone", type:"text" }).element()
+        new TextRowEditable({ label: "Почта", value: "pochta@yandex.ru", name: "email", type:"email", validators:"required"}).element(),
+        new TextRowEditable({ label: "Логин", value: "ivanivanov", name: "login", type:"text", validators:"required"}).element(),
+        new TextRowEditable({ label: "Имя", value: "Иван", name: "first_name", type:"text", validators:"required" }).element(),
+        new TextRowEditable({ label: "Фамилия", value: "Иванов", name: "second_name", type:"text", validators:"required" }).element(),
+        new TextRowEditable({ label: "Имя в чате", value: "Иван", name: "display_name", type:"text", validators:"required" }).element(),
+        new TextRowEditable({ label: "Телефон", value: "+7 (909) 967 30 30", name: "phone", type:"text", validators:"required" }).element()
     ];
 }
 

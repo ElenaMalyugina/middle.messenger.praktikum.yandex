@@ -8,9 +8,9 @@ interface ProfileChangePasswordFormProps extends FormProps{
 
 const createFormRows = (): (Element | null)[]=> {
     return [
-        new TextRowEditable({ label: "Старый пароль", type:"password", name:"old_password"}).element(),
-        new TextRowEditable({ label:"Новый пароль", type:"password",  name:"new_password"}).element(),
-        new TextRowEditable({ label:"Старый пароль", type:"password",  name:"repeat-new-password"}).element(),
+        new TextRowEditable({ label: "Старый пароль", type:"password", name:"old_password", validators:"required"}).element(),
+        new TextRowEditable({ label:"Новый пароль", type:"password",  name:"new_password", validators:"required"}).element(),
+        new TextRowEditable({ label:"Старый пароль", type:"password",  name:"repeat-new-password", validators:"required"}).element(),
     ];
 }
 

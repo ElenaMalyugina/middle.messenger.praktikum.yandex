@@ -8,7 +8,7 @@ interface TextRowEditableProps extends BlockOwnProps{
     label: string;
     name: string;
     value?: string;
-    validators: string[];
+    validators: string;
     errorMessage?: string | null;
     onValidate?: (val:unknown, validators: string[])=>void;
     cleanValidate?: ()=>void;
