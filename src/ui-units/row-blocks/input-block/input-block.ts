@@ -10,7 +10,6 @@ interface InputBlockProps extends BaseValidationProps{
     onInput: (el:HTMLInputElement)=>void;
 }
 
-
 export default class InputBlock extends BaseValidationBlock<InputBlockProps>{
     static componentName = 'InputBlock';
     protected template = inputBlockTemplate;
