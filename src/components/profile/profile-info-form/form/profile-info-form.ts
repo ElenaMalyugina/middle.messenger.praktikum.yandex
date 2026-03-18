@@ -2,8 +2,8 @@ import Form, { type FormProps } from "../../../../ui-units/form/form";
 import TextRowEditable from "../../../../ui-units/row-blocks/text-row-editable/text-row-editable";
 import ProfileInfoFormTemplate from "./profile-info-form.hbs?raw";
 
-interface ProfileInfoFormProps extends Omit<FormProps, 'formRows'>{
-    formRows: Element[];
+interface ProfileInfoFormProps extends FormProps{
+    formRows: (Element| null)[];
 }
 
 const createFormRows = (): (Element | null)[]=> {
@@ -17,7 +17,7 @@ const createFormRows = (): (Element | null)[]=> {
     ];
 }
 
-export default class ProfileInfoForm extends Form {
+export default class ProfileInfoForm extends Form<ProfileInfoFormProps> {
     static componentName = 'ProfileInfoForm';
     protected template = ProfileInfoFormTemplate;
 

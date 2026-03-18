@@ -23,7 +23,7 @@ export default abstract class BaseInput<T extends  BaseValidatedInputProps = Bas
         input: () => {
             const keys = Object.keys(this.refs);
             keys.forEach(el=>{
-                if(this.refs[el] instanceof (HTMLInputElement || HTMLTextAreaElement)){
+                if(this.isFormElement(this.refs[el])){
                     if(this.props.onInput){
                         this.props.onInput(this.refs[el]);
                     }
@@ -33,8 +33,7 @@ export default abstract class BaseInput<T extends  BaseValidatedInputProps = Bas
         blur: () => {
             const keys = Object.keys(this.refs);
             keys.forEach(el=>{
-                if(this.refs[el] instanceof HTMLInputElement || this.refs[el] instanceof HTMLTextAreaElement){
-                    debugger
+                if(this.isFormElement(this.refs[el])){
                     if(this.props.onValidate){
                         this.props.onValidate(this.refs[el].value);
                     }
@@ -44,7 +43,7 @@ export default abstract class BaseInput<T extends  BaseValidatedInputProps = Bas
         focus: ()=>{
             const keys = Object.keys(this.refs);
             keys.forEach(el=>{
-                if(this.refs[el] instanceof HTMLInputElement || this.refs[el] instanceof HTMLTextAreaElement){
+                if(this.isFormElement(this.refs[el])){
                     if(this.props.cleanValidate){
                         this.props.cleanValidate();
                     }
@@ -52,4 +51,8 @@ export default abstract class BaseInput<T extends  BaseValidatedInputProps = Bas
             })
         }
     };
+
+    private isFormElement(el: unknown): el is HTMLInputElement | HTMLTextAreaElement {
+        return el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement;
+    }
 }

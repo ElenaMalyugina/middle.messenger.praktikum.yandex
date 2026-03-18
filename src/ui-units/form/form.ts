@@ -10,7 +10,7 @@ export interface FormProps extends BlockOwnProps{
     errorMessage?: string | null;
 }
 
-export default abstract class Form extends Block<FormProps>{
+export default abstract class Form <T extends FormProps = FormProps> extends Block<T>{
 
     protected events = {
         submit: (event: Event) => {
