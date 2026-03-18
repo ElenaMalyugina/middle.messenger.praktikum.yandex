@@ -173,7 +173,7 @@ export default class Chat extends Block<ChatProps>{
     setIsSelectedChat=(id:number)=>{
         console.log(id); // Потенциально можем запросить с бэка список сообщений в чате
         //чтобы не перерисовывались чаты, когда нужно перерисовать только блок с сообщениями
-        const chatBody = this.children.find(item => item.constructor.name === 'ChatBody');
+        const chatBody = this.children.find(item => item instanceof ChatBody);
         if(chatBody){
             chatBody.setProps({ isSelectedChat: true});
         }
@@ -181,7 +181,9 @@ export default class Chat extends Block<ChatProps>{
 
     constructor(props: ChatProps) {
         super(props);
-        this.setProps({ selectedChatEmit: this.setIsSelectedChat });
+        this.setProps({
+            selectedChatEmit: this.setIsSelectedChat
+        });
     }
 }
 
