@@ -3,19 +3,17 @@ import Block, { type BlockOwnProps } from "../../../framework/Block";
 import { noError, validate, type formError } from "../../../services/validationService";
 import textRowEditableTemplate from "./text-row-editable.hbs?raw";
 import ErrorMessage from "../../error-message/error-message";
+import type { BaseValidationProps } from "../base-validation-block/base-validation-block";
+import BaseValidationBlock from "../base-validation-block/base-validation-block";
 
-interface TextRowEditableProps extends BlockOwnProps{
+interface TextRowEditableProps extends BaseValidationProps{
     type: string;
     label: string;
     name: string;
     value?: string;
-    validators: string;
-    errorMessage?: string | null;
-    onValidate?: (val:unknown, validators: string[])=>void;
-    cleanValidate?: ()=>void;
 }
 
-export default class TextRowEditable extends Block<TextRowEditableProps>{
+export default class TextRowEditable extends BaseValidationBlock<TextRowEditableProps>{
     static componentName = 'TextRowEditable';
     protected template = textRowEditableTemplate;
 
@@ -25,24 +23,6 @@ export default class TextRowEditable extends Block<TextRowEditableProps>{
             onValidate: this.onValidate,
             cleanValidate: this.cleanValidate,
         });
-    }
-
-    onValidate=(val:unknown, validators: string[])=>{
-        const error:formError = validate(val, validators);
-        const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
-
-        if(errorMessageBlock){
-            errorMessageBlock.setProps({message: error.text});
-        }
-    }
-
-    cleanValidate=()=>{
-        const error:formError = noError;
-        const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
-
-        if(errorMessageBlock){
-            errorMessageBlock.setProps({message: error.text});
-        }
     }
 
 }

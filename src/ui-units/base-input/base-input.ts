@@ -1,4 +1,5 @@
 import Block, { type BlockOwnProps } from "../../framework/Block";
+import type { BaseValidationMethods } from "../row-blocks/base-validation-block/base-validation-block";
 
 export interface BaseInputProps extends BlockOwnProps {
     id: string;
@@ -11,13 +12,11 @@ export interface BaseInputProps extends BlockOwnProps {
     onInput?: (val:unknown)=>unknown;
 }
 
-export interface ValidatedElement{
-    validators: string;
-    onValidate?: (val:unknown, validators: string[])=>void;
-    cleanValidate?: ()=>void;
+export interface ValidatedElementProps{
+    validators: string; //hbs так просто не принимает массив, пришлось отдельно выделять свойство
 }
 
-export type BaseValidatedInputProps = BaseInputProps&ValidatedElement;
+export type BaseValidatedInputProps = BaseInputProps & ValidatedElementProps & BaseValidationMethods;
 
 export default abstract class BaseInput<T extends  BaseValidatedInputProps = BaseValidatedInputProps> extends Block<T>{
     protected events = {
