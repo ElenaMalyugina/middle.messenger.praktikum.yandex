@@ -1,18 +1,12 @@
-import Block, {type BlockOwnProps }  from "../../framework/Block";
+import type { BaseInputProps } from "../base-input/base-input";
+import BaseInput from "../base-input/base-input";
 import textareaTemplate from "./textarea.hbs?raw";
 
-interface TextareaProps extends BlockOwnProps {
-    id: string;
-    name: string;
-    className: string;
+interface TextareaProps extends BaseInputProps {
     rows: number;
-    placeholder: string;
-    value: string;
-    required: boolean;
-    ref: string;
 }
 
-export default class Textarea extends Block<Partial<TextareaProps>>{
+export default class Textarea extends BaseInput<TextareaProps>{
     static componentName = "Textarea";
     protected template = textareaTemplate;
 

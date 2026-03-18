@@ -8,8 +8,8 @@ export const initialError={
     text: null
 }
 
-export const validateRequired = (value: string | null): formError =>{
-    if(value && value.length){
+export const validateRequired = (value: unknown): formError =>{
+    if(value && typeof value == "string" && value.length){
         return initialError;
     }
 

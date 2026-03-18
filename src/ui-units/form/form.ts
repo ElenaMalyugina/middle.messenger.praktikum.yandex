@@ -7,6 +7,7 @@ export interface FormProps extends BlockOwnProps{
     action: string;
     method: string;
     ref?: string;
+    errorMessage?: string | null;
 }
 
 export default abstract class Form extends Block<FormProps>{

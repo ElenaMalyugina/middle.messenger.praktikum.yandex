@@ -1,7 +1,9 @@
-<form className="message-send__form" action="/chat" method="POST" id="message-send-form" ref="messageSendForm" required>
+<form class="message-send__form" action="/chat" method="POST" id="message-send-form" ref="messageSendForm">
     <div class="message-send__flex">
-        {{{ Button className="attache-button message-send__attache-button" id="attache-button" type="button" text="Прикрепить"}}}
-        {{{ Textarea name="message" className="chat__input message-send__input" id="message" rows="1" placeholder="Сообщение"}}}
+        {{{ Button className="attache-button message-send__button message-send__attache-button" id="attache-button" type="button" text="Прикрепить"}}}
+        {{{ TextareaBlock block="message-send" name="message" className="chat__input message-send__input" id="message" rows="1"
+            placeholder="Сообщение" required="required" onValidate=onValidate cleanValidate=cleanValidate
+        }}}
         {{{ Button className="blue-round-button message-send__button" type="submit" text="Отправить" id="attache-button"}}}
     </div>
 </form>

@@ -11,7 +11,7 @@ interface InputBlockProps extends Partial<BlockOwnProps>{
     errorMessage: string | null;
     onValidate: (val:unknown)=>void;
     cleanValidate: ()=>void;
-    floatLabel: (el:HTMLInputElement)=>void;
+    onInput: (el:HTMLInputElement)=>void;
 }
 
 export default class InputBlock extends Block<Partial<InputBlockProps>>{
@@ -20,10 +20,11 @@ export default class InputBlock extends Block<Partial<InputBlockProps>>{
 
     constructor(props:InputBlockProps){
         super(props);
+
         this.setProps({
             onValidate: this.onValidate,
             cleanValidate: this.cleanValidate,
-            floatLabel: this.floatLabel
+            onInput: this.floatLabel
         });
     }
 
@@ -38,7 +39,6 @@ export default class InputBlock extends Block<Partial<InputBlockProps>>{
             container.classList.remove(notEmptyInputClass);
         }
     }
-
 
     onValidate=(val:unknown)=>{
         //потом доделать валидацию

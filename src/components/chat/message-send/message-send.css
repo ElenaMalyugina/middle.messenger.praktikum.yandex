@@ -8,12 +8,19 @@
 .message-send__flex{
     display: flex;
     justify-content: space-between;
-    align-items: center;
     gap: 16px;
 }
 
-.message-send__input{
+.message-send__textarea-block{
     flex: 1;
+}
+
+.message-send__input{
+    width: 100%;
+}
+
+.message-send__button{
+    margin-top: 4px;
 }
 
 .message-send__attache-popup{
