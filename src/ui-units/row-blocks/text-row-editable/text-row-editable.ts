@@ -1,6 +1,6 @@
 import "./text-row-editable.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
-import { initialError, validateRequired, type formError } from "../../../services/validationService";
+import { noError, validate, type formError } from "../../../services/validationService";
 import textRowEditableTemplate from "./text-row-editable.hbs?raw";
 
 interface TextRowEditableProps extends BlockOwnProps{
@@ -8,8 +8,9 @@ interface TextRowEditableProps extends BlockOwnProps{
     label: string;
     name: string;
     value?: string;
+    validators: string[];
     errorMessage?: string | null;
-    onValidate?: (val:unknown)=>void;
+    onValidate?: (val:unknown, validators: string[])=>void;
     cleanValidate?: ()=>void;
 }
 
@@ -25,15 +26,15 @@ export default class TextRowEditable extends Block<TextRowEditableProps>{
         });
     }
 
-    onValidate=(val:unknown)=>{
+    onValidate=(val:unknown, validators: string[])=>{
         //потом доделать валидацию
-        const error:formError = validateRequired(val);
-        this.setProps({errorMessage: error.text});
+        const error:formError = validate(val, validators);
+        this.children[2].setProps({message: error.text});
     }
 
     cleanValidate=()=>{
-        const error:formError = initialError;
-        this.setProps({errorMessage: error.text});
+        const error:formError = noError;
+        this.children[2].setProps({message: error.text});
     }
 
 }

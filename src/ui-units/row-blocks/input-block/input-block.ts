@@ -1,7 +1,7 @@
 import "./input-block.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import inputBlockTemplate from "./input-block.hbs?raw";
-import { initialError, validateRequired, type formError } from "../../../services/validationService";
+import { noError, validate, type formError } from "../../../services/validationService";
 
 interface InputBlockProps extends BlockOwnProps{
     block: string;
@@ -9,7 +9,8 @@ interface InputBlockProps extends BlockOwnProps{
     label: string;
     name: string;
     errorMessage: string | null;
-    onValidate: (val:unknown)=>void;
+    validators: string[];
+    onValidate: (val:unknown, validators: string[])=>void;
     cleanValidate: ()=>void;
     onInput: (el:HTMLInputElement)=>void;
 }
@@ -40,15 +41,14 @@ export default class InputBlock extends Block<InputBlockProps>{
         }
     }
 
-    onValidate=(val:unknown)=>{
-        //потом доделать валидацию
-        const error:formError = validateRequired(val);
-        this.setProps({errorMessage: error.text});
+    onValidate=(val:unknown, validators: string[])=>{
+        const error:formError = validate(val, validators);
+        this.children[2].setProps({message: error.text});
     }
 
     cleanValidate=()=>{
-        const error:formError = initialError;
-        this.setProps({errorMessage: error.text});
+        const error:formError = noError;
+        this.children[2].setProps({message: error.text});
     }
 
 }

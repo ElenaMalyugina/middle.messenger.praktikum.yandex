@@ -1,6 +1,8 @@
 <div class="textarea-block {{block}}__textarea-block">
     {{{ Textarea name=name className=className id=id rows=rows
-            placeholder=placeholder required=required onValidate=onValidate cleanValidate=cleanValidate ref=name
+            placeholder=placeholder required=required
+            validators=validators
+            onValidate=onValidate cleanValidate=cleanValidate ref=name
     }}}
-    {{{ ErrorMessage className="input-block__error js-error" id="js-error-message" ref="error" message=errorMessage }}}
+    {{{ ErrorMessage className="input-block__error js-error" id="js-error-message" ref="error" }}}
 </div>

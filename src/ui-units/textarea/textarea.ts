@@ -1,8 +1,8 @@
-import type { BaseInputProps } from "../base-input/base-input";
+import type { BaseValidatedInputProps } from "../base-input/base-input";
 import BaseInput from "../base-input/base-input";
 import textareaTemplate from "./textarea.hbs?raw";
 
-interface TextareaProps extends BaseInputProps {
+interface TextareaProps extends BaseValidatedInputProps {
     rows: number;
 }
 

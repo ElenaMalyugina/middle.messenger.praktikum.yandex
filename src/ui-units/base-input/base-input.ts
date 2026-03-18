@@ -12,7 +12,8 @@ export interface BaseInputProps extends BlockOwnProps {
 }
 
 export interface ValidatedElement{
-    onValidate?: (val:unknown)=>void;
+    validators: string;
+    onValidate?: (val:unknown, validators: string[])=>void;
     cleanValidate?: ()=>void;
 }
 
@@ -33,9 +34,13 @@ export default abstract class BaseInput<T extends  BaseValidatedInputProps = Bas
         blur: () => {
             const keys = Object.keys(this.refs);
             keys.forEach(el=>{
+                if(!this.props.validators) return;
+                const validatorsArray= this.props.validators.split(",");
+
+                if(!validatorsArray) return;
                 if(this.isFormElement(this.refs[el])){
                     if(this.props.onValidate){
-                        this.props.onValidate(this.refs[el].value);
+                        this.props.onValidate(this.refs[el].value, validatorsArray);
                     }
                 }
             });
