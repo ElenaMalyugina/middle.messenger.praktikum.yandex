@@ -1,5 +1,6 @@
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import { noError, validate, type formError } from "../../../services/validationService";
+import ErrorMessage from "../../error-message/error-message";
 import TextareBlockTemplate from "./textarea-block.hbs?raw";
 
 interface TextareaBlockProps extends BlockOwnProps{
@@ -28,13 +29,21 @@ export default class TextareaBlock extends Block<TextareaBlockProps>{
     }
 
     onValidate=(val:unknown, validators: string[])=>{
-        //потом доделать валидацию
         const error:formError = validate(val, validators);
-        this.children[1].setProps({message: error.text});
+        const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
+
+        if(errorMessageBlock){
+            errorMessageBlock.setProps({message: error.text});
+        }
     }
 
     cleanValidate=()=>{
         const error:formError = noError;
-        this.children[1].setProps({message: error.text});
+        const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
+
+        if(errorMessageBlock){
+             errorMessageBlock.setProps({message: error.text});
+        }
+
     }
 }

@@ -4,7 +4,7 @@ import ErrorMessageTemplate from "./error-message.hbs?raw";
 interface ErrorMessageProps extends BlockOwnProps{
     id:string;
     className: string;
-    message: string;
+    message: string | null;
     ref: string;
 }
 

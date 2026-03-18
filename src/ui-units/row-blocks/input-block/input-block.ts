@@ -2,6 +2,7 @@ import "./input-block.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import inputBlockTemplate from "./input-block.hbs?raw";
 import { noError, validate, type formError } from "../../../services/validationService";
+import ErrorMessage from "../../error-message/error-message";
 
 interface InputBlockProps extends BlockOwnProps{
     block: string;
@@ -43,12 +44,20 @@ export default class InputBlock extends Block<InputBlockProps>{
 
     onValidate=(val:unknown, validators: string[])=>{
         const error:formError = validate(val, validators);
-        this.children[2].setProps({message: error.text});
+        const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
+
+        if(errorMessageBlock){
+            errorMessageBlock.setProps({message: error.text});
+        }
     }
 
     cleanValidate=()=>{
         const error:formError = noError;
-        this.children[2].setProps({message: error.text});
+        const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
+
+        if(errorMessageBlock){
+            errorMessageBlock.setProps({message: error.text});
+        }
     }
 
 }
