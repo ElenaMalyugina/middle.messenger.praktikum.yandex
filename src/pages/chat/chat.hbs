@@ -1,7 +1,8 @@
- <div class="chat">
+<div class="chat">
     {{> ChatSidebar }}
     {{{ ChatBody }}}
- </div>
- <div class="modal-container" id="modal-container">
-   {{#> custom-popup className="modal-popup" id="chat-modal"}}{{/custom-popup}}
- </div>
+    <div class="chat__modal-container" id="modal-container">
+        {{#> custom-popup className="modal-popup" id="chat-modal"}}{{/custom-popup}}
+    </div>
+</div>
+

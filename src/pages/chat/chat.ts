@@ -24,10 +24,10 @@ import ChatSearchForm from "../../components/chat/chat-search/form/chat-search-f
 import PopupFilesForm from "../../components/chat/popup-contents/popup-files/popup-files-form.ts";
 import PopupUser from "../../components/chat/popup-contents/popup-user/popup-user.ts";
 import ChatBody from "../../components/chat/chat-body/chat-body.ts";
+import AddDeleteUser from "../../components/chat/modal-contents/add-delete-user/add-delete-user.ts";
+import AddDeleteUserForm from "../../components/chat/modal-contents/add-delete-user/form/add-delete-user-form.ts";
 
 ChatSidebar.register();
-Handlebars.registerPartial("add-user-content", addUser);
-
 registerComponent(ChatsList);
 registerComponent(ChatItem);
 registerComponent(ChatAvatar);
@@ -44,6 +44,8 @@ registerComponent(MessageSend);
 registerComponent(MessagesSendForm);
 registerComponent(PopupFilesForm);
 registerComponent(PopupUser);
+registerComponent(AddDeleteUser);
+registerComponent(AddDeleteUserForm);
 
 //склейка урла
 Handlebars.registerHelper('concat', function() {
@@ -135,8 +137,10 @@ const modalShow = (selector:string, params: {})=>{
         const modal = document.querySelector<HTMLDialogElement>("#chat-modal");
         if(!modal) return;
         modal.showModal();
-        const content = Handlebars.compile(addUser)(params);
-        modal.innerHTML = content;
+        const content = new AddDeleteUser({...params}).element();
+        if(content){
+             modal.appendChild(content);
+        }
     })
 }
 
