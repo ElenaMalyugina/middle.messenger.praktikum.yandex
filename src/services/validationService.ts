@@ -28,6 +28,18 @@ const validatorMinVal = (value:unknown)=>{
     };
 }
 
+const validatorUserNamePattern = (value:unknown)=>{
+    const pattern=/^[A-ZА-ЯЁ][a-zа-яё-]*$/;
+    if(value && typeof value == "string" && pattern.test(value)){
+        return noError
+    }
+     return {
+        isValid: false,
+        text: "Латиница или кириллица, первая буква заглавная. Без пробелов и цифр, из спецсимволов — только дефис"
+    };
+
+}
+
 export const validate = (value: unknown, validators:string[]): formError =>{
     const validatorsResult = validators.map((validator:string)=>{
         if(validator == "required"){
@@ -36,6 +48,10 @@ export const validate = (value: unknown, validators:string[]): formError =>{
 
         if(validator == "minval"){
             return validatorMinVal(value);
+        }
+
+        if(validator == "username"){
+            return validatorUserNamePattern(value);
         }
         return noError
     })

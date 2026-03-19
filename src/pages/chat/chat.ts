@@ -27,6 +27,21 @@ import ChatBody from "../../components/chat/chat-body/chat-body.ts";
 import AddDeleteUser from "../../components/chat/modal-contents/add-delete-user/add-delete-user.ts";
 import AddDeleteUserForm from "../../components/chat/modal-contents/add-delete-user/form/add-delete-user-form.ts";
 
+//склейка урла
+Handlebars.registerHelper('concat', function() {
+  return Array.prototype.slice.call(arguments, 0, -1).join('');
+});
+
+//Получение даты в читаемом формате
+Handlebars.registerHelper("getDayAndYear", function(dateString){
+    return getDayYearString(dateString);
+})
+
+//Получение даты в читаемом формате
+Handlebars.registerHelper("getTime", function(dateString){
+    return getTimeString(dateString);
+})
+
 ChatSidebar.register();
 registerComponent(ChatsList);
 registerComponent(ChatItem);
@@ -46,21 +61,6 @@ registerComponent(PopupFilesForm);
 registerComponent(PopupUser);
 registerComponent(AddDeleteUser);
 registerComponent(AddDeleteUserForm);
-
-//склейка урла
-Handlebars.registerHelper('concat', function() {
-  return Array.prototype.slice.call(arguments, 0, -1).join('');
-});
-
-//Получение даты в читаемом формате
-Handlebars.registerHelper("getDayAndYear", function(dateString){
-    return getDayYearString(dateString);
-})
-
-//Получение даты в читаемом формате
-Handlebars.registerHelper("getTime", function(dateString){
-    return getTimeString(dateString);
-})
 
 const toggleSidebarVisible = ()=>{
     const mobileBreakpoint = 700;
@@ -158,7 +158,7 @@ const modalHide = (selector: string)=>{
 }
 
 toggleSidebarVisible();
-//setChatActive();
+
 dialogShow("#attache-button", "#attache-popup", "attache-button--active");
 dialogShow("#user-button", "#user-popup", "dots-button--active");
 modalShow("#user-button-add", modalAddUser);

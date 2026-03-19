@@ -1,8 +1,8 @@
 <form method="{{method}}" action="{{action}}" className="{{className}}" id="{{id}}" ref="{{ref}}" novalidate="novalidate">
     {{{ InputBlock block="registration" type="email" label="Почта" name="email" validators="required"}}}
     {{{ InputBlock block="registration" type="text" label="Логин" name="login" validators="required"}}}
-    {{{ InputBlock block="registration" type="text" label="Имя" name="first_name" validators="required"}}}
-    {{{ InputBlock block="registration" type="text" label="Фамилия" name="second_name" validators="required"}}}
+    {{{ InputBlock block="registration" type="text" label="Имя" name="first_name" validators="required,username"}}}
+    {{{ InputBlock block="registration" type="text" label="Фамилия" name="second_name" validators="required,username"}}}
     {{{ InputBlock block="registration" type="text" label="Телефон" name="phone" validators="required"}}}
     {{{ InputBlock block="registration" type="password" label="Пароль" name="password" validators="required"}}}
     {{{ InputBlock block="registration" type="password" label="Пароль (еще раз)" name="repeatPassword" validators="required"}}}
