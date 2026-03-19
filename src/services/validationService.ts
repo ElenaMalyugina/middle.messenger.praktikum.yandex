@@ -89,6 +89,21 @@ const validatorPhonePattern = (value:unknown)=>{
     };
 }
 
+const validatorRepeatPassword = (value:unknown)=>{
+    const oldPassword = document.querySelector<HTMLInputElement>("#new_password"); //в данном случае удобнее напрямую;
+    if(!oldPassword) return noError //валидатор не на своем месте
+
+    const value2 = oldPassword.value;
+    if(value && typeof value == "string" && value === value2){
+        return noError
+    }
+
+    return {
+        isValid: false,
+        text: "Пароли не совпадают"
+    };
+}
+
 export const validate = (value: unknown, validators:string[]): formError =>{
     const validatorsResult = validators.map((validator:string)=>{
         validator=validator.trim();
@@ -120,6 +135,12 @@ export const validate = (value: unknown, validators:string[]): formError =>{
         if(validator == "phone"){
             return validatorPhonePattern(value);
         }
+
+        if(validator == "repeatpassword"){
+            return validatorRepeatPassword(value);
+        }
+
+
         return noError
     })
     return validatorsResult.find(el=>!el.isValid) || noError;
