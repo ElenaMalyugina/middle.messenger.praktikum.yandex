@@ -1,4 +1,14 @@
+.text-row-block{
+    grid-template-areas: "a b"
+                         "_ c";
+}
+
+.text-row__label{
+    grid-area: a;
+}
+
 .text-row__value{
+    grid-area: b;
     position: relative;
 }
 
@@ -19,7 +29,7 @@
 }
 
 .text-row__td--editable{
-    padding: 24px 0 0 0;
+    padding: 10px 0 0 0;
 }
 
 .text-row__input:focus, .text-row__input:hover{
@@ -27,7 +37,8 @@
 }
 
 .text-row__error{
-    position: absolute;
-    top: calc(100% + 4px);
+    grid-area: c;
+    justify-self: flex-start;
 
 }
+
