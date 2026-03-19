@@ -1,11 +1,11 @@
 <form  action="/profile" className="profile-form" id="profile-form" ref="form" novalidate="novalidate">
     <div class="block-grid profile__block-grid">
-        {{{ TextRowEditable label="Почта" value="pochta@yandex.ru" name="email" type="email" validators="required,email" }}}
-        {{{ TextRowEditable label="Логин" value="ivanivanov" name="login" type="text" validators="required,validatorLoginPattern" }}}
-        {{{ TextRowEditable label="Имя" value="Иван" name="first_name" type="text" validators="required,username" }}}
-        {{{ TextRowEditable label="Фамилия" value="Иванов" name="second_name" type="text" validators="required,username" }}}
-        {{{ TextRowEditable label="Имя в чате" value="Иван" name="display_name" type="text" validators="required" }}}
-        {{{ TextRowEditable label="Телефон" value="+7 (909) 967 30 30" name="phone" type="text" validators="required,phone" }}}
+        {{{ TextRowEditable label="Почта" value=email name="email" type="email" validators="required,email" }}}
+        {{{ TextRowEditable label="Логин" value=login name="login" type="text" validators="required,validatorLoginPattern" }}}
+        {{{ TextRowEditable label="Имя" value=first_name name="first_name" type="text" validators="required,username" }}}
+        {{{ TextRowEditable label="Фамилия" value=second_name name="second_name" type="text" validators="required,username" }}}
+        {{{ TextRowEditable label="Имя в чате" value=display_name name="display_name" type="text" validators="required" }}}
+        {{{ TextRowEditable label="Телефон" value=phone name="phone" type="text" validators="required,phone" }}}
     </div>
     {{{ Button className="button profile-form__button" type="submit" text="Сохранить"}}}
 </form>
