@@ -47,7 +47,7 @@ const validatorLoginPattern = (value: unknown)=>{
     }
     return {
         isValid: false,
-        text: "Латиница или кириллица, первая буква заглавная. Без пробелов и цифр, из спецсимволов — только дефис"
+        text: "3–20 символов, латиница. Может содержать цифры, но не состоит только из них. Без пробелов, допустимы дефис и подчёркивание"
     };
 }
 
@@ -63,8 +63,36 @@ const validatorEmailPattern = (value: unknown)=>{
     };
 }
 
+const validatorPasswordPattern = (value:unknown)=>{
+    const pattern = /^(?=.{8,40}$)(?=.*[A-Z])(?=.*\d).*$/;
+
+    if(value && typeof value == "string" && pattern.test(value)){
+        return noError
+    }
+
+    return {
+        isValid: false,
+        text: "8–40 символов, минимум одна заглавная буква и одна цифра"
+    };
+}
+
+const validatorPhonePattern = (value:unknown)=>{
+    const pattern = /^\+?(?:\d[-\s]?){9,14}\d$/;
+
+    if(value && typeof value == "string" && pattern.test(value)){
+        return noError
+    }
+
+    return {
+        isValid: false,
+        text: "10–15 символов, цифры, может начинаться с плюса. Разешены пробелы и дефисы"
+    };
+}
+
 export const validate = (value: unknown, validators:string[]): formError =>{
     const validatorsResult = validators.map((validator:string)=>{
+        validator=validator.trim();
+
         if(validator == "required"){
             return validatorRequired(value);
         }
@@ -81,8 +109,16 @@ export const validate = (value: unknown, validators:string[]): formError =>{
             return validatorEmailPattern(value)
         }
 
-        if(validator == "validatorLoginPattern"){
+        if(validator == "login"){
             return validatorLoginPattern(value);
+        }
+
+        if(validator == "password"){
+            return validatorPasswordPattern(value);
+        }
+
+        if(validator == "phone"){
+            return validatorPhonePattern(value);
         }
         return noError
     })
