@@ -27,4 +27,20 @@ export default abstract class BaseValidationBlock<Props extends BaseValidationPr
             errorMessageBlock.setProps({message: error.text});
         }
     }
+
+    onSubmitValidation=()=>{
+        const keys = Object.keys(this.refs);
+        keys.forEach(el=>{
+            if(this.isFormElement(this.refs[el])){
+                const value= this.refs[el].value;
+                const validators= this.refs[el].getAttribute("data-validators")?.split(",");
+                if(!validators) return;
+                this.onValidate(value, validators)
+            }
+        })
+    }
+
+    private isFormElement(el: unknown): el is HTMLInputElement | HTMLTextAreaElement {
+        return el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement;
+    }
 }
