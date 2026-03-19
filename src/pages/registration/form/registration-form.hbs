@@ -1,5 +1,5 @@
 <form method="{{method}}" action="{{action}}" className="{{className}}" id="{{id}}" ref="{{ref}}" novalidate="novalidate">
-    {{{ InputBlock block="registration" type="email" label="Почта" name="email" validators="required"}}}
+    {{{ InputBlock block="registration" type="email" label="Почта" name="email" validators="required,email"}}}
     {{{ InputBlock block="registration" type="text" label="Логин" name="login" validators="required,validatorLoginPattern"}}}
     {{{ InputBlock block="registration" type="text" label="Имя" name="first_name" validators="required,username"}}}
     {{{ InputBlock block="registration" type="text" label="Фамилия" name="second_name" validators="required,username"}}}

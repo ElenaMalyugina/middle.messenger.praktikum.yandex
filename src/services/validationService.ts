@@ -49,7 +49,18 @@ const validatorLoginPattern = (value: unknown)=>{
         isValid: false,
         text: "Латиница или кириллица, первая буква заглавная. Без пробелов и цифр, из спецсимволов — только дефис"
     };
+}
 
+const validatorEmailPattern = (value: unknown)=>{
+    const pattern = /^[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z0-9._-]*$/;
+
+    if(value && typeof value == "string" && pattern.test(value)){
+        return noError
+    }
+    return {
+        isValid: false,
+        text: "Адрес электронной почты неверен"
+    };
 }
 
 export const validate = (value: unknown, validators:string[]): formError =>{
@@ -64,6 +75,10 @@ export const validate = (value: unknown, validators:string[]): formError =>{
 
         if(validator == "username"){
             return validatorUserNamePattern(value);
+        }
+
+        if(validator == "email"){
+            return validatorEmailPattern(value)
         }
 
         if(validator == "validatorLoginPattern"){
