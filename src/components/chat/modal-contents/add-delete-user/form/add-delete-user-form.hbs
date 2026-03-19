@@ -1,5 +1,5 @@
-<form className="form" action="{{action}}">
-    {{{ InputBlock type="text" label="Логин" name="login" validate="required" }}}
+<form className="form" action="{{action}}" novalidate="novalidate">
+    {{{ InputBlock type="text" label="Логин" name="login" validators="required" }}}
     {{{ Button className="button form-block__button form-block__button--last" type="submit" text=buttonText id="modal-user-button"}}}
 </form>
 
