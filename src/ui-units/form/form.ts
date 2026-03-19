@@ -6,10 +6,11 @@ import TextareaBlock from "../row-blocks/textarea-block/textarea-block";
 
 export interface FormProps extends BlockOwnProps{
     id: string;
-    className?: string;
+    className: string;
     action: string;
     method: string;
-    ref?: string;
+    ref: string;
+    data: unknown;
     errorMessage?: string | null;
 }
 
