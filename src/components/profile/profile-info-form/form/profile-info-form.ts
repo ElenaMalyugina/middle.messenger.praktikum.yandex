@@ -1,28 +1,8 @@
 import Form, { type FormProps } from "../../../../ui-units/form/form";
-import TextRowEditable from "../../../../ui-units/row-blocks/text-row-editable/text-row-editable";
 import ProfileInfoFormTemplate from "./profile-info-form.hbs?raw";
 
-interface ProfileInfoFormProps extends FormProps{
-    formRows: (Element| null)[];
-}
-
-const createFormRows = (): (Element | null)[]=> {
-    return [
-        new TextRowEditable({ label: "Почта", value: "pochta@yandex.ru", name: "email", type:"email", validators:"required"}).element(),
-        new TextRowEditable({ label: "Логин", value: "ivanivanov", name: "login", type:"text", validators:"required"}).element(),
-        new TextRowEditable({ label: "Имя", value: "Иван", name: "first_name", type:"text", validators:"required" }).element(),
-        new TextRowEditable({ label: "Фамилия", value: "Иванов", name: "second_name", type:"text", validators:"required" }).element(),
-        new TextRowEditable({ label: "Имя в чате", value: "Иван", name: "display_name", type:"text", validators:"required" }).element(),
-        new TextRowEditable({ label: "Телефон", value: "+7 (909) 967 30 30", name: "phone", type:"text", validators:"required" }).element()
-    ];
-}
-
-export default class ProfileInfoForm extends Form<ProfileInfoFormProps> {
+export default class ProfileInfoForm extends Form<FormProps> {
     static componentName = 'ProfileInfoForm';
     protected template = ProfileInfoFormTemplate;
 
-    constructor(props:ProfileInfoFormProps){
-        const completeProps = { ...props, formRows: createFormRows()};
-        super(completeProps);
-    }
 }

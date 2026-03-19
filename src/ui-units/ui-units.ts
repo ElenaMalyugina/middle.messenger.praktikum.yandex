@@ -8,7 +8,6 @@ import Textarea from "./textarea/textarea";
 import Img from "./img/img";
 import Form from "./form/form";
 import ErrorMessage from "./error-message/error-message";
-import Table from "./table/table";
 import TextRowBlock from "./row-blocks/text-row-block/text-row-block";
 import TextRowEditable from "./row-blocks/text-row-editable/text-row-editable";
 import UploadFile from "./upload-file/upload-file";
@@ -17,7 +16,6 @@ import ExtendedButton from "./extended-button/extended-button";
 import Sidebar from './sidebar/sidebar';
 import TextareaBlock from './row-blocks/textarea-block/textarea-block';
 
-registerComponent(Table);
 registerComponent(Form);
 registerComponent(Input);
 registerComponent(Textarea);
