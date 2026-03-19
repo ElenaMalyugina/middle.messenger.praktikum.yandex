@@ -18,11 +18,15 @@ export default abstract class Form <Props extends FormProps = FormProps> extends
     protected events = {
         submit: (event: Event) => {
             event.preventDefault();
+            const validationArr: boolean[] = [];
             this.children.forEach(el=>{
                 if(this.isFormElementBlock(el)){
-                    el.onSubmitValidation()
+                    const validationResult = el.onSubmitValidation();
+                    validationArr.push(validationResult)
                 }
             })
+
+            if(validationArr.some(value => !value)) return;
 
             tempSubmitHandler(this.refs);
         },

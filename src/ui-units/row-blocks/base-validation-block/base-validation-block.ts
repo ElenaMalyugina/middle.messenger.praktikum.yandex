@@ -4,7 +4,7 @@ import ErrorMessage from "../../error-message/error-message";
 
 export interface BaseValidationProps extends BlockOwnProps{
     validators: string;
-    onValidate?: (val:unknown, validators: string[])=>void;
+    onValidate?: (val:unknown, validators: string[])=>boolean;
     cleanValidate?: ()=>void;
 }
 
@@ -17,6 +17,8 @@ export default abstract class BaseValidationBlock<Props extends BaseValidationPr
         if(errorMessageBlock){
             errorMessageBlock.setProps({message: error.text});
         }
+
+        return error.isValid;
     }
 
     cleanValidate=()=>{
@@ -30,14 +32,18 @@ export default abstract class BaseValidationBlock<Props extends BaseValidationPr
 
     onSubmitValidation=()=>{
         const keys = Object.keys(this.refs);
+        let result = false;
+
         keys.forEach(el=>{
             if(this.isFormElement(this.refs[el])){
                 const value= this.refs[el].value;
                 const validators= this.refs[el].getAttribute("data-validators")?.split(",");
-                if(!validators) return;
-                this.onValidate(value, validators)
+                if(!validators) return true;
+                result = this.onValidate(value, validators);
             }
         })
+
+        return result;
     }
 
     private isFormElement(el: unknown): el is HTMLInputElement | HTMLTextAreaElement {
