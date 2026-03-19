@@ -33,7 +33,19 @@ const validatorUserNamePattern = (value:unknown)=>{
     if(value && typeof value == "string" && pattern.test(value)){
         return noError
     }
-     return {
+    return {
+        isValid: false,
+        text: "Латиница или кириллица, первая буква заглавная. Без пробелов и цифр, из спецсимволов — только дефис"
+    };
+}
+
+const validatorLoginPattern = (value: unknown)=>{
+    const pattern=/^(?=.{3,20}$)(?![0-9]+$)[a-zA-Z0-9_-]+$/;
+
+    if(value && typeof value == "string" && pattern.test(value)){
+        return noError
+    }
+    return {
         isValid: false,
         text: "Латиница или кириллица, первая буква заглавная. Без пробелов и цифр, из спецсимволов — только дефис"
     };
@@ -52,6 +64,10 @@ export const validate = (value: unknown, validators:string[]): formError =>{
 
         if(validator == "username"){
             return validatorUserNamePattern(value);
+        }
+
+        if(validator == "validatorLoginPattern"){
+            return validatorLoginPattern(value);
         }
         return noError
     })
