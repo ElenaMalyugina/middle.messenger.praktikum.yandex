@@ -2,33 +2,39 @@ import "./chat-item.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import ChatItemTemplate from "./chat-item.hbs?raw";
 
-export interface ChatItemProps extends BlockOwnProps{
+export interface ChatData{
     id: number;
     title: string;
     avatarUrl: string;
     unreadСount:number;
-    isActive: boolean;
     lastMessage:{
         time:string;
         text: string;
     };
-    selectChatEmit?: (id:number)=>void
 }
 
-
+export interface ChatItemProps extends BlockOwnProps{
+    chatData: ChatData;
+    isActive: boolean;
+    selectChatEmit: (id:number)=>void
+}
 
 export default class ChatItem extends Block<ChatItemProps>{
     static componentName = 'ChatItem';
     protected template = ChatItemTemplate;
 
+    constructor(props:ChatItemProps){
+        super(props)
+    }
+
     public getId():number{
-        return this.props.id || -1;
+        return this.props.chatData.id || -1;
     }
 
     protected events = {
         click: () => {
-            if(this.props.selectChatEmit && this.props.id){
-                this.props.selectChatEmit(this.props.id);
+            if(this.props.selectChatEmit && this.props.chatData.id){
+                this.props.selectChatEmit(this.props.chatData.id);
             }
         }
     }

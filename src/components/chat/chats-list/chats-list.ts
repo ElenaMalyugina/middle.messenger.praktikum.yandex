@@ -36,9 +36,11 @@ export default class ChatsList extends Block<ChatsListProps>{
     protected componentDidMount(): void {
         this.setProps({
             chats: chats.map(chat => ({
-                ...chat,
-                selectChatEmit: this.selectChat,
-                isActive: false
+                chatData:{
+                    ...chat,
+                },
+                isActive: false,
+                selectChatEmit: this.selectChat
             }))
         });
     }

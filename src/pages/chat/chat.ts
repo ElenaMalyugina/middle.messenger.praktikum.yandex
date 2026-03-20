@@ -164,11 +164,11 @@ modalShow("#user-button-add", modalAddUser);
 modalShow("#user-button-delete", modalDeleteUser);
 modalHide("#chat-modal");
 
-interface ChatProps extends BlockOwnProps{
+interface ChatPageProps extends BlockOwnProps{
     selectedChatEmit?: (id:number)=>void;
 }
 
-export default class Chat extends Block<ChatProps>{
+export default class Chat extends Block<ChatPageProps>{
     static componentName = 'Chat';
     protected template = chatTemplate;
 
@@ -182,7 +182,7 @@ export default class Chat extends Block<ChatProps>{
         }
     }
 
-    constructor(props: ChatProps) {
+    constructor(props: ChatPageProps) {
         super(props);
         this.setProps({
             selectedChatEmit: this.setIsSelectedChat

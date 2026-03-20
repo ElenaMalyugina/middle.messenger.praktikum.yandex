@@ -1,9 +1,7 @@
 <ul class="chats-list  sidebar__chat-list js-chats-list">
     {{#each chats as | chatItem |}}
-        {{{ ChatItem avatarUrl=avatarUrl
-            id=id isActiveClass=isActiveClass
-            title=title unreadСount=unreadСount
-            lastMessage=lastMessage ref=(concat "chatItem-"id)
+        {{{ ChatItem chatData=chatData
+            isActive=isActive
             selectChatEmit=selectChatEmit }}}
     {{/each}}
 </ul>
