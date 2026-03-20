@@ -9,10 +9,14 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "start": "tsc --noEmit && vite build && vite preview"
+    "start": "tsc --noEmit && vite build && vite preview",
+    "lint": "eslint ."
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "autoprefixer": "^10.4.27",
+    "eslint": "^10.1.0",
+    "globals": "^17.4.0",
     "postcss": "^8.5.8",
     "postcss-extend-rule": "^4.0.0",
     "postcss-nested": "^7.0.2",
