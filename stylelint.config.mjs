@@ -19,8 +19,5 @@ export default {
         }
     ],
     'no-duplicate-selectors': null, // БЭМ, вложенные селекторы, медиазапросы
-
-
-
   }
 };
