@@ -3,6 +3,6 @@
         {{#if isChangedDate}}
         <li class="time messages-list__time">{{#getDayAndYear time}}{{/getDayAndYear}}</li>
         {{/if}}
-        {{{ MessageItem block="chat" content=content time=time file=file isAuthor=isAuthor isActive=isActive  }}}
+        {{{ MessageItem block="chat" message=messageItem  }}}
     {{/each}}
 </ul>

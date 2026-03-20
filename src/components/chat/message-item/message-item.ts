@@ -2,11 +2,12 @@ import "./message-item.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import MessageItemTemplate from "./message-item.hbs?raw";
 
-interface MessageItemSettingsProps extends BlockOwnProps{
+export interface MessageItemProps extends BlockOwnProps{
     block: string;
+    message: Message
 }
 
-export interface MessageItemProps{
+export interface Message{
     id: number;
     chat_id: number;
     user_id: number;
@@ -19,12 +20,8 @@ export interface MessageItemProps{
     isAuthor: boolean;
 }
 
-type MessageItemCombinedProps = MessageItemSettingsProps&MessageItemProps
-
-export default class MessageItem extends Block<MessageItemCombinedProps>{
+export default class MessageItem extends Block<MessageItemProps>{
     static componentName = 'MessageItem';
     protected template = MessageItemTemplate;
-
-
 
 }
