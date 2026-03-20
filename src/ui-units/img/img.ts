@@ -6,9 +6,9 @@ interface InputProps extends BlockOwnProps {
     className: string;
     src: string;
     alt: string;
-    ref: string;
     width: number;
     height: number;
+    ref: string;
 }
 
 export default class Img extends Block<InputProps>{

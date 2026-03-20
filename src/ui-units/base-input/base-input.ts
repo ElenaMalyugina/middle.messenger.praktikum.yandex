@@ -18,41 +18,34 @@ export default abstract class BaseInput<T extends  BaseValidatedInputProps = Bas
     protected events = {
         input: () => {
             const keys = Object.keys(this.refs);
-            keys.forEach(el=>{
-                if(this.isFormElement(this.refs[el])){
-                    if(this.props.onInput){
-                        this.props.onInput(this.refs[el]);
-                    }
-                }
-            });
+            const input = this.refs[keys[0]];
+            if(this.props.onInput){
+                this.props.onInput(input);
+            }
         },
         blur: () => {
             const keys = Object.keys(this.refs);
-            keys.forEach(el=>{
-                if(!this.props.validators) return;
-                const validatorsArray= this.props.validators.split(",");
+            const input = this.refs[keys[0]];
 
-                if(!validatorsArray) return;
-                if(this.isFormElement(this.refs[el])){
-                    if(this.props.onValidate){
-                        this.props.onValidate(this.refs[el].value, validatorsArray);
-                    }
+            if(!this.props.validators) return;
+            const validatorsArray= this.props.validators.split(",");
+            if(!validatorsArray) return;
+
+            if(this.isFormElement(input)){
+                if(this.props.onValidate){
+                    this.props.onValidate(input.value, validatorsArray);
                 }
-            });
+            }
         },
         focus: ()=>{
-            const keys = Object.keys(this.refs);
-            keys.forEach(el=>{
-                if(this.isFormElement(this.refs[el])){
-                    if(this.props.cleanValidate){
-                        this.props.cleanValidate();
-                    }
-                }
-            })
+            if(this.props.cleanValidate){
+                this.props.cleanValidate();
+            }
         }
-    };
+    }
 
     private isFormElement(el: unknown): el is HTMLInputElement | HTMLTextAreaElement {
         return el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement;
     }
+
 }
