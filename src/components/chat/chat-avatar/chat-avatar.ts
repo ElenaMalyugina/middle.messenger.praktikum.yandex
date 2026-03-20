@@ -1,17 +1,26 @@
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import ChatAvatarTemplate from "./chat-avatar.hbs?raw";
 
+const avatarMock={
+    avatarUrl: "avatar.png"
+}
+
 interface UserAvatar{
     avatarUrl:string;
 }
 
-interface ChatAvatarSettings extends BlockOwnProps{
+interface ChatAvatarBlock extends BlockOwnProps{
     addClass: string;
+    avatar: UserAvatar;
 }
 
-type ChatAvatarCombinedProps= UserAvatar & ChatAvatarSettings;
-
-export default class ChatAvatar extends Block<ChatAvatarCombinedProps>{
+export default class ChatAvatar extends Block<ChatAvatarBlock>{
     static componentName = 'ChatAvatar';
     protected template = ChatAvatarTemplate;
+
+    constructor(props:ChatAvatarBlock){
+        super(props)
+
+        this.props.avatar = avatarMock;
+    }
 }

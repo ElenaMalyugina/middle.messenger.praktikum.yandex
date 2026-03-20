@@ -3,10 +3,12 @@ import inputBlockTemplate from "./input-block.hbs?raw";
 import BaseValidationBlock, { type BaseValidationProps } from "../base-validation-block/base-validation-block";
 
 interface InputBlockProps extends BaseValidationProps{
+    id:string;
     block: string;
     type: string;
     label: string;
     name: string;
+    value?: string;
     onInput: (el:HTMLInputElement)=>void;
 }
 

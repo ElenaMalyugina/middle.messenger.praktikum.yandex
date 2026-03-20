@@ -3,7 +3,6 @@ import "/src/components/chat/popup-contents/popup-contents.css";
 import "/src/components/chat/modal-contents/modal-contents.css";
 import Handlebars from "handlebars";
 import {getDayYearString, getTimeString} from "../../utils/datetime.ts";
-import addUser from "/src/components/chat/modal-contents/add-delete-user/add-delete-user.hbs?raw";
 import { registerComponent } from './../../framework/RegisterComponent';
 import chatTemplate from "./chat.hbs?raw";
 import NoMessages from "../../components/chat/no-messages/no-messages.ts";
@@ -27,7 +26,7 @@ import ChatBody from "../../components/chat/chat-body/chat-body.ts";
 import AddDeleteUser from "../../components/chat/modal-contents/add-delete-user/add-delete-user.ts";
 import AddDeleteUserForm from "../../components/chat/modal-contents/add-delete-user/form/add-delete-user-form.ts";
 
-//склейка урла
+//склейка строк
 Handlebars.registerHelper('concat', function() {
   return Array.prototype.slice.call(arguments, 0, -1).join('');
 });

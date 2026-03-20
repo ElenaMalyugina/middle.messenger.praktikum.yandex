@@ -5,6 +5,7 @@ import type { BaseValidationProps } from "../base-validation-block/base-validati
 import BaseValidationBlock from "../base-validation-block/base-validation-block";
 
 interface TextRowEditableProps extends BaseValidationProps{
+    id:string;
     type: string;
     label: string;
     name: string;

@@ -1,3 +1,4 @@
+import Handlebars from "handlebars";
 import { registerComponent } from '../framework/RegisterComponent';
 import Input from "./input/input";
 import Label from "./label/label";
@@ -15,6 +16,11 @@ import Popup from "./popup/popup";
 import ExtendedButton from "./extended-button/extended-button";
 import Sidebar from './sidebar/sidebar';
 import TextareaBlock from './row-blocks/textarea-block/textarea-block';
+
+//склейка строк
+Handlebars.registerHelper('concat', function() {
+  return Array.prototype.slice.call(arguments, 0, -1).join('');
+});
 
 registerComponent(Form);
 registerComponent(Input);

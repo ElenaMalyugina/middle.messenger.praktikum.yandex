@@ -1,7 +1,7 @@
 import BaseInput, { type BaseValidatedInputProps } from "../base-input/base-input";
 import InputTemplate from "./input.hbs?raw";
 
-type inputTypes = "text" | "password"; //дополнитть по мере приименения
+type inputTypes = "text" | "password"; //дополнить по мере приименения
 
 interface InputProps extends BaseValidatedInputProps {
     type: inputTypes;
