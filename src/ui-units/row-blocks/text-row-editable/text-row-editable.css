@@ -21,7 +21,7 @@
 .text-row__input{
     text-align: left;
     border-bottom-color: transparent;
-    padding: 0 0 3px 0;
+    padding: 0 0 3px;
 
     &-focus{
         border-bottom-color: var(--second-color);
@@ -29,7 +29,7 @@
 }
 
 .text-row__td--editable{
-    padding: 10px 0 0 0;
+    padding: 10px 0 0;
 }
 
 .text-row__input:focus, .text-row__input:hover{

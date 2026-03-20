@@ -1,6 +1,7 @@
 svg{
     flex-shrink: 0;
 }
+
 .popup__list{
     padding: 0;
     list-style-type:none;
@@ -8,7 +9,7 @@ svg{
 }
 
 .popup__item{
-    margin: 0 0 10px 0;
+    margin: 0 0 10px;
 
     &--last{
         margin-bottom: 0;

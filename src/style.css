@@ -1,5 +1,5 @@
 @font-face{
-    font-family: "Inter";
+    font-family: Inter;
     src: url("/fonts/Inter.ttf");
 }
 
@@ -31,7 +31,6 @@
   padding: 0;
   white-space: nowrap;
   clip-path: inset(100%);
-  clip: rect(0 0 0 0);
   overflow: hidden;
 }
 
@@ -115,7 +114,8 @@ body{
 
 .blue-round-button{
     @extend .round-button;
-    background:url(/img/arrow-right.svg) center center no-repeat, var(--second-color);
+
+    background:url("/img/arrow-right.svg") center center no-repeat, var(--second-color);
     color: var(--third-color);
 
     &--revert{
@@ -135,6 +135,7 @@ body{
 
 .attache-button{
     @extend .round-button;
+
     background: url("/img/attache.svg") center center no-repeat;
 
     &--active{
@@ -150,6 +151,7 @@ body{
 
 .dots-button{
     @extend .round-button;
+
     background: url("/img/dots-button.svg") center center no-repeat, var(--fourth-color);
 
     &--active{

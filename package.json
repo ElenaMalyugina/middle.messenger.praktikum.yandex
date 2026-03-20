@@ -10,7 +10,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "start": "tsc --noEmit && vite build && vite preview",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "lint:css": "stylelint **/*.css"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -22,6 +23,8 @@
     "postcss": "^8.5.8",
     "postcss-extend-rule": "^4.0.0",
     "postcss-nested": "^7.0.2",
+    "stylelint": "^17.5.0",
+    "stylelint-config-standard": "^40.0.0",
     "typescript": "~5.9.3",
     "vite": "^7.3.1"
   },

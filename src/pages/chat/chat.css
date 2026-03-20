@@ -1,6 +1,7 @@
 .chat{
     display: flex;
     height: 100%;
+
     --padding: 40px;
 }
 
@@ -48,9 +49,10 @@
 }
 
 
-@media (max-width: 700px) {
+@media (width <= 700px) {
     .chat{
         position: relative;
+
         --padding: 10px;
     }
 
