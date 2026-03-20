@@ -1,9 +1,6 @@
 import Block, {type BlockOwnProps }  from "../../framework/Block";
 import { tempSubmitHandler } from "../../services/formService";
 import BaseValidationBlock from "../row-blocks/base-validation-block/base-validation-block";
-import InputBlock from "../row-blocks/input-block/input-block";
-import TextRowEditable from "../row-blocks/text-row-editable/text-row-editable";
-import TextareaBlock from "../row-blocks/textarea-block/textarea-block";
 
 export interface FormProps extends BlockOwnProps{
     id: string;
