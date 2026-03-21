@@ -20,11 +20,13 @@ import MessagesBoxHeader from "../../components/chat/messages-box-header/message
 import MessageSend from "../../components/chat/message-send/message-send.ts";
 import MessagesSendForm from "../../components/chat/message-send/form/messages-send-form.ts";
 import ChatSearchForm from "../../components/chat/chat-search/form/chat-search-form.ts";
-import PopupFilesForm from "../../components/chat/popup-contents/popup-files/popup-files-form.ts";
+
 import PopupUser from "../../components/chat/popup-contents/popup-user/popup-user.ts";
 import ChatBody from "../../components/chat/chat-body/chat-body.ts";
 import AddDeleteUser, { type AddDeleteUserProps } from "../../components/chat/modal-contents/add-delete-user/add-delete-user.ts";
 import AddDeleteUserForm from "../../components/chat/modal-contents/add-delete-user/form/add-delete-user-form.ts";
+import PopupFilesForm from "../../components/chat/popup-contents/popup-files/form/popup-files-form.ts";
+import PopupFiles from "../../components/chat/popup-contents/popup-files/popup-files.ts";
 
 //Получение даты в читаемом формате
 Handlebars.registerHelper("getDayAndYear", function(dateString){
@@ -51,6 +53,7 @@ registerComponent(MessagesList);
 registerComponent(MessageItem);
 registerComponent(MessageSend);
 registerComponent(MessagesSendForm);
+registerComponent(PopupFiles);
 registerComponent(PopupFilesForm);
 registerComponent(PopupUser);
 registerComponent(AddDeleteUser);

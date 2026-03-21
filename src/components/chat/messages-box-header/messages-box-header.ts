@@ -1,6 +1,7 @@
 import "./messages-box-header.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import MessagesBoxHeaderTemplate from "./messages-box-header.hbs?raw";
+import PopupUser from "../popup-contents/popup-user/popup-user";
 
 const dataMock: MessagesBoxHeaderData = {
     title: "Приветственный чат",
