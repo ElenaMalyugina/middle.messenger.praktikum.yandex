@@ -26,11 +26,6 @@ import ChatBody from "../../components/chat/chat-body/chat-body.ts";
 import AddDeleteUser from "../../components/chat/modal-contents/add-delete-user/add-delete-user.ts";
 import AddDeleteUserForm from "../../components/chat/modal-contents/add-delete-user/form/add-delete-user-form.ts";
 
-//склейка строк
-Handlebars.registerHelper('concat', function() {
-  return Array.prototype.slice.call(arguments, 0, -1).join('');
-});
-
 //Получение даты в читаемом формате
 Handlebars.registerHelper("getDayAndYear", function(dateString){
     return getDayYearString(dateString);
@@ -63,21 +58,20 @@ registerComponent(AddDeleteUserForm);
 
 const toggleSidebarVisible = ()=>{
     const mobileBreakpoint = 700;
+    if(window.innerWidth > mobileBreakpoint) return;
     document.addEventListener("click", function(e: Event){
-        if(window.innerWidth > mobileBreakpoint) return;
-
         const sidebar = document.querySelector("#chat-sidebar");
         const target = e.target as HTMLElement;
-
         if(!sidebar || ! sidebar.contains(e.target as Node)) return;
 
         const classActive = "chat__sidebar--active";
 
-        target.addEventListener("click", ()=>{
-            if(!target.classList.contains(classActive)){
-                target.classList.add(classActive);
-            }
-        })
+        if(!target.classList.contains(classActive)){
+            target.classList.add(classActive);
+        }
+        else{
+            target.classList.remove(classActive);
+        }
     })
 }
 
@@ -184,9 +178,9 @@ export default class Chat extends Block<ChatPageProps>{
 
     constructor(props: ChatPageProps) {
         super(props);
-        this.setProps({
-            selectedChatEmit: this.setIsSelectedChat
-        });
+
+        this.props.selectedChatEmit = this.setIsSelectedChat;
+
     }
 }
 
