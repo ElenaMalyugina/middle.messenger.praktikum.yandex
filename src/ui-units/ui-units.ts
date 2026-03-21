@@ -1,5 +1,6 @@
 //Эти компоненты используются только на уровне css
 import "./popup/popup.css";
+import "./extended-button/extended-button.css";
 
 import Handlebars from "handlebars";
 import { registerComponent } from '../framework/RegisterComponent';
@@ -15,7 +16,6 @@ import ErrorMessage from "./error-message/error-message";
 import TextRowBlock from "./row-blocks/text-row-block/text-row-block";
 import TextRowEditable from "./row-blocks/text-row-editable/text-row-editable";
 import UploadFile from "./upload-file/upload-file";
-import ExtendedButton from "./extended-button/extended-button";
 import Sidebar from './sidebar/sidebar';
 import TextareaBlock from './row-blocks/textarea-block/textarea-block';
 
@@ -39,7 +39,7 @@ registerComponent(TextareaBlock);
 
 Sidebar.register();
 UploadFile.register();
-ExtendedButton.register();
+
 
 
 

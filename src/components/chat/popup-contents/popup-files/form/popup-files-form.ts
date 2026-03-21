@@ -5,5 +5,4 @@ export default class PopupFilesForm extends Form{
     static componentName = 'PopupFilesForm';
     protected template = PopupFilesFormTemplate;
 
-
 }
