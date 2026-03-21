@@ -2,19 +2,18 @@ import "/src/components/profile/profile-avatar/profile-avatar.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import ProfileAvatarTemplate from "./profile-avatar.hbs?raw";
 
-interface ProfileAvatarProps extends BlockOwnProps{
-    isEditable: boolean;
-    currentForm?: string;
-}
-
 interface UserData{
     profileImg: string;
     profileName: string;
 }
 
-type ProfileAvatarCombinedProps = ProfileAvatarProps & UserData;
+interface ProfileAvatarProps extends BlockOwnProps{
+    isEditable: boolean;
+    currentForm?: string;
+    userData: UserData;
+}
 
-export default class ProfileAvatar extends Block<ProfileAvatarCombinedProps>{
+export default class ProfileAvatar extends Block<ProfileAvatarProps>{
     static componentName = 'ProfileAvatar';
     protected template = ProfileAvatarTemplate;
 
@@ -23,8 +22,8 @@ export default class ProfileAvatar extends Block<ProfileAvatarCombinedProps>{
         profileName: "Иван"
     }
 
-    constructor(props:ProfileAvatarCombinedProps){
+    constructor(props:ProfileAvatarProps){
         super(props);
-        this.setProps({...this.initAllPropsMock});
+        this.setProps({userData: {...this.initAllPropsMock}});
     }
 }

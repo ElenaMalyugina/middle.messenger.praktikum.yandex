@@ -30,7 +30,7 @@ export default abstract class Form <Props extends FormProps = FormProps> extends
                 }
             })
 
-            //если хоть одна ошика на форме - выходим
+            //если хоть одна ошибка на форме - выходим
             if(validationArr.some(value => !value)) return;
 
             //если ошибок нет, запусакем отправку формы

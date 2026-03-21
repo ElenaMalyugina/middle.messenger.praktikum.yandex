@@ -26,12 +26,12 @@ export default [
       sourceType: "module",
       globals: {
         ...globals.browser,
-        ...globals.dom,  // Добавляет глобальные типы DOM (включая HTMLElementEventMap)
+        ...globals.dom,
         ...globals.es2020
       }
     },
     plugins: {
-      "@typescript-eslint": ts // Подключаем плагин TypeScript
+      "@typescript-eslint": ts
     },
     rules: {
       // Базовые правила TypeScript

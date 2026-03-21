@@ -13,11 +13,11 @@ export default class MessagesSendForm extends Form<MessagesSendFormProps>{
     static componentName = 'MessagesSendForm';
     protected template = MessagesSendFormTemplate;
 
-    protected message: Message;
-
     constructor(props:MessagesSendFormProps){
         super(props)
-        this.message = props.data
+        this.props.data = {
+            message:""
+        };
     }
 
 }
