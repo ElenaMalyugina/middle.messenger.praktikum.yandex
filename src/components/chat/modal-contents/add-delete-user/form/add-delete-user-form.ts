@@ -18,9 +18,10 @@ export default class AddDeleteUserForm extends Form<AddDeleteUserFormProps>{
     protected componentDidMount(): void {
         this.setProps({
             data: {
-                name: "fddgf"
+                name: ""
             },
-            action: this.props.formSettings.action
+            action: this.props.formSettings?.action || "",
+            buttonText: this.props.buttonText
         })
     }
 

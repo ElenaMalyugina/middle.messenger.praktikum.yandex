@@ -140,7 +140,7 @@ const modalShow = (selector:string, params: AddDeleteUserProps)=>{
         modal.showModal();
         const content = new AddDeleteUser({...params}).element();
         if(content){
-             modal.appendChild(content);
+            modal.appendChild(content);
         }
     })
 }

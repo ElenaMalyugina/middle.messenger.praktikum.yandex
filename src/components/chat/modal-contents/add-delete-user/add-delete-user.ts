@@ -11,6 +11,4 @@ export interface AddDeleteUserProps extends BlockOwnProps{
 export default class AddDeleteUser extends Block<AddDeleteUserProps>{
     static componentName = 'AddDeleteUser';
     protected template = AddDeleteUserTemplate;
-
-
 }
