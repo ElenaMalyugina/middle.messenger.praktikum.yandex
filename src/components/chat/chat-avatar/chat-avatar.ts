@@ -20,7 +20,11 @@ export default class ChatAvatar extends Block<ChatAvatarBlock>{
 
     constructor(props:ChatAvatarBlock){
         super(props)
+    }
 
-        this.props.avatar = avatarMock;
+    protected componentDidMount(): void {
+        this.setProps({
+            avatar: {...avatarMock}
+        })
     }
 }

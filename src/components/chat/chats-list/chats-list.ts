@@ -15,10 +15,6 @@ export default class ChatsList extends Block<ChatsListProps>{
     static componentName = 'ChatsList';
     protected template = ChatsListTemplate;
 
-    constructor(props: ChatsListProps){
-        super(props);
-    }
-
     protected selectChat=(id: number)=>{
         this.children.forEach(chatItem=>{
             if (chatItem instanceof ChatItem) {

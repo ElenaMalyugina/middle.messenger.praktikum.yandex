@@ -4,7 +4,7 @@ import MessageItemTemplate from "./message-item.hbs?raw";
 
 export interface MessageItemProps extends BlockOwnProps{
     block: string;
-    message: Message
+    message: Message;
 }
 
 export interface Message{

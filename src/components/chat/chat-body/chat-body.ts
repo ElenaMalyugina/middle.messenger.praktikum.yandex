@@ -10,4 +10,5 @@ export default class ChatBody extends Block<ChatBodyProps>{
     protected template = ChatBodyTemplate;
 
 
+
 }

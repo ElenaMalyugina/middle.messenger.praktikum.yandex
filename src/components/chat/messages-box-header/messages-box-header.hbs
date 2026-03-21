@@ -1,8 +1,10 @@
 <header class="messages-box-header messages-box__messages-box-header">
+    {{#with data}}
     <div class="messages-box-header__info">
-        {{{ ChatAvatar addClass="messages-box-header__chat-avatar" avatarUrl="avatar.png" title="Имя пользователя"}}}
+        {{{ ChatAvatar addClass="messages-box-header__chat-avatar" avatarUrl=avatarUrl title=userName}}}
         <h2 class="messages-box-header__header">{{title}}</h2>
     </div>
+    {{/with}}
     {{{Button className="dots-button user-button message-box-header__user-button" id="user-button" type="button" text="Действия с пользователями"}}}
     {{#> custom-popup className="popup user-popup message-box-header__user-popup" id="user-popup"}}
         {{{ PopupUser}}}

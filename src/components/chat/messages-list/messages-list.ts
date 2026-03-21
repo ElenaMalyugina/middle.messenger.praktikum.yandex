@@ -26,12 +26,14 @@ export default class MessagesList extends Block<MessagesListProps>{
             if(isChangedDate){
                 mess.isChangedDate = true;
             }
-            mess.isAuthor = mess.user_id === 111; /*доделать тип*/
+            mess.isAuthor = mess.user_id === 111; /*для демо предположим, что у юзера id=111*/
             return mess;
         })
 
         const resMessages = messagesWithIsChangedDate;
 
-        this.setProps({messages: resMessages });
+        this.setProps({
+            messages: {...resMessages
+        }});
     }
 }

@@ -3,12 +3,18 @@
         <figure class="profile-avatar__wrapper">
             {{#if isEditable}}
                 {{#> upload-file className="avatar-label" for="avatar" title="Изменить файл" name="avatar" form=currentForm }}
-                    {{{ Img className="profile-avatar__img" src=profileImg alt=profileName width="130" height="130"}}}
+                    {{#with userData}}
+                        {{{ Img className="profile-avatar__img" src=profileImg alt=profileName width="130" height="130"}}}
+                    {{/with}}
                 {{/upload-file}}
             {{else}}
-                {{{ Img className="profile-avatar__img" src=profileImg alt=profileName width="130" height="130" }}}
+                {{#with userData}}
+                    {{{ Img className="profile-avatar__img" src=profileImg alt=profileName width="130" height="130" }}}
+                {{/with}}
             {{/if}}
         </figure>
-        <h1 class="profile-header profile-avatar__header">{{ profileName }}</h1>
+        {{#with userData}}
+            <h1 class="profile-header profile-avatar__header">{{ profileName }}</h1>
+        {{/with}}
     </div>
 </section>

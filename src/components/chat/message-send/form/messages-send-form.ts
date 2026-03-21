@@ -15,9 +15,15 @@ export default class MessagesSendForm extends Form<MessagesSendFormProps>{
 
     constructor(props:MessagesSendFormProps){
         super(props)
-        this.props.data = {
-            message:""
-        };
+    }
+
+    protected componentDidMount(): void {
+        this.setProps({
+                data:{
+                    message: ""
+                }
+            }
+        )
     }
 
 }
