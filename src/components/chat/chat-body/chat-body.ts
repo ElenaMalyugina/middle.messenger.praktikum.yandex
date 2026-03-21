@@ -8,7 +8,4 @@ interface ChatBodyProps extends BlockOwnProps{
 export default class ChatBody extends Block<ChatBodyProps>{
     static componentName = 'ChatBody';
     protected template = ChatBodyTemplate;
-
-
-
 }

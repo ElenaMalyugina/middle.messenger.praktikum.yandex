@@ -1,30 +1,26 @@
 import Form, { type FormProps } from "../../../../../ui-units/form/form";
 import AddDeleteUserFormTemplate from "./add-delete-user-form.hbs?raw";
 
-interface AddDeleteUser{
-    name: string;
+interface AddDeleteUserDataProps{
+    name:string
 }
 
-interface AddDeleteUserProps extends FormProps{
-    title: string,
-    action: string,
+interface AddDeleteUserFormProps extends FormProps{
+    data: AddDeleteUserDataProps;
     buttonText: string;
-    data: AddDeleteUser;
+    formSettings: Partial<FormProps>;
 }
 
-export default class AddDeleteUserForm extends Form<AddDeleteUserProps>{
+export default class AddDeleteUserForm extends Form<AddDeleteUserFormProps>{
     static componentName = 'AddDeleteUserForm';
     protected template = AddDeleteUserFormTemplate;
 
-    constructor(props:AddDeleteUserProps){
-        super(props)
-    }
-
     protected componentDidMount(): void {
         this.setProps({
-            data:{
-                name: ""
-            }
+            data: {
+                name: "fddgf"
+            },
+            action: this.props.formSettings.action
         })
     }
 

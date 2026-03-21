@@ -23,7 +23,7 @@ import ChatSearchForm from "../../components/chat/chat-search/form/chat-search-f
 import PopupFilesForm from "../../components/chat/popup-contents/popup-files/popup-files-form.ts";
 import PopupUser from "../../components/chat/popup-contents/popup-user/popup-user.ts";
 import ChatBody from "../../components/chat/chat-body/chat-body.ts";
-import AddDeleteUser from "../../components/chat/modal-contents/add-delete-user/add-delete-user.ts";
+import AddDeleteUser, { type AddDeleteUserProps } from "../../components/chat/modal-contents/add-delete-user/add-delete-user.ts";
 import AddDeleteUserForm from "../../components/chat/modal-contents/add-delete-user/form/add-delete-user-form.ts";
 
 //Получение даты в читаемом формате
@@ -113,16 +113,21 @@ const dialogShow = (selectorButton: string, selectorPopup: string, activeClass: 
 const modalAddUser = {
     title: "Добавить пользователя",
     action: "/chat",
-    buttonText: "Добавить"
+    buttonText: "Добавить",
+    formSettings:{
+        action: "/add"
+    }
 }
 const modalDeleteUser = {
     title: "Удалить пользователя",
-    action: "/chat",
-    buttonText: "Удалить"
+    buttonText: "Удалить",
+    formSettings:{
+        action: "/delete"
+    }
 }
 
 //открытие модального окна
-const modalShow = (selector:string, params: {})=>{
+const modalShow = (selector:string, params: AddDeleteUserProps)=>{
     document.addEventListener("click", function(e){
         const button = document.querySelector(selector);
         if(!button || !button.contains(e.target as Node)) return;

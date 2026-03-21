@@ -18,10 +18,6 @@ export default class ChatAvatar extends Block<ChatAvatarBlock>{
     static componentName = 'ChatAvatar';
     protected template = ChatAvatarTemplate;
 
-    constructor(props:ChatAvatarBlock){
-        super(props)
-    }
-
     protected componentDidMount(): void {
         this.setProps({
             avatar: {...avatarMock}

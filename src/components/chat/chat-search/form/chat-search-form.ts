@@ -16,9 +16,13 @@ export default class ChatSearchForm extends Form<ChatSearchFormProps>{
     //Пока в ТЗ нет описания, как это должно работать
     constructor(props: ChatSearchFormProps){
         super(props);
+    }
 
-        this.props.data={
-            searchString: ""
-        }
+    protected componentDidMount(): void {
+        this.setProps({
+            data: {
+                searchString: ""
+            }
+        })
     }
 }
