@@ -24,18 +24,6 @@ Handlebars.registerHelper('concat', function() {
   return Array.prototype.slice.call(arguments, 0, -1).join('');
 });
 
-Handlebars.registerHelper('safeHTML', function(content) {
-  if (!content) return '';
-
-  // Если это DOM‑элемент, берём его outerHTML
-  if (content.nodeType) {
-    return new Handlebars.SafeString(content.outerHTML);
-  }
-
-  // Если уже строка с HTML, помечаем как безопасную
-  return new Handlebars.SafeString(content);
-});
-
 registerComponent(Form);
 registerComponent(Input);
 registerComponent(Textarea);
@@ -51,7 +39,6 @@ registerComponent(TextareaBlock);
 
 Sidebar.register();
 UploadFile.register();
-//Popup.register();
 ExtendedButton.register();
 
 
