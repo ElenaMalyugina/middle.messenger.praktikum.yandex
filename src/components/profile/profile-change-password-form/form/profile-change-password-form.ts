@@ -1,7 +1,7 @@
 import Form, { type FormProps } from "../../../../ui-units/form/form";
 import ProfileChangePasswordFormTemplate from "./profile-change-password-form.hbs?raw";
 
-const mockData: ChangePassword ={
+const initialData: ChangePassword ={
     old_password: "",
     new_password: "",
     repeat_new_password: ""
@@ -23,7 +23,7 @@ export default class ProfileChangePasswordForm extends Form<ProfileChangePasswor
 
     protected componentDidMount(): void {
         this.setProps({
-            data: {...mockData}
+            data: {...initialData}
         })
     }
 }

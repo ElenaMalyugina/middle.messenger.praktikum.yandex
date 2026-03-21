@@ -1,7 +1,7 @@
 import Form, { type FormProps } from "../../../ui-units/form/form";
 import loginFormTemplate from "./login-form.hbs?raw";
 
-const mockData:Login = {
+const initialData:Login = {
     login: "",
     password: ""
 }
@@ -21,7 +21,7 @@ export default class LoginForm extends Form<LoginFormProps>{
 
     protected componentDidMount(): void {
         this.setProps({
-            data: {...mockData}
+            data: {...initialData}
         })
     }
 }

@@ -8,7 +8,6 @@ const demoUser:UserInfo={
     second_name: "Иванов",
     display_name: "Иван123",
     phone: "+7 909 967 30 30",
-    new_password: "dsffdd"
 }
 
 export interface UserInfo{
@@ -18,7 +17,6 @@ export interface UserInfo{
     second_name: string;
     display_name: string;
     phone: string;
-    new_password: string;
 }
 
 interface ProfileInfoFormProps extends FormProps{
@@ -31,7 +29,7 @@ export default class ProfileInfoForm extends Form<ProfileInfoFormProps> {
 
     protected componentDidMount(): void {
         this.setProps({
-            data: demoUser
+            data: {...demoUser}
         })
     }
 
