@@ -1,6 +1,3 @@
-//Эти компоненты используются только на уровне css
-import "./extended-button/extended-button.css";
-
 import Handlebars from "handlebars";
 import { registerComponent } from '../framework/RegisterComponent';
 import Input from "./input/input";
@@ -23,6 +20,18 @@ import Modal from "./modal/modal";
 //склейка строк
 Handlebars.registerHelper('concat', function() {
   return Array.prototype.slice.call(arguments, 0, -1).join('');
+});
+
+Handlebars.registerHelper('renderIcon', function(partialName) {
+    // Проверяем существование partial
+    if (!Handlebars.partials[partialName]) {
+        console.warn(`Partial "${partialName}" не найден`);
+    }
+
+    // Компилируем и рендерим partial
+    const html = Handlebars.partials[partialName];
+
+    return html;
 });
 
 registerComponent(Form);

@@ -5,21 +5,18 @@ export default class Modal extends Block{
     static componentName = 'Modal';
     protected template = ModalTemplate;
 
-    //открытие модального окна
-    /*modalShow = (triggerSelector:string, params: AddDeleteUserProps)=>{
-        document.addEventListener("click", function(e){
-            const button = document.querySelector(selector);
-            if(!button || !button.contains(e.target as Node)) return;
 
-            const modal = document.querySelector<HTMLDialogElement>("#chat-modal");
+    modalShow = (content: Node)=>{
+        document.addEventListener("click", (e)=>{
+            const modal = this.refs["modal"] as HTMLDialogElement;
             if(!modal) return;
             modal.showModal();
-            const content = new AddDeleteUser({...params}).element();
+
             if(content){
                 modal.appendChild(content);
             }
         })
-    }*/
+    }
 
     modalHide = ()=>{
         document.addEventListener("click", (e:Event)=>{

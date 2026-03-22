@@ -27,6 +27,8 @@ svg{
     cursor: pointer;
     text-decoration: none;
     color: var(--text-color);
+    font-size: 12px;
+    color: inherit;
 
     &--hover{
         color: var(--second-color);
@@ -37,8 +39,5 @@ svg{
    @extend .popup__row--hover;
 }
 
-.popup__text{
-    font-size: 12px;
-    color: inherit;
-}
+
 
