@@ -28,7 +28,6 @@ svg{
     text-decoration: none;
     color: var(--text-color);
     font-size: 12px;
-    color: inherit;
 
     &--hover{
         color: var(--second-color);
