@@ -18,6 +18,7 @@ import TextRowEditable from "./row-blocks/text-row-editable/text-row-editable";
 import UploadFile from "./upload-file/upload-file";
 import Sidebar from './sidebar/sidebar';
 import TextareaBlock from './row-blocks/textarea-block/textarea-block';
+import Popup from "./popup/popup";
 
 //склейка строк
 Handlebars.registerHelper('concat', function() {
@@ -36,6 +37,7 @@ registerComponent(Button);
 registerComponent(Link);
 registerComponent(Img);
 registerComponent(TextareaBlock);
+registerComponent(Popup);
 
 Sidebar.register();
 UploadFile.register();

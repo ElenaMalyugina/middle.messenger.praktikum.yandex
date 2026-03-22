@@ -79,7 +79,7 @@ const toggleSidebarVisible = ()=>{
 }
 
 //закрытие попапов
-const popupClose = (popup:HTMLDialogElement, button:Element, activeClass:string )=>{
+/*const popupClose = (popup:HTMLDialogElement, button:Element, activeClass:string )=>{
     const popupCloseHandler = function(e: Event){
         if (!popup.contains(e.target as Node) && popup.open) {
             popup.close();
@@ -90,10 +90,10 @@ const popupClose = (popup:HTMLDialogElement, button:Element, activeClass:string 
     //гарантия, что не будет доп. экземпляров
     document.removeEventListener("click", popupCloseHandler);
     document.addEventListener("click", popupCloseHandler)
-}
+}*/
 
 //открытие попапов
-const dialogShow = (selectorButton: string, selectorPopup: string, activeClass: string)=>{
+/*const dialogShow = (selectorButton: string, selectorPopup: string, activeClass: string)=>{
     document.addEventListener("click", function(e: Event){
         const button = document.querySelector(selectorButton);
         if(!button || !button.contains(e.target as Node)) return;
@@ -110,7 +110,7 @@ const dialogShow = (selectorButton: string, selectorPopup: string, activeClass: 
             button.classList.remove(activeClass);
         }
     })
-}
+}*/
 
 //настройки для модалок
 const modalAddUser = {
@@ -160,8 +160,8 @@ const modalHide = (selector: string)=>{
 
 toggleSidebarVisible();
 
-dialogShow("#attache-button", "#attache-popup", "attache-button--active");
-dialogShow("#user-button", "#user-popup", "dots-button--active");
+//dialogShow("#attache-button", "#attache-popup", "attache-button--active");
+//dialogShow("#user-button", "#user-popup", "dots-button--active");
 modalShow("#user-button-add", modalAddUser);
 modalShow("#user-button-delete", modalDeleteUser);
 modalHide("#chat-modal");
