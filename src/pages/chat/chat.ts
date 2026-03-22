@@ -57,26 +57,6 @@ registerComponent(PopupUser);
 registerComponent(AddDeleteUser);
 registerComponent(AddDeleteUserForm);
 
-const toggleSidebarVisible = ()=>{
-    const mobileBreakpoint = 700;
-    if(window.innerWidth > mobileBreakpoint) return;
-    document.addEventListener("click", function(e: Event){
-        const sidebar = document.querySelector("#chat-sidebar");
-        const target = e.target as HTMLElement;
-        if(!sidebar || ! sidebar.contains(e.target as Node)) return;
-
-        const classActive = "chat__sidebar--active";
-
-        if(!target.classList.contains(classActive)){
-            target.classList.add(classActive);
-        }
-        else{
-            target.classList.remove(classActive);
-        }
-    })
-}
-
-toggleSidebarVisible();
 
 interface ChatPageProps extends BlockOwnProps{
     selectedChatEmit?: (id:number)=>void;
@@ -86,6 +66,11 @@ export default class Chat extends Block<ChatPageProps>{
     static componentName = 'Chat';
     protected template = chatTemplate;
 
+    constructor(props: ChatPageProps) {
+        super(props);
+        this.props.selectedChatEmit = this.setIsSelectedChat;
+    }
+
     //возможно, нужно что-то типа общего контекста, чтобы не прокидывать событие на 2 этажа вверх, пока пусть так
     setIsSelectedChat=(id:number)=>{
         console.log(id); // Потенциально можем запросить с бэка список сообщений в чате
@@ -94,13 +79,33 @@ export default class Chat extends Block<ChatPageProps>{
         if(chatBody){
             chatBody.setProps({ isSelectedChat: true});
         }
+
+        this.toggleSidebarVisible() //плохо работающее
     }
 
-    constructor(props: ChatPageProps) {
-        super(props);
+    toggleSidebarVisible = ()=>{
+        const mobileBreakpoint = 700;
 
-        this.props.selectedChatEmit = this.setIsSelectedChat;
+        if(window.innerWidth > mobileBreakpoint) return;
+        document.addEventListener("click", function(e: Event){
+            debugger
+            const sidebar = document.querySelector("#chat-sidebar");
+            const target = e.target as HTMLElement;
+            if(!sidebar || ! sidebar.contains(e.target as Node)) return;
 
+            const classActive = "chat__sidebar--active";
+
+            if(!target.classList.contains(classActive)){
+                target.classList.add(classActive);
+            }
+            else{
+                target.classList.remove(classActive);
+            }
+        })
+    }
+
+    protected componentDidMount(): void {
+        this.toggleSidebarVisible();
     }
 }
 
