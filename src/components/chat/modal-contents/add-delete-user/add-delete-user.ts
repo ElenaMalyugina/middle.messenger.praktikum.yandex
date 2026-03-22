@@ -1,3 +1,4 @@
+import "/src/components/chat/modal-contents/modal-contents.css";
 import Block, { type BlockOwnProps } from "../../../../framework/Block";
 import type { FormProps } from "../../../../ui-units/form/form";
 import AddDeleteUserTemplate from "./add-delete-user.hbs?raw";

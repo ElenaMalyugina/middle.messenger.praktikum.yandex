@@ -1,3 +1,4 @@
+import "/src/components/chat/popup-contents/popup-contents.css";
 import type { BlockOwnProps } from "../../../../framework/Block";
 import Popup from "../../../../ui-units/popup/popup";
 import AddDeleteUser, { type typeContent } from "../../modal-contents/add-delete-user/add-delete-user";

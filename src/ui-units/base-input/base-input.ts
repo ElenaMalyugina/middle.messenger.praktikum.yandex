@@ -14,7 +14,7 @@ export interface BaseInputProps extends BlockOwnProps {
 
 export type BaseValidatedInputProps = BaseInputProps & BaseValidationProps;
 
-export default abstract class BaseInput<T extends  BaseValidatedInputProps = BaseValidatedInputProps> extends Block<T>{
+export default abstract class BaseInput<Props extends  BaseValidatedInputProps = BaseValidatedInputProps> extends Block<Props>{
     protected events = {
         input: () => {
             const keys = Object.keys(this.refs);

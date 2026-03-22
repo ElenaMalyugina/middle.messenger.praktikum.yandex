@@ -1,6 +1,4 @@
 import "./chat.css";
-import "/src/components/chat/popup-contents/popup-contents.css";
-import "/src/components/chat/modal-contents/modal-contents.css";
 import Handlebars from "handlebars";
 import {getDayYearString, getTimeString} from "../../utils/datetime.ts";
 import { registerComponent } from './../../framework/RegisterComponent';
