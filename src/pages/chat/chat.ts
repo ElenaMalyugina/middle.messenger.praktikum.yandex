@@ -160,8 +160,6 @@ const modalHide = (selector: string)=>{
 
 toggleSidebarVisible();
 
-//dialogShow("#attache-button", "#attache-popup", "attache-button--active");
-//dialogShow("#user-button", "#user-popup", "dots-button--active");
 modalShow("#user-button-add", modalAddUser);
 modalShow("#user-button-delete", modalDeleteUser);
 modalHide("#chat-modal");

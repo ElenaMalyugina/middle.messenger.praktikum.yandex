@@ -1,35 +1,39 @@
+import "./popup.css";
 import Block, { type BlockOwnProps } from "../../framework/Block";
+
 
 export default abstract class Popup extends Block<BlockOwnProps>{
     constructor(props: BlockOwnProps) {
         super(props)
     }
 
-    dialogShow = (selectorButton: string, selectorPopup: string, activeClass: string)=>{
+    dialogShow = (triggerButtonSelector: string, triggerButtonActiveClass: string)=>{
         document.addEventListener("click", (e: Event)=>{
-            const button = document.querySelector(selectorButton);
+            const button = document.querySelector(triggerButtonSelector);
             if(!button || !button.contains(e.target as Node)) return;
 
-            const popup = document.querySelector<HTMLDialogElement>(selectorPopup);
+            const popup = this.refs["popup"] as HTMLDialogElement | null;
             if(!popup) return;
 
             if(!popup.open){
                 popup.show();
-                this.popupClose(popup, button, activeClass);
-                button.classList.add(activeClass);
+                this.popupClose(button, triggerButtonActiveClass);
+                button.classList.add(triggerButtonActiveClass);
             }
             else{
-                button.classList.remove(activeClass);
+                button.classList.remove(triggerButtonActiveClass);
             }
         })
     }
 
+    protected popupClose = (bindedButton:Element, bindedButtonActiveClass:string )=>{
+        const popupCloseHandler = (e: Event)=>{
+            const popup = this.refs["popup"] as HTMLDialogElement | null;
+            if(!popup) return;
 
-    popupClose = (popup:HTMLDialogElement, button:Element, activeClass:string )=>{
-        const popupCloseHandler = function(e: Event){
             if (!popup.contains(e.target as Node) && popup.open) {
                 popup.close();
-                button.classList.remove(activeClass);
+                bindedButton.classList.remove(bindedButtonActiveClass);
                 document.removeEventListener("click", popupCloseHandler);
             }
         }

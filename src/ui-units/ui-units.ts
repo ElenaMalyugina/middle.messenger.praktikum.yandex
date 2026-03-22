@@ -1,5 +1,4 @@
 //Эти компоненты используются только на уровне css
-import "./popup/popup.css";
 import "./extended-button/extended-button.css";
 
 import Handlebars from "handlebars";
