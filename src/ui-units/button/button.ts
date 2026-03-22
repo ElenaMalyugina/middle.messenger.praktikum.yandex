@@ -27,5 +27,4 @@ export default class Button extends Block<ButtonProps>{
             }
         }
     }
-
 }
