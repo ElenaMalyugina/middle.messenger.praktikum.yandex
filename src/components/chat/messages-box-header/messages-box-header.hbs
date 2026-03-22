@@ -5,6 +5,7 @@
         <h2 class="messages-box-header__header">{{title}}</h2>
     </div>
     {{/with}}
-    {{{Button className="dots-button user-button message-box-header__user-button" id="user-button" type="button" text="Действия с пользователями"}}}
+    {{{Button className="dots-button user-button message-box-header__user-button" id="user-button"
+    type="button" text="Действия с пользователями" onClick=popupUserShow}}}
     {{{ PopupUser }}}
 </header>

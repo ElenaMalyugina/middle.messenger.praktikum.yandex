@@ -1,4 +1,5 @@
 import Form, { type FormProps } from "../../../../ui-units/form/form";
+import PopupFiles from "../../popup-contents/popup-files/popup-files";
 import MessagesSendFormTemplate from "./message-send-form.hbs?raw";
 
 interface Message{
@@ -6,7 +7,8 @@ interface Message{
 }
 
 interface MessagesSendFormProps extends FormProps{
-    data: Message
+    data: Message,
+    modalFileShow: (event: Event, el:HTMLButtonElement)=>void;
 }
 
 export default class MessagesSendForm extends Form<MessagesSendFormProps>{
@@ -17,11 +19,23 @@ export default class MessagesSendForm extends Form<MessagesSendFormProps>{
         super(props)
     }
 
+    modalFileShow=(event: Event, el: HTMLButtonElement)=>{
+        if(!el) return;
+        const activeClass = "attache-button--active";
+        el.classList.add(activeClass);
+
+        const popup = this.children.find(el=> el instanceof PopupFiles);
+        if(popup){
+            popup.popupShow(event, "#attache-button", activeClass);
+        }
+    }
+
     protected componentDidMount(): void {
         this.setProps({
                 data:{
                     message: ""
-                }
+                },
+                modalFileShow: this.modalFileShow
             }
         )
     }

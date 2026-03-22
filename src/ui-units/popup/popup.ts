@@ -3,33 +3,30 @@ import Block from "../../framework/Block";
 
 export default abstract class Popup extends Block{
 
-    popupShow = (triggerButtonSelector: string, triggerButtonActiveClass: string)=>{
-        document.addEventListener("click", (e: Event)=>{
-            const button = document.querySelector(triggerButtonSelector);
-            if(!button || !button.contains(e.target as Node)) return;
+    popupShow = (event: Event, triggerButtonSelector: string, triggerButtonActiveClass: string)=>{
+        const popup = this.refs["popup"] as HTMLDialogElement | null;
+        if(!popup) return;
 
-            const popup = this.refs["popup"] as HTMLDialogElement | null;
-            if(!popup) return;
-
-            if(!popup.open){
-                popup.show();
-                this.popupClose(button, triggerButtonActiveClass);
-                button.classList.add(triggerButtonActiveClass);
-            }
-            else{
-                button.classList.remove(triggerButtonActiveClass);
-            }
-        })
+        if(!popup.open){
+            popup.show();
+            event.stopPropagation(); //предовращение обработчика закрытия сразу после открытия
+            this.popupCloseListener(triggerButtonSelector, triggerButtonActiveClass);
+        }
     }
 
-    protected popupClose = (bindedButton:Element, bindedButtonActiveClass:string )=>{
+    protected popupCloseListener = (triggerButtonSelector:string, bindedButtonActiveClass:string )=>{
         const popupCloseHandler = (e: Event)=>{
             const popup = this.refs["popup"] as HTMLDialogElement | null;
             if(!popup) return;
 
             if (!popup.contains(e.target as Node) && popup.open) {
                 popup.close();
-                bindedButton.classList.remove(bindedButtonActiveClass);
+                const bindedButton = document.querySelector(triggerButtonSelector);
+
+                if(bindedButton){
+                    bindedButton.classList.remove(bindedButtonActiveClass);
+                }
+
                 document.removeEventListener("click", popupCloseHandler);
             }
         }
