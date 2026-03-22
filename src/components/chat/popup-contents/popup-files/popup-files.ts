@@ -6,6 +6,6 @@ export default class PopupFiles extends Popup{
     protected template = PopupFilesTemplate;
 
     protected componentDidMount(): void {
-        this.dialogShow("#attache-button", "attache-button--active");
+        this.popupShow("#attache-button", "attache-button--active");
     }
 }

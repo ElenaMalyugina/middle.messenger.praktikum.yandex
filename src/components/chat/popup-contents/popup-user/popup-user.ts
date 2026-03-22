@@ -6,6 +6,6 @@ export default class PopupUser extends Popup{
     protected template = PopupUserTemplate;
 
     protected componentDidMount(): void {
-        this.dialogShow("#user-button", "dots-button--active");
+        this.popupShow("#user-button", "dots-button--active");
     }
 }

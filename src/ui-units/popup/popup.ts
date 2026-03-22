@@ -1,13 +1,9 @@
 import "./popup.css";
-import Block, { type BlockOwnProps } from "../../framework/Block";
+import Block from "../../framework/Block";
 
+export default abstract class Popup extends Block{
 
-export default abstract class Popup extends Block<BlockOwnProps>{
-    constructor(props: BlockOwnProps) {
-        super(props)
-    }
-
-    dialogShow = (triggerButtonSelector: string, triggerButtonActiveClass: string)=>{
+    popupShow = (triggerButtonSelector: string, triggerButtonActiveClass: string)=>{
         document.addEventListener("click", (e: Event)=>{
             const button = document.querySelector(triggerButtonSelector);
             if(!button || !button.contains(e.target as Node)) return;

@@ -145,24 +145,10 @@ const modalShow = (selector:string, params: AddDeleteUserProps)=>{
     })
 }
 
-const modalHide = (selector: string)=>{
-    document.addEventListener("click", function(e:Event){
-        e.stopPropagation();
-        const modal = document.querySelector<HTMLDialogElement>(selector);
-        if(!modal) return;
-
-        if (e.target === modal) {
-            modal.innerHTML = "";
-            modal.close();
-        }
-    })
-}
-
 toggleSidebarVisible();
 
 modalShow("#user-button-add", modalAddUser);
 modalShow("#user-button-delete", modalDeleteUser);
-modalHide("#chat-modal");
 
 interface ChatPageProps extends BlockOwnProps{
     selectedChatEmit?: (id:number)=>void;
