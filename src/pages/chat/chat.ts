@@ -23,7 +23,7 @@ import ChatSearchForm from "../../components/chat/chat-search/form/chat-search-f
 
 import PopupUser from "../../components/chat/popup-contents/popup-user/popup-user.ts";
 import ChatBody from "../../components/chat/chat-body/chat-body.ts";
-import AddDeleteUser, { type AddDeleteUserProps } from "../../components/chat/modal-contents/add-delete-user/add-delete-user.ts";
+import AddDeleteUser from "../../components/chat/modal-contents/add-delete-user/add-delete-user.ts";
 import AddDeleteUserForm from "../../components/chat/modal-contents/add-delete-user/form/add-delete-user-form.ts";
 import PopupFilesForm from "../../components/chat/popup-contents/popup-files/form/popup-files-form.ts";
 import PopupFiles from "../../components/chat/popup-contents/popup-files/popup-files.ts";

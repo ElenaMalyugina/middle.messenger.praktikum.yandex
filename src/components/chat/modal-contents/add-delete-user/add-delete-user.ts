@@ -3,6 +3,7 @@ import type { FormProps } from "../../../../ui-units/form/form";
 import AddDeleteUserTemplate from "./add-delete-user.hbs?raw";
 
 export type typeContent = "add" | "delete";
+
 //настройки для модалок
 const modalAddUser = {
     title: "Добавить пользователя",

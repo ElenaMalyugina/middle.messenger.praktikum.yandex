@@ -11,6 +11,7 @@ export default class PopupUser extends Popup<PopupUserProps>{
     static componentName = 'PopupUser';
     protected template = PopupUserTemplate;
 
+    //пока открытие сделано на прямом взаимодействии с DOM, так проще доступ к элементу
     modalShow = (e: Event, button: HTMLElement)=>{
         const modal = document.querySelector("#chat-modal");
         if(!modal || !( modal instanceof HTMLDialogElement)) return;
