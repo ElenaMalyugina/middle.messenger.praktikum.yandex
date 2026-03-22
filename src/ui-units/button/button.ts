@@ -10,6 +10,7 @@ interface ButtonProps extends BlockOwnProps {
     text: string;
     ref: string;
     icon?: string;
+    action?:string;
     onClick?: (event: Event, val?:unknown)=>unknown
 }
 

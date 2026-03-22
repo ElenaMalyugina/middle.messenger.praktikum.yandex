@@ -1,7 +1,7 @@
 import "./popup.css";
-import Block from "../../framework/Block";
+import Block, { type BlockOwnProps } from "../../framework/Block";
 
-export default abstract class Popup extends Block{
+export default abstract class Popup<Props extends BlockOwnProps = BlockOwnProps> extends Block<Props>{
 
     popupShow = (event: Event, triggerButtonSelector: string, triggerButtonActiveClass: string)=>{
         const popup = this.refs["popup"] as HTMLDialogElement | null;

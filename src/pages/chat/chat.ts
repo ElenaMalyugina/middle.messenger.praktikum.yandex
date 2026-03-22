@@ -78,77 +78,7 @@ const toggleSidebarVisible = ()=>{
     })
 }
 
-//закрытие попапов
-/*const popupClose = (popup:HTMLDialogElement, button:Element, activeClass:string )=>{
-    const popupCloseHandler = function(e: Event){
-        if (!popup.contains(e.target as Node) && popup.open) {
-            popup.close();
-            button.classList.remove(activeClass);
-            document.removeEventListener("click", popupCloseHandler);
-        }
-    }
-    //гарантия, что не будет доп. экземпляров
-    document.removeEventListener("click", popupCloseHandler);
-    document.addEventListener("click", popupCloseHandler)
-}*/
-
-//открытие попапов
-/*const dialogShow = (selectorButton: string, selectorPopup: string, activeClass: string)=>{
-    document.addEventListener("click", function(e: Event){
-        const button = document.querySelector(selectorButton);
-        if(!button || !button.contains(e.target as Node)) return;
-
-        const popup = document.querySelector<HTMLDialogElement>(selectorPopup);
-        if(!popup) return;
-
-        if(!popup.open){
-            popup.show();
-            popupClose(popup, button, activeClass);
-            button.classList.add(activeClass);
-        }
-        else{
-            button.classList.remove(activeClass);
-        }
-    })
-}*/
-
-//настройки для модалок
-const modalAddUser = {
-    title: "Добавить пользователя",
-    action: "/chat",
-    buttonText: "Добавить",
-    formSettings:{
-        action: "/add"
-    }
-}
-const modalDeleteUser = {
-    title: "Удалить пользователя",
-    buttonText: "Удалить",
-    formSettings:{
-        action: "/delete"
-    }
-}
-
-//открытие модального окна
-const modalShow = (selector:string, params: AddDeleteUserProps)=>{
-    document.addEventListener("click", function(e){
-        const button = document.querySelector(selector);
-        if(!button || !button.contains(e.target as Node)) return;
-
-        const modal = document.querySelector<HTMLDialogElement>("#chat-modal");
-        if(!modal) return;
-        modal.showModal();
-        const content = new AddDeleteUser({...params}).element();
-        if(content){
-            modal.appendChild(content);
-        }
-    })
-}
-
 toggleSidebarVisible();
-
-modalShow("#user-button-add", modalAddUser);
-modalShow("#user-button-delete", modalDeleteUser);
 
 interface ChatPageProps extends BlockOwnProps{
     selectedChatEmit?: (id:number)=>void;

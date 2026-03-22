@@ -1,15 +1,21 @@
 <dialog class="popup user-popup message-box-header__user-popup" id="user-popup" ref="popup">
     <ul class="popup__list popup-user__list">
         <li class="popup__item popup-user__item">
-            {{{ Button className="extended-button popup__row" id="user-button-add"
+            {{{ Button className="extended-button popup__row"
+                id="user-button-add"
                 icon="add-user-icon"
                 text="Добавить пользователя"
+                action="add"
+                onClick=modalShow
             }}}
         </li>
         <li class="popup__item popup-user__item">
-            {{{ Button className="extended-button popup__row" id="user-button-delete"
+            {{{ Button className="extended-button popup__row"
+                id="user-button-delete"
                 icon="delete-user-icon"
                 text="Удалить пользователя"
+                action="delete"
+                onClick=modalShow
             }}}
         </li>
     </ul>

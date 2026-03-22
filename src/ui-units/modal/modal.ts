@@ -5,18 +5,15 @@ export default class Modal extends Block{
     static componentName = 'Modal';
     protected template = ModalTemplate;
 
-
-    modalShow = (content: Node)=>{
-        document.addEventListener("click", (e)=>{
-            const modal = this.refs["modal"] as HTMLDialogElement;
-            if(!modal) return;
+    /*modalShow = (content: Node)=>{
+        const modal = this.refs["modal"] as HTMLDialogElement;
+        if(!modal) return;
             modal.showModal();
 
-            if(content){
-                modal.appendChild(content);
-            }
-        })
-    }
+        if(content){
+            modal.appendChild(content);
+        }
+    }*/
 
     modalHide = ()=>{
         document.addEventListener("click", (e:Event)=>{
