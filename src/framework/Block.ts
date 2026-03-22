@@ -54,8 +54,8 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
         const isNeedRerender  = this.isNeedRerender(newProps, this.props);
         //debugger
         if(isNeedRerender){
-        this.props = { ...this.props, ...newProps, __children: [], __refs: {} } as Props;
-        this.render();
+            this.props = { ...this.props, ...newProps, __children: [], __refs: {} } as Props;
+            this.render();
         }
     }
 
@@ -92,10 +92,10 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
         /** Проверка наличия элемента, нужно для первого рендера */
         if (this.domElement) {
             /** Вызываем очистку в порядке, обратном созданию */
-        this.children.reverse().forEach(child => child.unmountComponent());
+            this.children.reverse().forEach(child => child.unmountComponent());
 
-        this.componentWillUnmount();
-        this.removeListeners();
+            this.componentWillUnmount();
+            this.removeListeners();
         }
     }
     // eslint-disable-next-line @/no-undef
@@ -103,7 +103,6 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
         // eslint-disable-next-line @/no-undef
         return Object.keys(this.events) as Array<keyof HTMLElementEventMap>;
     }
-
 
     private attachListeners() {
         for (const eventName of this.validEvents) {
@@ -153,13 +152,13 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
 
         const defaultRefs = this.props?.__refs ?? {};
         this.refs = Array.from(fragment.querySelectorAll('[ref]')).reduce(
-        (list, element) => {
-            const key = element.getAttribute('ref') as string;
-            list[key] = element as HTMLElement;
-            element.removeAttribute('ref');
-            return list;
-        },
-        defaultRefs,
+            (list, element) => {
+                const key = element.getAttribute('ref') as string;
+                list[key] = element as HTMLElement;
+                element.removeAttribute('ref');
+                return list;
+            },
+            defaultRefs,
         );
 
         return templateElement.content.firstElementChild;

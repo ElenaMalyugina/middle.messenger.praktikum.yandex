@@ -31,3 +31,9 @@
     right: 40px;
     top: 60px;
 }
+
+@media (width < 480px) {
+    .messages-box-header__header{
+        font-size: 18px;
+    }
+}

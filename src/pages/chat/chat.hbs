@@ -1,5 +1,10 @@
 <div class="chat">
-    {{> ChatSidebar }}
+    <aside class="sidebar chat__sidebar" id="chat-sidebar" ref="sidebar">
+        {{{ ChatHeader }}}
+        <nav class="chat-nav sidebar__chat-nav">
+            {{{ ChatsList selectedChatEmit=selectedChatEmit }}}
+        </nav>
+    </aside>
     {{{ ChatBody }}}
     <div class="chat__modal-container" id="modal-container">
        {{{ Modal }}}

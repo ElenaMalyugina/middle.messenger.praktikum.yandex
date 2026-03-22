@@ -1,11 +1,11 @@
 import "./chat.css";
+import "../../components/chat/chat-sidebar/chat-sidebar.css";
 import Handlebars from "handlebars";
 import {getDayYearString, getTimeString} from "../../utils/datetime.ts";
 import { registerComponent } from './../../framework/RegisterComponent';
 import chatTemplate from "./chat.hbs?raw";
 import NoMessages from "../../components/chat/no-messages/no-messages.ts";
 import Block, { type BlockOwnProps } from "../../framework/Block.ts";
-import ChatSidebar from "../../components/chat/chat-sidebar/chat-sidebar.ts";
 import ChatsList from "../../components/chat/chats-list/chats-list.ts";
 import ChatItem from "../../components/chat/chat-item/chat-item.ts";
 import ChatAvatar from "../../components/chat/chat-avatar/chat-avatar.ts";
@@ -18,7 +18,6 @@ import MessagesBoxHeader from "../../components/chat/messages-box-header/message
 import MessageSend from "../../components/chat/message-send/message-send.ts";
 import MessagesSendForm from "../../components/chat/message-send/form/messages-send-form.ts";
 import ChatSearchForm from "../../components/chat/chat-search/form/chat-search-form.ts";
-
 import PopupUser from "../../components/chat/popup-contents/popup-user/popup-user.ts";
 import ChatBody from "../../components/chat/chat-body/chat-body.ts";
 import AddDeleteUser from "../../components/chat/modal-contents/add-delete-user/add-delete-user.ts";
@@ -36,7 +35,6 @@ Handlebars.registerHelper("getTime", function(dateString){
     return getTimeString(dateString);
 })
 
-ChatSidebar.register();
 registerComponent(ChatsList);
 registerComponent(ChatItem);
 registerComponent(ChatAvatar);
@@ -60,14 +58,17 @@ registerComponent(AddDeleteUserForm);
 
 interface ChatPageProps extends BlockOwnProps{
     selectedChatEmit?: (id:number)=>void;
+    sidebarActive?: boolean;
 }
 
 export default class Chat extends Block<ChatPageProps>{
     static componentName = 'Chat';
     protected template = chatTemplate;
+    private activeSidebarClass = "chat__sidebar--active";
 
     constructor(props: ChatPageProps) {
         super(props);
+
         this.props.selectedChatEmit = this.setIsSelectedChat;
     }
 
@@ -79,36 +80,34 @@ export default class Chat extends Block<ChatPageProps>{
         if(chatBody){
             chatBody.setProps({ isSelectedChat: true});
         }
-
-        this.toggleSidebarVisible() //плохо работающее
     }
 
-    toggleSidebarVisible = ()=>{
+    showSidebar = (sidebar:Element)=>{
         const mobileBreakpoint = 700;
-
         if(window.innerWidth > mobileBreakpoint) return;
-        document.addEventListener("click", function(e: Event){
-            debugger
-            const sidebar = document.querySelector("#chat-sidebar");
-            const target = e.target as HTMLElement;
-            if(!sidebar || ! sidebar.contains(e.target as Node)) return;
 
-            const classActive = "chat__sidebar--active";
+        sidebar.classList.add(this.activeSidebarClass);
+    }
 
-            if(!target.classList.contains(classActive)){
-                target.classList.add(classActive);
+    hideSidebar = (sidebar:Element)=>{
+        const mobileBreakpoint = 700;
+        if(window.innerWidth > mobileBreakpoint) return;
+
+        sidebar.classList.remove(this.activeSidebarClass);
+    }
+
+    protected events={
+        click: (event: Event) => {
+            const target= event.target;
+            const sidebar = this.refs["sidebar"];
+
+            if(sidebar.classList.contains(this.activeSidebarClass)){
+                this.hideSidebar(sidebar);
             }
             else{
-                target.classList.remove(classActive);
+                if(!sidebar || sidebar!=target) return;
+                this.showSidebar(sidebar);
             }
-        })
-    }
-
-    protected componentDidMount(): void {
-        this.toggleSidebarVisible();
+        }
     }
 }
-
-
-
-

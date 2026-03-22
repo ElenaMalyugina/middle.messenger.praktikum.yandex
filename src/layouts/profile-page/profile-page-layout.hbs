@@ -1,5 +1,9 @@
 <div class="profile">
-    {{> profile-sidebar}}
+    <aside class="sidebar profile__sidebar" id="profile-sidebar">
+        <nav class="profile-sidebar__nav">
+            {{{ Link className="blue-round-button blue-round-button--revert" href="/profile" text="Главная страница профиля" }}}
+        </nav>
+    </aside>
     <main class="profile-body">
         {{> @partial-block }}
     </main>
