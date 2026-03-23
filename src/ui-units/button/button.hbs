@@ -1,1 +1,10 @@
-<button class="{{className}}" type="{{type}}" title="{{text}}" id="{{id}}">{{text}}</button>
+<button class="{{className}}" type="{{type}}" title="{{text}}" id="{{id}}" ref="{{ref}}"
+    {{#if action}}
+        data-action="{{action}}"
+    {{/if}}
+>
+    {{#if icon}}
+        {{{ renderIcon icon }}}
+    {{/if}}
+    {{{ text }}}
+</button>

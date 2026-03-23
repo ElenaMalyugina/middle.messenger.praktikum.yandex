@@ -1,14 +1,14 @@
 <section class="profile__section profile-info profile__profile-info">
     <div class="profile__container">
-        <table class="profile-table profile__table profile-info__table">
-            <tbody>
-                {{> text-row-block label="Почта" value="pochta@yandex.ru"}}
-                {{> text-row-block label="Логин" value="ivanivanov"}}
-                {{> text-row-block label="Имя" value="Иван"}}
-                {{> text-row-block label="Фамилия" value="Иванов"}}
-                {{> text-row-block label="Имя в чате" value="Иван"}}
-                {{> text-row-block label="Телефон" value="+7 (909) 967 30 30"}}
-            </tbody>
-        </table>
+        <div class="block-grid profile__block-grid">
+        {{#with data}}
+            {{{ TextRowBlock label="Почта" value=email }}}
+            {{{ TextRowBlock label="Логин" value=login }}}
+            {{{ TextRowBlock label="Имя" value=first_name }}}
+            {{{ TextRowBlock label="Фамилия" value=second_name }}}
+            {{{ TextRowBlock label="Имя в чате" value=display_name }}}
+            {{{ TextRowBlock label="Телефон" value=phone }}}
+        {{/with}}
+        </div>
     </div>
 </section>

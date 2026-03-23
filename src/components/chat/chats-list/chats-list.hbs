@@ -1,6 +1,8 @@
 <ul class="chats-list  sidebar__chat-list js-chats-list">
     {{#each chats as | chatItem |}}
-        {{> chat-item }}
+        {{{ ChatItem chatData=chatData
+            isActive=isActive
+            selectChatEmit=selectChatEmit }}}
     {{/each}}
 </ul>
 

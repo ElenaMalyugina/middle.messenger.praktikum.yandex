@@ -1,4 +1,7 @@
 <label class="{{className}}" for="{{name}}" title="{{title}}">
-    {{> @partial-block }}
+    {{#if icon}}
+        {{{ renderIcon icon }}}
+    {{/if}}
+    <span class="popup__text">{{text}}</span>
     <input class="visually-hidden" type="file" name="{{name}}" id="{{name}}" form="{{currentForm}}">
 </label>

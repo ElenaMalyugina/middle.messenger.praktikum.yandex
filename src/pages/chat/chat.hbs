@@ -1,13 +1,13 @@
- <div class="chat">
-   {{> chat-sidebar}}
-   {{#> chat-body}}
-      {{#if isSelectedChat}}
-         {{> messages-box}}
-      {{else}}
-         {{> no-messages}}
-      {{/if}}
-   {{/chat-body}}
- </div>
- <div class="modal-container" id="modal-container">
-   {{#> custom-popup className="modal-popup" id="chat-modal"}}{{/custom-popup}}
- </div>
+<div class="chat">
+    <aside class="sidebar chat__sidebar" id="chat-sidebar" ref="sidebar">
+        {{{ ChatHeader }}}
+        <nav class="chat-nav sidebar__chat-nav">
+            {{{ ChatsList selectedChatEmit=selectedChatEmit }}}
+        </nav>
+    </aside>
+    {{{ ChatBody }}}
+    <div class="chat__modal-container" id="modal-container">
+       {{{ Modal }}}
+    </div>
+</div>
+

@@ -44,7 +44,7 @@ export const chats = [
     }
   },
   {
-    id: 1,
+    id: 5,
     title: "Приветственный чат",
     avatarUrl: "avatar.png", // **исправлено: avatar → avatarUrl**
     unreadСount: 2,
@@ -55,7 +55,7 @@ export const chats = [
     }
   },
   {
-    id: 2,
+    id: 6,
     title: "Frontend Crew",
     avatarUrl: "avatar.png", // **исправлено: avatar → avatarUrl**
     unreadСount: 0,
@@ -66,7 +66,7 @@ export const chats = [
     }
   },
   {
-    id: 3,
+    id: 7,
     title: "Приветственный чат",
     avatarUrl: "avatar.png", // **исправлено: avatar → avatarUrl**
     unreadСount: 2,
@@ -77,7 +77,7 @@ export const chats = [
     }
   },
   {
-    id: 4,
+    id: 8,
     title: "Frontend Crew",
     avatarUrl: "avatar.png", // **исправлено: avatar → avatarUrl**
     unreadСount: 0,
@@ -88,7 +88,7 @@ export const chats = [
     }
   },
   {
-    id: 1,
+    id: 9,
     title: "Приветственный чат",
     avatarUrl: "avatar.png", // **исправлено: avatar → avatarUrl**
     unreadСount: 2,
@@ -99,7 +99,7 @@ export const chats = [
     }
   },
   {
-    id: 2,
+    id: 10,
     title: "Frontend Crew",
     avatarUrl: "avatar.png", // **исправлено: avatar → avatarUrl**
     unreadСount: 0,
@@ -110,7 +110,7 @@ export const chats = [
     }
   },
   {
-    id: 3,
+    id: 11,
     title: "Приветственный чат",
     avatarUrl: "avatar.png", // **исправлено: avatar → avatarUrl**
     unreadСount: 2,
@@ -121,7 +121,7 @@ export const chats = [
     }
   },
   {
-    id: 4,
+    id: 12,
     title: "Frontend Crew",
     avatarUrl: "avatar.png", // **исправлено: avatar → avatarUrl**
     unreadСount: 0,
@@ -132,7 +132,7 @@ export const chats = [
     }
   },
   {
-    id: 1,
+    id: 13,
     title: "Приветственный чат",
     avatarUrl: "avatar.png", // **исправлено: avatar → avatarUrl**
     unreadСount: 2,
@@ -143,7 +143,7 @@ export const chats = [
     }
   },
   {
-    id: 2,
+    id: 14,
     title: "Frontend Crew",
     avatarUrl: "avatar.png", // **исправлено: avatar → avatarUrl**
     unreadСount: 0,
@@ -154,7 +154,7 @@ export const chats = [
     }
   },
   {
-    id: 3,
+    id: 15,
     title: "Приветственный чат",
     avatarUrl: "avatar.png", // **исправлено: avatar → avatarUrl**
     unreadСount: 2,
@@ -165,7 +165,7 @@ export const chats = [
     }
   },
   {
-    id: 4,
+    id: 16,
     title: "Frontend Crew",
     avatarUrl: "avatar.png", // **исправлено: avatar → avatarUrl**
     unreadСount: 0,

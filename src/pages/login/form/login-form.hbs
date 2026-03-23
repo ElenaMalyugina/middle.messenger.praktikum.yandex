@@ -1,0 +1,7 @@
+<form method="{{method}}" action="{{action}}" className="{{className}}" id="{{id}}" ref="{{ref}}" novalidate="novalidate">
+    {{#with data}}
+        {{{ InputBlock block="login" type="text" label="Логин" name="login" id="login" value=login validators="required,login" }}}
+        {{{ InputBlock block="login" type="password" label="Пароль" name="password" id="password" value=password validators="required,password" }}}
+    {{/with}}
+    {{{ Button className="button form-block__button" type="submit" text="Войти" }}}
+</form>

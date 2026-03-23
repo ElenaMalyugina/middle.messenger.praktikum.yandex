@@ -1,11 +1,12 @@
 .profile-avatar__wrapper{
     --width: 130px;
+
     width: var(--width);
     height: var(--width);
     border-radius: 50%;
     overflow: hidden;
     background-color: var(--img-back);
-    margin: 0 auto 20px auto;
+    margin: 0 auto 20px;
 }
 
 .avatar-label{

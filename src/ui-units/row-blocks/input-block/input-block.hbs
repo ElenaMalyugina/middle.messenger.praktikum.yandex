@@ -1,0 +1,10 @@
+<div class="input-block {{block}}__input-block js-float-block" ref="container">
+    {{{ Label className="input-block__label" forEl=id text=label }}}
+    {{{
+        Input className="input-block__input js-float-input" type=type
+        name=name id=id placeholder=label ref=id value=value
+        validators=validators
+        onValidate=onValidate cleanValidate=cleanValidate onInput=onInput
+    }}}
+    {{{ ErrorMessage className="input-block__error js-error" id=(concat "js-error-" id) ref="error" }}}
+</div>

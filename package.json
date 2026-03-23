@@ -7,15 +7,24 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "eslint . && stylelint **/*.css && tsc --noEmit && vite build",
     "preview": "vite preview",
-    "start": "tsc && vite build && vite preview"
+    "start": "eslint . && stylelint **/*.css && tsc --noEmit && vite build && vite preview",
+    "lint": "eslint . && stylelint **/*.css && tsc --noEmit",
+    "lint:css": "stylelint **/*.css"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@typescript-eslint/eslint-plugin": "^8.57.1",
+    "@typescript-eslint/parser": "^8.57.1",
     "autoprefixer": "^10.4.27",
+    "eslint": "^10.1.0",
+    "globals": "^17.4.0",
     "postcss": "^8.5.8",
     "postcss-extend-rule": "^4.0.0",
     "postcss-nested": "^7.0.2",
+    "stylelint": "^17.5.0",
+    "stylelint-config-standard": "^40.0.0",
     "typescript": "~5.9.3",
     "vite": "^7.3.1"
   },
