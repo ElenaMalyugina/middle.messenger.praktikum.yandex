@@ -1,5 +1,6 @@
 {{#with message}}
-<li class="message-item {{../block}}__message-item {{#if isAuthor}} message-item--self chat__message-item--self {{/if}}" tabindex="0">
+<li class="message-item {{block}}__message-item {{#if isAuthor}} message-item--self chat__message-item--self {{/if}}" tabindex="0">
+    {{#with message}}
     <div class="message-item__content">
         {{#if file}}
         <figure class="message-item__file-block">
@@ -14,5 +15,7 @@
         {{/if}}
         <time class="time message-item__time {{#if isAuthor }}message-item__time--self{{/if}}" datetime="{{time}}">{{#getTime time}}{{/getTime}}</time>
     </div>
+    {{/with}}
 </li>
 {{/with}}
+

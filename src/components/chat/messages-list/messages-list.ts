@@ -1,7 +1,7 @@
 import "./messages-list.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import MessagesListTemplate from "./messages-list.hbs?raw";
-import type { MessageItemProps } from "../message-item/message-item";
+import type { Message, MessageItemProps } from "../message-item/message-item";
 import { messages } from "../../../mocks/messages";
 
 interface MessagesListProps extends BlockOwnProps{
@@ -19,21 +19,26 @@ export default class MessagesList extends Block<MessagesListProps>{
     protected componentDidMount(): void {
         const thisMessages = [...messages];
         //добавление свойства смены даты
-        const messagesWithIsChangedDate = thisMessages.map((mess:any, i, sourceMessages)=>{
-            mess.isChangedDate = false;
+        const messagesWithIsChangedDate = thisMessages.map((mess: Message, i, sourceMessages )=>{
+
             const isChangedDate = i==0 || mess.time !== sourceMessages[i-1].time;
 
-            if(isChangedDate){
-                mess.isChangedDate = true;
-            }
-            mess.isAuthor = mess.user_id === 111; /*для демо предположим, что у юзера id=111*/
-            return mess;
+            const messageItem: MessageItemProps = {
+                block: 'chat',
+                message: {
+                    ...mess,
+                },
+                isChangedDate: isChangedDate,
+                isAuthor: mess.user_id === 111 // логика определения автора
+            };
+
+            return messageItem;
         })
 
         const resMessages = messagesWithIsChangedDate;
 
         this.setProps({
-            messages: {...resMessages
-        }});
+                messages: {...resMessages}
+        });
     }
 }

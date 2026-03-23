@@ -5,6 +5,8 @@ import MessageItemTemplate from "./message-item.hbs?raw";
 export interface MessageItemProps extends BlockOwnProps{
     block: string;
     message: Message;
+    isAuthor: boolean;
+    isChangedDate: boolean;
 }
 
 export interface Message{
@@ -17,7 +19,6 @@ export interface Message{
         path: string;
     }
     type: string;
-    isAuthor: boolean;
 }
 
 export default class MessageItem extends Block<MessageItemProps>{
