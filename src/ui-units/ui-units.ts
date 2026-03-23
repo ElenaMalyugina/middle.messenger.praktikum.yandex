@@ -30,7 +30,6 @@ Handlebars.registerHelper('renderIcon', function(partialName) {
 
     // Компилируем и рендерим partial
     const html = Handlebars.partials[partialName];
-
     return html;
 });
 
@@ -48,12 +47,4 @@ registerComponent(Img);
 registerComponent(TextareaBlock);
 registerComponent(Popup);
 registerComponent(Modal);
-
-UploadFile.register();
-
-
-
-
-
-
-
+registerComponent(UploadFile);
