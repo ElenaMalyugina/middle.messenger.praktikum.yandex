@@ -6,7 +6,7 @@
         {{{ InputBlock block="registration" type="text" label="Фамилия" name="second_name" id="second_name" value=second_name validators="required,username"}}}
         {{{ InputBlock block="registration" type="text" label="Телефон" name="phone" id="phone" value=phone validators="required,phone"}}}
         {{{ InputBlock block="registration" type="password" label="Пароль" name="password" id="new_password" value=new_password validators="required,password"}}}
-        {{{ InputBlock block="registration" type="password" label="Пароль (еще раз)" name="repeat_password" id="repeat_password" value=repeat_password validators="required,repeatpassword"}}}
+        {{{ InputBlock block="registration" type="password" label="Пароль (еще раз)" name="repeat_password" id="repeat_password" value=repeat_password validators="required,password,repeatpassword"}}}
     {{/with}}
     {{{ Button className="button form-block__button" type="submit" text="Зарегистрироваться"}}}
 </form>
