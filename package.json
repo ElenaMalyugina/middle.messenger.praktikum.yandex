@@ -10,7 +10,7 @@
     "build": "eslint . && stylelint **/*.css && tsc --noEmit && vite build",
     "preview": "vite preview",
     "start": "eslint . && stylelint **/*.css && tsc --noEmit && vite build && vite preview",
-    "lint": "eslint .",
+    "lint": "eslint . && stylelint **/*.css && tsc --noEmit",
     "lint:css": "stylelint **/*.css"
   },
   "devDependencies": {
