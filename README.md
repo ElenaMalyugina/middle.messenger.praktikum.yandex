@@ -18,7 +18,7 @@ https://www.figma.com/design/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link
 от яндекс-практикума.
 
 Демо тут - временно не работает
-https://mf1-messenger.netlify.app
+https://yandex-practicum-chat-0326.netlify.app
 Временно, пока netlify заблочен за превышение запросов (ориентировочно до 23 марта 2026)
 
 Демо
