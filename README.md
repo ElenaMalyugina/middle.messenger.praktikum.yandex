@@ -17,9 +17,8 @@ npm run start - сборка прод-версии и сразу же ее за�
 https://www.figma.com/design/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link
 от яндекс-практикума.
 
-Демо тут - временно не работает
+Демо Netlify
 https://yandex-practicum-chat-0326.netlify.app
-Временно, пока netlify заблочен за превышение запросов (ориентировочно до 23 марта 2026)
 
 Демо
 Vercel
