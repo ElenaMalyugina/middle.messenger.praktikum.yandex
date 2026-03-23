@@ -17,12 +17,13 @@ npm run start - сборка прод-версии и сразу же ее за�
 https://www.figma.com/design/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link
 от яндекс-практикума.
 
-Демо тут
+Демо тут - временно не работает
 https://mf1-messenger.netlify.app
 Временно, пока netlify заблочен за превышение запросов (ориентировочно до 23 марта 2026)
 
+Демо
 Vercel
-https://middle-messenger-praktikum-yandex-eosin.vercel.app/
+https://middle-messenger-praktikum-git-f1653c-elenamalyuginas-projects.vercel.app/
 
 
 Пути 
