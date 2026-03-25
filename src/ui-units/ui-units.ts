@@ -22,6 +22,11 @@ Handlebars.registerHelper('concat', function() {
   return Array.prototype.slice.call(arguments, 0, -1).join('');
 });
 
+// базовый путь для ссылок (учитывает base из vite)
+Handlebars.registerHelper('basePath', function() {
+  return import.meta.env.BASE_URL.replace(/\/$/, '');
+});
+
 Handlebars.registerHelper('renderIcon', function(partialName) {
     // Проверяем существование partial
     if (!Handlebars.partials[partialName]) {
