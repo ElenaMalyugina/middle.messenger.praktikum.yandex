@@ -3,7 +3,7 @@ import Block, { type BlockOwnProps } from "../../../framework/Block";
 import ProfileAvatarTemplate from "./profile-avatar.hbs?raw";
 
 const initAllPropsMock:UserData={
-    profileImg: "/img/avatar-profile.png",
+    profileImg: `${import.meta.env.BASE_URL}img/avatar-profile.png`,
     profileName: "Иван"
 }
 

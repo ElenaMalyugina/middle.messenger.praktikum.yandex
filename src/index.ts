@@ -14,35 +14,39 @@ const entryNode = document.getElementById("app")!;
 let compiledTemplate: string = "";
 let compiledElement: Element | null = null;
 
+// Strip base path to get clean route
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const route = window.location.pathname.replace(base, '') || '/';
+
 //для демо роутинг
-switch (window.location.pathname){
-    case "/middle.messenger.praktikum.yandex/chat": compiledElement = new Chat({}).element();
+switch (route){
+    case "/chat": compiledElement = new Chat({}).element();
         break;
-    case "/middle.messenger.praktikum.yandex/": compiledElement = new Chat({}).element();
+    case "/": compiledElement = new Chat({}).element();
         break;
-    case "/middle.messenger.praktikum.yandex/login": compiledElement = new Login({}).element();
+    case "/login": compiledElement = new Login({}).element();
         break;
-    case "/middle.messenger.praktikum.yandex/registration": compiledElement = new Registration({}).element();
+    case "/registration": compiledElement = new Registration({}).element();
         break;
-    case "/middle.messenger.praktikum.yandex/profile": compiledElement = new Profile({}).element();
+    case "/profile": compiledElement = new Profile({}).element();
         break;
-    case "/middle.messenger.praktikum.yandex/edit-profile": compiledElement = new EditProfile({}).element();
+    case "/edit-profile": compiledElement = new EditProfile({}).element();
         break;
-    case "/middle.messenger.praktikum.yandex/change-password": compiledElement = new ChangePassword({}).element();
+    case "/change-password": compiledElement = new ChangePassword({}).element();
         break;
-    case "/middle.messenger.praktikum.yandex/not-found": {
+    case "/not-found": {
         const customError = getError(404);
         compiledElement = new Errors(customError).element();
         break;
     }
-    case "/middle.messenger.praktikum.yandex/server-error": {
+    case "/server-error": {
         const customError = getError(500);
         compiledElement = new Errors(customError).element();
         break;
     }
 
     default: {
-        window.location.href = "/middle.messenger.praktikum.yandex/not-found";
+        window.location.href = `${base}/not-found`;
     }
 }
 

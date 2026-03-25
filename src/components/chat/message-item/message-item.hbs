@@ -11,7 +11,7 @@
     </div>
     <div class="message-item__bottom">
         {{#if isAuthor }}
-            {{{ Img src="/img/read.svg" alt=""}}}
+            {{{ Img src=(concat (basePath) "/img/read.svg") alt=""}}}
         {{/if}}
         <time class="time message-item__time {{#if isAuthor }}message-item__time--self{{/if}}" datetime="{{time}}">{{#getTime time}}{{/getTime}}</time>
     </div>
