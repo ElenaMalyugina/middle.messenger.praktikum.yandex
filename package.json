@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "vite",
     "build": "eslint . && stylelint **/*.css && tsc --noEmit && vite build",
-    "build:gh": "vite build --base=/test.gh.routes/ && cp dist/index.html dist/404.html",
+    "build:gh": "vite build --base=/middle.messenger.praktikum.yandex/ && cp dist/index.html dist/404.html",
     "preview": "vite preview",
     "start": "eslint . && stylelint **/*.css && tsc --noEmit && vite build && vite preview",
     "lint": "eslint . && stylelint **/*.css && tsc --noEmit",
