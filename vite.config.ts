@@ -2,6 +2,7 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  base: '/middle.messenger.praktikum.yandex/',
   publicDir: 'static',
   server: {
     port: 3000,

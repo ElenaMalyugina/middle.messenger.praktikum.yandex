@@ -16,33 +16,33 @@ let compiledElement: Element | null = null;
 
 //для демо роутинг
 switch (window.location.pathname){
-    case "/chat": compiledElement = new Chat({}).element();
+    case "/middle.messenger.praktikum.yandex/chat": compiledElement = new Chat({}).element();
         break;
-    case "/": compiledElement = new Chat({}).element();
+    case "/middle.messenger.praktikum.yandex/": compiledElement = new Chat({}).element();
         break;
-    case "/login": compiledElement = new Login({}).element();
+    case "/middle.messenger.praktikum.yandex/login": compiledElement = new Login({}).element();
         break;
-    case "/registration": compiledElement = new Registration({}).element();
+    case "/middle.messenger.praktikum.yandex/registration": compiledElement = new Registration({}).element();
         break;
-    case "/profile": compiledElement = new Profile({}).element();
+    case "/middle.messenger.praktikum.yandex/profile": compiledElement = new Profile({}).element();
         break;
-    case "/edit-profile": compiledElement = new EditProfile({}).element();
+    case "/middle.messenger.praktikum.yandex/edit-profile": compiledElement = new EditProfile({}).element();
         break;
-    case "/change-password": compiledElement = new ChangePassword({}).element();
+    case "/middle.messenger.praktikum.yandex/change-password": compiledElement = new ChangePassword({}).element();
         break;
-    case "/not-found": {
+    case "/middle.messenger.praktikum.yandex/not-found": {
         const customError = getError(404);
         compiledElement = new Errors(customError).element();
         break;
     }
-    case "/server-error": {
+    case "/middle.messenger.praktikum.yandex/server-error": {
         const customError = getError(500);
         compiledElement = new Errors(customError).element();
         break;
     }
 
     default: {
-        window.location.href = "/not-found";
+        window.location.href = "/middle.messenger.praktikum.yandex/not-found";
     }
 }
 
