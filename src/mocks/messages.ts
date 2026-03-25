@@ -89,7 +89,7 @@ export const messages = [
             {
                 id: 132,
                 user_id: 231,
-                path: "/img/message-mock.png",
+                path: `${import.meta.env.BASE_URL}img/message-mock.png`,
                 filename: "my-file.jpg",
                 content_type: "image/jpeg",
                 content_size: 543672,
