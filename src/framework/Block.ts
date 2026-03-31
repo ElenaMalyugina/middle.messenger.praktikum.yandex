@@ -40,7 +40,7 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
 
     public element(): Element | null {
         if (!this.domElement) {
-        this.render();
+            this.render();
         }
         return this.domElement;
     }
@@ -129,7 +129,7 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
 
         /** Если элемент уже существовал, обновляем его по имеющейся ссылке */
         if (this.domElement && fragment) {
-        this.domElement.replaceWith(fragment);
+            this.domElement.replaceWith(fragment);
         }
         this.domElement = fragment;
         this.mountComponent();
@@ -164,11 +164,27 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
         return templateElement.content.firstElementChild;
     }
 
-    public hide(){
+    public hide() {
+        this.unmountComponent();
 
+        if (this.domElement) {
+            if (this.domElement.parentNode) {
+            this.domElement.parentNode.removeChild(this.domElement);
+            }
+
+            // Очищаем все внутренние ссылки для освобождения памяти
+            this.domElement = null;
+            this.children = [];
+            this.refs = {};
+        }
+
+        // Очищаем __children и __refs в props — это критически важно
+        if (this.props.__children) {
+            this.props.__children = [];
+        }
+        if (this.props.__refs) {
+            this.props.__refs = {};
+        }
     }
 
-    public show(){
-
-    }
 }

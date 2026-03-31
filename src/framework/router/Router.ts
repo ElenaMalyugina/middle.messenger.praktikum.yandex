@@ -1,4 +1,3 @@
-import type { BlockOwnProps } from "../Block";
 import type Block from "../Block";
 import Route from "./Route";
 
@@ -24,7 +23,7 @@ export default class Router {
         return Router.instance;
     }
 
-    use(pathname: string, block: { new(): Block }, blockProps: unknown) {
+    public use(pathname: string, block: { new(): Block }, blockProps: unknown) {
         const route = new Route(pathname, block, {rootQuery: this._rootQuery}, blockProps);
 
         this.routes.push(route);
@@ -32,10 +31,9 @@ export default class Router {
         return this;
     }
 
-    start(): void{
+    public start(): void{
         // Удаляем предыдущий обработчик, если он был
         window.removeEventListener('popstate', this._handlePopState);
-
         // Добавляем новый обработчик
         window.addEventListener('popstate', this._handlePopState);
 
@@ -58,7 +56,7 @@ export default class Router {
     }
 
     // Приватный метод-обработчик для popstate
-    private _handlePopState = (event: PopStateEvent): void => {
+    private _handlePopState = (): void => {
         this._onRoute(window.location.pathname);
     }
 
@@ -75,23 +73,23 @@ export default class Router {
         }
 
         this._currentRoute = route;
-        route.render();
+        route.createBlock();
     }
 
-    go(pathname: string) {
+    public go(pathname: string) {
         this.history.pushState({}, '', pathname);
         this._onRoute(pathname);
     }
 
-    back() {
+    public back() {
         this.history.back();
     }
 
-    forward() {
+    public forward() {
         this.history.forward();
     }
 
-    getRoute(pathname: string) {
+    public getRoute(pathname: string) {
         return this.routes.find(route => route.match(pathname));
     }
 }

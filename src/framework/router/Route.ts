@@ -5,18 +5,6 @@ function isEqual(lhs: string, rhs: string) {
     return lhs === rhs;
 }
 
-function render(rootSelector: string, block: Block) {
-    const root = document.querySelector(rootSelector);
-    if(!root || !block ) return;
-
-    const node = block.element();
-    if(!node) return;
-
-    root.appendChild(node);
-
-    return root;
-}
-
 interface RouteProps{
     rootQuery: string;
 }
@@ -38,37 +26,48 @@ export default class Route {
     }
 
     //отправить по роуту
-    navigate(pathname: string) {
+    public navigate(pathname: string):void {
         if (this.match(pathname)) {
             this._pathname = pathname;
-            this.render();
+            this.createBlock();
         }
     }
 
     //Если уходим с маршрута, очищаем содержимое
-    leave() {
+    public leave():void {
         if (this._block) {
-            this._block.hide(); //как именно хайд, додумать
+            this._block.hide();
+            this._block = null;
         }
     }
 
 
     //совпадают ли маршруты
-    match(pathname: string) {
+    public match(pathname: string): boolean {
+        if (this._pathname === '*') {
+            return true; // Маршрут 404 совпадает с любым путём
+        }
+
         return isEqual(pathname, this._pathname);
     }
 
     //рендер содержимого в зависимости от маршрута
-    render() {
-        if (!this._block) {
-            this._block = new this._blockClass(this._blockProps as Partial<BlockOwnProps>);
+    public createBlock():void {
+        //всегда создаем заново
+        this._block = new this._blockClass(this._blockProps as Partial<BlockOwnProps>);
 
-            if(!this._block) return;
-
-            render(this._props.rootQuery, this._block);
-            return;
-        }
-
-        this._block.show(); //как показывать - тоже дописать
+        if(!this._block) return;
+        this.renderDom(this._props.rootQuery, this._block);
     }
+
+    private renderDom(rootSelector: string, block: Block):void {
+        const root = document.querySelector(rootSelector);
+        if(!root || !block ) return;
+
+        const node = block.element();
+        if(!node) return;
+
+        root.appendChild(node);
+    }
+
 }
