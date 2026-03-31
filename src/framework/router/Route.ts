@@ -13,11 +13,11 @@ export default class Route {
     private _pathname: string; //путь
     private _blockClass:  { new(props: BlockOwnProps): Block }; //конструктор блока
     private _block: Block | null; // конкретный блок, построенный из _blockClass
-    private _blockProps: unknown; //пропсы, с которыми надо вызвать блок
+    private _blockProps: Partial<BlockOwnProps>; //пропсы, с которыми надо вызвать блок
     private _props: RouteProps; //пропсы routera
 
 
-    constructor(pathname: string, view:  { new(): Block }, props: RouteProps, blockProps: unknown) {
+    constructor(pathname: string, view:  { new(): Block }, props: RouteProps, blockProps: Partial<BlockOwnProps>) {
         this._pathname = pathname;
         this._blockClass = view;
         this._block = null;
@@ -37,7 +37,9 @@ export default class Route {
     public leave():void {
         if (this._block) {
             this._block.hide();
-            this._block = null;
+            this._block = null; //если в истории не нужны предыдущие состояния
+            this._blockProps.__children = []; //если в истории не нужны предыдущие состояния
+            this._blockProps.__refs = {}; //если в истории не нужны предыдущие состояния
         }
     }
 
@@ -53,7 +55,7 @@ export default class Route {
 
     //рендер содержимого в зависимости от маршрута
     public createBlock():void {
-        //всегда создаем заново
+        //всегда создаем заново, если в истории не нужны предыдущие состояния (в тз явно не указано, поэтому не будем тянуть мусор)
         this._block = new this._blockClass(this._blockProps as Partial<BlockOwnProps>);
 
         if(!this._block) return;

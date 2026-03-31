@@ -1,3 +1,4 @@
+import type { BlockOwnProps } from "../Block";
 import type Block from "../Block";
 import Route from "./Route";
 
@@ -23,7 +24,7 @@ export default class Router {
         return Router.instance;
     }
 
-    public use(pathname: string, block: { new(): Block }, blockProps: unknown) {
+    public use(pathname: string, block: { new(): Block }, blockProps: Partial<BlockOwnProps>) {
         const route = new Route(pathname, block, {rootQuery: this._rootQuery}, blockProps);
 
         this.routes.push(route);
@@ -38,26 +39,37 @@ export default class Router {
         window.addEventListener('popstate', this._handlePopState);
 
         //предотвращаем перезагрузку на ссылках
-        document.addEventListener('click', (e) => {
-            const link = e.target as HTMLAnchorElement;
-            if (link.tagName === 'A' && link.href) {
-                e.preventDefault();
-                const url = new URL(link.href, window.location.href);
-                if (url.origin === window.location.origin) {
-                    this.go(url.pathname);
-                } else {
-                    window.location.href = link.href;
-                }
-            }
-        });
+        document.addEventListener('click', this.handleLinkClick);
 
         // Инициализируем текущий маршрут
         this._onRoute(window.location.pathname);
     }
 
-    // Приватный метод-обработчик для popstate
+    // обработчик для popstate
     private _handlePopState = (): void => {
         this._onRoute(window.location.pathname);
+    }
+
+    //обработчик ссылок
+    private handleLinkClick = (e: MouseEvent): void => {
+        const link = e.target as HTMLAnchorElement;
+        if (link.tagName !== 'A' || !link.getAttribute('href')) return;
+
+        e.preventDefault();
+        const url = new URL(link.href, window.location.href);
+
+        if (url.origin !== window.location.origin) {
+            window.location.href = link.href;
+            return;
+        }
+
+        switch (url.pathname) {
+            case '/back':
+                this.back();
+                break;
+            default:
+                this.go(url.pathname);
+        }
     }
 
 
