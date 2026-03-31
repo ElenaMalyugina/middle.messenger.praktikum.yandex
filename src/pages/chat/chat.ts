@@ -66,12 +66,6 @@ export default class Chat extends Block<ChatPageProps>{
     protected template = chatTemplate;
     private activeSidebarClass = "chat__sidebar--active";
 
-    constructor(props: ChatPageProps) {
-        super(props);
-
-        this.props.selectedChatEmit = this.setIsSelectedChat;
-    }
-
     //возможно, нужно что-то типа общего контекста, чтобы не прокидывать событие на 2 этажа вверх, пока пусть так
     setIsSelectedChat=(id:number)=>{
         console.log(id); // Потенциально можем запросить с бэка список сообщений в чате
@@ -109,5 +103,12 @@ export default class Chat extends Block<ChatPageProps>{
                 this.showSidebar(sidebar);
             }
         }
+    }
+
+    protected componentDidMount(): void {
+        this.setProps({
+            selectedChatEmit: this.setIsSelectedChat,
+            sidebarActive: true
+        })
     }
 }

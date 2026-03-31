@@ -163,4 +163,12 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
 
         return templateElement.content.firstElementChild;
     }
+
+    public hide(){
+
+    }
+
+    public show(){
+
+    }
 }

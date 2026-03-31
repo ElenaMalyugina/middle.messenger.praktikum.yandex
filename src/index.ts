@@ -9,9 +9,10 @@ import Errors from "./pages/errors/errors";
 import { getError } from "./pages/errors/errorsHelper";
 import EditProfile from "./pages/edit-profile/edit-profile";
 import ChangePassword from "./pages/change-password/change-password";
+import Router from "./framework/router/Router";
 
-const entryNode = document.getElementById("app")!;
-let compiledTemplate: string = "";
+/*const entryNode = document.getElementById("app")!;
+//let compiledTemplate: string = "";
 let compiledElement: Element | null = null;
 
 //для демо роутинг
@@ -47,11 +48,21 @@ switch (window.location.pathname){
 }
 
 
-entryNode.innerHTML = compiledTemplate;
+//entryNode.innerHTML = compiledTemplate;
 
 if(compiledElement){
     entryNode.appendChild(compiledElement);
-}
+}*/
+
+const router = Router.getInstance("#app");
+
+router
+    .use("/", Chat, {})
+    .use("/chat", Chat, {})
+    .use("/login", Login, {})
+    .use("/registration", Registration, {})
+    .use("/not-found", Errors, getError(404))
+    .start();
 
 
 
