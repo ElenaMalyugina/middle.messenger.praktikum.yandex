@@ -26,12 +26,11 @@ https://middle-messenger-praktikum-git-f1653c-elenamalyuginas-projects.vercel.ap
 
 
 Пути 
-"/chat" - чат;
-"/" - чат;
-"/login" -  логин
-/registration" - регистрация;
-"/profile" - профиль;    
+"/" - логин
+"/messenger" - чат;
+"/sign-up" - регистрация;
+"/settings" - профиль;    
 "/edit-profile" - редактирование профиля;    
 "/change-password" - смена пароля ;
-"/not-found" - не найдено
-"/server-error" - 500 ошибка
+"/404" - не найдено
+"/500" - 500 ошибка

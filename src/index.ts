@@ -14,15 +14,14 @@ import Router from "./framework/router/Router";
 const router = Router.getInstance("#app");
 
 router
-    .use("/", Chat, {})
-    .use("/chat", Chat, {})
-    .use("/login", Login, {})
-    .use("/registration", Registration, {})
-    .use("/profile", Profile, {})
+    .use("/", Login, {})
+    .use("/messenger", Chat, {})
+    .use("/sign-up", Registration, {})
+    .use("/settings", Profile, {})
     .use("/edit-profile", EditProfile, {})
     .use("/change-password", ChangePassword, {})
-    .use("/server-error", Errors, getError(500))
-    .use("/not-found", Errors, getError(404))
+    .use("/500", Errors, getError(500))
+    .use("/404", Errors, getError(404))
     .use("*", Errors, getError(404))
     .start();
 

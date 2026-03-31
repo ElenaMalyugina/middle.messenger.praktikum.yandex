@@ -8,7 +8,6 @@ export type typeContent = "add" | "delete";
 //настройки для модалок
 const modalAddUser = {
     title: "Добавить пользователя",
-    action: "/chat",
     buttonText: "Добавить",
     formSettings:{
         action: "/add"
