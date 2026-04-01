@@ -9,20 +9,27 @@ interface RouteProps{
     rootQuery: string;
 }
 
+export type RouteMode = "clean" | null;
+
 export default class Route {
     private _pathname: string; //путь
     private _blockClass:  { new(props: BlockOwnProps): Block }; //конструктор блока
     private _block: Block | null; // конкретный блок, построенный из _blockClass
     private _blockProps: Partial<BlockOwnProps>; //пропсы, с которыми надо вызвать блок
     private _props: RouteProps; //пропсы routera
+    private mode: RouteMode = null;
 
 
-    constructor(pathname: string, view:  { new(): Block }, props: RouteProps, blockProps: Partial<BlockOwnProps>) {
+    constructor(pathname: string, view: {new(): Block}, props: RouteProps, blockProps: Partial<BlockOwnProps>, mode?: RouteMode) {
         this._pathname = pathname;
         this._blockClass = view;
         this._block = null;
         this._props = props;
         this._blockProps = blockProps;
+
+        if(mode){
+            this.mode = mode;
+        }
     }
 
     //отправить по роуту
@@ -36,10 +43,14 @@ export default class Route {
     //Если уходим с маршрута, очищаем содержимое
     public leave():void {
         if (this._block) {
-            this._block.hide();
-            /*this._block = null; //если в истории не нужны предыдущие состояния
-            this._blockProps.__children = []; //если в истории не нужны предыдущие состояния
-            this._blockProps.__refs = {}; //если в истории не нужны предыдущие состояния*/
+            this._block.hide(this.mode);
+
+            //если в истории не нужны предыдущие состояния
+            if(this.mode == "clean"){
+                this._block = null;
+                this._blockProps.__children = [];
+                this._blockProps.__refs = {};
+            }
         }
     }
 
@@ -52,12 +63,10 @@ export default class Route {
     //рендер содержимого в зависимости от маршрута
     public createBlock():void {
         if(!this._block){
-            //если нужно будет каждый раз создавать блок заново - убрать проверку на блок и раскомментировать в block.hide и this.leave
             this._block = new this._blockClass(this._blockProps as Partial<BlockOwnProps>);
-
             if(!this._block) return;
         }
 
-        this._block.renderDom(this._props.rootQuery, this._block);
+        this._block.renderDom(this._props.rootQuery);
     }
 }

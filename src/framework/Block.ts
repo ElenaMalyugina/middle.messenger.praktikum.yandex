@@ -1,5 +1,6 @@
 import Handlebars from 'handlebars';
 import { deepEqual } from '../utils/deepEqual';
+import type { RouteMode } from './router/Route';
 
 export interface BlockOwnProps {
   __children?: Array<{
@@ -164,34 +165,34 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
         return templateElement.content.firstElementChild;
     }
 
-    public hide() {
-        this.unmountComponent();
-
+    public hide(mode: RouteMode) {
         if (this.domElement) {
             if (this.domElement.parentNode) {
                 this.domElement.parentNode.removeChild(this.domElement);
             }
 
             // Очищаем все внутренние ссылки для последующего создания чистого компонента
-            /*this.domElement = null;
-            this.children = [];
-            this.refs = {};*/
-        }
+            if(mode === "clean"){
+                //this.unmountComponent();
+                this.domElement = null;
+                this.children = [];
+                this.refs = {};
+                if (this.props.__children) {
+                    this.props.__children = [];
+                }
 
-        // Очищаем __children и __refs в props — это критически важно, иначе будет ошибка в плейсхолдерах
-        /*if (this.props.__children) {
-            this.props.__children = [];
+                if (this.props.__refs) {
+                    this.props.__refs = {};
+                }
+            }
         }
-        if (this.props.__refs) {
-            this.props.__refs = {};
-        }*/
     }
 
-    public renderDom(rootSelector: string, block: Block):void {
+    public renderDom(rootSelector: string):void {
         const root = document.querySelector(rootSelector);
-        if(!root || !block ) return;
+        if(!root || !this) return;
 
-        const node = block.element();
+        const node = this.element();
         if(!node) return;
 
         root.appendChild(node);

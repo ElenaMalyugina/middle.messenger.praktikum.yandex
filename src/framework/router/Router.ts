@@ -1,6 +1,6 @@
 import type { BlockOwnProps } from "../Block";
 import type Block from "../Block";
-import Route from "./Route";
+import Route, { type RouteMode } from "./Route";
 
 export default class Router {
     private static instance: Router;
@@ -17,15 +17,15 @@ export default class Router {
     public static getInstance(rootQuery?: string): Router {
         if (!Router.instance) {
             if (!rootQuery) {
-                throw new Error('rootQuery is required for first initialization');
+                throw new Error('Не определен корневой элемент');
             }
             Router.instance = new Router(rootQuery);
         }
         return Router.instance;
     }
 
-    public use(pathname: string, block: { new(): Block }, blockProps: Partial<BlockOwnProps>) {
-        const route = new Route(pathname, block, {rootQuery: this._rootQuery}, blockProps);
+    public use(pathname: string, block: { new(): Block }, blockProps: Partial<BlockOwnProps>, mode?: RouteMode) {
+        const route = new Route(pathname, block, {rootQuery: this._rootQuery}, blockProps, mode);
 
         this.routes.push(route);
 
