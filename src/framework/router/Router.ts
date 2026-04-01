@@ -77,6 +77,7 @@ export default class Router {
         const route = this.getRoute(pathname);
 
         if (!route) {
+            this.replace("/404");
             return;
         }
 
@@ -100,6 +101,13 @@ export default class Router {
     public forward() {
         this.history.forward();
     }
+
+    //если не надо засорять историю какими-то роутингами
+    public replace(pathname: string) {
+        this.history.replaceState({}, '', pathname);
+        this._onRoute(pathname);
+    }
+
 
     public getRoute(pathname: string) {
         return this.routes.find(route => route.match(pathname));

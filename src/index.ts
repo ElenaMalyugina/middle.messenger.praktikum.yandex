@@ -22,7 +22,6 @@ router
     .use("/change-password", ChangePassword, {})
     .use("/500", Errors, getError(500))
     .use("/404", Errors, getError(404))
-    .use("*", Errors, getError(404))
     .start();
 
 

@@ -37,39 +37,27 @@ export default class Route {
     public leave():void {
         if (this._block) {
             this._block.hide();
-            this._block = null; //если в истории не нужны предыдущие состояния
+            /*this._block = null; //если в истории не нужны предыдущие состояния
             this._blockProps.__children = []; //если в истории не нужны предыдущие состояния
-            this._blockProps.__refs = {}; //если в истории не нужны предыдущие состояния
+            this._blockProps.__refs = {}; //если в истории не нужны предыдущие состояния*/
         }
     }
 
 
     //совпадают ли маршруты
     public match(pathname: string): boolean {
-        if (this._pathname === '*') {
-            return true; // Маршрут 404 совпадает с любым путём
-        }
-
         return isEqual(pathname, this._pathname);
     }
 
     //рендер содержимого в зависимости от маршрута
     public createBlock():void {
-        //всегда создаем заново, если в истории не нужны предыдущие состояния (в тз явно не указано, поэтому не будем тянуть мусор)
-        this._block = new this._blockClass(this._blockProps as Partial<BlockOwnProps>);
+        if(!this._block){
+            //если нужно будет каждый раз создавать блок заново - убрать проверку на блок и раскомментировать в block.hide и this.leave
+            this._block = new this._blockClass(this._blockProps as Partial<BlockOwnProps>);
 
-        if(!this._block) return;
-        this.renderDom(this._props.rootQuery, this._block);
+            if(!this._block) return;
+        }
+
+        this._block.renderDom(this._props.rootQuery, this._block);
     }
-
-    private renderDom(rootSelector: string, block: Block):void {
-        const root = document.querySelector(rootSelector);
-        if(!root || !block ) return;
-
-        const node = block.element();
-        if(!node) return;
-
-        root.appendChild(node);
-    }
-
 }

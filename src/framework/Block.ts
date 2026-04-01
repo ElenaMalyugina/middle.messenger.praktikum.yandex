@@ -169,22 +169,32 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
 
         if (this.domElement) {
             if (this.domElement.parentNode) {
-            this.domElement.parentNode.removeChild(this.domElement);
+                this.domElement.parentNode.removeChild(this.domElement);
             }
 
             // Очищаем все внутренние ссылки для последующего создания чистого компонента
-            this.domElement = null;
+            /*this.domElement = null;
             this.children = [];
-            this.refs = {};
+            this.refs = {};*/
         }
 
         // Очищаем __children и __refs в props — это критически важно, иначе будет ошибка в плейсхолдерах
-        if (this.props.__children) {
+        /*if (this.props.__children) {
             this.props.__children = [];
         }
         if (this.props.__refs) {
             this.props.__refs = {};
-        }
+        }*/
+    }
+
+    public renderDom(rootSelector: string, block: Block):void {
+        const root = document.querySelector(rootSelector);
+        if(!root || !block ) return;
+
+        const node = block.element();
+        if(!node) return;
+
+        root.appendChild(node);
     }
 
 }
