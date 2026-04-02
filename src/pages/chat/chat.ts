@@ -24,6 +24,7 @@ import AddDeleteUser from "../../components/chat/modal-contents/add-delete-user/
 import AddDeleteUserForm from "../../components/chat/modal-contents/add-delete-user/form/add-delete-user-form.ts";
 import PopupFilesForm from "../../components/chat/popup-contents/popup-files/form/popup-files-form.ts";
 import PopupFiles from "../../components/chat/popup-contents/popup-files/popup-files.ts";
+import ChatService from "../../services/chatsService.ts";
 
 //Получение даты в читаемом формате
 Handlebars.registerHelper("getDayAndYear", function(dateString){
@@ -65,6 +66,7 @@ export default class Chat extends Block<ChatPageProps>{
     static componentName = 'Chat';
     protected template = chatTemplate;
     private activeSidebarClass = "chat__sidebar--active";
+    private chatService =  new ChatService();
 
     //возможно, нужно что-то типа общего контекста, чтобы не прокидывать событие на 2 этажа вверх, пока пусть так
     setIsSelectedChat=(id:number)=>{
@@ -110,5 +112,8 @@ export default class Chat extends Block<ChatPageProps>{
             selectedChatEmit: this.setIsSelectedChat,
             sidebarActive: true
         })
+
+        this.chatService.request();
+
     }
 }
