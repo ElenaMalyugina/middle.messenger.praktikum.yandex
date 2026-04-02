@@ -28,8 +28,16 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
     //дочерние блоки
     protected children: Block<object>[] = [];
 
+    public get publicChildren(){
+        return this.children;
+    }
+
     //рефы
     protected refs: Record<string, Element> = {};
+
+    public get publicRefs(){
+        return this.refs;
+    }
 
     /** В этом объекте ключ — это название метода, а значение — обработчик */
     protected events: EventListType = {};

@@ -28,13 +28,7 @@ export default class RegistrationForm extends Form<RegistrationFormProps> {
         })
     }
 
-    submitFormHandler(data: Registration){
-        this.registrationController.registrationUser(data)
-            .then(res=>{
-                console.log(res);
-            })
-            .catch(err=>{
-                console.log(err)
-            })
+    submitForm = (form: Form)=>{
+        this.registrationController.submitFormHandler(form);
     }
 }
