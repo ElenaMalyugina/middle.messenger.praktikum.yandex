@@ -24,7 +24,7 @@ import AddDeleteUser from "../../components/chat/modal-contents/add-delete-user/
 import AddDeleteUserForm from "../../components/chat/modal-contents/add-delete-user/form/add-delete-user-form.ts";
 import PopupFilesForm from "../../components/chat/popup-contents/popup-files/form/popup-files-form.ts";
 import PopupFiles from "../../components/chat/popup-contents/popup-files/popup-files.ts";
-import ChatService from "../../services/chatsService.ts";
+import ChatService from "../../api/chatsService.ts";
 
 //Получение даты в читаемом формате
 Handlebars.registerHelper("getDayAndYear", function(dateString){
