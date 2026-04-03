@@ -7,7 +7,7 @@ export default abstract class BaseFormController<T>{
     public submitFormHandler = (form: Form)=>{
         const isValidForm = this.formValidation(form.publicChildren);
 
-        if(!isValidForm) return;
+        //if(!isValidForm) return;
 
         const formData = this.formDataBuilder(form.publicRefs) || null;
 

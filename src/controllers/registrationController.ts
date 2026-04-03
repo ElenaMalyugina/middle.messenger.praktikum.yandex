@@ -1,4 +1,5 @@
 import RegistrationApi from "../api/registrationApi";
+import Store from "../framework/store/Store";
 import BaseFormController from "./baseFormController";
 
 export interface Registration{
@@ -20,10 +21,14 @@ export default class RegistrationController extends BaseFormController<Registrat
 
     private async registrationUser(data: Registration | null) {
         try {
-            return await this.registrationApi.create(data);
+            await this.registrationApi.create(data);
         }
-        catch (error) {
-            return error;
+        catch (error: unknown) {
+            if(error && typeof error == 'object' && error.hasOwnProperty("response")){
+                const errorJson = JSON.parse(error.response);
+                Store.setState("serverError", errorJson.reason);
+            }
+
         }
     }
 }
