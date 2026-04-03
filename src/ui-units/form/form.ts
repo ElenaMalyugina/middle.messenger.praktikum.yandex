@@ -1,6 +1,5 @@
 import Block, {type BlockOwnProps }  from "../../framework/Block";
 import Store from "../../framework/store/Store";
-import ErrorMessage from "../error-message/error-message";
 
 export interface FormProps extends BlockOwnProps{
     id: string;
@@ -19,7 +18,16 @@ export default abstract class Form <Props extends FormProps = FormProps> extends
             event.preventDefault();
             this.submitForm(this);
         },
-
+        click: (event: Event)=>{
+            if(event.target instanceof HTMLInputElement){
+                if(Store){
+                    const store= Store.getState();
+                    if(store.serverError.length){
+                        Store.setState("serverError", "");
+                    }
+                }
+            }
+        }
     }
 
 }

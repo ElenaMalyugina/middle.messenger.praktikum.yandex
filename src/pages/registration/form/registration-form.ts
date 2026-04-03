@@ -18,7 +18,6 @@ const initialUser:Registration = {
 
 interface RegistrationFormProps extends FormProps{
     data: Registration;
-    regServerError: string | undefined;
 }
 
 class RegistrationForm extends Form<RegistrationFormProps> {
@@ -36,6 +35,7 @@ class RegistrationForm extends Form<RegistrationFormProps> {
             const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
             if(!errorMessageBlock) return;
             const regError = Store.getState();
+
             errorMessageBlock.setProps({message: regError.serverError as string })
 
         })
