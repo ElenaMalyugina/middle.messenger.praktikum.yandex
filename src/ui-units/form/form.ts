@@ -8,6 +8,7 @@ export interface FormProps extends BlockOwnProps{
     method: string;
     ref: string;
     data: unknown;
+    errorType: string;
 }
 
 export default abstract class Form <Props extends FormProps = FormProps> extends Block<Props>{
@@ -22,12 +23,11 @@ export default abstract class Form <Props extends FormProps = FormProps> extends
             if(event.target instanceof HTMLInputElement){
                 if(Store){
                     const store= Store.getState();
-                    if(store.serverError.length){
-                        Store.setState("serverError", "");
+                    if(store[this.props.errorType]){
+                        Store.setState(`${this.props.errorType}`, "");
                     }
                 }
             }
         }
     }
-
 }

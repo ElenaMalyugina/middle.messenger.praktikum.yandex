@@ -1,5 +1,6 @@
 import LoginApi from "../api/loginApi";
 import Store from "../framework/store/Store";
+import { errorHandler } from "../services/errorHandler";
 import type { Login } from "../types/login";
 import BaseFormController from "./baseFormController";
 
@@ -15,11 +16,8 @@ export default class LoginController extends BaseFormController<Login> {
             await this.loginApi.create(data);
         }
         catch (error: unknown) {
-            if(error && typeof error == 'object' && error.hasOwnProperty("response")){
-                const errorJson = JSON.parse(error.response);
-                Store.setState("serverError", errorJson.reason);
-            }
-
+            const parsedError = errorHandler(error);
+            Store.setState("loginError", parsedError);
         }
     }
 }

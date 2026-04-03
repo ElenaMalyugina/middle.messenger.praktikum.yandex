@@ -1,6 +1,6 @@
 {{#> form-page-layout}}
     <h1 class="form-header form-block__header">Вход</h1>
-    {{{ LoginForm method="POST" action="/" class="form" id="login-from" ref="login-form"}}}
+    {{{ LoginForm method="POST" action="/" class="form" id="login-from" ref="login-form" errorType="loginError"}}}
     <div class="form-block__link-wrapper">
         {{{ Link className="link form-block__link" href="/sign-up" text="Нет аккаунта?" }}}
     </div>

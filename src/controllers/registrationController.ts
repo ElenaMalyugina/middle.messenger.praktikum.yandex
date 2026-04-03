@@ -1,5 +1,6 @@
 import RegistrationApi from "../api/registrationApi";
 import Store from "../framework/store/Store";
+import { errorHandler } from "../services/errorHandler";
 import type { Registration } from "../types/registration";
 import BaseFormController from "./baseFormController";
 
@@ -16,10 +17,8 @@ export default class RegistrationController extends BaseFormController<Registrat
             await this.registrationApi.create(data);
         }
         catch (error: unknown) {
-            if(error && typeof error == 'object' && error.hasOwnProperty("response")){
-                const errorJson = JSON.parse(error.response);
-                Store.setState("serverError", errorJson.reason);
-            }
+            const parsedError = errorHandler(error);
+            Store.setState("registrationError", parsedError);
         }
     }
 }

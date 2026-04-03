@@ -32,9 +32,9 @@ export default class LoginForm extends Form<LoginFormProps>{
             /*если ошибка*/
             const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
             if(!errorMessageBlock) return;
-            const regError = Store.getState();
+            const loginError = Store.getState();
 
-            errorMessageBlock.setProps({message: regError.serverError as string })
+            errorMessageBlock.setProps({message: loginError.loginError as string })
 
         })
     }
