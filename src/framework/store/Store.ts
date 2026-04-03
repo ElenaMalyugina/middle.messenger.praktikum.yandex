@@ -25,7 +25,7 @@ class Store {
 
         // Возвращаем функцию для отписки
         return () => {
-        this.listeners.delete(listener);
+            this.listeners.delete(listener);
         };
     }
 
