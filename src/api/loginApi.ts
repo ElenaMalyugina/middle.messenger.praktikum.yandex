@@ -1,8 +1,8 @@
 import HTTPTransport from "../framework/Http/HTTPTransport";
 import { BaseAPI } from "../framework/Http/BaseApi";
-import type { Registration } from "../types/registration";
+import type { Login } from "../types/login";
 
-export default class RegistrationApi extends BaseAPI {
+export default class LoginApi extends BaseAPI {
     private transport: HTTPTransport;
 
     constructor() {
@@ -10,7 +10,7 @@ export default class RegistrationApi extends BaseAPI {
         this.transport = new HTTPTransport('api/v2/auth');
     }
 
-    create<T = Registration>(userData: T): Promise<unknown> {
-        return this.transport.post('/signup', {data: userData} );
+    create<T = Login>(loginData: T): Promise<unknown> {
+        return this.transport.post('/signin', {data: loginData} );
     }
 }

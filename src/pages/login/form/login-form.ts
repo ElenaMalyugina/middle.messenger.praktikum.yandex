@@ -1,3 +1,6 @@
+import LoginController from "../../../controllers/loginFormController";
+import Store from "../../../framework/store/Store";
+import ErrorMessage from "../../../ui-units/error-message/error-message";
 import Form, { type FormProps } from "../../../ui-units/form/form";
 import loginFormTemplate from "./login-form.hbs?raw";
 
@@ -18,10 +21,25 @@ interface LoginFormProps extends FormProps{
 export default class LoginForm extends Form<LoginFormProps>{
     static componentName = 'LoginForm';
     protected template = loginFormTemplate;
+    private loginController = new LoginController();
 
     protected componentDidMount(): void {
         this.setProps({
             data: {...initialData}
         })
+
+        Store.subscribe(()=>{
+            /*если ошибка*/
+            const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
+            if(!errorMessageBlock) return;
+            const regError = Store.getState();
+
+            errorMessageBlock.setProps({message: regError.serverError as string })
+
+        })
+    }
+
+    submitForm = (form: Form)=>{
+        this.loginController.submitFormHandler(form);
     }
 }

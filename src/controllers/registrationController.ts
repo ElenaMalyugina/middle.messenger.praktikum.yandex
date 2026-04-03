@@ -1,16 +1,8 @@
 import RegistrationApi from "../api/registrationApi";
 import Store from "../framework/store/Store";
+import type { Registration } from "../types/registration";
 import BaseFormController from "./baseFormController";
 
-export interface Registration{
-    email: string;
-    login: string;
-    first_name: string;
-    second_name: string;
-    phone: string;
-    new_password: string;
-    repeat_password: string;
-}
 
 export default class RegistrationController extends BaseFormController<Registration> {
     private registrationApi: RegistrationApi = new RegistrationApi();
@@ -28,7 +20,6 @@ export default class RegistrationController extends BaseFormController<Registrat
                 const errorJson = JSON.parse(error.response);
                 Store.setState("serverError", errorJson.reason);
             }
-
         }
     }
 }
