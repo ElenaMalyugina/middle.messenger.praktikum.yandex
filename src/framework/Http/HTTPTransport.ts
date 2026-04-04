@@ -74,6 +74,8 @@ export default class HTTPTransport {
                 isGet && data ? `${this.resourceUrl}${url}${queryString(data)}` :`${this.resourceUrl}${url}`,
             );
 
+            xhr.withCredentials = true;
+
             if (responseType) {
                 xhr.responseType = responseType;
             }

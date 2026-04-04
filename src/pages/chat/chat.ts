@@ -113,7 +113,5 @@ export default class Chat extends Block<ChatPageProps>{
             sidebarActive: true
         })
 
-        this.chatService.request();
-
     }
 }

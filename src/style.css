@@ -75,6 +75,11 @@ body{
      @extend .button--hover;
 }
 
+.extended-button{
+    all: unset;
+    cursor: pointer;
+}
+
 .link{
     color:var(--second-color);
     text-decoration: none;
@@ -166,9 +171,7 @@ body{
     }
 }
 
-.extended-button{
-    all: unset;
-}
+
 
 
 

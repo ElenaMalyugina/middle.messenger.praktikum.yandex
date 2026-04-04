@@ -17,4 +17,8 @@ export default class LoginApi extends BaseAPI {
     request(): Promise<unknown> {
         return this.transport.get("/user")
     }
+
+    delete(): Promise<unknown> {
+        return this.transport.post("/logout")
+    }
 }
