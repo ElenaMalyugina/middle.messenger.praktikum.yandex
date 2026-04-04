@@ -1,5 +1,4 @@
 import RegistrationController from "../../../controllers/registrationController";
-import connect from "../../../framework/connect";
 import Store from "../../../framework/store/Store";
 import type { Registration } from "../../../types/registration";
 import ErrorMessage from "../../../ui-units/error-message/error-message";
@@ -31,7 +30,7 @@ export default class RegistrationForm extends Form<RegistrationFormProps> {
         })
 
         Store.subscribe(()=>{
-            //если ошибка
+            //если ошибка регистрации на бэке
             const regError = Store.getState();
             const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
             if(!errorMessageBlock) return;
@@ -43,6 +42,3 @@ export default class RegistrationForm extends Form<RegistrationFormProps> {
         this.registrationController.submitFormHandler(form);
     }
 }
-
-//const withRegistration = connect(state=>({regServerError: state.regServerError}));
-//export default withRegistration(RegistrationForm);

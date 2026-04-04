@@ -29,7 +29,7 @@ export default class LoginForm extends Form<LoginFormProps>{
         })
 
         Store.subscribe(()=>{
-            /*если ошибка*/
+            //если ошибка на авторизации на бэке
             const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
             if(!errorMessageBlock) return;
             const loginError = Store.getState();
