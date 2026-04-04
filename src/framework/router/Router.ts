@@ -93,15 +93,8 @@ export default class Router {
         }
 
         if(route.guards.find(guard => guard === "AuthGuard")){
-            try{
-                await this.authGuardMiddleware.isAuth();
-            }
-            catch(error){
-                if((error as ServerError).status >= 400){
-                    this.replace("/");
-                    return;
-                }
-            }
+            const isAuth = await this.authGuardMiddleware.isAuth(this);
+            if(!isAuth) return;
         }
 
         if (this._currentRoute && this._currentRoute !== route) {
