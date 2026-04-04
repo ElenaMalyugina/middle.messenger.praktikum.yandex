@@ -5,6 +5,7 @@ import profileTemplate from "/src/pages/profile/profile.hbs?raw";
 import ProfileInfoBlock from "../../components/profile/profile-info/profile-info";
 import ProfileMenu from "../../components/profile/profile-menu/profile-menu";
 import ProfilePageLayout from "../../layouts/profile-page/profile-page-layout";
+import ProfileController from "../../controllers/profileController";
 
 ProfilePageLayout.register();
 
@@ -14,4 +15,9 @@ registerComponent(ProfileMenu);
 export default class Profile extends Block{
     static componentName = 'Profile';
     protected template = profileTemplate;
+    private profileController = new ProfileController();
+
+    protected componentDidMount(): void {
+        this.profileController.getUserInfo();
+    }
 }
