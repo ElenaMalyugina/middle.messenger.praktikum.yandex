@@ -15,12 +15,10 @@ export default class LoginController extends BaseFormController<Login> {
 
     private async login(data: Login | null) {
         try {
-            await this.loginApi.create(data)
-                .then(resp=> {
-                    if(resp==="OK"){
-                        this.routing.go("/messenger");
-                    }
-                });
+            const result = await this.loginApi.create(data);
+            if(result==="OK"){
+                this.routing.go("/messenger");
+            }
         }
         catch (error) {
             const parsedError = errorHandler(error);
@@ -30,12 +28,10 @@ export default class LoginController extends BaseFormController<Login> {
 
     public async logout(){
         try{
-            await this.loginApi.delete()
-                .then(resp =>{
-                    if(resp==="OK"){
-                        this.routing.go("/");
-                    }
-                })
+            const result = await this.loginApi.delete();
+            if(result==="OK"){
+                this.routing.go("/");
+            }
         }
         catch(error){
             const parsedError = errorHandler(error);

@@ -5,6 +5,5 @@ export default class AuthController  {
 
     public async getUser(){
         return await this.loginApi.request();
-
     }
 }
