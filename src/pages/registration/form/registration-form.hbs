@@ -9,7 +9,7 @@
         {{{ InputBlock block="registration" type="password" label="Пароль (еще раз)" name="repeat_password" id="repeat_password" value=repeat_password validators="required,password,repeatpassword"}}}
     {{/with}}
 
-    {{{ ErrorMessage className="input-block__error form__error" ref="serverError"}}}
+    {{{ ErrorMessage className="input-block__error form__error" ref="serverError" message=regServerError }}}
     {{{ Button className="button form-block__button" type="submit" text="Зарегистрироваться"}}}
 
 </form>

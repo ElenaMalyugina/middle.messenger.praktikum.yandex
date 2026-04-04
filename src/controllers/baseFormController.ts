@@ -30,7 +30,7 @@ export default abstract class BaseFormController<T>{
         })
 
         //если хоть одна ошибка на форме - выходим
-        if(validationArr.some(value => !value)) return false;
+        //if(validationArr.some(value => !value)) return false;
 
         return true;
     }

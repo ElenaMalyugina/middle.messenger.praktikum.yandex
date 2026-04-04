@@ -13,4 +13,8 @@ export default class LoginApi extends BaseAPI {
     create<T = Login>(loginData: T): Promise<unknown> {
         return this.transport.post('/signin', {data: loginData} );
     }
+
+    request(): Promise<unknown> {
+        return this.transport.get("/user")
+    }
 }

@@ -18,7 +18,7 @@ export default class RegistrationController extends BaseFormController<Registrat
         }
         catch (error: unknown) {
             const parsedError = errorHandler(error);
-            Store.setState("registrationError", parsedError);
+            Store.setState("regServerError", parsedError);
         }
     }
 }

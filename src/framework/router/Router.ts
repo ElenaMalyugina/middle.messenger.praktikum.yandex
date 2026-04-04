@@ -1,6 +1,8 @@
+import type { ServerError } from "../../types/serverError";
 import type { BlockOwnProps } from "../Block";
 import type Block from "../Block";
-import Route, { type RouteMode } from "./Route";
+import { authGuardMiddleware } from "./AuthGuardMiddleware";
+import Route, { type RouteProps } from "./Route";
 
 export default class Router {
     private static instance: Router;
@@ -8,6 +10,7 @@ export default class Router {
     private history: History;
     private _currentRoute: Route | null = null;
     private _rootQuery:string;
+    private authGuardMiddleware =  new authGuardMiddleware();
 
     private constructor(rootQuery: string) {
         this.history = window.history;
@@ -24,8 +27,16 @@ export default class Router {
         return Router.instance;
     }
 
-    public use(pathname: string, block: { new(): Block }, blockProps: Partial<BlockOwnProps>, mode?: RouteMode) {
-        const route = new Route(pathname, block, {rootQuery: this._rootQuery}, blockProps, mode);
+    public use(pathname: string, block: { new(): Block }, blockProps: Partial<BlockOwnProps>, options?: Partial<RouteProps>) {
+        const route = new Route(
+            pathname,
+            block,
+            blockProps,
+            {
+                rootQuery: options?.rootQuery || this._rootQuery,
+                mode: options?.mode || null,
+                guards: options?.guards || []
+            });
 
         this.routes.push(route);
 
@@ -73,12 +84,24 @@ export default class Router {
     }
 
 
-    private _onRoute(pathname: string) {
+    private async _onRoute(pathname: string) {
         const route = this.getRoute(pathname);
 
         if (!route) {
             this.replace("/404");
             return;
+        }
+
+        if(route.guards.find(guard => guard === "AuthGuard")){
+            try{
+                await this.authGuardMiddleware.isAuth();
+            }
+            catch(error){
+                if((error as ServerError).status >= 400){
+                    this.replace("/");
+                    return;
+                }
+            }
         }
 
         if (this._currentRoute && this._currentRoute !== route) {

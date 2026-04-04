@@ -20,7 +20,7 @@ interface RegistrationFormProps extends FormProps{
     data: Registration;
 }
 
-class RegistrationForm extends Form<RegistrationFormProps> {
+export default class RegistrationForm extends Form<RegistrationFormProps> {
     static componentName = 'RegistrationForm';
     protected template = registrationFormTemplate;
     private registrationController = new RegistrationController()
@@ -31,12 +31,11 @@ class RegistrationForm extends Form<RegistrationFormProps> {
         })
 
         Store.subscribe(()=>{
-            /*если ошибка*/
+            //если ошибка
+            const regError = Store.getState();
             const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
             if(!errorMessageBlock) return;
-            const regError = Store.getState();
-
-            errorMessageBlock.setProps({message: regError.registrationError as string })
+            errorMessageBlock.setProps({message: regError.regServerError as string })
         })
     }
 
@@ -45,6 +44,5 @@ class RegistrationForm extends Form<RegistrationFormProps> {
     }
 }
 
-const withRegistration = connect(state=>({regServerError: state.regServerError}));
-
-export default withRegistration(RegistrationForm);
+//const withRegistration = connect(state=>({regServerError: state.regServerError}));
+//export default withRegistration(RegistrationForm);
