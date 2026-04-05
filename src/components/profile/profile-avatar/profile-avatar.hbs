@@ -4,10 +4,10 @@
             <figure class="profile-avatar__wrapper">
                 {{#if ../isEditable}}
                     {{{ ProfileAvatarForm className="avatar-label" for="avatar" title="Изменить файл" name="avatar"
-                        profileImg=profileImg profileName=profileName
+                        profileImg=avatar profileName=profileName
                     }}}
                 {{else}}
-                    {{{ Img className="profile-avatar__img" src=profileImg alt=profileName width="130" height="130" }}}
+                    {{{ Img className="profile-avatar__img" src=avatar alt=profileName width="130" height="130" }}}
                 {{/if}}
             </figure>
             <h1 class="profile-header profile-avatar__header">{{ profileName }}</h1>

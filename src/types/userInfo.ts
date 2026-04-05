@@ -5,6 +5,7 @@ export interface UserInfo{
     second_name: string;
     display_name: string;
     phone: string;
+    avatar: string;
 }
 
 export class UserInfoModel implements UserInfo {
@@ -14,6 +15,9 @@ export class UserInfoModel implements UserInfo {
     second_name: string;
     display_name: string;
     phone: string;
+    avatar: string;
+
+    private defaultProfileImg = "/img/avatar-profile.png";
 
     constructor(data: UserInfo) {
         this.email = data.email;
@@ -22,5 +26,6 @@ export class UserInfoModel implements UserInfo {
         this.second_name = data.second_name;
         this.display_name = data.display_name || data.first_name;
         this.phone = data.phone;
+        this.avatar = data.avatar || this.defaultProfileImg
     }
 }

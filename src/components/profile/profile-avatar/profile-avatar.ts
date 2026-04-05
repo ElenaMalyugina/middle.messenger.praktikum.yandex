@@ -4,17 +4,13 @@ import ProfileAvatarTemplate from "./profile-avatar.hbs?raw";
 import Store from "../../../framework/store/Store";
 import type { UserInfo } from "../../../types/userInfo";
 import { registerComponent } from "../../../framework/RegisterComponent";
-import ProfileAvatarForm from "./profile-avatar-form/profie-avatar-form";
-
-interface UserData{
-    profileImg: string;
-    profileName: string;
-}
+import ProfileAvatarForm from "./profile-avatar-form/profile-avatar-form";
+import type { UserAvatar } from "../../../types/userAvatar";
 
 interface ProfileAvatarProps extends BlockOwnProps{
     isEditable: boolean;
     currentForm?: string;
-    userData: UserData;
+    userData: UserAvatar;
 }
 
 registerComponent(ProfileAvatarForm);
@@ -22,7 +18,6 @@ registerComponent(ProfileAvatarForm);
 export default class ProfileAvatar extends Block<ProfileAvatarProps>{
     static componentName = 'ProfileAvatar';
     protected template = ProfileAvatarTemplate;
-    private defaultProfileImg = "/img/avatar-profile.png";
 
     protected componentDidMount(): void {
         Store.subscribe(()=>{
@@ -33,7 +28,7 @@ export default class ProfileAvatar extends Block<ProfileAvatarProps>{
                     ...this.props,
                     userData:{
                         profileName: (userData.userData as UserInfo).display_name,
-                        profileImg: this.defaultProfileImg
+                        avatar: (userData.userData as UserInfo).avatar
                     }
                 }
             )
