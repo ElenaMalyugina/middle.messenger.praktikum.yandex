@@ -26,4 +26,8 @@ export default class ProfileChangePasswordForm extends Form<ProfileChangePasswor
             data: {...initialData}
         })
     }
+
+    protected submitForm = ()=>{
+
+    };
 }

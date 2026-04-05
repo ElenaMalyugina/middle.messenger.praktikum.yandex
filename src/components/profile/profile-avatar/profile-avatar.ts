@@ -1,11 +1,10 @@
 import "/src/components/profile/profile-avatar/profile-avatar.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import ProfileAvatarTemplate from "./profile-avatar.hbs?raw";
-
-const initAllPropsMock:UserData={
-    profileImg: "/img/avatar-profile.png",
-    profileName: "Иван"
-}
+import Store from "../../../framework/store/Store";
+import type { UserInfo } from "../../../types/userInfo";
+import { registerComponent } from "../../../framework/RegisterComponent";
+import ProfileAvatarForm from "./profile-avatar-form/profie-avatar-form";
 
 interface UserData{
     profileImg: string;
@@ -18,15 +17,26 @@ interface ProfileAvatarProps extends BlockOwnProps{
     userData: UserData;
 }
 
+registerComponent(ProfileAvatarForm);
+
 export default class ProfileAvatar extends Block<ProfileAvatarProps>{
     static componentName = 'ProfileAvatar';
     protected template = ProfileAvatarTemplate;
-
-    constructor(props:ProfileAvatarProps){
-        super(props);
-    }
+    private defaultProfileImg = "/img/avatar-profile.png";
 
     protected componentDidMount(): void {
-         this.setProps({userData: {...initAllPropsMock}});
+        Store.subscribe(()=>{
+            const userData = Store.getState();
+
+            this.setProps(
+                {
+                    ...this.props,
+                    userData:{
+                        profileName: (userData.userData as UserInfo).display_name,
+                        profileImg: this.defaultProfileImg
+                    }
+                }
+            )
+        })
     }
 }
