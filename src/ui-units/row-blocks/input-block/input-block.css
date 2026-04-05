@@ -50,8 +50,16 @@
     min-height: 14px;
 }
 
+.profile-form__error{
+    @extend .error;
+    margin: 0 0 24px 0;
+    min-height: 14px;
+}
+
 .form__error{
     @extend .error;
     text-align: center;
-    font-size: 12px;;
+    font-size: 12px;
 }
+
+

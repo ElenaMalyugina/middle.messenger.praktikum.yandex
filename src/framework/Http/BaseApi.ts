@@ -6,7 +6,9 @@ export abstract class BaseAPI {
 
     request() { throw new Error('Not implemented'); }
 
-    update() { throw new Error('Not implemented'); }
+    update<T>(data: T): Promise<unknown> {
+        throw new Error('Not implemented');
+    }
 
     delete() { throw new Error('Not implemented'); }
 }

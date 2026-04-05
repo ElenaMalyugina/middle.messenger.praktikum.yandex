@@ -1,4 +1,5 @@
 import LoginApi from "../api/loginApi";
+import ProfileApi from "../api/profileApi";
 import Store from "../framework/store/Store";
 import { errorHandler } from "../services/errorHandler";
 import { UserInfoModel, type UserInfo } from "../types/userInfo";
@@ -7,6 +8,11 @@ import BaseFormController from "./baseFormController";
 export default class ProfileController extends BaseFormController<UserInfo> {
 
     private loginApi: LoginApi = new LoginApi();
+    private profileApi = new ProfileApi();
+
+    protected formSend = (data: UserInfo | null)=>{
+        return this.updateUserInfo(data);
+    };
 
     public async getUserInfo(){
         try{
@@ -19,7 +25,17 @@ export default class ProfileController extends BaseFormController<UserInfo> {
         }
     }
 
-    protected formSend= (data: UserInfo)=>{
-        return new Promise(()=>{})
-    };
+    private async updateUserInfo(data: UserInfo | null) {
+        try {
+            const updatedUserData= await this.profileApi.update(data);
+            Store.setState("userData", new UserInfoModel(updatedUserData as UserInfo));
+
+        }
+        catch (error: unknown) {
+            const parsedError = errorHandler(error);
+            Store.setState("profileInfoError", parsedError);
+        }
+    }
+
+
 }

@@ -12,7 +12,6 @@ export default class ProfileInfoBlock extends Block<ProfileInfoBlockProps> {
     protected template = ProfileInfoBlockTemplate;
 
     protected componentDidMount(): void {
-
         Store.subscribe(()=>{
             const userData = Store.getState();
             this.setProps({data: userData.userData as UserInfo})
