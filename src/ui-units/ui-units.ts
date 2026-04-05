@@ -16,6 +16,7 @@ import UploadFile from "./upload-file/upload-file";
 import TextareaBlock from './row-blocks/textarea-block/textarea-block';
 import Popup from "./popup/popup";
 import Modal from "./modal/modal";
+import FileInput from "./file-input/file-input";
 
 //склейка строк
 Handlebars.registerHelper('concat', function() {
@@ -48,3 +49,4 @@ registerComponent(TextareaBlock);
 registerComponent(Popup);
 registerComponent(Modal);
 registerComponent(UploadFile);
+registerComponent(FileInput);

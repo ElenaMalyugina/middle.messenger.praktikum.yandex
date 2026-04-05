@@ -1,7 +1,10 @@
-<form>
-    <label class="{{className}}" for="{{name}}" title="{{title}}">
-        {{{ Img className="profile-avatar__img" src=profileImg alt=profileName width="130" height="130"}}}
-        <span class="popup__text">{{text}}</span>
-        <input class="visually-hidden" type="file" name="{{name}}" id="{{name}}" form="{{currentForm}}">
-    </label>
+<form errorType="avatarError" id="avatarForm" ref="form" enctype="multipart/form-data">
+    <figure class="profile-avatar__wrapper">
+        <label class="{{className}}" for="{{name}}" title="{{title}}">
+            {{{ Img className="profile-avatar__img" src=profileImg alt=profileName width="130" height="130"}}}
+            <span class="popup__text">{{text}}</span>
+            {{{ FileInput name=name id=name form=currentForm onChange=onChange ref="avatarInput" }}}
+        </label>
+    </figure>
+    {{{ ErrorMessage className="profile-form__error form__error" ref="serverError" }}}
 </form>

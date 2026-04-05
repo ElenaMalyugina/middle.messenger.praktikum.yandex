@@ -12,7 +12,7 @@ export interface FormProps extends BlockOwnProps{
 }
 
 export default abstract class Form <Props extends FormProps = FormProps> extends Block<Props>{
-    protected abstract submitForm: (form: Form)=>void
+    protected abstract submitForm: (form: Form )=>void
 
     protected events = {
         submit: (event: Event) => {

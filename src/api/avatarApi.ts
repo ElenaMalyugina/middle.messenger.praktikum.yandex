@@ -1,8 +1,7 @@
 import { BaseAPI } from "../framework/Http/BaseApi";
 import HTTPTransport from "../framework/Http/HTTPTransport";
-import type { UserInfo } from "../types/userInfo";
 
-export default class ProfileApi extends BaseAPI {
+export default class AvatarApi extends BaseAPI {
     private transport: HTTPTransport;
 
     constructor() {
@@ -10,7 +9,12 @@ export default class ProfileApi extends BaseAPI {
         this.transport = new HTTPTransport('api/v2/user');
     }
 
-    update<T = UserInfo>(userData: T){
-        return this.transport.put("/profile", {data: userData})
+    update<T = FormData>(avatar: T){
+        return this.transport.put("/profile/avatar",
+            {
+                data: avatar
+            }
+        )
     }
+
 }

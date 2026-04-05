@@ -1,15 +1,15 @@
 <section class="profile__section profile-avatar profile__profile-avatar">
     <div class="profile__container">
         {{#with userData}}
-            <figure class="profile-avatar__wrapper">
-                {{#if ../isEditable}}
-                    {{{ ProfileAvatarForm className="avatar-label" for="avatar" title="Изменить файл" name="avatar"
-                        profileImg=avatar profileName=profileName
-                    }}}
-                {{else}}
+            {{#if ../isEditable}}
+                {{{ ProfileAvatarForm className="avatar-label" for="avatar" title="Изменить файл" name="avatar"
+                    profileImg=avatar profileName=profileName
+                }}}
+            {{else}}
+                <figure class="profile-avatar__wrapper">
                     {{{ Img className="profile-avatar__img" src=avatar alt=profileName width="130" height="130" }}}
-                {{/if}}
-            </figure>
+                </figure>
+            {{/if}}
             <h1 class="profile-header profile-avatar__header">{{ profileName }}</h1>
         {{/with}}
     </div>

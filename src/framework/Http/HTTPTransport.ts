@@ -46,8 +46,8 @@ export default class HTTPTransport {
             url,
             {...options, method: METHODS.PUT},
                 options.timeout
-            );
-        };
+        );
+    };
 
     delete = (url:string, options: Options = {}) => {
         return this.request(
