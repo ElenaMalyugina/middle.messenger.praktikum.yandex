@@ -29,6 +29,10 @@ class Store {
         };
     }
 
+    public clearState(){
+        this.state = {};
+    }
+
     private emit() {
         this.listeners.forEach(listener => listener());
     }

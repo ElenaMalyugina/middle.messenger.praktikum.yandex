@@ -6,7 +6,6 @@ import { UserInfoModel, type UserInfo } from "../types/userInfo";
 import BaseFormController from "./baseFormController";
 
 export default class ProfileController extends BaseFormController<UserInfo> {
-
     private loginApi: LoginApi = new LoginApi();
     private profileApi = new ProfileApi();
 
