@@ -9,6 +9,6 @@
             {{{ TextRowEditable label="Телефон" value=phone name="phone" type="text" id="phone" validators="required,phone" }}}
         {{/with}}
     </div>
-    {{{ ErrorMessage className="profile-form__error form__error" ref="serverError"}}}
+    {{{ ErrorMessage className="profile-form__error form__error" ref="serverError" message=profileInfoError }}}
     {{{ Button className="button profile-form__button" type="submit" text="Сохранить"}}}
 </form>
