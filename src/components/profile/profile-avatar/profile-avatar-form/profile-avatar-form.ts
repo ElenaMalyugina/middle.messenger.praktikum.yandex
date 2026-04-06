@@ -1,6 +1,5 @@
 import "/src/components/profile/profile-avatar/profile-avatar.css";
 import ProfileAvatarFormTemplate from "./profile-avatar-form.hbs?raw";
-import Form, { type FormProps } from "../../../../ui-units/form/form";
 import AvatarController from "../../../../controllers/avatarController";
 import Store from "../../../../framework/store/Store";
 import ErrorMessage from "../../../../ui-units/error-message/error-message";
@@ -23,34 +22,46 @@ export default class ProfileAvatarForm extends Block<ProfileAvatarProps>{
         this.props.onChange = this.submitForm
     }
 
+    protected componentDidMount(): void {
+        Store.subscribe(()=>{
+            this.updateAvatar();
+
+            //если ошибка на бэке
+            this.serverErrorHandler();
+        })
+    }
+
+    protected updateAvatar = ()=>{
+        const userData = Store.getState().userData as UserInfo;
+        const imgBlock= this.children.find(el=> el instanceof Img);
+
+        if(imgBlock && userData){
+            imgBlock.setProps({src: userData.avatar})
+        }
+    }
+
     protected submitForm = (file: File)=>{
         const validatorResult = validate(file, ["validatorFileImage"]);
 
         if(!validatorResult.isValid){
-            const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
-            if(!errorMessageBlock) return;
-            errorMessageBlock.setProps({message: validatorResult.text})
+            if(validatorResult.text){
+                this.errorFormHandler(validatorResult.text);
+            }
             return;
         }
 
         this.avatarController.changeAvatar(file);
     }
 
-    protected componentDidMount(): void {
-        Store.subscribe(()=>{
-            const userData = Store.getState().userData as UserInfo;
-            const imgBlock= this.children.find(el=> el instanceof Img);
+    protected serverErrorHandler = ()=>{
+        const serverError = Store.getState().avatarError as string;
+        this.errorFormHandler(serverError);
+    }
 
-            if(imgBlock && userData){
-                imgBlock.setProps({src: userData.avatar})
-            }
-
-            //если ошибка на бэке
-            const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
-            if(!errorMessageBlock) return;
-            const serverError = Store.getState();
-            errorMessageBlock.setProps({message: serverError.avatarError as string })
-        })
+    protected errorFormHandler = (errorText: string)=>{
+        const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
+        if(!errorMessageBlock) return;
+        errorMessageBlock.setProps({message: errorText});
     }
 
 }
