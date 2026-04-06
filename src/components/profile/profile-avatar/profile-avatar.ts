@@ -38,6 +38,5 @@ export default class ProfileAvatar extends Block<ProfileAvatarProps>{
                 }
             }
         )
-        console.log(Store)
     }
 }
