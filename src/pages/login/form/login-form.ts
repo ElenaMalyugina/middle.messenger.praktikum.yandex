@@ -22,13 +22,17 @@ export default class LoginForm extends Form<LoginFormProps>{
     protected template = loginFormTemplate;
     private loginController = new LoginController();
 
-    protected componentDidMount(): void {
-        this.setProps({
-            data: {...initialData}
-        })
+    constructor(props: LoginFormProps){
+        super(props);
 
         Store.subscribe(()=>{
             this.errorFormHandler();
+        })
+    }
+
+    protected componentDidMount(): void {
+        this.setProps({
+            data: {...initialData}
         })
     }
 

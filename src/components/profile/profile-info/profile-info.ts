@@ -11,7 +11,9 @@ export default class ProfileInfoBlock extends Block<ProfileInfoBlockProps> {
     static componentName = 'ProfileInfoBlock';
     protected template = ProfileInfoBlockTemplate;
 
-    protected componentDidMount(): void {
+    constructor(props: ProfileInfoBlockProps){
+        super(props);
+
         Store.subscribe(()=>{
             this.updateData();
         })

@@ -20,19 +20,22 @@ export default class ProfileChangePasswordForm extends Form<ProfileChangePasswor
     protected template = ProfileChangePasswordFormTemplate;
     private changePasswordController = new ChangePasswordController();
 
-    protected componentDidMount(): void {
-        this.setProps({
-            data: {...initialData}
-        })
+    constructor(props: ProfileChangePasswordFormProps){
+        super(props);
 
         Store.subscribe(()=>{
             //если ошибка на бэке
             this.errorFormHandler();
         })
+    }
 
+    protected componentDidMount(): void {
+        this.setProps({
+            data: {...initialData}
+        })
     }
 
     protected submitForm = ()=>{
-        this.changePasswordController.submitFormHandler(this)
+        this.changePasswordController.submitFormHandler(this);
     };
 }

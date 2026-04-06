@@ -4,8 +4,6 @@ import AvatarController from "../../../../controllers/avatarController";
 import Store from "../../../../framework/store/Store";
 import ErrorMessage from "../../../../ui-units/error-message/error-message";
 import Block, { type BlockOwnProps } from "../../../../framework/Block";
-import Img from "../../../../ui-units/img/img";
-import type { UserInfo } from "../../../../types/userInfo";
 import { validate } from "../../../../services/validationService";
 
 interface ProfileAvatarProps extends BlockOwnProps{
@@ -19,25 +17,11 @@ export default class ProfileAvatarForm extends Block<ProfileAvatarProps>{
 
     constructor(props: ProfileAvatarProps){
         super(props);
-        this.props.onChange = this.submitForm
-    }
-
-    protected componentDidMount(): void {
+        this.props.onChange = this.submitForm;
         Store.subscribe(()=>{
-            this.updateAvatar();
-
             //если ошибка на бэке
             this.serverErrorHandler();
         })
-    }
-
-    protected updateAvatar = ()=>{
-        const userData = Store.getState().userData as UserInfo;
-        const imgBlock= this.children.find(el=> el instanceof Img);
-
-        if(imgBlock && userData){
-            imgBlock.setProps({src: userData.avatar})
-        }
     }
 
     protected submitForm = (file: File)=>{
@@ -63,5 +47,6 @@ export default class ProfileAvatarForm extends Block<ProfileAvatarProps>{
         if(!errorMessageBlock) return;
         errorMessageBlock.setProps({message: errorText});
     }
+
 
 }

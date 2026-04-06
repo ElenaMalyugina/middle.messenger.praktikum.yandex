@@ -22,15 +22,19 @@ interface RegistrationFormProps extends FormProps{
 export default class RegistrationForm extends Form<RegistrationFormProps> {
     static componentName = 'RegistrationForm';
     protected template = registrationFormTemplate;
-    private registrationController = new RegistrationController()
+    private registrationController = new RegistrationController();
+
+    constructor(props: RegistrationFormProps){
+        super(props);
+
+        Store.subscribe(()=>{
+           this.errorFormHandler();
+        })
+    }
 
     protected componentDidMount(): void {
         this.setProps({
             data: {...initialUser}
-        })
-
-        Store.subscribe(()=>{
-           this.errorFormHandler();
         })
     }
 

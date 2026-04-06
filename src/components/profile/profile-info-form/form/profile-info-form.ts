@@ -14,7 +14,9 @@ export default class ProfileInfoForm extends Form<ProfileInfoFormProps> {
     protected template = ProfileInfoFormTemplate;
     private profileController = new ProfileController();
 
-    protected componentDidMount(): void {
+    constructor(props:ProfileInfoFormProps){
+        super(props);
+
         Store.subscribe(()=>{
             this.updateForm();
             this.errorFormHandler();
