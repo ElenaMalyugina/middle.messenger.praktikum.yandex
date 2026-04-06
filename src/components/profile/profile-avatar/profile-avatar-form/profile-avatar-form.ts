@@ -18,6 +18,7 @@ export default class ProfileAvatarForm extends Block<ProfileAvatarProps>{
     constructor(props: ProfileAvatarProps){
         super(props);
         this.props.onChange = this.submitForm;
+
         Store.subscribe(()=>{
             //если ошибка на бэке
             this.serverErrorHandler();
