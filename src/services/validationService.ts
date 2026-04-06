@@ -104,6 +104,30 @@ const validatorRepeatPassword = (value:unknown)=>{
     };
 }
 
+const validatorFileImage = (file: unknown) =>{
+    if(!(file instanceof File)){
+        return {
+            isValid: false,
+            text: "Можно загрузить JPEG, JPG, PNG, GIF, WebP"
+        };
+    }
+
+    const allowedExtensions = /\.(jpg|jpeg|png|gif|webp)$/i;
+    const allowedMimes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
+    if (allowedExtensions.test(file.name) && allowedMimes.includes(file.type)) {
+        return {
+            isValid: true,
+            text: "Можно загрузить JPEG, JPG, PNG, GIF, WebP"
+        };
+    }
+
+    return {
+        isValid: false,
+        text: "Можно загрузить JPEG, JPG, PNG, GIF, WebP"
+    };
+}
+
 export const validate = (value: unknown, validators:string[]): formError =>{
     const validatorsResult = validators.map((validator:string)=>{
         validator=validator.trim();
@@ -138,6 +162,10 @@ export const validate = (value: unknown, validators:string[]): formError =>{
 
         if(validator == "repeatpassword"){
             return validatorRepeatPassword(value);
+        }
+
+        if(validator == "validatorFileImage"){
+            return validatorFileImage(value)
         }
 
 

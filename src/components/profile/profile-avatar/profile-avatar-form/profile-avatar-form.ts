@@ -6,6 +6,8 @@ import Store from "../../../../framework/store/Store";
 import ErrorMessage from "../../../../ui-units/error-message/error-message";
 import Block, { type BlockOwnProps } from "../../../../framework/Block";
 import Img from "../../../../ui-units/img/img";
+import type { UserInfo } from "../../../../types/userInfo";
+import { validate } from "../../../../services/validationService";
 
 interface ProfileAvatarProps extends BlockOwnProps{
     onChange: (file: File)=> void
@@ -22,12 +24,21 @@ export default class ProfileAvatarForm extends Block<ProfileAvatarProps>{
     }
 
     protected submitForm = (file: File)=>{
+        const validatorResult = validate(file, ["validatorFileImage"]);
+
+        if(!validatorResult.isValid){
+            const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
+            if(!errorMessageBlock) return;
+            errorMessageBlock.setProps({message: validatorResult.text})
+            return;
+        }
+
         this.avatarController.changeAvatar(file);
     }
 
     protected componentDidMount(): void {
         Store.subscribe(()=>{
-            const userData = Store.getState().userData;
+            const userData = Store.getState().userData as UserInfo;
             const imgBlock= this.children.find(el=> el instanceof Img);
 
             if(imgBlock && userData){
