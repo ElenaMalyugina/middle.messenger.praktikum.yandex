@@ -24,7 +24,8 @@ import AddDeleteUser from "../../components/chat/modal-contents/add-delete-user/
 import AddDeleteUserForm from "../../components/chat/modal-contents/add-delete-user/form/add-delete-user-form.ts";
 import PopupFilesForm from "../../components/chat/popup-contents/popup-files/form/popup-files-form.ts";
 import PopupFiles from "../../components/chat/popup-contents/popup-files/popup-files.ts";
-import ChatService from "../../api/chatsApi.ts";
+import ChatsController from "../../controllers/chatsController.ts";
+import Store from "../../framework/store/Store.ts";
 
 //Получение даты в читаемом формате
 Handlebars.registerHelper("getDayAndYear", function(dateString){
@@ -58,7 +59,6 @@ registerComponent(AddDeleteUserForm);
 
 
 interface ChatPageProps extends BlockOwnProps{
-    selectedChatEmit?: (id:number)=>void;
     sidebarActive?: boolean;
 }
 
@@ -66,31 +66,6 @@ export default class Chat extends Block<ChatPageProps>{
     static componentName = 'Chat';
     protected template = chatTemplate;
     private activeSidebarClass = "chat__sidebar--active";
-    private chatService =  new ChatService();
-
-    //возможно, нужно что-то типа общего контекста, чтобы не прокидывать событие на 2 этажа вверх, пока пусть так
-    setIsSelectedChat=(id:number)=>{
-        console.log(id); // Потенциально можем запросить с бэка список сообщений в чате
-        //чтобы не перерисовывались чаты, когда нужно перерисовать только блок с сообщениями
-        const chatBody = this.children.find(item => item instanceof ChatBody);
-        if(chatBody){
-            chatBody.setProps({ isSelectedChat: true});
-        }
-    }
-
-    showSidebar = (sidebar:Element)=>{
-        const mobileBreakpoint = 700;
-        if(window.innerWidth > mobileBreakpoint) return;
-
-        sidebar.classList.add(this.activeSidebarClass);
-    }
-
-    hideSidebar = (sidebar:Element)=>{
-        const mobileBreakpoint = 700;
-        if(window.innerWidth > mobileBreakpoint) return;
-
-        sidebar.classList.remove(this.activeSidebarClass);
-    }
 
     protected events={
         click: (event: Event) => {
@@ -107,11 +82,17 @@ export default class Chat extends Block<ChatPageProps>{
         }
     }
 
-    protected componentDidMount(): void {
-        this.setProps({
-            selectedChatEmit: this.setIsSelectedChat,
-            sidebarActive: true
-        })
+    showSidebar = (sidebar:Element)=>{
+        const mobileBreakpoint = 700;
+        if(window.innerWidth > mobileBreakpoint) return;
 
+        sidebar.classList.add(this.activeSidebarClass);
+    }
+
+    hideSidebar = (sidebar:Element)=>{
+        const mobileBreakpoint = 700;
+        if(window.innerWidth > mobileBreakpoint) return;
+
+        sidebar.classList.remove(this.activeSidebarClass);
     }
 }

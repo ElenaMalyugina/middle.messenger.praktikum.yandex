@@ -1,11 +1,12 @@
 import "./chat-item.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import ChatItemTemplate from "./chat-item.hbs?raw";
+import Store from "../../../framework/store/Store";
 
 export interface ChatData{
     id: number;
     title: string;
-    avatarUrl: string;
+    avatar: string;
     unreadСount:number;
     lastMessage:{
         time:string;
@@ -33,9 +34,7 @@ export default class ChatItem extends Block<ChatItemProps>{
 
     protected events = {
         click: () => {
-            if(this.props.selectChatEmit && this.props.chatData.id){
-                this.props.selectChatEmit(this.props.chatData.id);
-            }
+            Store.setState("activeChat", this.props.chatData.id);
         }
     }
 }

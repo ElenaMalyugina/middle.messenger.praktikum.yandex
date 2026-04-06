@@ -1,16 +1,15 @@
 import HTTPTransport from "../framework/Http/HTTPTransport";
 import { BaseAPI } from "../framework/Http/BaseApi";
 
-const chatAPIInstance = new HTTPTransport('api/v2/chats');
+export default class ChatsApi extends BaseAPI {
+    private transport = new HTTPTransport('api/v2');
 
-export default class ChatApi extends BaseAPI {
-    /*create() {
-        // Здесь уже не нужно писать полный путь /api/v1/chats/
-        return chatAPIInstance.post('/', { title: 'string' });
-    }*/
+
+    create() {
+        return this.transport.post("/chats", {data: {title: "Тестовый чат"}});
+    }
 
     request() {
-        // Здесь уже не нужно писать полный путь /api/v1/chats/
-        return chatAPIInstance.get('').then(x=> console.log(x));
+        return this.transport.get('/chats');
     }
 }
