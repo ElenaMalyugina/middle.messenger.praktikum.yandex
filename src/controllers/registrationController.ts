@@ -17,6 +17,13 @@ export default class RegistrationController extends BaseFormController<Registrat
     }
 
     private async registrationUser(data: Registration | null) {
+        try{
+            await this.loginApi.delete();
+        }
+        catch(e){
+            console.warn(e);
+        }
+
         try {
             const result = await this.registrationApi.create(data);
             if (result && typeof result === 'object' && 'id' in result) {
@@ -24,7 +31,6 @@ export default class RegistrationController extends BaseFormController<Registrat
             }
         }
         catch (error: unknown) {
-            this.loginApi.delete();
             const parsedError = errorHandler(error);
             Store.setState("regServerError", parsedError);
         }
