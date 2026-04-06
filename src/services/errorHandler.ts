@@ -23,7 +23,7 @@ export const errorHandler = (error: unknown)=>{
         return defaultError;
     }
     catch (parseError) {
-        console.warn("Failed to parse API error response as JSON:", parseError);
+        console.error("Не могу распарсить ошибку", parseError);
         return defaultError;
     }
 

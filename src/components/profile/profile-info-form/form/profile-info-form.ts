@@ -19,11 +19,7 @@ export default class ProfileInfoForm extends Form<ProfileInfoFormProps> {
             const userData = Store.getState();
             this.setProps({data: userData.userData as UserInfo})
 
-            //если ошибка на бэке
-            const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
-            if(!errorMessageBlock) return;
-            const serverError = Store.getState();
-            errorMessageBlock.setProps({message: serverError.profileInfoError as string })
+            this.errorFormHandler();
         })
     }
 

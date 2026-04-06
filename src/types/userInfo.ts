@@ -18,7 +18,7 @@ export class UserInfoModel implements UserInfo {
     avatar: string;
 
     private defaultProfileImg = "/img/avatar-profile.png";
-    private apiUrl = "https://ya-praktikum.tech/api/v2/resources";
+    private resourceUrl = "https://ya-praktikum.tech/api/v2/resources";
 
     constructor(data: UserInfo) {
         this.email = data.email;
@@ -27,6 +27,6 @@ export class UserInfoModel implements UserInfo {
         this.second_name = data.second_name;
         this.display_name = data.display_name || data.first_name;
         this.phone = data.phone;
-        this.avatar = `${this.apiUrl}${data.avatar}` || this.defaultProfileImg
+        this.avatar = data.avatar ? `${this.resourceUrl}${data.avatar}` : this.defaultProfileImg
     }
 }

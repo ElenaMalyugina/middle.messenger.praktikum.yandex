@@ -27,10 +27,7 @@ export default class ProfileChangePasswordForm extends Form<ProfileChangePasswor
 
         Store.subscribe(()=>{
             //если ошибка на бэке
-            const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
-            if(!errorMessageBlock) return;
-            const serverError = Store.getState();
-            errorMessageBlock.setProps({ message: serverError.changePasswordError as string })
+            this.errorFormHandler();
         })
 
     }

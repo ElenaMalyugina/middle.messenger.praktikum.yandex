@@ -1,5 +1,6 @@
 import Block, {type BlockOwnProps }  from "../../framework/Block";
 import Store from "../../framework/store/Store";
+import ErrorMessage from "../error-message/error-message";
 
 export interface FormProps extends BlockOwnProps{
     id: string;
@@ -12,7 +13,10 @@ export interface FormProps extends BlockOwnProps{
 }
 
 export default abstract class Form <Props extends FormProps = FormProps> extends Block<Props>{
-    protected abstract submitForm: (form: Form )=>void
+    protected abstract submitForm: (form: Form )=>void;
+    protected get errorBlock(): ErrorMessage | null {
+        return this.children.find(el=> el instanceof ErrorMessage) || null;
+    };
 
     protected events = {
         submit: (event: Event) => {
@@ -28,6 +32,13 @@ export default abstract class Form <Props extends FormProps = FormProps> extends
                     }
                 }
             }
+        }
+    }
+
+    errorFormHandler = ()=>{
+        const formError = Store.getState()[this.props.errorType];
+        if(formError && typeof formError == "string"){
+            this.errorBlock && this.errorBlock.setProps({message: formError});
         }
     }
 }

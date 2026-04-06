@@ -42,7 +42,6 @@ export default abstract class BaseFormController<T>{
         keys.forEach(el=>{
             if(refs[el] instanceof HTMLFormElement){
                 const formData = new FormData(refs[el]);
-                console.log(formData.getAll("avatar"))
                 data = Object.fromEntries(formData);
             }
         })

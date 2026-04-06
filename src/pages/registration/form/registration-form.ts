@@ -30,11 +30,7 @@ export default class RegistrationForm extends Form<RegistrationFormProps> {
         })
 
         Store.subscribe(()=>{
-            //если ошибка регистрации на бэке
-            const regError = Store.getState();
-            const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
-            if(!errorMessageBlock) return;
-            errorMessageBlock.setProps({message: regError.regServerError as string })
+           this.errorFormHandler();
         })
     }
 
