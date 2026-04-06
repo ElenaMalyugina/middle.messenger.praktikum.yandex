@@ -16,11 +16,15 @@ export default class ProfileInfoForm extends Form<ProfileInfoFormProps> {
 
     protected componentDidMount(): void {
         Store.subscribe(()=>{
-            const userData = Store.getState();
-            this.setProps({data: userData.userData as UserInfo})
-
+            this.updateForm();
             this.errorFormHandler();
         })
+    }
+
+    protected updateForm = ()=>{
+        const userData = Store.getState().userData;
+        if(!userData) return;
+        this.setProps({data: userData as UserInfo})
     }
 
     protected submitForm = ()=>{

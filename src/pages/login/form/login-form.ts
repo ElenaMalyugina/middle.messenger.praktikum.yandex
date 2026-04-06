@@ -32,6 +32,7 @@ export default class LoginForm extends Form<LoginFormProps>{
         })
     }
 
+
     submitForm = (form: Form)=>{
         this.loginController.submitFormHandler(form);
     }

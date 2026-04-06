@@ -13,9 +13,13 @@ export default class ProfileInfoBlock extends Block<ProfileInfoBlockProps> {
 
     protected componentDidMount(): void {
         Store.subscribe(()=>{
-            const userData = Store.getState();
-            this.setProps({data: userData.userData as UserInfo})
+            this.updateData();
         })
+    }
 
+    protected updateData = ()=>{
+        const userData = Store.getState().userData;
+        if(!userData) return;
+        this.setProps({data: userData as UserInfo})
     }
 }

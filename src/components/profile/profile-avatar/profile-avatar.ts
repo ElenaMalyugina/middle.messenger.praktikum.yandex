@@ -21,17 +21,23 @@ export default class ProfileAvatar extends Block<ProfileAvatarProps>{
 
     protected componentDidMount(): void {
         Store.subscribe(()=>{
-            const userData = Store.getState().userData;
-            if(!userData) return;
-            this.setProps(
-                {
-                    ...this.props,
-                    userData:{
-                        profileName: (userData as UserInfo).display_name,
-                        avatar: (userData as UserInfo).avatar
-                    }
-                }
-            )
+            this.updateData();
         })
+    }
+
+    protected updateData=()=>{
+        const userData = Store.getState().userData;
+        if(!userData) return;
+
+        this.setProps(
+            {
+                ...this.props,
+                userData:{
+                    profileName: (userData as UserInfo).display_name,
+                    avatar: (userData as UserInfo).avatar
+                }
+            }
+        )
+        console.log(Store)
     }
 }
