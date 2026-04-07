@@ -61,7 +61,7 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
 
         // Пока предположим, что свойства простые и в объекте
         const isNeedRerender  = this.isNeedRerender(newProps, this.props);
-        //debugger
+
         if(isNeedRerender){
             this.props = { ...this.props, ...newProps, __children: [], __refs: {} } as Props;
             this.render();
