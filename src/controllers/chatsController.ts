@@ -1,8 +1,8 @@
 import ChatsApi from "../api/chatsApi";
-import type { ChatData } from "../components/chat/chat-item/chat-item";
 import Store from "../framework/store/Store";
 import { errorHandler } from "../services/errorHandler";
 import type { AddChat } from "../types/addChat";
+import { ChatDataModel, type ChatData } from "../types/chatData";
 import BaseFormController from "./baseFormController";
 
 export default class ChatsController extends BaseFormController<AddChat>  {
@@ -41,9 +41,10 @@ export default class ChatsController extends BaseFormController<AddChat>  {
             if(newChat){
                 await this.getChats();
             }
-            /*if((userData as ChatData).avatar){
-                Store.setState("Data", new Us(userData as UserInfo))
-            }*/
+
+            if((newChat as ChatData).avatar){
+                Store.setState("activeChat",  new ChatDataModel(newChat as ChatData));
+            }
         }
         catch(error){
             const parsedError = errorHandler(error);

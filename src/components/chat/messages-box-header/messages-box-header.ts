@@ -3,8 +3,8 @@ import Block, { type BlockOwnProps } from "../../../framework/Block";
 import MessagesBoxHeaderTemplate from "./messages-box-header.hbs?raw";
 import PopupUser from "../popup-contents/popup-user/popup-user";
 import Store from "../../../framework/store/Store";
-import type { ChatData } from "../chat-item/chat-item";
-import type { UserInfo } from "../../../types/userInfo";
+import { type ChatData } from "../../../types/chatData";
+
 
 interface MessagesBoxHeaderData{
     title: string;
@@ -34,13 +34,13 @@ export default class MessagesBoxHeader extends Block<MessagesBoxHeaderProps>{
     }
 
     updateData = ()=>{
-        const activeChat = Store.getState().activeChat as ChatData;
-
+        const activeChat= Store.getState().activeChat as ChatData;
         if(!activeChat) return;
+
         this.setProps({
             data:{
                 title: activeChat.title,
-                avatarUrl: activeChat.avatar ? activeChat.avatar:"/img/avatar.png",
+                avatarUrl: activeChat.avatar,
             },
             isOwnChat: activeChat.created_by === Store.getState().currentUser
         })

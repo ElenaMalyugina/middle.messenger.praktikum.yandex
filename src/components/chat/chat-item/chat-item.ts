@@ -2,18 +2,7 @@ import "./chat-item.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import ChatItemTemplate from "./chat-item.hbs?raw";
 import Store from "../../../framework/store/Store";
-
-export interface ChatData{
-    id: number;
-    title: string;
-    avatar: string;
-    unread_count:number;
-    created_by: number;
-    last_message:{
-        time:string;
-        text: string;
-    };
-}
+import type { ChatData } from "../../../types/chatData";
 
 export interface ChatItemProps extends BlockOwnProps{
     chatData: ChatData;
