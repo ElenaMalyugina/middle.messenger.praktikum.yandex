@@ -1,5 +1,6 @@
 import AuthController from "../../controllers/authController";
 import type { ServerError } from "../../types/serverError";
+import { UserInfoModel, type UserInfo } from "../../types/userInfo";
 import Store from "../store/Store";
 
 import type Router from "./Router";
@@ -9,8 +10,10 @@ export class authGuardMiddleware{
 
     public async isAuth(router: Router){
         try{
-            const user = await this.authController.getUser();
-            Store.setState("currentUser", user?.id || null );
+            const userRaw = await this.authController.getUser();
+            const user = new UserInfoModel(userRaw as UserInfo)
+
+            Store.setState("currentUser", user.id || null );
             return true;
         }
         catch(error){

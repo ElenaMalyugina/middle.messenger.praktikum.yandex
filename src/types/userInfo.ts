@@ -1,6 +1,7 @@
 import { urls } from "../constants/urls";
 
 export interface UserInfo{
+    id: number;
     email: string;
     login: string;
     first_name: string;
@@ -11,6 +12,7 @@ export interface UserInfo{
 }
 
 export class UserInfoModel implements UserInfo {
+    id: number;
     email: string;
     login: string;
     first_name: string;
@@ -20,6 +22,7 @@ export class UserInfoModel implements UserInfo {
     avatar: string;
 
     constructor(data: UserInfo) {
+        this.id = data.id;
         this.email = data.email;
         this.login = data.login;
         this.first_name = data.first_name;
