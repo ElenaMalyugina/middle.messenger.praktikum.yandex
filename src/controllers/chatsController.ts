@@ -1,4 +1,5 @@
 import ChatsApi from "../api/chatsApi";
+import type { ChatData } from "../components/chat/chat-item/chat-item";
 import Store from "../framework/store/Store";
 import { errorHandler } from "../services/errorHandler";
 import type { AddChat } from "../types/addChat";
@@ -27,6 +28,26 @@ export default class ChatsController extends BaseFormController<AddChat>  {
         catch(error: unknown){
             const parsedError = errorHandler(error);
             Store.setState("addChatError", parsedError);
+        }
+    }
+
+    public async updateAvatar(file: File, chatId: number){
+        try{
+            const formData = new FormData();
+            formData.append('avatar', file);
+            formData.append("chatId", chatId.toString());
+
+            const newChat = await this.chatsApi.updateAvatar(formData);
+            if(newChat){
+                await this.getChats();
+            }
+            /*if((userData as ChatData).avatar){
+                Store.setState("Data", new Us(userData as UserInfo))
+            }*/
+        }
+        catch(error){
+            const parsedError = errorHandler(error);
+            Store.setState("avatarError", parsedError);
         }
     }
 

@@ -11,4 +11,12 @@ export default class ChatsApi extends BaseAPI {
     request() {
         return this.transport.get('/chats');
     }
+
+    updateAvatar<T = FormData>(avatar: T){
+        return this.transport.put("/chats/avatar",
+            {
+                data: avatar
+            }
+        )
+    }
 }

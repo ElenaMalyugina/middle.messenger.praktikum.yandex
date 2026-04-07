@@ -4,6 +4,7 @@
     border-radius: 50%;
     overflow: hidden;
     background-color: var(--img-back);
+    position: relative;
 }
 
 .avatar-label{
@@ -41,7 +42,13 @@
 }
 
 .avatar__img{
-    width: 100%;
+    width: auto;
+    min-width: 100%;
+    min-height: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .avatar__header{

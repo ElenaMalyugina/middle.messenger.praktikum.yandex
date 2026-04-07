@@ -4,6 +4,7 @@ import type { ChatItemProps } from "../chat-item/chat-item";
 import ChatsListTemplate from "./chats-list.hbs?raw";
 import ChatsController from "../../../controllers/chatsController";
 import Store from "../../../framework/store/Store";
+import { urls } from "../../../constants/urls";
 
 interface ChatsListProps extends BlockOwnProps{
     chats: ChatItemProps[];
@@ -30,7 +31,7 @@ export default class ChatsList extends Block<ChatsListProps>{
             chats: chatsList.map(chat => ({
                 chatData:{
                     ...chat,
-                    avatar: chat.avatar ? chat.avatar : "/img/avatar.png"
+                    avatar: chat.avatar ? `${urls.resourceUrl}${chat.avatar}` : "/img/avatar.png"
                 },
                 isActive: false,
             }))

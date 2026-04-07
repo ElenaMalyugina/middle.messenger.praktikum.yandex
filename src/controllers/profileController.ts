@@ -36,5 +36,22 @@ export default class ProfileController extends BaseFormController<UserInfo> {
         }
     }
 
+    public async updateAvatar(file: File){
+        try{
+            const formData = new FormData();
+            formData.append('avatar', file);
+
+            const userData = await this.profileApi.updateAvatar(formData);
+
+            if((userData as UserInfo).avatar){
+                Store.setState("userData", new UserInfoModel(userData as UserInfo))
+            }
+        }
+        catch(error){
+            const parsedError = errorHandler(error);
+            Store.setState("avatarError", parsedError);
+        }
+    }
+
 
 }

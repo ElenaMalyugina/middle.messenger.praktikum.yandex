@@ -1,10 +1,11 @@
 import "./message-box-avatar-form.css";
 import MessageBoxAvatarFormTemplate from "./message-box-avatar-form.hbs?raw";
-import AvatarController from "../../../controllers/avatarController";
 import Store from "../../../framework/store/Store";
 import ErrorMessage from "../../../ui-units/error-message/error-message";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import { validate } from "../../../services/validationService";
+import ChatsController from "../../../controllers/chatsController";
+import type { ChatData } from "../chat-item/chat-item";
 
 interface MessageBoxAvatarProps extends BlockOwnProps{
     onChange: (file: File)=> void
@@ -13,7 +14,7 @@ interface MessageBoxAvatarProps extends BlockOwnProps{
 export default class MessageBoxAvatarForm extends Block<MessageBoxAvatarProps>{
     static componentName = 'MessageBoxAvatarForm';
     protected template = MessageBoxAvatarFormTemplate ;
-    private avatarController = new AvatarController();
+    private chatsController = new ChatsController();
 
     constructor(props: MessageBoxAvatarProps){
         super(props);
@@ -35,7 +36,11 @@ export default class MessageBoxAvatarForm extends Block<MessageBoxAvatarProps>{
             return;
         }
 
-        this.avatarController.changeAvatar(file);
+        const activeChat = Store.getState().activeChat as ChatData;
+        if(activeChat){
+            this.chatsController.updateAvatar(file, activeChat.id);
+        }
+
     }
 
     protected serverErrorHandler = ()=>{

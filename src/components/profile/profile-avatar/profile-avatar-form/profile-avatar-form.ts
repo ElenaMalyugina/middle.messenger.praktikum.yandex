@@ -1,10 +1,10 @@
 import "/src/components/profile/profile-avatar/profile-avatar.css";
 import ProfileAvatarFormTemplate from "./profile-avatar-form.hbs?raw";
-import AvatarController from "../../../../controllers/avatarController";
 import Store from "../../../../framework/store/Store";
 import ErrorMessage from "../../../../ui-units/error-message/error-message";
 import Block, { type BlockOwnProps } from "../../../../framework/Block";
 import { validate } from "../../../../services/validationService";
+import ProfileController from "../../../../controllers/profileController";
 
 interface ProfileAvatarProps extends BlockOwnProps{
     onChange: (file: File)=> void
@@ -13,7 +13,7 @@ interface ProfileAvatarProps extends BlockOwnProps{
 export default class ProfileAvatarForm extends Block<ProfileAvatarProps>{
     static componentName = 'ProfileAvatarForm';
     protected template = ProfileAvatarFormTemplate;
-    private avatarController = new AvatarController();
+    private profileController = new ProfileController();
 
     constructor(props: ProfileAvatarProps){
         super(props);
@@ -35,7 +35,7 @@ export default class ProfileAvatarForm extends Block<ProfileAvatarProps>{
             return;
         }
 
-        this.avatarController.changeAvatar(file);
+        this.profileController.updateAvatar(file);
     }
 
     protected serverErrorHandler = ()=>{
@@ -48,6 +48,5 @@ export default class ProfileAvatarForm extends Block<ProfileAvatarProps>{
         if(!errorMessageBlock) return;
         errorMessageBlock.setProps({message: errorText});
     }
-
 
 }

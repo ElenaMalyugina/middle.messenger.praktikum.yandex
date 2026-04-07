@@ -35,9 +35,18 @@ export default class ChatItem extends Block<ChatItemProps>{
     protected setActive = ()=>{
         const chatActive = Store.getState().activeChat as ChatData;
         if( !chatActive ) return;
-        this.setProps({
-            isActive: this.props.chatData.id == chatActive.id
-        })
+
+        const chatActiveClass = "chat-item--active";
+
+        const htmlElement = this.element();
+
+        //Здесь нужно точечное воздействие на класс, не вызывающее перерисовку элемента
+        if(this.props.chatData.id == chatActive.id){
+            htmlElement?.classList.add(chatActiveClass)
+        }
+        else{
+            htmlElement?.classList.remove(chatActiveClass)
+        }
     }
 
     protected events = {
