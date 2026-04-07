@@ -48,7 +48,7 @@ export default class ChatsController extends BaseFormController<AddChat>  {
         }
         catch(error){
             const parsedError = errorHandler(error);
-            Store.setState("avatarError", parsedError);
+            Store.setState("chatAvatarError", parsedError);
         }
     }
 

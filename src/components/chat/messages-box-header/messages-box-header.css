@@ -1,6 +1,6 @@
 .messages-box-header{
     border-bottom: var(--border);
-    padding: 10px var(--padding);
+    padding: 16px var(--padding);
     background-color: var(--third-color);
     display: flex;
     align-items: center;

@@ -33,6 +33,12 @@ export default class MessagesBoxHeader extends Block<MessagesBoxHeaderProps>{
         })
     }
 
+    protected events={
+        click: (__e: Event)=>{
+            Store.setState("chatAvatarError", "")
+        }
+    };
+
     updateData = ()=>{
         const activeChat= Store.getState().activeChat as ChatData;
         if(!activeChat) return;
