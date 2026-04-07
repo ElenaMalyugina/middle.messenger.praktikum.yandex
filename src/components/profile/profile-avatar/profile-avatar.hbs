@@ -2,11 +2,11 @@
     <div class="profile__container">
         {{#with userData}}
             {{#if ../isEditable}}
-                {{{ ProfileAvatarForm className="avatar-label" for="avatar" title="Изменить файл" name="avatar"
+                {{{ ProfileAvatarForm className="avatar-label profile__avatar-label" for="avatar" title="Изменить файл" name="avatar"
                     profileImg=avatar profileName=profileName
                 }}}
             {{else}}
-                <figure class="profile-avatar__wrapper">
+                <figure class="avatar-wrapper profile-avatar__wrapper">
                     {{{ Img className="profile-avatar__img" src=avatar alt=profileName width="130" height="130" }}}
                 </figure>
             {{/if}}

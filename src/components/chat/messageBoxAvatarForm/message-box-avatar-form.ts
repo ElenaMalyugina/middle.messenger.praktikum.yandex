@@ -1,0 +1,52 @@
+import "./message-box-avatar-form.css";
+import MessageBoxAvatarFormTemplate from "./message-box-avatar-form.hbs?raw";
+import AvatarController from "../../../controllers/avatarController";
+import Store from "../../../framework/store/Store";
+import ErrorMessage from "../../../ui-units/error-message/error-message";
+import Block, { type BlockOwnProps } from "../../../framework/Block";
+import { validate } from "../../../services/validationService";
+
+interface MessageBoxAvatarProps extends BlockOwnProps{
+    onChange: (file: File)=> void
+}
+
+export default class MessageBoxAvatarForm extends Block<MessageBoxAvatarProps>{
+    static componentName = 'MessageBoxAvatarForm';
+    protected template = MessageBoxAvatarFormTemplate ;
+    private avatarController = new AvatarController();
+
+    constructor(props: MessageBoxAvatarProps){
+        super(props);
+        this.props.onChange = this.submitForm;
+
+        Store.subscribe(()=>{
+            //если ошибка на бэке
+            this.serverErrorHandler();
+        })
+    }
+
+    protected submitForm = (file: File)=>{
+        const validatorResult = validate(file, ["validatorFileImage"]);
+
+        if(!validatorResult.isValid){
+            if(validatorResult.text){
+                this.errorFormHandler(validatorResult.text);
+            }
+            return;
+        }
+
+        this.avatarController.changeAvatar(file);
+    }
+
+    protected serverErrorHandler = ()=>{
+        const serverError = Store.getState().avatarError as string;
+        this.errorFormHandler(serverError);
+    }
+
+    protected errorFormHandler = (errorText: string)=>{
+        const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
+        if(!errorMessageBlock) return;
+        errorMessageBlock.setProps({message: errorText});
+    }
+
+}

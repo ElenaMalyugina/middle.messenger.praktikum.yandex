@@ -3,15 +3,17 @@ import Block, { type BlockOwnProps } from "../../../framework/Block";
 import MessagesBoxHeaderTemplate from "./messages-box-header.hbs?raw";
 import PopupUser from "../popup-contents/popup-user/popup-user";
 import Store from "../../../framework/store/Store";
+import type { ChatData } from "../chat-item/chat-item";
+import type { UserInfo } from "../../../types/userInfo";
 
 interface MessagesBoxHeaderData{
     title: string;
     avatarUrl: string;
-    userName: string;
 }
 
 interface MessagesBoxHeaderProps extends BlockOwnProps{
     data: MessagesBoxHeaderData;
+    isOwnChat: boolean;
     popupUserShow: (event: Event, el:HTMLButtonElement)=>void;
 }
 
@@ -32,15 +34,15 @@ export default class MessagesBoxHeader extends Block<MessagesBoxHeaderProps>{
     }
 
     updateData = ()=>{
-        const activeChat = Store.getState().activeChat;
+        const activeChat = Store.getState().activeChat as ChatData;
 
         if(!activeChat) return;
         this.setProps({
             data:{
                 title: activeChat.title,
-                avatarUrl: activeChat.avatarUrl ? activeChat.avatarUrl:"/img/avatar.png",
-                userName: activeChat.created_by
+                avatarUrl: activeChat.avatar ? activeChat.avatar:"/img/avatar.png",
             },
+            isOwnChat: activeChat.created_by === Store.getState().currentUser
         })
     }
 

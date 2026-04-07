@@ -1,4 +1,5 @@
 import "./sidebar/sidebar.css";
+import "./avatar/avatar.css";
 import Handlebars from "handlebars";
 import { registerComponent } from '../framework/RegisterComponent';
 import Input from "./input/input";

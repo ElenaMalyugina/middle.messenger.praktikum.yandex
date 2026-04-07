@@ -18,6 +18,7 @@
 .messages-box-header__chat-avatar{
     margin: 0;
     flex-shrink: 0;
+    overflow: hidden;
 }
 
 .messages-box-header__header{

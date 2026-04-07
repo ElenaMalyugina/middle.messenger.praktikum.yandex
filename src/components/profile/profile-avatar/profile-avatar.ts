@@ -5,7 +5,7 @@ import Store from "../../../framework/store/Store";
 import { type UserInfo } from "../../../types/userInfo";
 import { registerComponent } from "../../../framework/RegisterComponent";
 import ProfileAvatarForm from "./profile-avatar-form/profile-avatar-form";
-import type { UserAvatar } from "../../../types/userAvatar";
+import { UserAvatarModel, type UserAvatar } from "../../../types/userAvatar";
 
 interface ProfileAvatarProps extends BlockOwnProps{
     isEditable: boolean;
@@ -27,15 +27,19 @@ export default class ProfileAvatar extends Block<ProfileAvatarProps>{
     }
 
     protected updateData=()=>{
-        const userData = Store.getState().userData;
-        if(!userData) return;
+        const userDataRaw = Store.getState().userData as UserInfo;
+
+        if(!userDataRaw) return;
+
+        const userData = new UserAvatarModel({
+            profileName: userDataRaw.display_name,
+            avatar: userDataRaw.avatar
+        })
+
 
         this.setProps(
             {
-                userData:{
-                    profileName: (userData as UserInfo).display_name,
-                    avatar: (userData as UserInfo).avatar
-                }
+                userData: {...userData}
             }
         )
     }

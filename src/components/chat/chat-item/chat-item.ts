@@ -33,7 +33,7 @@ export default class ChatItem extends Block<ChatItemProps>{
     }
 
     protected setActive = ()=>{
-        const chatActive = Store.getState().activeChat;
+        const chatActive = Store.getState().activeChat as ChatData;
         if( !chatActive ) return;
         this.setProps({
             isActive: this.props.chatData.id == chatActive.id

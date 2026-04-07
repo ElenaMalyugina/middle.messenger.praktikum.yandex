@@ -24,10 +24,9 @@ import AddDeleteUser from "../../components/chat/modal-contents/add-delete-user/
 import AddDeleteUserForm from "../../components/chat/modal-contents/add-delete-user/form/add-delete-user-form.ts";
 import PopupFilesForm from "../../components/chat/popup-contents/popup-files/form/popup-files-form.ts";
 import PopupFiles from "../../components/chat/popup-contents/popup-files/popup-files.ts";
-import ChatsController from "../../controllers/chatsController.ts";
-import Store from "../../framework/store/Store.ts";
 import AddChat from "../../components/chat/modal-contents/add-chat/add-chat.ts";
 import AddChatForm from "../../components/chat/modal-contents/add-chat/form/add-chat-form.ts";
+import MessageBoxAvatarForm from "../../components/chat/messageBoxAvatarForm/message-box-avatar-form.ts";
 
 //Получение даты в читаемом формате
 Handlebars.registerHelper("getDayAndYear", function(dateString){
@@ -60,6 +59,7 @@ registerComponent(AddDeleteUser);
 registerComponent(AddDeleteUserForm);
 registerComponent(AddChat);
 registerComponent(AddChatForm);
+registerComponent(MessageBoxAvatarForm);
 
 
 interface ChatPageProps extends BlockOwnProps{
