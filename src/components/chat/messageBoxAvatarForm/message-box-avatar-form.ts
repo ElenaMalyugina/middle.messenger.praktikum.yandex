@@ -45,7 +45,7 @@ export default class MessageBoxAvatarForm extends Block<MessageBoxAvatarProps>{
     }
 
     protected serverErrorHandler = ()=>{
-        const serverError = Store.getState().avatarError as string;
+        const serverError = Store.getState().chatAvatarError as string;
         this.errorFormHandler(serverError);
     }
 
