@@ -20,7 +20,9 @@ export default class ChatsList extends Block<ChatsListProps>{
 
         Store.subscribe(()=>{
             this.updateChats();
-        })
+        });
+
+        this.chatsController.getChats();
     }
 
     protected updateChats = ()=>{
@@ -36,6 +38,6 @@ export default class ChatsList extends Block<ChatsListProps>{
     }
 
     protected componentDidMount(): void {
-        this.chatsController.getChats();
+
     }
 }

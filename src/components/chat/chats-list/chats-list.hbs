@@ -1,4 +1,7 @@
 <ul class="chats-list  sidebar__chat-list js-chats-list">
+    {{#unless chats}}
+        <li class="no-chats">Чаты не найдены</li>
+    {{/unless}}
     {{#each chats as | chatItem |}}
         {{{ ChatItem chatData=chatData
             isActive=isActive

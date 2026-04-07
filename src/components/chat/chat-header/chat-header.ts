@@ -24,7 +24,7 @@ export default class ChatHeader extends Block<ChatHeaderProps>{
         const content = new AddChat().element();
 
         if(content){
-            modal.appendChild(content)
+            modal.appendChild(content);
         }
     }
 }

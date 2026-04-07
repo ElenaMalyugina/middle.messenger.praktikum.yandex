@@ -15,10 +15,7 @@ export default class ProfileApi extends BaseAPI {
     }
 
     updateAvatar<T = FormData>(avatar: T){
-        return this.transport.put("/profile/avatar",
-            {
-                data: avatar
-            }
+        return this.transport.put("/profile/avatar", {data: avatar}
         )
     }
 }
