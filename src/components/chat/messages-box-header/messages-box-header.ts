@@ -2,12 +2,7 @@ import "./messages-box-header.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import MessagesBoxHeaderTemplate from "./messages-box-header.hbs?raw";
 import PopupUser from "../popup-contents/popup-user/popup-user";
-
-const dataMock: MessagesBoxHeaderData = {
-    title: "Приветственный чат",
-    avatarUrl: "avatar.png",
-    userName: "Иван Иванов"
-}
+import Store from "../../../framework/store/Store";
 
 interface MessagesBoxHeaderData{
     title: string;
@@ -24,6 +19,31 @@ export default class MessagesBoxHeader extends Block<MessagesBoxHeaderProps>{
     static componentName = 'MessagesBoxHeader';
     protected template = MessagesBoxHeaderTemplate;
 
+    constructor(props: MessagesBoxHeaderProps){
+        super(props);
+
+        this.setProps({
+            popupUserShow: this.popupUserShow
+        })
+
+        Store.subscribe(()=>{
+            this.updateData()
+        })
+    }
+
+    updateData = ()=>{
+        const activeChat = Store.getState().activeChat;
+
+        if(!activeChat) return;
+        this.setProps({
+            data:{
+                title: activeChat.title,
+                avatarUrl: activeChat.avatarUrl ? activeChat.avatarUrl:"/img/avatar.png",
+                userName: activeChat.created_by
+            },
+        })
+    }
+
     popupUserShow=(event: Event, el: HTMLButtonElement)=>{
         if(!el) return;
         const activeClass = "dots-button--active";
@@ -33,12 +53,5 @@ export default class MessagesBoxHeader extends Block<MessagesBoxHeaderProps>{
         if(popup){
             popup.popupShow(event, "#user-button", activeClass);
         }
-    }
-
-    protected componentDidMount(): void {
-        this.setProps({
-            data:{...dataMock},
-            popupUserShow: this.popupUserShow
-        })
     }
 }

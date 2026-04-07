@@ -15,7 +15,7 @@ export default class ChatBody extends Block<ChatBodyProps>{
 
         Store.subscribe(()=>{
             const chatActive = Store.getState().activeChat;
-            if(!chatActive || (typeof chatActive)!== "number") return;
+            if(!chatActive ) return;
             this.setProps({isSelectedChat: !!chatActive})
         })
     }

@@ -7,8 +7,9 @@ export interface ChatData{
     id: number;
     title: string;
     avatar: string;
-    unreadСount:number;
-    lastMessage:{
+    unread_count:number;
+    created_by: number;
+    last_message:{
         time:string;
         text: string;
     };
@@ -17,7 +18,6 @@ export interface ChatData{
 export interface ChatItemProps extends BlockOwnProps{
     chatData: ChatData;
     isActive: boolean;
-    selectChatEmit: (id:number)=>void
 }
 
 export default class ChatItem extends Block<ChatItemProps>{
@@ -25,16 +25,25 @@ export default class ChatItem extends Block<ChatItemProps>{
     protected template = ChatItemTemplate;
 
     constructor(props:ChatItemProps){
-        super(props)
+        super(props);
+
+        Store.subscribe(()=>{
+            this.setActive();
+        })
     }
 
-    public getId():number{
-        return this.props.chatData.id || -1;
+    protected setActive = ()=>{
+        const chatActive = Store.getState().activeChat;
+        if( !chatActive ) return;
+        this.setProps({
+            isActive: this.props.chatData.id == chatActive.id
+        })
     }
 
     protected events = {
         click: () => {
-            Store.setState("activeChat", this.props.chatData.id);
+            Store.setState("activeChat", this.props.chatData);
         }
     }
+
 }
