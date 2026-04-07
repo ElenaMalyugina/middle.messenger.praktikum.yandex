@@ -171,6 +171,21 @@ body{
     }
 }
 
+.add-button{
+    @extend .round-button;
+    background: url("/img/plus.svg") center center no-repeat, var(--fourth-color);
+
+    &--active{
+        background-image: url("/img/plus-hover.svg");
+    }
+}
+
+.add-button{
+    &:hover{
+        @extend .add-button--active;
+    }
+}
+
 
 
 

@@ -4,9 +4,8 @@ import { BaseAPI } from "../framework/Http/BaseApi";
 export default class ChatsApi extends BaseAPI {
     private transport = new HTTPTransport('api/v2');
 
-
-    create() {
-        return this.transport.post("/chats", {data: {title: "Тестовый чат"}});
+    create(newChat) {
+        return this.transport.post("/chats", {data: newChat});
     }
 
     request() {

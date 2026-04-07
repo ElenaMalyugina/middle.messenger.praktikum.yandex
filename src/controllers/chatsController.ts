@@ -1,7 +1,8 @@
 import ChatsApi from "../api/chatsApi";
 import Store from "../framework/store/Store";
+import BaseFormController from "./baseFormController";
 
-export default class ChatsController  {
+export default class ChatsController extends BaseFormController<unknown>  {
     private chatsApi: ChatsApi = new ChatsApi();
 
     public async getChats(){
@@ -14,12 +15,19 @@ export default class ChatsController  {
         }
     }
 
-    public async getChat(){
+    private async createChat(chat){
         try{
-            await this.chatsApi.create();
+            const newChat = await this.chatsApi.create(chat);
+            if(newChat){
+                await this.getChats();
+            }
         }
         catch(e){
 
         }
     }
+
+    protected formSend=(data: unknown) =>{
+        this.createChat(data)
+    };
 }

@@ -26,6 +26,8 @@ import PopupFilesForm from "../../components/chat/popup-contents/popup-files/for
 import PopupFiles from "../../components/chat/popup-contents/popup-files/popup-files.ts";
 import ChatsController from "../../controllers/chatsController.ts";
 import Store from "../../framework/store/Store.ts";
+import AddChat from "../../components/chat/modal-contents/add-chat/add-chat.ts";
+import AddChatForm from "../../components/chat/modal-contents/add-chat/form/add-chat-form.ts";
 
 //Получение даты в читаемом формате
 Handlebars.registerHelper("getDayAndYear", function(dateString){
@@ -56,6 +58,8 @@ registerComponent(PopupFilesForm);
 registerComponent(PopupUser);
 registerComponent(AddDeleteUser);
 registerComponent(AddDeleteUserForm);
+registerComponent(AddChat);
+registerComponent(AddChatForm);
 
 
 interface ChatPageProps extends BlockOwnProps{
