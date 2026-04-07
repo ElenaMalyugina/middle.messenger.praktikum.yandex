@@ -20,4 +20,8 @@ export default class ChatsApi extends BaseAPI {
             }
         )
     }
+
+    getChatUsers(chatId:number ,params: Record<string, unknown>){
+        return this.transport.get(`/chats/${chatId}/users`, params);
+    }
 }

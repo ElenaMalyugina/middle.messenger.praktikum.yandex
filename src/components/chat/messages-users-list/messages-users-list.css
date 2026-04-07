@@ -1,0 +1,23 @@
+.messages-users-list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.messages-users-item{
+    font-size: 12px;
+    color: var(--light-text-color);
+
+    &::after{
+        content: ",";
+    }
+}
+
+.messages-users-item:last-child{
+    &::after{
+        content: "";
+    }
+}

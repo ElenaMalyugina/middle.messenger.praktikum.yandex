@@ -63,6 +63,16 @@ export default class ChatsController extends BaseFormController<AddChat>  {
         }
     }
 
+    public async getChatUsers(chatId: number){
+        try{
+            const users = await this.chatsApi.getChatUsers(chatId, {});
+            Store.setState("ActiveChatsUsers", users);
+        }
+        catch(e){
+            console.log("Не удалось загрузить списки пользователей");
+        }
+    }
+
     public formSend=(data: AddChat | null) =>{
         return this.createChat(data)
     };

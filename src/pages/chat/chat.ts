@@ -27,6 +27,7 @@ import PopupFiles from "../../components/chat/popup-contents/popup-files/popup-f
 import AddChat from "../../components/chat/modal-contents/add-chat/add-chat.ts";
 import AddChatForm from "../../components/chat/modal-contents/add-chat/form/add-chat-form.ts";
 import MessageBoxAvatarForm from "../../components/chat/messageBoxAvatarForm/message-box-avatar-form.ts";
+import MessagesUsersList from "../../components/chat/messages-users-list/messages-users-list.ts";
 
 //Получение даты в читаемом формате
 Handlebars.registerHelper("getDayAndYear", function(dateString){
@@ -60,6 +61,7 @@ registerComponent(AddDeleteUserForm);
 registerComponent(AddChat);
 registerComponent(AddChatForm);
 registerComponent(MessageBoxAvatarForm);
+registerComponent(MessagesUsersList);
 
 
 interface ChatPageProps extends BlockOwnProps{

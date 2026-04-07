@@ -6,7 +6,10 @@
         {{else}}
             {{{ ChatAvatar addClass="messages-box-header__chat-avatar" avatarUrl=avatarUrl title=title}}}
         {{/if}}
-        <h2 class="messages-box-header__header">{{title}}</h2>
+        <div>
+            <h2 class="messages-box-header__header">{{title}}</h2>
+            {{{MessagesUsersList}}}
+        </div>
     </div>
     {{/with}}
     {{{Button className="dots-button user-button message-box-header__user-button" id="user-button"
