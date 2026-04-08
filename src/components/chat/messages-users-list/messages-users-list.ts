@@ -1,9 +1,9 @@
 import "./messages-users-list.css";
-import ChatsController from "../../../controllers/chatsController";
 import Store from "../../../framework/store/Store";
 import type { ChatData } from "../../../types/chatData";
 import Block, { type BlockOwnProps } from "./../../../framework/Block";
 import MessagesUsersListTemplate from "./messages-users-list.hbs?raw";
+import ChatUsersController from "../../../controllers/chatUsersController";
 
 interface MessagesUsersListProps extends BlockOwnProps{
     users: unknown[];
@@ -12,7 +12,7 @@ interface MessagesUsersListProps extends BlockOwnProps{
 export default class MessagesUsersList extends Block<MessagesUsersListProps>{
     static componentName = 'MessagesUsersList';
     protected template = MessagesUsersListTemplate;
-    private chatsController = new ChatsController();
+    private chatUsersController = new ChatUsersController();
 
     constructor(props: MessagesUsersListProps){
         super(props)
@@ -29,8 +29,7 @@ export default class MessagesUsersList extends Block<MessagesUsersListProps>{
 
     protected componentDidMount(): void {
         const currentChat = Store.getState().activeChat as ChatData;
-
-        this.chatsController.getChatUsers(currentChat.id);
+        this.chatUsersController.getChatUsers(currentChat.id);
     }
 
 }

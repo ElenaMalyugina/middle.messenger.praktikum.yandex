@@ -10,6 +10,7 @@ interface InputBlockProps extends BaseValidationProps{
     name: string;
     value?: string;
     onInput: (el:HTMLInputElement)=>void;
+    onInputEmit: (el:HTMLInputElement)=>void;
 }
 
 export default class InputBlock extends BaseValidationBlock<InputBlockProps>{
@@ -22,8 +23,14 @@ export default class InputBlock extends BaseValidationBlock<InputBlockProps>{
         this.setProps({
             onValidate: this.onValidate,
             cleanValidate: this.cleanValidate,
-            onInput: this.floatLabel
+            onInput: this.onInput
         });
+    }
+
+    onInput=(el: HTMLInputElement)=>{
+        this.floatLabel(el)
+        this.props.onInputEmit(el)
+
     }
 
     floatLabel=(el: HTMLInputElement)=>{

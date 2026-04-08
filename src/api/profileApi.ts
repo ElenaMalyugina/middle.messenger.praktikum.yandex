@@ -10,6 +10,10 @@ export default class ProfileApi extends BaseAPI {
         this.transport = new HTTPTransport('api/v2/user');
     }
 
+    request(data: unknown): Promise<unknown> {
+        return this.transport.get("/search", {data: data})
+    }
+
     update<T = UserInfo>(userData: T){
         return this.transport.put("/profile", {data: userData})
     }
