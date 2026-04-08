@@ -1,0 +1,12 @@
+<div class="datalist {{#if dataList}}datalist--active{{/if}}" ref="datalist">
+    <ul class="datalist__list">
+        {{#each dataList as | dataItem|}}
+        <li class="datalist__item">
+            <button class="extended-button datalist__button" data-value="{{dataItem.value}}" data-text="{{dataItem.text}}" type="button">
+                {{dataItem.text}}
+            </button>
+        </li>
+        {{/each}}
+    </ul>
+</div>
+

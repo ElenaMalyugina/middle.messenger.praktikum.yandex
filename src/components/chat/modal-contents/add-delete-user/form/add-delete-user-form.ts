@@ -1,12 +1,16 @@
 import ChatUsersController from "../../../../../controllers/chatUsersController";
 import Store from "../../../../../framework/store/Store";
+import type { ChatData } from "../../../../../types/chatData";
 import type { UserInfo } from "../../../../../types/userInfo";
+import DataList from "../../../../../ui-units/datalist/datalist";
 import Form, { type FormProps } from "../../../../../ui-units/form/form";
 import { debounce } from "../../../../../utils/debounce";
 import AddDeleteUserFormTemplate from "./add-delete-user-form.hbs?raw";
 
-interface AddDeleteUserDataProps{
+export interface AddDeleteUserDataProps{
     name:string;
+    id: number;
+    chatId: number;
 }
 
 interface AddDeleteUserFormProps extends FormProps{
@@ -15,6 +19,7 @@ interface AddDeleteUserFormProps extends FormProps{
     formSettings: Partial<FormProps>;
     searchedUsers: UserInfo[];
     onInputEmit: (el:HTMLInputElement)=>void;
+    dataListClickEmit: (el:HTMLInputElement)=>void;
 }
 
 export default class AddDeleteUserForm extends Form<AddDeleteUserFormProps>{
@@ -26,24 +31,40 @@ export default class AddDeleteUserForm extends Form<AddDeleteUserFormProps>{
     constructor(props: AddDeleteUserFormProps){
         super(props)
 
-        Store.subscribe(()=>{
-            const searchedUser = Store.getState().searchedUser as UserInfo[];
-            if(!searchedUser) return;
+        this.debouncedSearch = debounce(this.searchUsers.bind(this), 500);
 
-            this.setProps({searchedUsers: [...searchedUser]})
-        })
-    }
-
-    protected componentDidMount(): void {
-        this.debouncedSearch = debounce(this.searchUsers.bind(this), 1000);
+        const currentChat = Store.getState().activeChat as ChatData;
+        if(!currentChat) return;
 
         this.setProps({
             data: {
-                name: ""
+                name: "",
+                id: -1,
+                chatId: currentChat.id
             },
             action: this.props.formSettings?.action || "",
             buttonText: this.props.buttonText,
-            onInputEmit: this.searchHandler
+            onInputEmit: this.searchHandler,
+            dataListClickEmit: this.selectUser
+        })
+
+        Store.subscribe(()=>{
+            const searchedUser = Store.getState().searchedUser as UserInfo[];
+            if(!searchedUser || !Array.isArray(searchedUser)) return;
+
+            const dataList = this.children.find(el=>el instanceof DataList);
+            if(! dataList) return;
+
+            const adaptedSearchedUser = searchedUser.map(el=> {
+                return {
+                    value: el.id,
+                    text: el.login
+                }
+            })
+
+            dataList.setProps({
+                dataList: [...adaptedSearchedUser]
+            })
         })
     }
 
@@ -57,6 +78,20 @@ export default class AddDeleteUserForm extends Form<AddDeleteUserFormProps>{
         if(el.value.length> 3){
             this.chatUsersController.searchUsers(el.value)
         }
+    }
+
+    selectUser=(el: HTMLInputElement)=>{
+        const userId = el.getAttribute("data-value");
+        const userName = el.getAttribute("data-text");
+        this.setProps({
+            data:{
+                chatId: this.props.data.chatId,
+                id: userId? parseInt(userId) : -1,
+                name: userName || ""
+            }
+        });
+
+        Store.setState("searchedUser", [])
     }
 
     protected submitForm=(form: Form)=>{

@@ -2,7 +2,17 @@ import ChatsUsersApi from "../api/chatsUsersApi";
 import Store from "../framework/store/Store";
 import BaseFormController from "./baseFormController";
 
-export default class ChatUsersController extends BaseFormController<unknown>{
+interface ChatUsers{
+    users: number[];
+    chatId: number;
+}
+
+interface RawChatUsers{
+    id: number;
+    chatId: number;
+}
+
+export default class ChatUsersController extends BaseFormController<RawChatUsers>{
     private chatsUsersApi: ChatsUsersApi = new ChatsUsersApi();
 
     public async getChatUsers(chatId: number){
@@ -25,15 +35,32 @@ export default class ChatUsersController extends BaseFormController<unknown>{
         }
     }
 
-    public async addUser(){
-
+    public async addUser(data: ChatUsers){
+        try{
+            const users = await this.chatsUsersApi.addUsers(data);
+            Store.setState("searchedUser", users);
+        }
+        catch(e){
+            console.log("Не удалось загрузить");
+        }
     }
 
     public async deleteUser(){
 
     }
 
-    public formSend=(data: unknown | null) =>{
-        return this.addUser();
+    public formSend = (data: RawChatUsers | null) =>{
+        let adaptedData: ChatUsers = {
+            users: [],
+            chatId: -1
+        }
+
+        if(data){
+            adaptedData = {
+                users: [data.id],
+                chatId: data.chatId
+            }
+        }
+        return this.addUser(adaptedData);
     };
 }

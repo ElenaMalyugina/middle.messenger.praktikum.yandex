@@ -8,9 +8,9 @@ interface InputBlockProps extends BaseValidationProps{
     type: string;
     label: string;
     name: string;
-    value?: string;
+    value: string;
     onInput: (el:HTMLInputElement)=>void;
-    onInputEmit: (el:HTMLInputElement)=>void;
+    onInputEmit?: (el:HTMLInputElement)=>void;
 }
 
 export default class InputBlock extends BaseValidationBlock<InputBlockProps>{
@@ -28,9 +28,11 @@ export default class InputBlock extends BaseValidationBlock<InputBlockProps>{
     }
 
     onInput=(el: HTMLInputElement)=>{
-        this.floatLabel(el)
-        this.props.onInputEmit(el)
+        this.floatLabel(el);
 
+        if(this.props.onInputEmit){
+            this.props.onInputEmit(el);
+        }
     }
 
     floatLabel=(el: HTMLInputElement)=>{

@@ -23,6 +23,7 @@ export default abstract class BaseInput<Props extends  BaseValidatedInputProps =
                 this.props.onInput(input);
             }
         },
+
         blur: () => {
             const keys = Object.keys(this.refs);
             const input = this.refs[keys[0]];
