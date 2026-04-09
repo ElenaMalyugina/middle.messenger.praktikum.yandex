@@ -26,9 +26,7 @@ export default class ProfileChangePasswordForm extends Form<ProfileChangePasswor
             //если ошибка на бэке
             this.errorFormHandler();
         })
-    }
 
-    protected componentDidMount(): void {
         this.setProps({
             data: {...initialData}
         })

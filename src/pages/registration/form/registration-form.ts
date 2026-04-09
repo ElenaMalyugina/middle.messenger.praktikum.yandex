@@ -29,9 +29,7 @@ export default class RegistrationForm extends Form<RegistrationFormProps> {
         Store.subscribe(()=>{
            this.errorFormHandler();
         })
-    }
 
-    protected componentDidMount(): void {
         this.setProps({
             data: {...initialUser}
         })

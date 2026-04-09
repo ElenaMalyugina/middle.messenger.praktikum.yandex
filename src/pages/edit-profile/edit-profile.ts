@@ -1,5 +1,5 @@
 import "/src/components/profile/profile-sidebar/profile-sidebar.css";
-import Block from "../../framework/Block";
+import Block, { type BlockOwnProps } from "../../framework/Block";
 import { registerComponent } from "../../framework/RegisterComponent";
 import ProfilePageLayout from "../../layouts/profile-page/profile-page-layout";
 import ProfileInfoFormBlock from "../../components/profile/profile-info-form/profile-info-form-block";
@@ -9,12 +9,15 @@ import ProfileController from "../../controllers/profileController";
 ProfilePageLayout.register();
 registerComponent(ProfileInfoFormBlock);
 
-export default class EditProfile extends Block{
+export default class EditProfile extends Block<BlockOwnProps>{
     static componentName = 'EditProfile';
     protected template = editProfileTemplate;
     private profileController = new ProfileController();
 
-    protected componentDidMount(): void {
+    constructor(props: BlockOwnProps){
+        super(props)
+
         this.profileController.getUserInfo();
     }
+
 }

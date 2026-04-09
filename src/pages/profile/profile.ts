@@ -1,5 +1,5 @@
 import "./profile.css";
-import Block from "../../framework/Block";
+import Block, { type BlockOwnProps } from "../../framework/Block";
 import { registerComponent } from "../../framework/RegisterComponent";
 import profileTemplate from "/src/pages/profile/profile.hbs?raw";
 import ProfileInfoBlock from "../../components/profile/profile-info/profile-info";
@@ -12,12 +12,14 @@ ProfilePageLayout.register();
 registerComponent(ProfileInfoBlock);
 registerComponent(ProfileMenu);
 
-export default class Profile extends Block{
+export default class Profile extends Block<BlockOwnProps>{
     static componentName = 'Profile';
     protected template = profileTemplate;
     private profileController = new ProfileController();
 
-    protected componentDidMount(): void {
+    constructor(props:BlockOwnProps ){
+        super(props)
         this.profileController.getUserInfo();
     }
+
 }
