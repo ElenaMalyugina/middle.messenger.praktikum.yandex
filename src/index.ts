@@ -18,8 +18,8 @@ router
     .use("/messenger", Chat, {}, {guards: ["AuthGuard"]})
     .use("/sign-up", Registration, {})
     .use("/settings", Profile, {}, {guards: ["AuthGuard"]})
-    .use("/edit-profile", EditProfile, {}, {guards: ["AuthGuard"]})
-    .use("/change-password", ChangePassword, {}, {guards: ["AuthGuard"]})
+    .use("/settings/edit-profile", EditProfile, {}, {guards: ["AuthGuard"]})
+    .use("/settings/change-password", ChangePassword, {}, {guards: ["AuthGuard"]})
     .use("/500", Errors, getError(500))
     .use("/404", Errors, getError(404))
     .start();
