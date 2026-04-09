@@ -81,7 +81,7 @@ export default class Chat extends Block<ChatPageProps>{
         click: (event: Event) => {
             const target= event.target;
             const sidebar = this.refs["sidebar"];
-
+            debugger
             if(sidebar.classList.contains(this.activeSidebarClass)){
                 this.hideSidebar(sidebar);
             }
