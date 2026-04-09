@@ -71,7 +71,7 @@ export default class HTTPTransport {
 
             xhr.open(
                 method,
-                isGet && data ? `${this.resourceUrl}${url}${queryString(data)}` :`${this.resourceUrl}${url}`,
+                isGet && data ? `${this.resourceUrl}${url}${queryString(data as Record<string, unknown>)}` :`${this.resourceUrl}${url}`,
             );
 
             xhr.withCredentials = true;
@@ -100,7 +100,7 @@ export default class HTTPTransport {
                             else {
                                 response = xhr.responseText;
                             }
-                        } catch (e) {
+                        } catch (_e) {
                             response = xhr.responseText;
                         }
                     }
@@ -146,7 +146,7 @@ export default class HTTPTransport {
                     const dataStringify = JSON.stringify(data);
                     xhr.send(dataStringify);
                 }
-                catch(e){
+                catch(_e){
                     console.error("Ошибка сериализации данных")
                 }
             } else {

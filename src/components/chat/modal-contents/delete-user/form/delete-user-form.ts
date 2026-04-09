@@ -82,7 +82,7 @@ export default class DeleteUserForm extends Form<AddDeleteUserFormProps>{
     }
 
     searchUsers=(el: HTMLInputElement)=>{
-        if(el.value.length> 1){
+        if(el.value.length > 0){
             this.chatUsersController.searchUsers(el.value)
         }
     }

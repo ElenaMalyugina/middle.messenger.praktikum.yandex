@@ -1,14 +1,14 @@
 export abstract class BaseAPI {
     // На случай, если забудете переопределить метод и используете его, — выстрелит ошибка
-    create<T>(data: T): Promise<unknown> {
+    create<T>(_data: T): Promise<unknown> {
         throw new Error('Not implemented');
     }
 
-    request(data: unknown): Promise<unknown> {
+    request(_data: unknown): Promise<unknown> {
         throw new Error('Not implemented');
     }
 
-    update<T>(data: T): Promise<unknown> {
+    update<T>(_data: T): Promise<unknown> {
         throw new Error('Not implemented');
     }
 

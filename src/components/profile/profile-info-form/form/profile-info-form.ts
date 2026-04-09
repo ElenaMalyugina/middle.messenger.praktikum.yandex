@@ -1,7 +1,6 @@
 import ProfileController from "../../../../controllers/profileController";
 import Store from "../../../../framework/store/Store";
 import type { UserInfo } from "../../../../types/userInfo";
-import ErrorMessage from "../../../../ui-units/error-message/error-message";
 import Form, { type FormProps } from "../../../../ui-units/form/form";
 import ProfileInfoFormTemplate from "./profile-info-form.hbs?raw";
 

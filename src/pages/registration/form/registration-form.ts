@@ -1,7 +1,6 @@
 import RegistrationController from "../../../controllers/registrationController";
 import Store from "../../../framework/store/Store";
 import type { Registration } from "../../../types/registration";
-import ErrorMessage from "../../../ui-units/error-message/error-message";
 import Form, { type FormProps } from "../../../ui-units/form/form";
 import registrationFormTemplate from "./registration-form.hbs?raw";
 

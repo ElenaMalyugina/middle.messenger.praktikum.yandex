@@ -10,9 +10,6 @@ export interface BlockOwnProps {
   __refs?: Record<string, Element>;
 }
 
-//не получилось побороть ошибку линтера на HTMLElementEventMap
-
-// eslint-disable-next-line @/no-undef
 type EventListType = Partial<Record<keyof HTMLElementEventMap, (e: Event) => void>>;
 
 export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps> {
@@ -107,9 +104,8 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
             this.removeListeners();
         }
     }
-    // eslint-disable-next-line @/no-undef
+
     private get validEvents(): Array<keyof HTMLElementEventMap>  {
-        // eslint-disable-next-line @/no-undef
         return Object.keys(this.events) as Array<keyof HTMLElementEventMap>;
     }
 

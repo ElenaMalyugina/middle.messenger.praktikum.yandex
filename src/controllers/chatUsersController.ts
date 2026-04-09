@@ -24,7 +24,7 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
             const users = await this.chatsUsersApi.getUsers(chatId, {});
             Store.setState("ActiveChatsUsers", users);
         }
-        catch(e){
+        catch(_e){
             console.log("Не удалось загрузить списки пользователей");
         }
     }
@@ -34,7 +34,7 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
             const users = await this.chatsUsersApi.searchUsers(searchString);
             Store.setState("searchedUser", users);
         }
-        catch(e){
+        catch(_e){
             console.log("Не удалось загрузить");
         }
     }
@@ -66,7 +66,7 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
     public formSend = (data: RawChatUsers | null) =>{
         if(!data) return null;
 
-        let adaptedData: ChatUsers = {
+        const adaptedData: ChatUsers = {
             users: [],
             chatId: -1
         }
@@ -78,10 +78,8 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
             return null;
         }
 
-        adaptedData = {
-            users: [data.id],
-            chatId: data.chatId
-        }
+        adaptedData.users = [data.id];
+        adaptedData.chatId = data.chatId || - 1;
 
 
         if(data.type == "add"){

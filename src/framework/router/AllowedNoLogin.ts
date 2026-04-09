@@ -16,7 +16,7 @@ export class AllowedNoLoginMiddleware implements RouteGuard{
             router.replace("/messenger");
             return false;
         }
-        catch(error){
+        catch(_error: unknown){
             return true;
         }
     }

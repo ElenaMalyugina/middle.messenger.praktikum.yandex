@@ -173,6 +173,7 @@ body{
 
 .add-button{
     @extend .round-button;
+
     background: url("/img/plus.svg") center center no-repeat, var(--fourth-color);
 
     &--active{

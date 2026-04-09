@@ -1,4 +1,3 @@
-// eslint.config.js
 import js from "@eslint/js";
 import globals from "globals";
 import ts from "@typescript-eslint/eslint-plugin";
@@ -11,6 +10,7 @@ export default [
       "**/node_modules/**",
       "**/dist/**",
       "**postcss.config.js",
+      "vite.config.ts"
     ]
   },
 
@@ -19,9 +19,13 @@ export default [
 
   // Конфигурация для TypeScript
   {
-    files: ["**/*.ts", "**/*.tsx"], // Применяем только к TS‑файлам
+    files: ["**/*.ts", "**/*.tsx"],
     languageOptions: {
-      parser: parser, // Используем TypeScript‑парсер
+      parser: parser,
+      parserOptions: {
+        project: "./tsconfig.json", // Указываем путь к tsconfig.json
+        tsconfigRootDir: import.meta.dirname // Корень проекта
+      },
       ecmaVersion: "latest",
       sourceType: "module",
       globals: {
@@ -35,12 +39,14 @@ export default [
     },
     rules: {
       // Базовые правила TypeScript
-      "@typescript-eslint/no-unused-vars": "error",
-      "@/no-undef": "error",
-
+      "@typescript-eslint/no-unused-vars": ["error", {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }],
+      "@/no-undef": "error", // Исправленное имя правила
       "no-unused-vars": "off", // Отключаем JS‑правило
-      "no-undef": "off"     // Отключаем JS‑правило
-
+      "no-undef": "off"      // Отключаем JS‑правило
     }
   }
 ];

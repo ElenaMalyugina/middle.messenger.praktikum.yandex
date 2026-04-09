@@ -14,7 +14,7 @@ export default class ChatsController extends BaseFormController<AddChat>  {
             const chatsList = await this.chatsApi.request({});
             Store.setState("chats", chatsList);
         }
-        catch(e){
+        catch(_e){
             console.log("Не получилось доставить чаты");
         }
     }
@@ -24,7 +24,7 @@ export default class ChatsController extends BaseFormController<AddChat>  {
             const chatsList = await this.chatsApi.request({data:{title: queryString}});
             Store.setState("chats", chatsList);
         }
-        catch(e){
+        catch(_e){
             console.log("Чаты не найдены");
         }
     }
