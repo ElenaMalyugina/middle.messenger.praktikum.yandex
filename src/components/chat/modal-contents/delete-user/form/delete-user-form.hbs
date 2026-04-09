@@ -1,11 +1,13 @@
 <form className="form" action="{{action}}" novalidate="novalidate" ref="form">
     <div class="combobox-wrapper">
+        <input type="hidden" name="type" value="delete">
         <input type="hidden" name="id" value="{{data.id}}">
         <input type="hidden" name="chatId" value="{{data.chatId}}">
         {{{ InputBlock type="text" label="Логин" name="users" id="users" required="required" validators="required"
         onInputEmit=onInputEmit value=data.name }}}
-        {{{ DataList clickEmit=dataListClickEmit }}}
+        {{{DataList clickEmit=dataListClickEmit}}}
     </div>
+    {{{ ErrorMessage className="form__error" ref="serverError"}}}
     {{{ Button className="button form-block__button form-block__button--last" type="submit" text="Удалить" id="modal-user-button"}}}
 </form>
 

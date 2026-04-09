@@ -15,8 +15,20 @@ export default class DeleteUserForm extends Form<AddDeleteUserFormProps>{
     private debouncedSearch: ((el: HTMLInputElement) => void) | null = null;
 
     constructor(props: AddDeleteUserFormProps){
-        super(props)
+        super(props);
+        this.setInitialProps();
 
+        Store.subscribe(()=>{
+            this.searchSubscribe();
+
+            this.errorFormHandler();
+        })
+
+        //чтобы при закрытии окна, а потом новом открытии не показывался предыдущий дроп с результатами поиска
+        Store.setState("searchedUser", []);
+    }
+
+    setInitialProps = ()=>{
         this.debouncedSearch = debounce(this.searchUsers.bind(this), 500);
 
         const currentChat = Store.getState().activeChat as ChatData;
@@ -31,24 +43,35 @@ export default class DeleteUserForm extends Form<AddDeleteUserFormProps>{
             onInputEmit: this.searchHandler,
             dataListClickEmit: this.selectUser
         })
+    }
 
-        Store.subscribe(()=>{
-            const searchedUser = Store.getState().searchedUser as UserInfo[];
-            if(!searchedUser || !Array.isArray(searchedUser)) return;
+    searchSubscribe = ()=>{
+        //список пользователей с сервера
+        const searchedUser = Store.getState().searchedUser as UserInfo[];
+        if(!searchedUser || !Array.isArray(searchedUser)) return;
 
-            const dataList = this.children.find(el=>el instanceof DataList);
-            if(! dataList) return;
+        //уже существующие пользователи в чате - всегда есть хотя бы сам Юзер? - нужно проверить
+        const existedUser = Store.getState().ActiveChatsUsers as UserInfo[];
+        if(!existedUser || !Array.isArray(existedUser)) return;
 
-            const adaptedSearchedUser = searchedUser.map(el=> {
+        //дропдаун куда вывести предлагемых пользователей
+        const dataList = this.children.find(el=>el instanceof DataList);
+        if(! dataList) return;
+
+        //не предлагаем еще раз добавить уже существующих
+        const idsToExclude = new Set(existedUser.map(item => item.id));
+        const adaptedSearchedUser = searchedUser
+            .filter(item => idsToExclude.has(item.id))
+            .map(el=> {
                 return {
                     value: el.id,
                     text: el.login
                 }
-            })
+        })
 
-            dataList.setProps({
-                dataList: [...adaptedSearchedUser]
-            })
+        //размещаем пользователей в дропе
+        dataList.setProps({
+            dataList: [...adaptedSearchedUser]
         })
     }
 
@@ -59,7 +82,7 @@ export default class DeleteUserForm extends Form<AddDeleteUserFormProps>{
     }
 
     searchUsers=(el: HTMLInputElement)=>{
-        if(el.value.length> 3){
+        if(el.value.length> 1){
             this.chatUsersController.searchUsers(el.value)
         }
     }
@@ -67,6 +90,7 @@ export default class DeleteUserForm extends Form<AddDeleteUserFormProps>{
     selectUser=(el: HTMLInputElement)=>{
         const userId = el.getAttribute("data-value");
         const userName = el.getAttribute("data-text");
+
         this.setProps({
             data:{
                 chatId: this.props.data.chatId,

@@ -10,6 +10,7 @@ interface ChatUsers{
 }
 
 interface RawChatUsers{
+    type: string;
     id: number;
     chatId: number;
 }
@@ -39,8 +40,9 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
 
     public async addUser(data: ChatUsers){
         try{
-            const users = await this.chatsUsersApi.addUsers(data);
-            Store.setState("searchedUser", users);
+            await this.chatsUsersApi.addUsers(data);
+            await this.getChatUsers(data.chatId);
+            this.modalHide();
         }
         catch(error:unknown){
             const parsedError = errorHandler(error);
@@ -48,8 +50,16 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
         }
     }
 
-    public async deleteUser(){
-
+    public async deleteUser(data: ChatUsers){
+        try{
+            await this.chatsUsersApi.deleteUsers(data);
+            await this.getChatUsers(data.chatId);
+            this.modalHide();
+        }
+        catch(error:unknown){
+            const parsedError = errorHandler(error);
+            Store.setState("deleteUserError", parsedError);
+        }
     }
 
     public formSend = (data: RawChatUsers | null) =>{
@@ -61,8 +71,9 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
         }
 
         const isUserExsists = validatorUserExists(data);
+
         if(!isUserExsists.isValid){
-            Store.setState("addUserError", isUserExsists.text);
+            Store.setState(`${data.type}UserError`, isUserExsists.text);
             return null;
         }
 
@@ -72,6 +83,21 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
         }
 
 
-        return this.addUser(adaptedData);
+        if(data.type == "add"){
+            return this.addUser(adaptedData);
+        }
+
+        if(data.type == "delete"){
+            return this.deleteUser(adaptedData);
+        }
+
+        return null
     };
+
+    private modalHide = ()=>{
+        const modal = document.querySelector("#chat-modal") as HTMLDialogElement;
+        if(!modal) return;
+        modal.innerHTML = "";
+        modal.close();
+    }
 }

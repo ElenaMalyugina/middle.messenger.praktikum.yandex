@@ -1,5 +1,6 @@
 <form className="form" action="{{action}}" novalidate="novalidate" ref="form">
     <div class="combobox-wrapper">
+        <input type="hidden" name="type" value="add">
         <input type="hidden" name="id" value="{{data.id}}">
         <input type="hidden" name="chatId" value="{{data.chatId}}">
         {{{ InputBlock type="text" label="Логин" name="users" id="users" required="required" validators="required"
