@@ -14,7 +14,7 @@ export default abstract class BaseFormController<T>{
         this.formSend(formData);
     };
 
-    protected abstract formSend: (data: T | null)=> Promise<unknown>
+    protected abstract formSend: (data: T | null)=> Promise<unknown> | null;
 
     protected formValidation=(blocks: Block[])=>{
         //Здесь хранится общий результат валидации формы

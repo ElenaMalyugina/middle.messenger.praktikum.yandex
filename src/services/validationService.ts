@@ -128,6 +128,31 @@ const validatorFileImage = (file: unknown) =>{
     };
 }
 
+interface UserCandidate {
+  id?: number;
+  chatId?: number;
+}
+
+export const validatorUserExists = (value: unknown)=>{
+    if (
+        value &&
+        typeof value === 'object' &&
+        value !== null &&
+        'id' in value &&
+        'chatId' in value
+    ) {
+        const user = value as UserCandidate;
+        if (user.id! > -1 && user.chatId! > -1) {
+            return noError;
+        }
+    }
+
+    return {
+        isValid: false,
+        text: 'Пользователь должен быть из списка'
+    };
+}
+
 export const validate = (value: unknown, validators:string[]): formError =>{
     const validatorsResult = validators.map((validator:string)=>{
         validator=validator.trim();
@@ -167,7 +192,6 @@ export const validate = (value: unknown, validators:string[]): formError =>{
         if(validator == "validatorFileImage"){
             return validatorFileImage(value)
         }
-
 
         return noError
     })

@@ -46,17 +46,20 @@ export default class AddUserForm extends Form<AddDeleteUserFormProps>{
     }
 
     searchSubscribe = ()=>{
+        //список пользователей с сервера
         const searchedUser = Store.getState().searchedUser as UserInfo[];
         if(!searchedUser || !Array.isArray(searchedUser)) return;
 
+        //уже существующие пользователи в чате - всегда есть хотя бы сам Юзер? - нужно проверить
         const existedUser = Store.getState().ActiveChatsUsers as UserInfo[];
         if(!existedUser || !Array.isArray(existedUser)) return;
 
+        //дропдаун куда вывести предлагемых пользователей
         const dataList = this.children.find(el=>el instanceof DataList);
         if(! dataList) return;
 
+        //не предлагаем еще раз добавить уже существующих
         const idsToExclude = new Set(existedUser.map(item => item.id));
-
         const adaptedSearchedUser = searchedUser
             .filter(item => !idsToExclude.has(item.id))
             .map(el=> {
@@ -66,6 +69,7 @@ export default class AddUserForm extends Form<AddDeleteUserFormProps>{
                 }
         })
 
+        //размещаем пользователей в дропе
         dataList.setProps({
             dataList: [...adaptedSearchedUser]
         })
@@ -78,7 +82,7 @@ export default class AddUserForm extends Form<AddDeleteUserFormProps>{
     }
 
     searchUsers=(el: HTMLInputElement)=>{
-        if(el.value.length> 3){
+        if(el.value.length> 1){
             this.chatUsersController.searchUsers(el.value)
         }
     }

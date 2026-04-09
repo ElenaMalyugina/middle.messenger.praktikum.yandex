@@ -1,6 +1,7 @@
 import ChatsUsersApi from "../api/chatsUsersApi";
 import Store from "../framework/store/Store";
 import { errorHandler } from "../services/errorHandler";
+import { validatorUserExists } from "../services/validationService";
 import BaseFormController from "./baseFormController";
 
 interface ChatUsers{
@@ -52,17 +53,25 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
     }
 
     public formSend = (data: RawChatUsers | null) =>{
+        if(!data) return null;
+
         let adaptedData: ChatUsers = {
             users: [],
             chatId: -1
         }
 
-        if(data){
-            adaptedData = {
-                users: [data.id],
-                chatId: data.chatId
-            }
+        const isUserExsists = validatorUserExists(data);
+        if(!isUserExsists.isValid){
+            Store.setState("addUserError", isUserExsists.text);
+            return null;
         }
+
+        adaptedData = {
+            users: [data.id],
+            chatId: data.chatId
+        }
+
+
         return this.addUser(adaptedData);
     };
 }
