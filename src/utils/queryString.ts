@@ -1,4 +1,4 @@
-export const queryString = (data: Record<string, any>): string => {
+export const queryString = (data: Record<string, unknown>): string => {
     if (typeof data !== 'object' || data === null) {
         throw new Error('Data must be a non-null object');
     }
