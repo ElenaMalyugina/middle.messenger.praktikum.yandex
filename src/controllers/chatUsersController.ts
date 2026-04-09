@@ -2,6 +2,7 @@ import ChatsUsersApi from "../api/chatsUsersApi";
 import Store from "../framework/store/Store";
 import { errorHandler } from "../services/errorHandler";
 import { validatorUserExists } from "../services/validationService";
+import { modalHide } from "../utils/hideModal";
 import BaseFormController from "./baseFormController";
 
 interface ChatUsers{
@@ -42,7 +43,7 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
         try{
             await this.chatsUsersApi.addUsers(data);
             await this.getChatUsers(data.chatId);
-            this.modalHide();
+            modalHide();
         }
         catch(error:unknown){
             const parsedError = errorHandler(error);
@@ -54,7 +55,7 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
         try{
             await this.chatsUsersApi.deleteUsers(data);
             await this.getChatUsers(data.chatId);
-            this.modalHide();
+            modalHide();
         }
         catch(error:unknown){
             const parsedError = errorHandler(error);
@@ -94,10 +95,5 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
         return null
     };
 
-    private modalHide = ()=>{
-        const modal = document.querySelector("#chat-modal") as HTMLDialogElement;
-        if(!modal) return;
-        modal.innerHTML = "";
-        modal.close();
-    }
+
 }

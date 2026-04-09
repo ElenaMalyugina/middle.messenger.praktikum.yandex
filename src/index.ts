@@ -14,7 +14,7 @@ import Router from "./framework/router/Router";
 const router = Router.getInstance("#app");
 
 router
-    .use("/", Login, {})
+    .use("/", Login, {}, {guards: ["AllowedNoLoginMiddleware"]})
     .use("/messenger", Chat, {}, {guards: ["AuthGuard"]})
     .use("/sign-up", Registration, {})
     .use("/settings", Profile, {}, {guards: ["AuthGuard"]})

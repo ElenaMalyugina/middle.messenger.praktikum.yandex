@@ -1,7 +1,7 @@
-import type { ServerError } from "../../types/serverError";
 import type { BlockOwnProps } from "../Block";
 import type Block from "../Block";
-import { authGuardMiddleware } from "./AuthGuardMiddleware";
+import { AllowedNoLoginMiddleware } from "./AllowedNoLogin";
+import { AuthGuardMiddleware } from "./AuthGuardMiddleware";
 import Route, { type RouteProps } from "./Route";
 
 export default class Router {
@@ -10,12 +10,18 @@ export default class Router {
     private history: History;
     private _currentRoute: Route | null = null;
     private _rootQuery:string;
-    private authGuardMiddleware =  new authGuardMiddleware();
+    private authGuardMiddleware =  new AuthGuardMiddleware();
+    private allowedNoLoginMiddleware = new AllowedNoLoginMiddleware();
 
     private constructor(rootQuery: string) {
         this.history = window.history;
         this._rootQuery = rootQuery;
     }
+
+    private guardsMap: Record<string, { isAllowed: (router: Router) => Promise<boolean> }> = {
+        "AuthGuard": this.authGuardMiddleware,
+        "AllowedNoLoginMiddleware": this.allowedNoLoginMiddleware
+    };
 
     public static getInstance(rootQuery?: string): Router {
         if (!Router.instance) {
@@ -92,9 +98,16 @@ export default class Router {
             return;
         }
 
-        if(route.guards.find(guard => guard === "AuthGuard")){
-            const isAuth = await this.authGuardMiddleware.isAuth(this);
-            if(!isAuth) return;
+        for (const guardName of route.guards) {
+            const guard = this.guardsMap[guardName as string];
+
+            if (!guard) {
+                console.error(`Unknown guard: ${guardName}`);
+                continue;
+            }
+
+            const isAllowed = await guard.isAllowed(this);
+            if (!isAllowed) return; // Прерываем выполнение маршрута
         }
 
         if (this._currentRoute && this._currentRoute !== route) {

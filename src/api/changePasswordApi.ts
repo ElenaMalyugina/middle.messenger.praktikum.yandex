@@ -13,6 +13,4 @@ export default class ChangePasswordApi extends BaseAPI {
     update<T = ChangePassword>(passwordData: T){
         return this.transport.put("/password", {data: passwordData})
     }
-
-
 }

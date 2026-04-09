@@ -1,3 +1,4 @@
+import type { RouteGuard } from '../../types/guard';
 import type { BlockOwnProps } from '../Block';
 import  Block from '../Block';
 
@@ -6,8 +7,6 @@ function isEqual(lhs: string, rhs: string) {
 }
 
 export type RouteMode = "clean" | null;
-
-export type RouteGuard = "AuthGuard" | null;
 
 export interface RouteProps{
     rootQuery: string;

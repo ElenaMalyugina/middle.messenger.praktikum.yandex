@@ -3,6 +3,7 @@ import Store from "../framework/store/Store";
 import { errorHandler } from "../services/errorHandler";
 import type { AddChat } from "../types/addChat";
 import { ChatDataModel, type ChatData } from "../types/chatData";
+import { modalHide } from "../utils/hideModal";
 import BaseFormController from "./baseFormController";
 
 export default class ChatsController extends BaseFormController<AddChat>  {
@@ -32,6 +33,8 @@ export default class ChatsController extends BaseFormController<AddChat>  {
     private async createChat(chat: AddChat | null){
         try{
             const newChat = await this.chatsApi.create(chat);
+            modalHide();
+
             if(newChat){
                 await this.getChats();
             }
