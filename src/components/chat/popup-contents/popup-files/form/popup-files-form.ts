@@ -6,7 +6,7 @@ export default class PopupFilesForm extends Form{
     protected template = PopupFilesFormTemplate;
 
     protected submitForm = (_form: Form)=>{
-        //реализуем в следующем спринте, но линтет требует функцию уже сейчас
+        //реализуем в следующем спринте, но линтер требует функцию уже сейчас
     };
 
 

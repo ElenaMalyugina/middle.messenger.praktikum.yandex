@@ -52,6 +52,7 @@
 @media (width <= 700px) {
     .chat{
         position: relative;
+
         --padding: 30px;
     }
 

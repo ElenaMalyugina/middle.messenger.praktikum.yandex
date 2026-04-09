@@ -37,7 +37,4 @@ export default class ChatsList extends Block<ChatsListProps>{
         });
     }
 
-    protected componentDidMount(): void {
-
-    }
 }
