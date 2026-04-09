@@ -1,7 +1,6 @@
 .messages-users-list{
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -12,6 +11,8 @@
     color: var(--light-text-color);
 
     &::after{
+        display: inline;
+        margin-right: 6px;
         content: ",";
     }
 }

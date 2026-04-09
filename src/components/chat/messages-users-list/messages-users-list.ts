@@ -20,9 +20,26 @@ export default class MessagesUsersList extends Block<MessagesUsersListProps>{
 
         Store.subscribe(
             ()=>{
+                const currentUser = Store.getState().currentUser;
+                if(!currentUser) return;
                 const users = Store.getState().ActiveChatsUsers;
+
                 if(!Array.isArray(users)) return;
-                this.setProps({users: users})
+
+                const sortedUsers = users.reduce((acc, user) => {
+                    if (user.id === currentUser) {
+                        acc.unshift(
+                            { ...user, login: "Вы" }
+                        );
+                    } else {
+                        acc.push(
+                            { ...user }
+                        );
+                    }
+                    return acc;
+                }, [] as typeof users);
+
+                this.setProps({users: sortedUsers})
             }
         )
     }
