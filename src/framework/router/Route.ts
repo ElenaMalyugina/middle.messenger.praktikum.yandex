@@ -1,4 +1,3 @@
-import type { RouteGuard } from '../../types/guard';
 import type { BlockOwnProps } from '../Block';
 import  Block from '../Block';
 
@@ -11,7 +10,7 @@ export type RouteMode = "clean" | null;
 export interface RouteProps{
     rootQuery: string;
     mode: RouteMode;
-    guards: RouteGuard[];
+    guards: string[];
 }
 
 export default class Route {
