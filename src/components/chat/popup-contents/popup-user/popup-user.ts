@@ -1,8 +1,11 @@
 import "/src/components/chat/popup-contents/popup-contents.css";
 import type { BlockOwnProps } from "../../../../framework/Block";
 import Popup from "../../../../ui-units/popup/popup";
-import AddDeleteUser, { type typeContent } from "../../modal-contents/add-delete-user/add-delete-user";
 import PopupUserTemplate from "./popup-user.hbs?raw";
+import AddUser from "../../modal-contents/add-user/add-user";
+import DeleteUser from "../../modal-contents/delete-user/delete-user";
+import type { typeContent } from "../../../../types/addDeleteUser";
+
 
 interface PopupUserProps extends BlockOwnProps{
     modalShow: (e:Event, button: HTMLElement)=>void;
@@ -27,7 +30,14 @@ export default class PopupUser extends Popup<PopupUserProps>{
 
         if(!isValidTypeContent(action)) return;
 
-        const content = new AddDeleteUser({ type: action }).element();
+        let content: Element | null = null;
+
+        if(action === "add"){
+            content = new AddUser().element();
+        }
+        else if(action === "delete"){
+            content = new DeleteUser().element();
+        }
 
         if(content){
             modal.appendChild(content)

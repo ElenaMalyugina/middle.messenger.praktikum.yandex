@@ -38,8 +38,8 @@ export default abstract class Form <Props extends FormProps = FormProps> extends
     errorFormHandler = ()=>{
         const formError = Store.getState()[this.props.errorType];
 
-        if(formError && typeof formError == "string"){
-            this.errorBlock && this.errorBlock.setProps({message: formError});
+        if(formError !==undefined && typeof formError == "string"){
+           this.errorBlock && this.errorBlock.setProps({message: formError});
         }
     }
 }

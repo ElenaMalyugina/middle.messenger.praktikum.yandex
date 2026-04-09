@@ -1,7 +1,6 @@
 import ChangePasswordController from "../../../../controllers/changePasswordController";
 import Store from "../../../../framework/store/Store";
 import type { ChangePassword } from "../../../../types/changePassword";
-import ErrorMessage from "../../../../ui-units/error-message/error-message";
 import Form, { type FormProps } from "../../../../ui-units/form/form";
 import ProfileChangePasswordFormTemplate from "./profile-change-password-form.hbs?raw";
 

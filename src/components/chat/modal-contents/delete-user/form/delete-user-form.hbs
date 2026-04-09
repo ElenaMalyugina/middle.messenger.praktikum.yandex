@@ -4,8 +4,8 @@
         <input type="hidden" name="chatId" value="{{data.chatId}}">
         {{{ InputBlock type="text" label="Логин" name="users" id="users" required="required" validators="required"
         onInputEmit=onInputEmit value=data.name }}}
-        {{{DataList clickEmit=dataListClickEmit}}}
+        {{{ DataList clickEmit=dataListClickEmit }}}
     </div>
-    {{{ Button className="button form-block__button form-block__button--last" type="submit" text=buttonText id="modal-user-button"}}}
+    {{{ Button className="button form-block__button form-block__button--last" type="submit" text="Удалить" id="modal-user-button"}}}
 </form>
 

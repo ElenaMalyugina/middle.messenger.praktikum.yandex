@@ -1,5 +1,6 @@
 import ChatsUsersApi from "../api/chatsUsersApi";
 import Store from "../framework/store/Store";
+import { errorHandler } from "../services/errorHandler";
 import BaseFormController from "./baseFormController";
 
 interface ChatUsers{
@@ -40,8 +41,9 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
             const users = await this.chatsUsersApi.addUsers(data);
             Store.setState("searchedUser", users);
         }
-        catch(e){
-            console.log("Не удалось загрузить");
+        catch(error:unknown){
+            const parsedError = errorHandler(error);
+            Store.setState("addUserError", parsedError);
         }
     }
 

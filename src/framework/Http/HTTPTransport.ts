@@ -142,7 +142,13 @@ export default class HTTPTransport {
                 if (!headers['Content-Type']) {
                     xhr.setRequestHeader('Content-Type', 'application/json');
                 }
-                xhr.send(JSON.stringify(data));
+                try{
+                    const dataStringify = JSON.stringify(data);
+                    xhr.send(dataStringify);
+                }
+                catch(e){
+                    console.error("Ошибка сериализации данных")
+                }
             } else {
                 xhr.send(data as Document | XMLHttpRequestBodyInit | null | undefined);
             }

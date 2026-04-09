@@ -1,30 +1,16 @@
 import ChatUsersController from "../../../../../controllers/chatUsersController";
 import Store from "../../../../../framework/store/Store";
+import type { AddDeleteUserFormProps } from "../../../../../types/addDeleteUser";
 import type { ChatData } from "../../../../../types/chatData";
 import type { UserInfo } from "../../../../../types/userInfo";
 import DataList from "../../../../../ui-units/datalist/datalist";
-import Form, { type FormProps } from "../../../../../ui-units/form/form";
+import Form from "../../../../../ui-units/form/form";
 import { debounce } from "../../../../../utils/debounce";
-import AddDeleteUserFormTemplate from "./add-delete-user-form.hbs?raw";
+import DeleteUserFormTemplate from "./delete-user-form.hbs?raw";
 
-export interface AddDeleteUserDataProps{
-    name:string;
-    id: number;
-    chatId: number;
-}
-
-interface AddDeleteUserFormProps extends FormProps{
-    data: AddDeleteUserDataProps;
-    buttonText: string;
-    formSettings: Partial<FormProps>;
-    searchedUsers: UserInfo[];
-    onInputEmit: (el:HTMLInputElement)=>void;
-    dataListClickEmit: (el:HTMLInputElement)=>void;
-}
-
-export default class AddDeleteUserForm extends Form<AddDeleteUserFormProps>{
-    static componentName = 'AddDeleteUserForm';
-    protected template = AddDeleteUserFormTemplate;
+export default class DeleteUserForm extends Form<AddDeleteUserFormProps>{
+    static componentName = 'DeleteUserForm';
+    protected template = DeleteUserFormTemplate;
     private chatUsersController = new ChatUsersController();
     private debouncedSearch: ((el: HTMLInputElement) => void) | null = null;
 
@@ -42,8 +28,6 @@ export default class AddDeleteUserForm extends Form<AddDeleteUserFormProps>{
                 id: -1,
                 chatId: currentChat.id
             },
-            action: this.props.formSettings?.action || "",
-            buttonText: this.props.buttonText,
             onInputEmit: this.searchHandler,
             dataListClickEmit: this.selectUser
         })

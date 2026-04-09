@@ -20,14 +20,16 @@ import MessagesSendForm from "../../components/chat/message-send/form/messages-s
 import ChatSearchForm from "../../components/chat/chat-search/form/chat-search-form.ts";
 import PopupUser from "../../components/chat/popup-contents/popup-user/popup-user.ts";
 import ChatBody from "../../components/chat/chat-body/chat-body.ts";
-import AddDeleteUser from "../../components/chat/modal-contents/add-delete-user/add-delete-user.ts";
-import AddDeleteUserForm from "../../components/chat/modal-contents/add-delete-user/form/add-delete-user-form.ts";
 import PopupFilesForm from "../../components/chat/popup-contents/popup-files/form/popup-files-form.ts";
 import PopupFiles from "../../components/chat/popup-contents/popup-files/popup-files.ts";
 import AddChat from "../../components/chat/modal-contents/add-chat/add-chat.ts";
 import AddChatForm from "../../components/chat/modal-contents/add-chat/form/add-chat-form.ts";
 import MessageBoxAvatarForm from "../../components/chat/messageBoxAvatarForm/message-box-avatar-form.ts";
 import MessagesUsersList from "../../components/chat/messages-users-list/messages-users-list.ts";
+import DeleteUser from "../../components/chat/modal-contents/delete-user/delete-user.ts";
+import AddUserForm from "../../components/chat/modal-contents/add-user/form/add-user-form.ts";
+import AddUser from "../../components/chat/modal-contents/add-user/add-user.ts";
+import DeleteUserForm from "../../components/chat/modal-contents/delete-user/form/delete-user-form.ts";
 
 //Получение даты в читаемом формате
 Handlebars.registerHelper("getDayAndYear", function(dateString){
@@ -56,8 +58,10 @@ registerComponent(MessagesSendForm);
 registerComponent(PopupFiles);
 registerComponent(PopupFilesForm);
 registerComponent(PopupUser);
-registerComponent(AddDeleteUser);
-registerComponent(AddDeleteUserForm);
+registerComponent(AddUser);
+registerComponent(AddUserForm);
+registerComponent(DeleteUser);
+registerComponent(DeleteUserForm);
 registerComponent(AddChat);
 registerComponent(AddChatForm);
 registerComponent(MessageBoxAvatarForm);
