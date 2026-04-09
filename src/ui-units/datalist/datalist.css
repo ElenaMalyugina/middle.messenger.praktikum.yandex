@@ -4,7 +4,7 @@
 
 .datalist{
     position: absolute;
-    top: 100%;
+    top: calc(100% - 14px);
     left: 0;
     width: 100%;
     background: var(--third-color);

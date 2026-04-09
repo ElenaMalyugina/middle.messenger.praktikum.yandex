@@ -14,4 +14,5 @@ export interface AddDeleteUserFormProps extends FormProps{
     searchedUsers: UserInfo[];
     onInputEmit: (el:HTMLInputElement)=>void;
     dataListClickEmit: (el:HTMLInputElement)=>void;
+    actionType: typeContent;
 }
