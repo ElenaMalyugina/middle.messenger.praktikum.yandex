@@ -119,14 +119,14 @@ export default abstract class BaseUserForm <T extends AddDeleteUserFormProps = A
     }
 
     searchUsers=(el: HTMLInputElement)=>{
-        const dataList = this.children.find(el=>el instanceof DataList);
-        if(! dataList) return;
-
         if(el.value.length > 0){
             this.chatUsersController.searchUsers(el.value)
         }
 
-        this.notFoundHandler(el.value)
+        const dataList = this.children.find(el=>el instanceof DataList);
+        if(dataList){
+            this.notFoundHandler(el.value)
+        }
     }
 
     selectUser=(el: HTMLInputElement)=>{
