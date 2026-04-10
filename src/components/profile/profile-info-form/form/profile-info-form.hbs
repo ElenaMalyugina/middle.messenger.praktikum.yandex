@@ -10,5 +10,8 @@
         {{/with}}
     </div>
     {{{ ErrorMessage className="profile-form__error form__error" ref="serverError" message=profileInfoError }}}
-    {{{ Button className="button profile-form__button" type="submit" text="Сохранить"}}}
+    <div class="form-block__button-wrapper">
+        {{{ Button className="button profile-form__button" type="submit" text="Сохранить"}}}
+        {{{ Loader className="form-block__loader-wrapper" ref="loader"}}}
+    </div>
 </form>

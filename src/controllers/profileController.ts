@@ -10,6 +10,7 @@ export default class ProfileController extends BaseFormController<UserInfo> {
     private profileApi = new ProfileApi();
 
     protected formSend = (data: UserInfo | null)=>{
+        Store.setState("isLoaderActive", true);
         return this.updateUserInfo(data);
     };
 
@@ -34,7 +35,12 @@ export default class ProfileController extends BaseFormController<UserInfo> {
             const parsedError = errorHandler(error);
             Store.setState("profileInfoError", parsedError);
         }
+        finally
+        {
+            Store.setState("isLoaderActive", false);
+        }
     }
+
 
     public async updateAvatar(file: File){
         try{

@@ -10,6 +10,7 @@ export default class ChangePasswordController extends BaseFormController<ChangeP
     private loginController = new LoginController();
 
     protected formSend = (data: ChangePassword | null)=>{
+        Store.setState("isLoaderActive", true);
         return this.changePassword(data);
     };
 
@@ -21,6 +22,10 @@ export default class ChangePasswordController extends BaseFormController<ChangeP
         catch (error: unknown) {
             const parsedError = errorHandler(error);
             Store.setState("changePasswordError", parsedError);
+        }
+        finally
+        {
+            Store.setState("isLoaderActive", false);
         }
     }
 }
