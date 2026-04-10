@@ -14,6 +14,13 @@ export default abstract class BaseUserForm <T extends AddDeleteUserFormProps = A
     protected debouncedSearch: ((el: HTMLInputElement) => void) | null = null;
     protected abstract actionType: actionType;
 
+    protected get datalist(){
+        //дропдаун куда вывести предлагемых пользователей
+        //!!!! Если свойства даталиста менять не как его собственные,
+        //а прокидыванием сверху - будет размонтирование формы из дом и проблемы с валидацией и отправкой
+        return this.children.find(el=>el instanceof DataList) || null;
+    }
+
     constructor(props: T){
         super(props);
         //чтобы при закрытии окна, а потом новом открытии не показывался предыдущий дроп с результатами поиска
@@ -22,8 +29,7 @@ export default abstract class BaseUserForm <T extends AddDeleteUserFormProps = A
     }
 
     notFoundHandler = (typesStr: string)=>{
-        //дропдаун куда вывести предлагемых пользователей
-        const dataList = this.children.find(el=>el instanceof DataList);
+        const dataList = this.datalist;
         if(! dataList) return;
 
         if(!typesStr || typesStr.length == 0){
@@ -65,11 +71,18 @@ export default abstract class BaseUserForm <T extends AddDeleteUserFormProps = A
     }
 
     openDataList = ()=>{
-        this.setProps({dataListActive: true})
+        //дропдаун куда вывести предлагемых пользователей
+        const dataList = this.datalist;
+        if(! dataList) return;
+        dataList.setProps({dataListActive: true})
     }
 
     hideDataList = ()=>{
-        this.setProps({dataListActive: false})
+        //дропдаун куда вывести предлагемых пользователей
+        const dataList = this.datalist;
+        if(! dataList) return;
+
+        dataList.setProps({dataListActive: false})
     }
 
     searchSubscribe = ()=>{
@@ -82,7 +95,7 @@ export default abstract class BaseUserForm <T extends AddDeleteUserFormProps = A
         if(!existedUser || !Array.isArray(existedUser)) return;
 
         //дропдаун куда вывести предлагемых пользователей
-        const dataList = this.children.find(el=>el instanceof DataList);
+        const dataList = this.datalist;
         if(! dataList) return;
 
         //не предлагаем еще раз добавить уже существующих
@@ -123,7 +136,7 @@ export default abstract class BaseUserForm <T extends AddDeleteUserFormProps = A
             this.chatUsersController.searchUsers(el.value)
         }
 
-        const dataList = this.children.find(el=>el instanceof DataList);
+        const dataList = this.datalist;
         if(dataList){
             this.notFoundHandler(el.value)
         }

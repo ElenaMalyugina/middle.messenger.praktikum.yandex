@@ -5,9 +5,7 @@
         <input type="hidden" name="chatId" value="{{data.chatId}}">
         {{{ InputBlock type="text" label="Логин" name="users" id="users" required="required" validators="required"
         onInputEmit=onInputEmit onFocusEmit=onFocusEmit onBlurEmit=onBlurEmit value=data.name }}}
-        {{#if dataListActive}}
-            {{{DataList clickEmit=dataListClickEmit}}}
-        {{/if}}
+        {{{DataList clickEmit=dataListClickEmit}}}
     </div>
     {{{ ErrorMessage className="form__error" ref="serverError"}}}
     {{{ Button className="button form-block__button form-block__button--last" type="submit" text="Удалить" id="modal-user-button"}}}

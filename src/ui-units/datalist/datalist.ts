@@ -9,6 +9,7 @@ export const notFoundText={
 
 interface DataListProps extends BlockOwnProps{
     notFoundText: string;
+    dataListActive: boolean;
     dataList: { value: number; text: string; }[];
     clickEmit: (e: HTMLElement)=>void;
 }
