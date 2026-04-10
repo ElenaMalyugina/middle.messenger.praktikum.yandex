@@ -4,5 +4,8 @@
         {{{ InputBlock block="login" type="password" label="Пароль" name="password" id="password" value=password validators="required,password" }}}
     {{/with}}
     {{{ ErrorMessage className="input-block__error form__error" ref="serverError"}}}
-    {{{ Button className="button form-block__button" type="submit" text="Войти" }}}
+    <div class="form-block__button-wrapper">
+        {{{ Button className="button form-block__button" type="submit" text="Войти" }}}
+        {{{ Loader className="form-block__loader-wrapper" ref="loader"}}}
+    </div>
 </form>

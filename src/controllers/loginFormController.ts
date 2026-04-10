@@ -10,6 +10,7 @@ export default class LoginController extends BaseFormController<Login> {
     private routing = Router.getInstance("#app");
 
     public formSend = (data: Login | null)=>{
+        Store.setState("isLoaderActive", true);
         return this.login(data);
     }
 
@@ -23,6 +24,9 @@ export default class LoginController extends BaseFormController<Login> {
         catch (error) {
             const parsedError = errorHandler(error);
             Store.setState("loginError", parsedError);
+        }
+        finally{
+            Store.setState("isLoaderActive", false);
         }
     }
 
