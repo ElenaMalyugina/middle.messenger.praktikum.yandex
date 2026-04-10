@@ -1,6 +1,7 @@
 import type Block from "../framework/Block";
 import type Form from "../ui-units/form/form";
 import BaseValidationBlock from "../ui-units/row-blocks/base-validation-block/base-validation-block";
+import { trim } from "../utils/trim";
 
 export default abstract class BaseFormController<T>{
 
@@ -42,7 +43,20 @@ export default abstract class BaseFormController<T>{
         keys.forEach(el=>{
             if(refs[el] instanceof HTMLFormElement){
                 const formData = new FormData(refs[el]);
-                data = Object.fromEntries(formData);
+
+                const rawData = Object.fromEntries(formData);
+
+                const formDataEntries = Object.entries(rawData);
+
+                formDataEntries.forEach(([key, value]) => {
+                    if (typeof value === "string") {
+                        rawData[key] = trim(value);
+                    }
+                    if (key === "phone" && typeof value === "string") {
+                        rawData[key] = trim(value, "+-");
+                    }
+                });
+                data = rawData;
             }
         })
 
