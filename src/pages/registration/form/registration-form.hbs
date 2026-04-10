@@ -10,6 +10,8 @@
     {{/with}}
 
     {{{ ErrorMessage className="input-block__error form__error" ref="serverError" message=regServerError }}}
-    {{{ Button className="button form-block__button" type="submit" text="Зарегистрироваться"}}}
-
+    <div class="form-block__button-wrapper">
+        {{{ Button className="button form-block__button" type="submit" text="Зарегистрироваться"}}}
+        {{{ Loader className="form-block__loader-wrapper" ref="loader"}}}
+    </div>
 </form>

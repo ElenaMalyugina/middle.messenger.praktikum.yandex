@@ -13,6 +13,7 @@ export default class RegistrationController extends BaseFormController<Registrat
     private routing = Router.getInstance("#app");
 
     public formSend = (data: Registration | null)=>{
+        Store.setState("isLoaderActive", true);
         return this.registrationUser(data);
     }
 
@@ -33,6 +34,9 @@ export default class RegistrationController extends BaseFormController<Registrat
         catch (error: unknown) {
             const parsedError = errorHandler(error);
             Store.setState("regServerError", parsedError);
+        }
+        finally{
+            Store.setState("isLoaderActive", false);
         }
     }
 }
