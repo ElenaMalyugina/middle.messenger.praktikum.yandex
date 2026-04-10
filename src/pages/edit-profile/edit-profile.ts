@@ -14,10 +14,7 @@ export default class EditProfile extends Block<BlockOwnProps>{
     protected template = editProfileTemplate;
     private profileController = new ProfileController();
 
-    constructor(props: BlockOwnProps){
-        super(props)
-
+    protected componentDidMount(): void {
         this.profileController.getUserInfo();
     }
-
 }

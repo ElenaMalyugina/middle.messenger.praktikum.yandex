@@ -13,13 +13,16 @@ import Router from "./framework/router/Router";
 
 const router = Router.getInstance("#app");
 
+//чтобы при логауте не показать случайно страницу предыдущего пользователя - mode: "clean"
+//лучший вариант, конечно, при логауте перезагружать страницу, но не знаю, насколько это совместимо с целями спринта
+
 router
-    .use("/", Login, {}, {guards: ["AllowedNoLoginMiddleware"]})
-    .use("/messenger", Chat, {}, {guards: ["AuthGuard"]})
-    .use("/sign-up", Registration, {})
-    .use("/settings", Profile, {}, {guards: ["AuthGuard"]})
-    .use("/settings/edit-profile", EditProfile, {}, {guards: ["AuthGuard"]})
-    .use("/settings/change-password", ChangePassword, {}, {guards: ["AuthGuard"]})
+    .use("/", Login, {}, {guards: ["AllowedNoLoginMiddleware"], mode: "clean"})
+    .use("/messenger", Chat, {}, {guards: ["AuthGuard"], mode: "clean"})
+    .use("/sign-up", Registration, {}, {mode: "clean"})
+    .use("/settings", Profile, {}, {guards: ["AuthGuard"], mode: "clean"})
+    .use("/settings/edit-profile", EditProfile, {}, {guards: ["AuthGuard"], mode: "clean"})
+    .use("/settings/change-password", ChangePassword, {}, {guards: ["AuthGuard"], mode: "clean"})
     .use("/500", Errors, getError(500))
     .use("/404", Errors, getError(404))
     .start();

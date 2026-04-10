@@ -31,7 +31,7 @@ export default class LoginController extends BaseFormController<Login> {
             const result = await this.loginApi.delete();
             if(result==="OK"){
                 Store.clearState();
-                this.routing.go("/");
+                this.routing.replace("/");
             }
         }
         catch(error){

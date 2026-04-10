@@ -17,8 +17,7 @@ export default class Profile extends Block<BlockOwnProps>{
     protected template = profileTemplate;
     private profileController = new ProfileController();
 
-    constructor(props:BlockOwnProps ){
-        super(props)
+    protected componentDidMount(): void {
         this.profileController.getUserInfo();
     }
 

@@ -28,8 +28,10 @@ export default class LoginForm extends Form<LoginFormProps>{
         Store.subscribe(()=>{
             this.errorFormHandler();
         })
+    }
 
-        this.setProps({
+    protected componentDidMount(): void {
+         this.setProps({
             data: {...initialData}
         })
     }
