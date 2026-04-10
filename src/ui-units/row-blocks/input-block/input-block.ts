@@ -10,7 +10,11 @@ interface InputBlockProps extends BaseValidationProps{
     name: string;
     value: string;
     onInput: (el:HTMLInputElement)=>void;
+    onFocus: (el:HTMLInputElement)=>void;
+    onBlur: (el:HTMLInputElement)=>void;
     onInputEmit?: (el:HTMLInputElement)=>void;
+    onFocusEmit?: (el:HTMLInputElement)=>void;
+    onBlurEmit?: (el:HTMLInputElement)=>void;
 }
 
 export default class InputBlock extends BaseValidationBlock<InputBlockProps>{
@@ -23,7 +27,9 @@ export default class InputBlock extends BaseValidationBlock<InputBlockProps>{
         this.setProps({
             onValidate: this.onValidate,
             cleanValidate: this.cleanValidate,
-            onInput: this.onInput
+            onInput: this.onInput,
+            onFocus: this.onFocus,
+            onBlur: this.onBlur
         });
     }
 
@@ -32,6 +38,19 @@ export default class InputBlock extends BaseValidationBlock<InputBlockProps>{
 
         if(this.props.onInputEmit){
             this.props.onInputEmit(el);
+        }
+    }
+
+    onFocus=(el: HTMLInputElement)=>{
+        if(this.props.onFocusEmit){
+            this.props.onFocusEmit(el);
+        }
+
+    }
+
+    onBlur=(el: HTMLInputElement)=>{
+        if(this.props.onBlurEmit){
+            this.props.onBlurEmit(el);
         }
     }
 

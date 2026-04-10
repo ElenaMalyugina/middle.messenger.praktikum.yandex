@@ -12,7 +12,10 @@ export interface AddDeleteUserDataProps{
 export interface AddDeleteUserFormProps extends FormProps{
     data: AddDeleteUserDataProps;
     searchedUsers: UserInfo[];
-    onInputEmit: (el:HTMLInputElement)=>void;
-    dataListClickEmit: (el:HTMLInputElement)=>void;
+    dataListActive: boolean;
     actionType: typeContent;
+    onInputEmit: (el:HTMLInputElement)=>void;
+    onFocusEmit: (el:HTMLInputElement)=>void;
+    onBlurEmit: (el:HTMLInputElement)=>void;
+    dataListClickEmit: (el:HTMLInputElement)=>void;
 }

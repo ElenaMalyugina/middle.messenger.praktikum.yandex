@@ -12,11 +12,6 @@
     z-index: 5;
     box-shadow: 1px 1px 5px var(--shadow-color2);
     border-radius: 4px;
-    display: none;
-
-    &--active{
-        display: block;
-    }
 }
 
 .datalist__list{
@@ -37,6 +32,12 @@
 
 .datalist__button:hover{
     @extend .datalist__button--hover;
+}
+
+.datalist__no-content{
+    font-size: 14px;
+    color: var(--light-text-color);
+    text-align: center;
 }
 
 
