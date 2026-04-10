@@ -3,7 +3,7 @@
         <input type="hidden" name="type" value="add">
         <input type="hidden" name="id" value="{{data.id}}">
         <input type="hidden" name="chatId" value="{{data.chatId}}">
-        {{{ InputBlock type="text" label="Логин" name="users" id="users" required="required" validators="required"
+        {{{ InputBlock type="text" label="Логин" name="users" id="users" required="required" validators="required,login"
         onInputEmit=onInputEmit onFocusEmit=onFocusEmit onBlurEmit=onBlurEmit value=data.name }}}
         {{{ DataList clickEmit=dataListClickEmit }}}
     </div>
