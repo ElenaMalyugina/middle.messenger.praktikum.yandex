@@ -9,6 +9,11 @@ import BaseFormController from "./baseFormController";
 export default class ChatsController extends BaseFormController<AddChat>  {
     private chatsApi: ChatsApi = new ChatsApi();
 
+     public formSend=(data: AddChat | null) =>{
+        Store.setState("isLoaderActive", true);
+        return this.createChat(data)
+    };
+
     public async getChats(){
         try{
             const chatsList = await this.chatsApi.request({});
@@ -43,6 +48,9 @@ export default class ChatsController extends BaseFormController<AddChat>  {
             const parsedError = errorHandler(error);
             Store.setState("addChatError", parsedError);
         }
+        finally{
+            Store.setState("isLoaderActive", false);
+        }
     }
 
     public async updateAvatar(file: File, chatId: number){
@@ -66,7 +74,5 @@ export default class ChatsController extends BaseFormController<AddChat>  {
         }
     }
 
-    public formSend=(data: AddChat | null) =>{
-        return this.createChat(data)
-    };
+
 }

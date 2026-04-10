@@ -8,6 +8,9 @@
         {{{ DataList clickEmit=dataListClickEmit }}}
     </div>
     {{{ ErrorMessage className="form__error" ref="serverError"}}}
-    {{{ Button className="button form-block__button form-block__button--last" type="submit" text="Добавить" id="modal-user-button"}}}
+    <div class="modal__button-wrapper">
+        {{{ Button className="button form-block__button form-block__button--last" type="submit" text="Добавить" id="modal-user-button"}}}
+        {{{ Loader className="form-block__loader-wrapper" ref="loader"}}}
+    </div>
 </form>
 

@@ -49,6 +49,9 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
             const parsedError = errorHandler(error);
             Store.setState("addUserError", parsedError);
         }
+        finally{
+            Store.setState("isLoaderActive", false);
+        }
     }
 
     public async deleteUser(data: ChatUsers){
@@ -60,6 +63,9 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
         catch(error:unknown){
             const parsedError = errorHandler(error);
             Store.setState("deleteUserError", parsedError);
+        }
+        finally{
+            Store.setState("isLoaderActive", false);
         }
     }
 
@@ -81,7 +87,7 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
         adaptedData.users = [data.id];
         adaptedData.chatId = data.chatId || - 1;
 
-
+        Store.setState("isLoaderActive", true);
         if(data.type == "add"){
             return this.addUser(adaptedData);
         }
