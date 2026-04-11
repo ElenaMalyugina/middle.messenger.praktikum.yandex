@@ -17,6 +17,8 @@ type Options = {
     responseType?: XMLHttpRequestResponseType;
 }
 
+type HTTPMethod = <R=unknown>(url: string, options?: Options) => Promise<R>;
+
 export default class HTTPTransport {
 
     private resourceUrl: string;
@@ -25,39 +27,15 @@ export default class HTTPTransport {
         this.resourceUrl = 'https://ya-praktikum.tech/' + url;
     }
 
-    get = (url: string, options: Options = {}) => {
-        return this.request(
-            url,
-            {...options, method: METHODS.GET},
-            options.timeout
-        );
-    };
+    get: HTTPMethod = (url, options = {}) => (this.request(url, {...options, method: METHODS.GET}, options.timeout));
 
-    post = (url: string, options: Options = {}) => {
-        return this.request(
-            url,
-            {...options, method: METHODS.POST},
-            options.timeout
-        );
-    };
+    post: HTTPMethod = (url, options = {}) => (this.request(url, {...options, method: METHODS.POST}, options.timeout));
 
-    put = (url: string, options: Options = {}) => {
-        return this.request(
-            url,
-            {...options, method: METHODS.PUT},
-                options.timeout
-        );
-    };
+    put: HTTPMethod = (url, options = {}) => (this.request(url, {...options, method: METHODS.PUT}, options.timeout));
 
-    delete = (url:string, options: Options = {}) => {
-        return this.request(
-            url,
-            {...options, method: METHODS.DELETE},
-            options.timeout
-        );
-    };
+    delete: HTTPMethod = (url, options = {}) => (this.request(url, {...options, method: METHODS.DELETE}, options.timeout));
 
-    private request = (url: string, options: Options = {}, timeout = 5000) => {
+    private request = <R>(url: string, options: Options = {}, timeout = 5000):Promise<R> => {
         const {headers = {}, method, data, responseType} = options;
 
         return new Promise((resolve, reject) => {
