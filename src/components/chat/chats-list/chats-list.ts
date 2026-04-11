@@ -2,42 +2,39 @@ import "./chats-list.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import type { ChatItemProps } from "../chat-item/chat-item";
 import ChatsListTemplate from "./chats-list.hbs?raw";
-import { chats } from "../../../mocks/chats";
-import ChatItem from "../chat-item/chat-item";
+import ChatsController from "../../../controllers/chatsController";
+import Store from "../../../framework/store/Store";
+import { ChatDataModel } from "../../../types/chatData";
 
 interface ChatsListProps extends BlockOwnProps{
     chats: ChatItemProps[];
-    setSelectedChat: ()=>void;
-    selectedChatEmit:(id: number)=>void;
 }
 
 export default class ChatsList extends Block<ChatsListProps>{
     static componentName = 'ChatsList';
     protected template = ChatsListTemplate;
+    private chatsController =  new ChatsController();
 
-    protected selectChat=(id: number)=>{
-        this.children.forEach(chatItem=>{
-            if (chatItem instanceof ChatItem) {
-                const isActive = chatItem.getId() === id;
-                chatItem.setProps({isActive: isActive});
-            }
-        })
+    constructor(props: ChatsListProps){
+        super(props);
 
-        //прокидываем событие наверх
-        if(this.props.selectedChatEmit){
-            this.props.selectedChatEmit(id);
-        }
+        Store.subscribe(()=>{
+            this.updateChats();
+        });
+
+        this.chatsController.getChats();
     }
 
-    protected componentDidMount(): void {
+    protected updateChats = ()=>{
+        const chatsList = Store.getState().chats;
+        if(!chatsList ||! Array.isArray(chatsList) ) return;
+
         this.setProps({
-            chats: chats.map(chat => ({
-                chatData:{
-                    ...chat,
-                },
+            chats: chatsList.map(chat => ({
+                chatData: new ChatDataModel(chat),
                 isActive: false,
-                selectChatEmit: this.selectChat
             }))
         });
     }
+
 }

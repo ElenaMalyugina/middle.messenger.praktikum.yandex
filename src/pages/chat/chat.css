@@ -53,13 +53,13 @@
     .chat{
         position: relative;
 
-        --padding: 10px;
+        --padding: 30px;
     }
 
     .chat__sidebar{
         position: absolute;
-        left: -310px;
-        border-right: 10px solid var(--selected-color);
+        left: -300px;
+        border-right: 30px solid var(--selected-color);
 
         &--active{
             width: 100%;

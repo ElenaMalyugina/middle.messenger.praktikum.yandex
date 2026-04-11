@@ -1,0 +1,29 @@
+.loader-wrapper{
+    display: none;
+    position: absolute;
+    height: 40px;
+    background-color: rgba(255, 255, 255, .3);
+
+    &--active{
+        display: block;
+    }
+}
+
+.loader{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    font-size: 0;
+    border: 2px solid var(--third-color);
+    border-bottom-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform:translate(-50%, -50%) rotate(0deg); }
+  100% { transform:translate(-50%, -50%)  rotate(360deg); }
+}

@@ -1,3 +1,6 @@
+import RegistrationController from "../../../controllers/registrationController";
+import Store from "../../../framework/store/Store";
+import type { Registration } from "../../../types/registration";
 import Form, { type FormProps } from "../../../ui-units/form/form";
 import registrationFormTemplate from "./registration-form.hbs?raw";
 
@@ -11,16 +14,6 @@ const initialUser:Registration = {
     repeat_password: ""
 }
 
-interface Registration{
-    email: string;
-    login: string;
-    first_name: string;
-    second_name: string;
-    phone: string;
-    new_password: string;
-    repeat_password: string;
-}
-
 interface RegistrationFormProps extends FormProps{
     data: Registration;
 }
@@ -28,10 +21,23 @@ interface RegistrationFormProps extends FormProps{
 export default class RegistrationForm extends Form<RegistrationFormProps> {
     static componentName = 'RegistrationForm';
     protected template = registrationFormTemplate;
+    private registrationController = new RegistrationController();
+
+    constructor(props: RegistrationFormProps){
+        super(props);
+
+        Store.subscribe(()=>{
+           this.errorFormHandler();
+        })
+    }
 
     protected componentDidMount(): void {
         this.setProps({
             data: {...initialUser}
         })
+    }
+
+    submitForm = (form: Form)=>{
+        this.registrationController.submitFormHandler(form);
     }
 }

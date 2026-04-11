@@ -1,3 +1,4 @@
+import ChatsController from "../../../../controllers/chatsController";
 import Form, { type FormProps } from "../../../../ui-units/form/form";
 import ChatSearchFormTemplate from "./chat-search-form.hbs?raw";
 
@@ -12,17 +13,23 @@ interface ChatSearchFormProps extends FormProps{
 export default class ChatSearchForm extends Form<ChatSearchFormProps>{
     static componentName = 'ChatSearchForm';
     protected template = ChatSearchFormTemplate;
+    private chatsContorller = new ChatsController();
 
     //Пока в ТЗ нет описания, как это должно работать
     constructor(props: ChatSearchFormProps){
         super(props);
-    }
 
-    protected componentDidMount(): void {
         this.setProps({
             data: {
                 searchString: ""
             }
         })
+    }
+
+    protected submitForm = ()=>{
+        const input = this.refs["searchInput"] as HTMLInputElement;
+        if(!input) return;
+        const searchString = input.value;
+        this.chatsContorller.searchChats(searchString);
     }
 }

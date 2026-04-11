@@ -1,5 +1,6 @@
 import Handlebars from 'handlebars';
 import { deepEqual } from '../utils/deepEqual';
+import type { RouteMode } from './router/Route';
 
 export interface BlockOwnProps {
   __children?: Array<{
@@ -9,9 +10,6 @@ export interface BlockOwnProps {
   __refs?: Record<string, Element>;
 }
 
-//не получилось побороть ошибку линтера на HTMLElementEventMap
-
-// eslint-disable-next-line @/no-undef
 type EventListType = Partial<Record<keyof HTMLElementEventMap, (e: Event) => void>>;
 
 export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps> {
@@ -27,8 +25,16 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
     //дочерние блоки
     protected children: Block<object>[] = [];
 
+    public get publicChildren(){
+        return this.children;
+    }
+
     //рефы
     protected refs: Record<string, Element> = {};
+
+    public get publicRefs(){
+        return this.refs;
+    }
 
     /** В этом объекте ключ — это название метода, а значение — обработчик */
     protected events: EventListType = {};
@@ -40,7 +46,7 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
 
     public element(): Element | null {
         if (!this.domElement) {
-        this.render();
+            this.render();
         }
         return this.domElement;
     }
@@ -52,7 +58,7 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
 
         // Пока предположим, что свойства простые и в объекте
         const isNeedRerender  = this.isNeedRerender(newProps, this.props);
-        //debugger
+
         if(isNeedRerender){
             this.props = { ...this.props, ...newProps, __children: [], __refs: {} } as Props;
             this.render();
@@ -98,9 +104,8 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
             this.removeListeners();
         }
     }
-    // eslint-disable-next-line @/no-undef
+
     private get validEvents(): Array<keyof HTMLElementEventMap>  {
-        // eslint-disable-next-line @/no-undef
         return Object.keys(this.events) as Array<keyof HTMLElementEventMap>;
     }
 
@@ -129,7 +134,7 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
 
         /** Если элемент уже существовал, обновляем его по имеющейся ссылке */
         if (this.domElement && fragment) {
-        this.domElement.replaceWith(fragment);
+            this.domElement.replaceWith(fragment);
         }
         this.domElement = fragment;
         this.mountComponent();
@@ -163,4 +168,38 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
 
         return templateElement.content.firstElementChild;
     }
+
+    public hide(mode: RouteMode) {
+        if (this.domElement) {
+            if (this.domElement.parentNode) {
+                this.domElement.parentNode.removeChild(this.domElement);
+            }
+
+            // Очищаем все внутренние ссылки для последующего создания чистого компонента
+            if(mode === "clean"){
+                //this.unmountComponent();
+                this.domElement = null;
+                this.children = [];
+                this.refs = {};
+                if (this.props.__children) {
+                    this.props.__children = [];
+                }
+
+                if (this.props.__refs) {
+                    this.props.__refs = {};
+                }
+            }
+        }
+    }
+
+    public renderDom(rootSelector: string):void {
+        const root = document.querySelector(rootSelector);
+        if(!root || !this) return;
+
+        const node = this.element();
+        if(!node) return;
+
+        root.appendChild(node);
+    }
+
 }

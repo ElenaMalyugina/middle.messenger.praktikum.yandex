@@ -75,6 +75,11 @@ body{
      @extend .button--hover;
 }
 
+.extended-button{
+    all: unset;
+    cursor: pointer;
+}
+
 .link{
     color:var(--second-color);
     text-decoration: none;
@@ -166,7 +171,23 @@ body{
     }
 }
 
-.extended-button{
-    all: unset;
+.add-button{
+    @extend .round-button;
+
+    background: url("/img/plus.svg") center center no-repeat, var(--fourth-color);
+
+    &--active{
+        background-image: url("/img/plus-hover.svg");
+    }
 }
+
+.add-button{
+    &:hover{
+        @extend .add-button--active;
+    }
+}
+
+
+
+
 

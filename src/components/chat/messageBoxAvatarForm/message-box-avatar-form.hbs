@@ -1,0 +1,9 @@
+<form errorType="chatAvatarError" id="chatAvatarForm" ref="form" enctype="multipart/form-data">
+    <figure class="avatar-wrapper message-box__avatar-wrapper">
+        <label class="avatar-label message-box__avatar-label" for="{{name}}" title="{{title}}">
+            {{{ ChatAvatar addClass="messages-box-header__chat-avatar" avatarUrl=avatarImg title=title}}}
+            {{{ FileInput name=name id=name form=currentForm onChange=onChange ref="avatarInput" }}}
+        </label>
+    </figure>
+    {{{ ErrorMessage className="message-box-avatar-form__error form__error" ref="serverError" }}}
+</form>

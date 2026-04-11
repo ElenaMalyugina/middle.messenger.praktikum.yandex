@@ -1,23 +1,8 @@
+import ProfileController from "../../../../controllers/profileController";
+import Store from "../../../../framework/store/Store";
+import type { UserInfo } from "../../../../types/userInfo";
 import Form, { type FormProps } from "../../../../ui-units/form/form";
 import ProfileInfoFormTemplate from "./profile-info-form.hbs?raw";
-
-const demoUser:UserInfo={
-    email: "pochta@yandex.ru",
-    login: "ivanivanov",
-    first_name: "Иван",
-    second_name: "Иванов",
-    display_name: "Иван123",
-    phone: "+7 909 967 30 30",
-}
-
-export interface UserInfo{
-    email: string;
-    login: string;
-    first_name: string;
-    second_name: string;
-    display_name: string;
-    phone: string;
-}
 
 interface ProfileInfoFormProps extends FormProps{
     data: UserInfo;
@@ -26,11 +11,24 @@ interface ProfileInfoFormProps extends FormProps{
 export default class ProfileInfoForm extends Form<ProfileInfoFormProps> {
     static componentName = 'ProfileInfoForm';
     protected template = ProfileInfoFormTemplate;
+    private profileController = new ProfileController();
 
-    protected componentDidMount(): void {
-        this.setProps({
-            data: {...demoUser}
+    constructor(props:ProfileInfoFormProps){
+        super(props);
+
+        Store.subscribe(()=>{
+            this.updateForm();
+            this.errorFormHandler();
         })
     }
 
+    protected updateForm = ()=>{
+        const userData = Store.getState().userData;
+        if(!userData) return;
+        this.setProps({data: userData as UserInfo})
+    }
+
+    protected submitForm = ()=>{
+        this.profileController.submitFormHandler(this);
+    };
 }

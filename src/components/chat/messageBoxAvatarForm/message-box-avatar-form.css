@@ -1,0 +1,28 @@
+.message-box__avatar-wrapper{
+    --width: 48px;
+
+    margin: 0;
+}
+
+.message-box__avatar-label{
+    &::after{
+        content: "+";
+    }
+
+    &--hover::after{
+        top: 0;
+        bottom: 0;
+    }
+}
+
+.avatar-label:hover{
+    @extend .avatar-label--hover;
+}
+
+.message-box-avatar-form__error{
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    margin: 0;
+}
+

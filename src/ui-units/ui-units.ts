@@ -1,4 +1,5 @@
 import "./sidebar/sidebar.css";
+import "./avatar/avatar.css";
 import Handlebars from "handlebars";
 import { registerComponent } from '../framework/RegisterComponent';
 import Input from "./input/input";
@@ -16,6 +17,9 @@ import UploadFile from "./upload-file/upload-file";
 import TextareaBlock from './row-blocks/textarea-block/textarea-block';
 import Popup from "./popup/popup";
 import Modal from "./modal/modal";
+import FileInput from "./file-input/file-input";
+import DataList from "./datalist/datalist";
+import Loader from "./loader/loader";
 
 //склейка строк
 Handlebars.registerHelper('concat', function() {
@@ -53,3 +57,6 @@ registerComponent(TextareaBlock);
 registerComponent(Popup);
 registerComponent(Modal);
 registerComponent(UploadFile);
+registerComponent(FileInput);
+registerComponent(DataList);
+registerComponent(Loader);

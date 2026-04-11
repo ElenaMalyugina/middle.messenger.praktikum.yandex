@@ -1,8 +1,15 @@
 <header class="messages-box-header messages-box__messages-box-header">
     {{#with data}}
     <div class="messages-box-header__info">
-        {{{ ChatAvatar addClass="messages-box-header__chat-avatar" avatarUrl=avatarUrl title=userName}}}
-        <h2 class="messages-box-header__header">{{title}}</h2>
+        {{#if ../isOwnChat}}
+            {{{ MessageBoxAvatarForm for="avatar" title="Изменить Аватар чата" name="avatar" avatarImg=avatarUrl}}}
+        {{else}}
+            {{{ ChatAvatar addClass="messages-box-header__chat-avatar" avatarUrl=avatarUrl title=title}}}
+        {{/if}}
+        <div>
+            <h2 class="messages-box-header__header">{{title}}</h2>
+            {{{MessagesUsersList}}}
+        </div>
     </div>
     {{/with}}
     {{{Button className="dots-button user-button message-box-header__user-button" id="user-button"

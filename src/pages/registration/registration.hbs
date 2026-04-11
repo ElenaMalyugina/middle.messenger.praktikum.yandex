@@ -1,8 +1,8 @@
 {{#> form-page-layout}}
     <h1 class="form-header form-block__header">Регистрация</h1>
-    {{{ RegistrationForm className="form" action="/" method="POST" id="registration-form" }}}
+    {{{ RegistrationForm className="form" action="/" method="POST" id="registration-form" errorType="regServerError" }}}
 
     <div class="form-block__link-wrapper">
-        {{{ Link className="link form-block__link" href="/login" text="Есть аккаунт?" }}}
+        {{{ Link className="link form-block__link" href="/" text="Есть аккаунт?" }}}
     </div>
 {{/form-page-layout }}

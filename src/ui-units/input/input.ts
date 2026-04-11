@@ -10,4 +10,5 @@ interface InputProps extends BaseValidatedInputProps {
 export default class Input extends BaseInput<InputProps>{
     static componentName = "Input";
     protected template = InputTemplate;
+
 }

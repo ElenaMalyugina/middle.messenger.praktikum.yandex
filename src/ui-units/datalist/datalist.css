@@ -1,0 +1,43 @@
+.combobox-wrapper{
+    position: relative;
+}
+
+.datalist{
+    position: absolute;
+    top: calc(100% - 14px);
+    left: 0;
+    width: 100%;
+    background: var(--third-color);
+    padding: 10px 20px;
+    z-index: 5;
+    box-shadow: 1px 1px 5px var(--shadow-color2);
+    border-radius: 4px;
+}
+
+.datalist__list{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.datalist__button{
+    display: block;
+    width: 100%;
+    padding: 3px 0;
+
+    &--hover{
+        color: var(--second-color);
+    }
+}
+
+.datalist__button:hover{
+    @extend .datalist__button--hover;
+}
+
+.datalist__no-content{
+    font-size: 14px;
+    color: var(--light-text-color);
+    text-align: center;
+}
+
+

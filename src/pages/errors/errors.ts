@@ -2,7 +2,7 @@ import "./errors.css";
 import Block, {type BlockOwnProps } from "../../framework/Block";
 import ErrorsTemplate from "./errors.hbs?raw";
 
-interface ErrorProps extends BlockOwnProps {
+export interface ErrorProps extends BlockOwnProps {
     code: number;
     text: string;
 }

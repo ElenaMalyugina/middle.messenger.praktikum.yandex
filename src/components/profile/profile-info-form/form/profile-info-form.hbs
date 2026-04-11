@@ -1,4 +1,4 @@
-<form  action="/profile" className="profile-form" id="profile-form" ref="form" novalidate="novalidate">
+<form  action="/settings" className="profile-form" id="profile-form" ref="form" novalidate="novalidate">
     <div class="block-grid profile__block-grid">
         {{#with data}}
             {{{ TextRowEditable label="Почта" value=email name="email" type="email" id="email" validators="required,email" }}}
@@ -9,5 +9,9 @@
             {{{ TextRowEditable label="Телефон" value=phone name="phone" type="text" id="phone" validators="required,phone" }}}
         {{/with}}
     </div>
-    {{{ Button className="button profile-form__button" type="submit" text="Сохранить"}}}
+    {{{ ErrorMessage className="profile-form__error form__error" ref="serverError" message=profileInfoError }}}
+    <div class="form-block__button-wrapper">
+        {{{ Button className="button profile-form__button" type="submit" text="Сохранить"}}}
+        {{{ Loader className="form-block__loader-wrapper" ref="loader"}}}
+    </div>
 </form>

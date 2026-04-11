@@ -2,27 +2,55 @@ import "./messages-box-header.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import MessagesBoxHeaderTemplate from "./messages-box-header.hbs?raw";
 import PopupUser from "../popup-contents/popup-user/popup-user";
+import Store from "../../../framework/store/Store";
+import { type ChatData } from "../../../types/chatData";
 
-const dataMock: MessagesBoxHeaderData = {
-    title: "Приветственный чат",
-    avatarUrl: "avatar.png",
-    userName: "Иван Иванов"
-}
 
 interface MessagesBoxHeaderData{
     title: string;
     avatarUrl: string;
-    userName: string;
 }
 
 interface MessagesBoxHeaderProps extends BlockOwnProps{
     data: MessagesBoxHeaderData;
+    isOwnChat: boolean;
     popupUserShow: (event: Event, el:HTMLButtonElement)=>void;
 }
 
 export default class MessagesBoxHeader extends Block<MessagesBoxHeaderProps>{
     static componentName = 'MessagesBoxHeader';
     protected template = MessagesBoxHeaderTemplate;
+
+    constructor(props: MessagesBoxHeaderProps){
+        super(props);
+
+        this.setProps({
+            popupUserShow: this.popupUserShow
+        })
+
+        Store.subscribe(()=>{
+            this.updateData()
+        })
+    }
+
+    protected events={
+        click: (__e: Event)=>{
+            Store.setState("chatAvatarError", "")
+        }
+    };
+
+    updateData = ()=>{
+        const activeChat= Store.getState().activeChat as ChatData;
+        if(!activeChat) return;
+
+        this.setProps({
+            data:{
+                title: activeChat.title,
+                avatarUrl: activeChat.avatar,
+            },
+            isOwnChat: activeChat.created_by === Store.getState().currentUser
+        })
+    }
 
     popupUserShow=(event: Event, el: HTMLButtonElement)=>{
         if(!el) return;
@@ -33,12 +61,5 @@ export default class MessagesBoxHeader extends Block<MessagesBoxHeaderProps>{
         if(popup){
             popup.popupShow(event, "#user-button", activeClass);
         }
-    }
-
-    protected componentDidMount(): void {
-        this.setProps({
-            data:{...dataMock},
-            popupUserShow: this.popupUserShow
-        })
     }
 }
