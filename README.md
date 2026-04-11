@@ -23,11 +23,6 @@ https://www.figma.com/design/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link
 Демо Netlify
 https://yandex-practicum-chat-0326.netlify.app
 
-Демо
-Vercel
-https://middle-messenger-praktikum-git-f1653c-elenamalyuginas-projects.vercel.app/
-
-
 Пути 
 "/" - логин
 "/messenger" - чат;
