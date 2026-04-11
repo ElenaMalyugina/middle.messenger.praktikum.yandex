@@ -1,19 +1,15 @@
 <section class="profile__section profile-avatar profile__profile-avatar">
     <div class="profile__container">
-        <figure class="profile-avatar__wrapper">
-            {{#if isEditable}}
-                {{#> upload-file className="avatar-label" for="avatar" title="Изменить файл" name="avatar" form=currentForm }}
-                    {{#with userData}}
-                        {{{ Img className="profile-avatar__img" src=profileImg alt=profileName width="130" height="130"}}}
-                    {{/with}}
-                {{/upload-file}}
-            {{else}}
-                {{#with userData}}
-                    {{{ Img className="profile-avatar__img" src=profileImg alt=profileName width="130" height="130" }}}
-                {{/with}}
-            {{/if}}
-        </figure>
         {{#with userData}}
+            {{#if ../isEditable}}
+                {{{ ProfileAvatarForm className="avatar-label profile__avatar-label" for="avatar" title="Изменить файл" name="avatar"
+                    profileImg=avatar profileName=profileName
+                }}}
+            {{else}}
+                <figure class="avatar-wrapper profile-avatar__wrapper">
+                    {{{ Img className="avatar__img profile-avatar__img" src=avatar alt=profileName width="130" height="130" }}}
+                </figure>
+            {{/if}}
             <h1 class="profile-header profile-avatar__header">{{ profileName }}</h1>
         {{/with}}
     </div>

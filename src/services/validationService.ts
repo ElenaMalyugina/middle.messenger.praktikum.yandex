@@ -104,6 +104,55 @@ const validatorRepeatPassword = (value:unknown)=>{
     };
 }
 
+const validatorFileImage = (file: unknown) =>{
+    if(!(file instanceof File)){
+        return {
+            isValid: false,
+            text: "Можно загрузить JPEG, JPG, PNG, GIF, WebP"
+        };
+    }
+
+    const allowedExtensions = /\.(jpg|jpeg|png|gif|webp)$/i;
+    const allowedMimes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
+    if (allowedExtensions.test(file.name) && allowedMimes.includes(file.type)) {
+        return {
+            isValid: true,
+            text: "Можно загрузить JPEG, JPG, PNG, GIF, WebP"
+        };
+    }
+
+    return {
+        isValid: false,
+        text: "Можно загрузить JPEG, JPG, PNG, GIF, WebP"
+    };
+}
+
+interface UserCandidate {
+  id?: number;
+  chatId?: number;
+}
+
+export const validatorUserExists = (value: unknown)=>{
+    if (
+        value &&
+        typeof value === 'object' &&
+        value !== null &&
+        'id' in value &&
+        'chatId' in value
+    ) {
+        const user = value as UserCandidate;
+        if (user.id! > -1 && user.chatId! > -1) {
+            return noError;
+        }
+    }
+
+    return {
+        isValid: false,
+        text: 'Пользователь должен быть из списка'
+    };
+}
+
 export const validate = (value: unknown, validators:string[]): formError =>{
     const validatorsResult = validators.map((validator:string)=>{
         validator=validator.trim();
@@ -140,6 +189,9 @@ export const validate = (value: unknown, validators:string[]): formError =>{
             return validatorRepeatPassword(value);
         }
 
+        if(validator == "validatorFileImage"){
+            return validatorFileImage(value)
+        }
 
         return noError
     })

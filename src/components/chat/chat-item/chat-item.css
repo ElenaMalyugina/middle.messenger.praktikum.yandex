@@ -11,8 +11,9 @@
 }
 
 .chat-item__chat-avatar{
+    --width: 48px;
+
     margin: 0;
-    flex-shrink: 0;
 }
 
 .chat-item__title{

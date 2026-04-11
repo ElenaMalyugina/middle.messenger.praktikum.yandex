@@ -10,6 +10,8 @@ export interface BaseInputProps extends BlockOwnProps {
     required: boolean;
     ref: string;
     onInput?: (val:unknown)=>unknown;
+    onFocus?: (val:unknown)=>unknown;
+    onBlur?: (val:unknown)=>unknown;
 }
 
 export type BaseValidatedInputProps = BaseInputProps & BaseValidationProps;
@@ -19,10 +21,12 @@ export default abstract class BaseInput<Props extends  BaseValidatedInputProps =
         input: () => {
             const keys = Object.keys(this.refs);
             const input = this.refs[keys[0]];
+
             if(this.props.onInput){
                 this.props.onInput(input);
             }
         },
+
         blur: () => {
             const keys = Object.keys(this.refs);
             const input = this.refs[keys[0]];
@@ -36,10 +40,20 @@ export default abstract class BaseInput<Props extends  BaseValidatedInputProps =
                     this.props.onValidate(input.value, validatorsArray);
                 }
             }
+
+            if(this.props.onBlur){
+                this.props.onBlur(input)
+            }
         },
         focus: ()=>{
+            const keys = Object.keys(this.refs);
+            const input = this.refs[keys[0]];
             if(this.props.cleanValidate){
                 this.props.cleanValidate();
+            }
+
+            if(this.props.onFocus){
+                this.props.onFocus(input)
             }
         }
     }

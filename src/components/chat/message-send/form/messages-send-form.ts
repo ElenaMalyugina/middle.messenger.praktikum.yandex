@@ -40,4 +40,8 @@ export default class MessagesSendForm extends Form<MessagesSendFormProps>{
         )
     }
 
+    protected submitForm = (_form: Form)=>{
+        //реализуем в следующем спринте, но линтер требует функцию уже сейчас
+    };
+
 }

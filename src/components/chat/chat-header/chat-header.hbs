@@ -1,6 +1,7 @@
 <header class="chat-header">
-    <div class="chat-header__link-wrapper">
-        {{{ Link className="link link--light" href="/profile" text="Профиль >" }}}
+    <div class="chat-header__flex">
+        {{{ Button className="add-button" text="Добавить чат" onClick=openAddChatModal}}}
+        {{{ Link className="link link--light" href="/settings" text="Профиль >" }}}
     </div>
     {{{ ChatSearch }}}
 </header>

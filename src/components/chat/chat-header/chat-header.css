@@ -2,7 +2,13 @@
     padding: 10px 20px;
 }
 
-.chat-header__link-wrapper{
-    text-align: right;
+.chat-header__flex{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
     margin-bottom: 10px;
 }
+
+
+

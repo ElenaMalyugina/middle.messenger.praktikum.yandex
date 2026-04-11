@@ -1,6 +1,6 @@
 import Block, {type BlockOwnProps }  from "../../framework/Block";
-import { tempSubmitHandler } from "../../services/formService";
-import BaseValidationBlock from "../row-blocks/base-validation-block/base-validation-block";
+import Store from "../../framework/store/Store";
+import ErrorMessage from "../error-message/error-message";
 
 export interface FormProps extends BlockOwnProps{
     id: string;
@@ -9,36 +9,37 @@ export interface FormProps extends BlockOwnProps{
     method: string;
     ref: string;
     data: unknown;
-    errorMessage: string | null; //если будут ошибки с бэка
+    errorType: string;
 }
 
 export default abstract class Form <Props extends FormProps = FormProps> extends Block<Props>{
+    protected abstract submitForm: (form: Form )=>void;
+    protected get errorBlock(): ErrorMessage | null {
+        return this.children.find(el=> el instanceof ErrorMessage) || null;
+    };
 
     protected events = {
         submit: (event: Event) => {
             event.preventDefault();
-
-            //Здесь хранится общий результат валидации формы
-            const validationArr: boolean[] = [];
-
-            //цикл по элемента формы
-            this.children.forEach(el=>{
-                if(this.isHasValidateElementBlock(el)){
-                    // запускаем их собственную валидацию
-                    const validationResult = el.onSubmitValidation();
-                    validationArr.push(validationResult)
-                }
-            })
-
-            //если хоть одна ошибка на форме - выходим
-            if(validationArr.some(value => !value)) return;
-
-            //если ошибок нет, запусакем отправку формы
-            tempSubmitHandler(this.refs);
+            this.submitForm(this);
         },
-    };
+        click: (event: Event)=>{
+            if(event.target instanceof HTMLInputElement){
+                if(Store){
+                    const store= Store.getState();
+                    if(store[this.props.errorType]){
+                        Store.setState(`${this.props.errorType}`, "");
+                    }
+                }
+            }
+        }
+    }
 
-    private isHasValidateElementBlock=(el: unknown)=>{
-        return el instanceof BaseValidationBlock;
+    errorFormHandler = ()=>{
+        const formError = Store.getState()[this.props.errorType];
+
+        if(formError !==undefined && typeof formError == "string"){
+           this.errorBlock && this.errorBlock.setProps({message: formError});
+        }
     }
 }

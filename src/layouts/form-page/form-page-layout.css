@@ -30,9 +30,8 @@
         margin-bottom: 14px;
     }
 
-    &__button{
-        display: block;
-        width: 100%;
+    &__button-wrapper{
+        position: relative;
         margin: 40px 0;
 
         &--last{
@@ -40,8 +39,20 @@
         }
     }
 
+    &__button{
+        display: block;
+        width: 100%;
+    }
+
     &__link-wrapper{
         text-align: center;
+    }
+
+    &__loader-wrapper{
+        width: 100%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 }
 

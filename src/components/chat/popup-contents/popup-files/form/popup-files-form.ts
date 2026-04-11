@@ -5,4 +5,9 @@ export default class PopupFilesForm extends Form{
     static componentName = 'PopupFilesForm';
     protected template = PopupFilesFormTemplate;
 
+    protected submitForm = (_form: Form)=>{
+        //реализуем в следующем спринте, но линтер требует функцию уже сейчас
+    };
+
+
 }
