@@ -21,6 +21,7 @@ export default abstract class BaseInput<Props extends  BaseValidatedInputProps =
         input: () => {
             const keys = Object.keys(this.refs);
             const input = this.refs[keys[0]];
+
             if(this.props.onInput){
                 this.props.onInput(input);
             }
