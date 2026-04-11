@@ -146,11 +146,30 @@ export default abstract class BaseUserForm <T extends AddDeleteUserFormProps = A
         const userId = el.getAttribute("data-value");
         const userName = el.getAttribute("data-text");
 
+        //чистим, чтобы не было ситуации, что набирали - выбрали - частично стерли - вернули - выбрали - а в инпуте не поменялось
         this.setProps({
-            data:{
+            data: {
                 chatId: this.props.data.chatId,
-                id: userId? parseInt(userId) : -1,
-                name: userName || ""
+                id: -1,
+                name: ""
+            }
+        });
+
+        let id = -1;
+        if (userId !== null) {
+            const parsedId = parseInt(userId, 10);
+            if (!isNaN(parsedId)) {
+                id = parsedId;
+            }
+        }
+
+        const finalUserName = userName || "";
+
+        this.setProps({
+            data: {
+                chatId: this.props.data.chatId,
+                id: id,
+                name: finalUserName
             }
         });
 
