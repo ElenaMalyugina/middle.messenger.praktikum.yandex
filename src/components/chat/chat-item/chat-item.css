@@ -90,5 +90,5 @@
 }
 
 .chat-item:not(.chat-item--active):hover .chat-item__delete-button{
-    @extend .chat-item__delete_button--active;
+    @extend .chat-item__delete-button--active;
 }
