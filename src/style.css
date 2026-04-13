@@ -23,15 +23,15 @@
 }
 
 .visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  border: 0;
-  padding: 0;
-  white-space: nowrap;
-  clip-path: inset(100%);
-  overflow: hidden;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    white-space: nowrap;
+    clip-path: inset(100%);
+    overflow: hidden;
 }
 
 html, body{
@@ -187,7 +187,21 @@ body{
     }
 }
 
+.delete-button{
+    @extend .round-button;
 
+    background: url("/img/plus.svg") center center no-repeat, var(--fourth-color);
+    transform: rotate(45deg);
 
+    &--active{
+        background-image: url("/img/plus-hover.svg");
+    }
+}
+
+.delete-button{
+    &:hover{
+        @extend .delete-button--active;
+    }
+}
 
 

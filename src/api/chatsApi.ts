@@ -15,10 +15,13 @@ export default class ChatsApi extends BaseAPI {
 
     updateAvatar<T = FormData>(avatar: T){
         return this.transport.put("/chats/avatar",
-            {
-                data: avatar
-            }
+            { data: avatar }
         )
     }
 
+    delete<T = number>(chatId: T) {
+        return this.transport.delete("/chats", {
+            data: { chatId: chatId }
+        })
+    }
 }

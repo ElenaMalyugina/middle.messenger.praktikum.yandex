@@ -2,7 +2,6 @@ import ChatUsersController from "../../../../controllers/chatUsersController";
 import Store from "../../../../framework/store/Store";
 import type { AddDeleteUserFormProps } from "../../../../types/addDeleteUser";
 import type { ChatData } from "../../../../types/chatData";
-import type { UserInfo } from "../../../../types/userInfo";
 import DataList, { notFoundText } from "../../../../ui-units/datalist/datalist";
 import Form from "../../../../ui-units/form/form";
 import { debounce } from "../../../../utils/debounce";
@@ -13,6 +12,8 @@ export default abstract class BaseUserForm <T extends AddDeleteUserFormProps = A
     protected chatUsersController = new ChatUsersController();
     protected debouncedSearch: ((el: HTMLInputElement) => void) | null = null;
     protected abstract actionType: actionType;
+    protected abstract searchUsers: (el: HTMLInputElement)=>void;
+    protected abstract searchSubscribe: ()=>void;
 
     protected get datalist(){
         //дропдаун куда вывести предлагемых пользователей
@@ -85,60 +86,10 @@ export default abstract class BaseUserForm <T extends AddDeleteUserFormProps = A
         dataList.setProps({dataListActive: false})
     }
 
-    searchSubscribe = ()=>{
-        //список пользователей с сервера
-        const searchedUser = Store.getState().searchedUser as UserInfo[];
-        if(!searchedUser || !Array.isArray(searchedUser)) return;
-
-        //уже существующие пользователи в чате - всегда есть хотя бы сам Юзер? - нужно проверить
-        const existedUser = Store.getState().ActiveChatsUsers as UserInfo[];
-        if(!existedUser || !Array.isArray(existedUser)) return;
-
-        //дропдаун куда вывести предлагемых пользователей
-        const dataList = this.datalist;
-        if(! dataList) return;
-
-        //не предлагаем еще раз добавить уже существующих
-        const idsToExclude = new Set(existedUser.map(item => item.id));
-
-
-        const adaptedSearchedUser = searchedUser
-            .filter(item => {
-                if(this.actionType === "add"){
-                    return !idsToExclude.has(item.id)
-                }
-
-                if(this.actionType == "delete"){
-                    return idsToExclude.has(item.id)
-                }
-            })
-            .map(el=> {
-                return {
-                    value: el.id,
-                    text: el.login
-                }
-        });
-
-        //размещаем пользователей в дропе
-        dataList.setProps({
-            dataList: [...adaptedSearchedUser]
-        })
-    }
 
     searchHandler=(el: HTMLInputElement)=>{
         if (this.debouncedSearch) {
             this.debouncedSearch(el);
-        }
-    }
-
-    searchUsers=(el: HTMLInputElement)=>{
-        if(el.value.length > 0){
-            this.chatUsersController.searchUsers(el.value)
-        }
-
-        const dataList = this.datalist;
-        if(dataList){
-            this.notFoundHandler(el.value)
         }
     }
 

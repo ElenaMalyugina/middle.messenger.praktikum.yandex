@@ -74,5 +74,23 @@ export default class ChatsController extends BaseFormController<AddChat>  {
         }
     }
 
+    public async deleteChat(chatId: number){
+        try{
+            const newChat = await this.chatsApi.delete(chatId);
+            modalHide();
+
+            if(newChat){
+                await this.getChats();
+            }
+        }
+        catch(error: unknown){
+            const parsedError = errorHandler(error);
+            Store.setState("deleteChatError", parsedError);
+        }
+        finally{
+            Store.setState("isLoaderActive", false);
+        }
+    }
+
 
 }
