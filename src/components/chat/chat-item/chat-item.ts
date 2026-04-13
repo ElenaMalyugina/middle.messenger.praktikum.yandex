@@ -8,7 +8,7 @@ import ChatsController from "../../../controllers/chatsController";
 export interface ChatItemProps extends BlockOwnProps{
     chatData: ChatData;
     isActive: boolean;
-    deleteChatHandler: (e:Event)=>void;
+    deleteChatHandler?: (e:Event)=>void;
 }
 
 export default class ChatItem extends Block<ChatItemProps>{
