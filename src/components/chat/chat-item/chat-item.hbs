@@ -1,21 +1,22 @@
 <li class="chat-item js-chat-item">
-{{#with chatData}}
-  {{{ ChatAvatar avatarUrl=avatar addClass="chat-item__chat-avatar"  }}}
-  <div class="chat-item__content">
-    <div class="chat-item__top">
-      <h3 class="chat-item__title">
-        {{title}}
-      </h3>
-      <time class="time chat-item__date" datetime="{{last_message.time}}">{{last_message.time}}</time>
+    {{#with chatData}}
+    {{{ ChatAvatar avatarUrl=avatar addClass="chat-item__chat-avatar"  }}}
+    <div class="chat-item__content">
+        <div class="chat-item__top">
+        <h3 class="chat-item__title">
+            {{title}}
+        </h3>
+        <time class="time chat-item__date" datetime="{{last_message.time}}">{{last_message.time}}</time>
+        </div>
+        <p class="chat-item__message">
+        {{{last_message.text}}}
+        </p>
+        {{#if unread_count}}
+        <span class="chat-item__counter">
+            {{unread_count}}
+        </span>
+        {{/if}}
     </div>
-    <p class="chat-item__message">
-      {{{last_message.text}}}
-    </p>
-    {{#if unread_count}}
-      <span class="chat-item__counter">
-        {{unread_count}}
-      </span>
-    {{/if}}
-  </div>
-{{/with}}
+    {{/with}}
+    {{{ Button type="button" className="delete-button chat-item__delete_button" text="Удалить чат" onClick=deleteChatHandler }}}
 </li>

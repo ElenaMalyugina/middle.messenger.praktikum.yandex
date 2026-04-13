@@ -4,10 +4,21 @@
     display: flex;
     gap: 16px;
     cursor: pointer;
+    position: relative;
+    transition: 0.3s;
+
+    &--hover{
+        background-color: var(--border-color);
+    }
 
     &--active{
-        background-color: var(--selected-color);
+        background-color: var(--selected-color)!important;
+        transition: 0.3s;
     }
+}
+
+.chat-item:hover{
+    @extend .chat-item--hover;
 }
 
 .chat-item__chat-avatar{
@@ -62,4 +73,22 @@
     position: absolute;
     bottom: 0;
     right: 0;
+}
+
+.chat-item__delete_button{
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    display: none;
+
+    &--active{
+        display: flex;
+    }
+}
+
+.chat-item:not(.chat-item--active):hover .chat-item__delete_button{
+    @extend .chat-item__delete_button--active;
 }

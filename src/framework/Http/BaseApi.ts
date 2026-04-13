@@ -12,7 +12,9 @@ export abstract class BaseAPI {
         throw new Error('Not implemented');
     }
 
-    delete() { throw new Error('Not implemented'); }
+    delete<T>(_data: T):Promise<unknown> {
+        throw new Error('Not implemented');
+    }
 }
 
 
