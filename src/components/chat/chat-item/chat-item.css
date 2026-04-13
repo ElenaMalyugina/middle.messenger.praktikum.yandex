@@ -75,7 +75,7 @@
     right: 0;
 }
 
-.chat-item__delete_button{
+.chat-item__delete-button{
     width: 20px;
     height: 20px;
     background-color: transparent;
@@ -89,6 +89,6 @@
     }
 }
 
-.chat-item:not(.chat-item--active):hover .chat-item__delete_button{
+.chat-item:not(.chat-item--active):hover .chat-item__delete-button{
     @extend .chat-item__delete_button--active;
 }
