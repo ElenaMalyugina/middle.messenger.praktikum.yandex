@@ -38,6 +38,7 @@ Handlebars.registerHelper("getDayAndYear", function(dateString){
 
 //Получение даты в читаемом формате
 Handlebars.registerHelper("getTime", function(dateString){
+    if(!dateString) return;
     return getTimeString(dateString);
 })
 

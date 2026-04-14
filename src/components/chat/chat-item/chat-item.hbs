@@ -3,13 +3,13 @@
     {{{ ChatAvatar avatarUrl=avatar addClass="chat-item__chat-avatar"  }}}
     <div class="chat-item__content">
         <div class="chat-item__top">
-        <h3 class="chat-item__title">
-            {{title}}
-        </h3>
-        <time class="time chat-item__date" datetime="{{last_message.time}}">{{last_message.time}}</time>
+            <h3 class="chat-item__title">
+                {{title}}
+            </h3>
+            <time class="time chat-item__date" datetime="{{last_message.time}}">{{getTime last_message.time}}</time>
         </div>
         <p class="chat-item__message">
-        {{{last_message.text}}}
+            {{{last_message.content}}}
         </p>
         {{#if unread_count}}
         <span class="chat-item__counter">
