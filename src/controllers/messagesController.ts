@@ -8,8 +8,11 @@ export default class MessagesController{
         const currentUser = Store.getState().currentUser as number;
         if(!currentUser) return;
 
-        this.messagesApi.start(chatId, currentUser);
+        return this.messagesApi.start(chatId, currentUser);
     }
 
+    async closeConnection(){
+        this.messagesApi.closeConnection();
+    }
 
 }

@@ -9,6 +9,7 @@ import type { ChatData } from "../../../types/chatData";
 
 interface MessagesListProps extends BlockOwnProps{
     messages: MessageItemProps[];
+    currentChatId: number;
 }
 
 export default class MessagesList extends Block<MessagesListProps>{
@@ -19,19 +20,27 @@ export default class MessagesList extends Block<MessagesListProps>{
     constructor(props: MessagesListProps){
         super(props);
         this.setProps({messages: []});
-        const activeChat= Store.getState().activeChat as ChatData;
-        if(!activeChat) return;
 
-        this.messagesController.startConnecton(activeChat.id);
+
 
         Store.subscribe(()=>{
+            const activeChat= Store.getState().activeChat as ChatData;
+            if(!activeChat) return;
+
+            if(this.props.currentChatId !== activeChat.id){
+
+            this.messagesController.closeConnection();
+            this.messagesController.startConnecton(activeChat.id)
+            this.setProps({currentChatId: activeChat.id});
+        }
+
             const messages = Store.getState().messages as Message[];
             if(!messages) return;
-            this.getChats(messages)
+            this.updateMessages(messages)
         })
     }
 
-    protected getChats(messages: Message[]): void {
+    protected updateMessages(messages: Message[]): void {
         const thisMessages = [...messages];
         const currentUserId = Store.getState().currentUser as number;
         if(!currentUserId) return;
@@ -55,7 +64,11 @@ export default class MessagesList extends Block<MessagesListProps>{
         const resMessages = messagesWithIsChangedDate;
 
         this.setProps({
-                messages: {...resMessages}
+            messages: {...resMessages}
         });
+    }
+
+    protected componentWillUnmount(): void {
+
     }
 }

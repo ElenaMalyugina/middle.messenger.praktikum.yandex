@@ -120,10 +120,10 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
 
     private removeListeners() {
         for (const eventName of this.validEvents) {
-        const eventCallback = this.events[eventName];
-        if (typeof eventCallback === 'function' && this.domElement) {
-            this.domElement.removeEventListener(eventName, eventCallback);
-        }
+            const eventCallback = this.events[eventName];
+            if (typeof eventCallback === 'function' && this.domElement) {
+                this.domElement.removeEventListener(eventName, eventCallback);
+            }
         }
     }
 

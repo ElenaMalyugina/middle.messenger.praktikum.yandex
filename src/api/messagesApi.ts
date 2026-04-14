@@ -15,7 +15,7 @@ export default class MessagesApi extends BaseAPI {
         try {
             const tokenObj = await this.chatsApi.getToken(chatId);
             this.token = tokenObj.token;
-            this.connect(chatId, userId);
+            return this.connect(chatId, userId);
         } catch (e) {
             console.log(e);
             return;
@@ -45,6 +45,12 @@ export default class MessagesApi extends BaseAPI {
         });
 
         this.socket.addEventListener('close', event => {
+            // Отключаем все обработчики, чтобы избежать утечек памяти
+            /*this.socket?.removeEventListener('open', openHandler);
+            this.socket?.removeEventListener('message', messageHandler);
+            this.socket?.removeEventListener('error', errorHandler);
+            this.socket = null;*/
+
             if (!event.wasClean) {
                 console.log('Обрыв соединения. Попытка реконнекта...');
                 this.startReconnect(chatId, userId);
@@ -90,6 +96,24 @@ export default class MessagesApi extends BaseAPI {
             console.log(`Попытка реконнекта #${this.reconnectAttempts} через ${delay} мс`);
             this.connect(chatId, userId);
         }, delay);
+    }
+
+    public closeConnection(code: number = 1000, reason: string = 'Закрытие соединения по запросу клиента') {
+        if (this.socket) {
+            if (this.socket.readyState === WebSocket.OPEN) {
+                this.socket.close(code, reason);
+            } else if (this.socket.readyState === WebSocket.CONNECTING) {
+                // Если соединение устанавливается, ждём открытия перед закрытием
+                this.socket.addEventListener('open', () => {
+                    this.socket?.close(code, reason);
+                });
+            }
+            // Если состояние CLOSING или CLOSED — ничего не делаем
+        }
+
+        // Сбрасываем состояние реконнекта
+        this.isReconnecting = false;
+        this.reconnectAttempts = 0;
     }
 }
 
