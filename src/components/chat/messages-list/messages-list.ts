@@ -18,20 +18,17 @@ export default class MessagesList extends Block<MessagesListProps>{
 
     constructor(props: MessagesListProps){
         super(props);
+        this.setProps({messages: []});
+        const activeChat= Store.getState().activeChat as ChatData;
+        if(!activeChat) return;
+
+        this.messagesController.startConnecton(activeChat.id);
 
         Store.subscribe(()=>{
-            this.setProps({messages: []});
-            const activeChat= Store.getState().activeChat as ChatData;
-            if(!activeChat) return;
-            this.messagesController.startConnecton(activeChat.id);
-
             const messages = Store.getState().messages as Message[];
             if(!messages) return;
             this.getChats(messages)
         })
-
-
-        //this.messagesController.startConnecton(currentChatId);
     }
 
     protected getChats(messages: Message[]): void {
