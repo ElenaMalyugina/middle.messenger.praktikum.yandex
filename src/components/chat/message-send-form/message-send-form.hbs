@@ -3,7 +3,7 @@
         {{{ Button className="attache-button message-send__button message-send__attache-button"
         id="attache-button" type="button" text="Прикрепить" onClick=modalFileShow }}}
         {{{ TextareaBlock block="message-send" name="message" className="chat__input message-send__input" id="message" rows="1"
-            placeholder="Сообщение" required="required" validators="required" value=data.message
+            placeholder="Сообщение" required="required" validators="required" value=data.message submitEmit=submitEmit
         }}}
         {{{ Button className="blue-round-button message-send__button" type="submit" text="Отправить" id="send-button"}}}
     </div>

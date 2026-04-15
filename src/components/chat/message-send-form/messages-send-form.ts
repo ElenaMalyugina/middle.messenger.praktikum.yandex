@@ -8,6 +8,7 @@ interface MessagesSendFormProps extends FormProps{
     data: Message,
     submitFormHandler: (form: Form)=>void;
     modalFileShow: (event: Event, el:HTMLButtonElement)=>void;
+    submitEmit: (form: Form)=>void;
 }
 
 export default class MessageSendForm extends Form<MessagesSendFormProps>{
@@ -17,6 +18,7 @@ export default class MessageSendForm extends Form<MessagesSendFormProps>{
     constructor(props:MessagesSendFormProps){
         super(props);
         this.props.modalFileShow = this.modalFileShow;
+        this.props.submitEmit = this.submitForm.bind(this, this);
     }
 
     modalFileShow=(event: Event, el: HTMLButtonElement)=>{

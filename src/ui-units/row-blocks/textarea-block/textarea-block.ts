@@ -6,6 +6,7 @@ interface TextareaBlockProps extends BaseValidationProps{
     type: string;
     label: string;
     name: string;
+    submitEmit?: ()=>{}
 }
 
 export default class TextareaBlock extends BaseValidationBlock<TextareaBlockProps>{
@@ -17,7 +18,8 @@ export default class TextareaBlock extends BaseValidationBlock<TextareaBlockProp
 
         this.setProps({
             onValidate: this.onValidate,
-            cleanValidate: this.cleanValidate
+            cleanValidate: this.cleanValidate,
+            submitEmit: this.props.submitEmit
         })
     }
 
