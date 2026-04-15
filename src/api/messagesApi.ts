@@ -1,3 +1,4 @@
+import { trim } from "../utils/trim";
 import ChatsApi from "./chatsApi";
 
 export interface socketResponse{

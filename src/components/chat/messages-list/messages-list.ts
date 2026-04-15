@@ -42,6 +42,7 @@ export default class MessagesList extends Block<MessagesListProps>{
                 block: 'chat',
                 message: {
                     ...mess,
+                    content: mess.content.replace(/(?:\r\n|\r|\n)/g, "<br>")
                 },
                 isChangedDate: isChangedDate,
                 isAuthor: mess.user_id === currentUserId // логика определения автора
