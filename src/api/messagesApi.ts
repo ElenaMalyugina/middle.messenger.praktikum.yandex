@@ -1,8 +1,8 @@
-import { BaseAPI } from "../framework/Http/BaseApi";
 import Store from "../framework/store/Store";
+import type { Message } from "../types/message";
 import ChatsApi from "./chatsApi";
 
-export default class MessagesApi extends BaseAPI {
+export default class MessagesApi  {
     private chatsApi = new ChatsApi();
     private token: string = "";
     private socket: WebSocket | null = null;
@@ -11,7 +11,7 @@ export default class MessagesApi extends BaseAPI {
     private maxReconnectAttempts = 5;
     private reconnectDelay = 1000; // начальная задержка 1 сек
 
-   async start(chatId: number, userId: number) {
+    public async start(chatId: number, userId: number) {
         try {
             const tokenObj = await this.chatsApi.getToken(chatId);
             this.token = tokenObj.token;
@@ -22,63 +22,82 @@ export default class MessagesApi extends BaseAPI {
         }
     }
 
-    private connect(chatId: number, userId: number) {
+    protected openHandler=()=>{
+        console.log('Соединение установлено');
+        this.reconnectAttempts = 0; // сброс счётчика при успехе
+        this.isReconnecting = false;
+
+        this.getMessages();
+        this.pingConection();
+    }
+
+    protected closeHandler = (event: CloseEvent, chatId: number, userId: number)=>{
+        if (!event.wasClean) {
+            console.log('Обрыв соединения. Попытка реконнекта...');
+            this.startReconnect(chatId, userId);
+        } else {
+            console.log('Соединение закрыто чисто');
+        }
+        console.log(`Код: ${event.code} | Причина: ${event.reason}`);
+    }
+
+    protected messageHandler = (event: MessageEvent)=>{
+        console.log('Получены данные', event.data);
+        if(event.data){
+            try{
+                const response = JSON.parse(event.data);
+                if(Array.isArray(response)){
+                    const resResponse = response.reverse();
+
+                    Store.setState("messages", resResponse);
+                }
+            }
+            catch(e){
+                console.error("Не удалось распарсить", e)
+            }
+        }
+    }
+
+    protected errorHandler = (event: Event)=>{
+        console.log('Ошибка', event);
+    }
+
+    protected getMessages = ()=>{
+        this.socket?.send(
+            JSON.stringify({
+                content: '0',
+                type: 'get old'
+            })
+        );
+    }
+
+    private pingConection = ()=>{
+        setInterval(() => this.socket?.send(
+            JSON.stringify({type: "ping"})
+        ), 30000);
+    }
+
+
+    private connect=(chatId: number, userId: number)=> {
         if (this.isReconnecting) return;
 
         this.socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${userId}/${chatId}/${this.token}`);
 
-        this.socket.addEventListener('open', () => {
-            console.log('Соединение установлено');
-            this.reconnectAttempts = 0; // сброс счётчика при успехе
-            this.isReconnecting = false;
-
-            this.socket?.send(
-                JSON.stringify({
-                    content: '0',
-                    type: 'get old',
-                })
-            );
-
-            setInterval(() => this.socket?.send(
-                JSON.stringify({type: "ping"})
-            ), 30000);
-        });
+        this.socket.addEventListener('open', this.openHandler);
 
         this.socket.addEventListener('close', event => {
             // Отключаем все обработчики, чтобы избежать утечек памяти
-            /*this.socket?.removeEventListener('open', openHandler);
-            this.socket?.removeEventListener('message', messageHandler);
-            this.socket?.removeEventListener('error', errorHandler);
-            this.socket = null;*/
+            this.socket?.removeEventListener('open', this.openHandler);
+            this.socket?.removeEventListener('message', this.messageHandler);
+            this.socket?.removeEventListener('error', this.errorHandler);
+            this.socket = null;
 
-            if (!event.wasClean) {
-                console.log('Обрыв соединения. Попытка реконнекта...');
-                this.startReconnect(chatId, userId);
-            } else {
-                console.log('Соединение закрыто чисто');
-            }
-            console.log(`Код: ${event.code} | Причина: ${event.reason}`);
+            this.closeHandler(event, chatId, userId);
         });
 
-        this.socket.addEventListener('message', event => {
-            console.log('Получены данные', event.data);
-            if(event.data){
-                try{
-                    const response = JSON.parse(event.data);
-                    if(Array.isArray(response)){
-                        Store.setState("messages", response);
-                    }
-                }
-                catch(e){
-                    console.error("Не удалось распарсить", e)
-                }
-            }
+        this.socket.addEventListener('message', this.messageHandler);
 
-        });
-
-        this.socket.addEventListener('error', event => {
-            console.log('Ошибка', event);
-        });
+        this.socket.addEventListener('error', this.errorHandler);
     }
 
     private startReconnect(chatId: number, userId: number) {
@@ -114,6 +133,15 @@ export default class MessagesApi extends BaseAPI {
         // Сбрасываем состояние реконнекта
         this.isReconnecting = false;
         this.reconnectAttempts = 0;
+    }
+
+    public async send(data: Message | null){
+        if(!data || !data.message) return;
+
+        await this.socket?.send(JSON.stringify({
+            content: data.message,
+            type: 'message'
+        }))
     }
 }
 

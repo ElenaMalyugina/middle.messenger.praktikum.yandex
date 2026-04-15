@@ -4,9 +4,11 @@ import Block, { type BlockOwnProps } from "../../../framework/Block";
 import MessagesController from "../../../controllers/messagesController";
 import Store from "../../../framework/store/Store";
 import type { ChatData } from "../../../types/chatData";
+import type Form from "../../../ui-units/form/form";
 
 interface MessagesBoxProps extends BlockOwnProps{
     currentChatId: number;
+    submitFormHandler: (form: Form)=>void;
 }
 
 export default class MessagesBox extends Block<MessagesBoxProps>{
@@ -16,6 +18,7 @@ export default class MessagesBox extends Block<MessagesBoxProps>{
 
     constructor(props: MessagesBoxProps){
         super(props);
+        this.props.submitFormHandler = this.submitForm;
 
         Store.subscribe(()=>{
             const activeChat= Store.getState().activeChat as ChatData;
@@ -27,6 +30,10 @@ export default class MessagesBox extends Block<MessagesBoxProps>{
                 this.setProps({currentChatId: activeChat.id});
             }
         })
+    }
+
+    submitForm=(form: Form)=>{
+        this.messagesController.submitFormHandler(form)
     }
 }
 
