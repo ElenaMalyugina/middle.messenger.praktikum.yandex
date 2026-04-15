@@ -29,6 +29,13 @@ export default class MessagesList extends Block<MessagesListProps>{
         this.messagesBuilder(messages);
     }
 
+    private addMessageAndScroll() {
+        const chatScroll = document.getElementById("chat-scroll");
+        if(!chatScroll) return;
+        // Автоматически прокручиваем вниз
+        chatScroll.scrollTop = chatScroll.scrollHeight;
+    }
+
     protected messagesBuilder = (messages: Message[]): void => {
         const thisMessages = [...messages];
         const currentUserId = Store.getState().currentUser as number;
@@ -56,5 +63,7 @@ export default class MessagesList extends Block<MessagesListProps>{
         this.setProps({
             messages: {...resMessages}
         });
+
+        this.addMessageAndScroll();
     }
 }
