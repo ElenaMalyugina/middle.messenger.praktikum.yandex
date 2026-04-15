@@ -14,5 +14,4 @@ export default class MessagesController{
     async closeConnection(){
         this.messagesApi.closeConnection();
     }
-
 }

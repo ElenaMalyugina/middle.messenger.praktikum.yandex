@@ -2,45 +2,32 @@ import "./messages-list.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import MessagesListTemplate from "./messages-list.hbs?raw";
 import type { Message, MessageItemProps } from "../message-item/message-item";
-//import { messages } from "../../../mocks/messages";
-import MessagesController from "../../../controllers/messagesController";
 import Store from "../../../framework/store/Store";
-import type { ChatData } from "../../../types/chatData";
 
 interface MessagesListProps extends BlockOwnProps{
     messages: MessageItemProps[];
-    currentChatId: number;
 }
 
 export default class MessagesList extends Block<MessagesListProps>{
     static componentName = 'MessagesList';
     protected template = MessagesListTemplate;
-    private messagesController = new MessagesController();
 
     constructor(props: MessagesListProps){
         super(props);
         this.setProps({messages: []});
 
-
-
         Store.subscribe(()=>{
-            const activeChat= Store.getState().activeChat as ChatData;
-            if(!activeChat) return;
-
-            if(this.props.currentChatId !== activeChat.id){
-
-            this.messagesController.closeConnection();
-            this.messagesController.startConnecton(activeChat.id)
-            this.setProps({currentChatId: activeChat.id});
-        }
-
-            const messages = Store.getState().messages as Message[];
-            if(!messages) return;
-            this.updateMessages(messages)
+            this.updateMessages();
         })
     }
 
-    protected updateMessages(messages: Message[]): void {
+    protected updateMessages = ()=>{
+        const messages = Store.getState().messages as Message[];
+        if(!messages) return;
+        this.messagesBuilder(messages);
+    }
+
+    protected messagesBuilder = (messages: Message[]): void => {
         const thisMessages = [...messages];
         const currentUserId = Store.getState().currentUser as number;
         if(!currentUserId) return;
@@ -66,9 +53,5 @@ export default class MessagesList extends Block<MessagesListProps>{
         this.setProps({
             messages: {...resMessages}
         });
-    }
-
-    protected componentWillUnmount(): void {
-
     }
 }
