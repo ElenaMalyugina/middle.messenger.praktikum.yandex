@@ -33,7 +33,7 @@ export default class MessagesBox extends Block<MessagesBoxProps>{
     }
 
     submitForm=(form: Form)=>{
-        this.messagesController.submitFormHandler(form)
+        this.messagesController.submitFormHandler(form);
     }
 }
 

@@ -1,8 +1,8 @@
 import "./message-send-form.css";
 import Form, { type FormProps } from "../../../ui-units/form/form";
-import type { Message } from "../message-item/message-item";
 import PopupFiles from "../popup-contents/popup-files/popup-files";
 import MessagesSendFormTemplate from "./message-send-form.hbs?raw";
+import type { Message } from "../../../types/message";
 
 interface MessagesSendFormProps extends FormProps{
     data: Message,
@@ -34,5 +34,6 @@ export default class MessageSendForm extends Form<MessagesSendFormProps>{
         //через пропс, так как контроллер должен быть один.
         //с синглтоном было бы слишком жесткое решение
         this.props.submitFormHandler(form);
+        form.reset()
     };
 }

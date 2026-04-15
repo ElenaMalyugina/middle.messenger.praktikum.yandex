@@ -35,6 +35,12 @@ export default abstract class Form <Props extends FormProps = FormProps> extends
         }
     }
 
+    reset(){
+        const form =  this.refs["form"];
+        if(!form || !(form instanceof HTMLFormElement)) return;
+        form.reset();
+    }
+
     errorFormHandler = ()=>{
         const formError = Store.getState()[this.props.errorType];
 
