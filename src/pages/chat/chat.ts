@@ -1,7 +1,7 @@
 import "./chat.css";
 import "../../components/chat/chat-sidebar/chat-sidebar.css";
 import Handlebars from "handlebars";
-import {getDayYearString, getTimeString} from "../../utils/datetime.ts";
+import {getDateOrTimeString, getDayYearString, getTimeString} from "../../utils/datetime.ts";
 import { registerComponent } from './../../framework/RegisterComponent';
 import chatTemplate from "./chat.hbs?raw";
 import NoMessages from "../../components/chat/no-messages/no-messages.ts";
@@ -39,6 +39,12 @@ Handlebars.registerHelper("getDayAndYear", function(dateString){
 Handlebars.registerHelper("getTime", function(dateString){
     if(!dateString) return;
     return getTimeString(dateString);
+})
+
+//Получение даты в читаемом формате
+Handlebars.registerHelper("getDateOrTime", function(dateString){
+    if(!dateString) return;
+    return getDateOrTimeString(dateString);
 })
 
 registerComponent(ChatsList);

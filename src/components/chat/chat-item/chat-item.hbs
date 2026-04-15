@@ -6,7 +6,7 @@
             <h3 class="chat-item__title">
                 {{title}}
             </h3>
-            <time class="time chat-item__date" datetime="{{last_message.time}}">{{getTime last_message.time}}</time>
+            <time class="time chat-item__date" datetime="{{last_message.time}}">{{getDateOrTime last_message.time}}</time>
         </div>
         <p class="chat-item__message">
             {{{last_message.content}}}
