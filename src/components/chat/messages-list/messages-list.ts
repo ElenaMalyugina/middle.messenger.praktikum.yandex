@@ -1,8 +1,10 @@
 import "./messages-list.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import MessagesListTemplate from "./messages-list.hbs?raw";
-import type { Message, MessageItemProps } from "../message-item/message-item";
+import type { MessageItemProps } from "../message-item/message-item";
 import Store from "../../../framework/store/Store";
+import type { Message } from "../../../types/message";
+import { isEqualDay } from "../../../utils/datetime";
 
 interface MessagesListProps extends BlockOwnProps{
     messages: MessageItemProps[];
@@ -34,7 +36,7 @@ export default class MessagesList extends Block<MessagesListProps>{
         //добавление свойства смены даты
         const messagesWithIsChangedDate = thisMessages.map((mess: Message, i, sourceMessages )=>{
 
-            const isChangedDate = i==0 || mess.time !== sourceMessages[i-1].time;
+            const isChangedDate = i ==0 || !isEqualDay(mess.time, sourceMessages[i-1].time);
 
             const messageItem: MessageItemProps = {
                 block: 'chat',
