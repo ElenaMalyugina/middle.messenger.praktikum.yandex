@@ -1,6 +1,15 @@
-import Store from "../framework/store/Store";
-import type { Message } from "../types/message";
 import ChatsApi from "./chatsApi";
+
+export interface socketResponse{
+    type: string;
+    [key: string]: unknown;
+}
+
+export interface socketRequest{
+    message: string;
+}
+
+type response<T> = T | T[];
 
 export default class MessagesApi  {
     private chatsApi = new ChatsApi();
@@ -10,6 +19,12 @@ export default class MessagesApi  {
     private reconnectAttempts = 0;
     private maxReconnectAttempts = 5;
     private reconnectDelay = 1000; // начальная задержка 1 сек
+
+    private onMessagesReceived: ((response: response<socketResponse>) => void) | null = null;
+
+    public setOnMessagesReceived(callback: (response: response<socketResponse>) => void) {
+        this.onMessagesReceived = callback;
+    }
 
     public async start(chatId: number, userId: number) {
         try {
@@ -46,10 +61,8 @@ export default class MessagesApi  {
         if(event.data){
             try{
                 const response = JSON.parse(event.data);
-                if(Array.isArray(response)){
-                    const resResponse = response.reverse();
-
-                    Store.setState("messages", resResponse);
+                if(this.onMessagesReceived ){
+                    this.onMessagesReceived(response);
                 }
             }
             catch(e){
@@ -135,7 +148,7 @@ export default class MessagesApi  {
         this.reconnectAttempts = 0;
     }
 
-    public async send(data: Message | null){
+    public async send(data: socketRequest | null){
         if(!data || !data.message) return;
 
         await this.socket?.send(JSON.stringify({
