@@ -7,6 +7,7 @@
                     <span class="popup__text">Картинка или фото</span>
                     {{{ FileInput name="upload-photo" id="upload-photo" onChange=onChange ref="avatarInput" }}}
                 </label>
+                {{{ErrorMessage className="input-block__error popup__error js-error" ref="error" }}}
             </form>
         </li>
     </ul>

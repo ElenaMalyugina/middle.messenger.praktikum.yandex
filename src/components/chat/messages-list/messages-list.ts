@@ -5,6 +5,7 @@ import type { MessageItemProps } from "../message-item/message-item";
 import Store from "../../../framework/store/Store";
 import { MessageModel, type Message } from "../../../types/message";
 import { isEqualDay } from "../../../utils/datetime";
+import type { SocketResponse } from "../../../framework/Http/WebSocketApi";
 
 interface MessagesListProps extends BlockOwnProps{
     messages: MessageModel[];
@@ -41,10 +42,9 @@ export default class MessagesList extends Block<MessagesListProps>{
 
         //добавление свойства смены даты
         const messagesWithIsChangedDate = thisMessages.map((mess: Message, i, sourceMessages )=>{
+            const messageItem: MessageModel = mess;
+
             const isChangedDate = i ==0 || !isEqualDay(mess.time, sourceMessages[i-1].time);
-
-            const messageItem: MessageModel = new MessageModel(mess);
-
             messageItem.isChangedDate = isChangedDate;
 
             return messageItem;

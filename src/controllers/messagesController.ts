@@ -1,7 +1,8 @@
 import MessagesApi from "../api/messagesApi";
-import type { SocketRequest, SocketResponse } from "../framework/Http/webSocketApi.";
+import type { SocketRequest, SocketResponse } from "../framework/Http/WebSocketApi";
 import Store from "../framework/store/Store";
 import { errorHandler } from "../services/errorHandler";
+import type { MessageFile } from "../types/file";
 import { MessageModel, type Message, type MessageForSend } from "../types/message";
 import BaseFormController from "./baseFormController";
 
@@ -67,8 +68,9 @@ export default class MessagesController extends BaseFormController<MessageForSen
             formData.append('resource', file);
             const uploadedFile = await this.messagesApi.sendFile(formData);
             if(!uploadedFile ) return;
+
             this.formSend({
-                message: uploadedFile.id,
+                message: (uploadedFile as MessageFile).id,
                 type: "file"
             })
         }

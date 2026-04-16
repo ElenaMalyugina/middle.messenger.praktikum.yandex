@@ -1,5 +1,5 @@
 import HTTPTransport from "../framework/Http/HTTPTransport";
-import WebSocketApi, { type SocketRequest, type SocketResponse } from "../framework/Http/webSocketApi.";
+import WebSocketApi, { type SocketRequest, type SocketResponse } from "../framework/Http/WebSocketApi";
 
 export default class MessagesApi  {
     private transport: HTTPTransport;

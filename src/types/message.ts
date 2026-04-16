@@ -1,3 +1,4 @@
+import type { SocketResponse } from "../framework/Http/WebSocketApi";
 import Store from "../framework/store/Store";
 
 export interface Message{
@@ -39,7 +40,7 @@ export class MessageModel implements Message{
     isCheckIcon: boolean;
 
     //так как из сокета может прийти что угодно
-    constructor(data: Message){
+    constructor(data: SocketResponse){
         const currentUserId = Store.getState().currentUser as number;
 
         this.id = typeof data.id === 'number' ? data.id : 0;
