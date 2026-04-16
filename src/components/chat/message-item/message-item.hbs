@@ -1,6 +1,5 @@
 {{#with message}}
 <li class="message-item {{block}}__message-item {{#if isAuthor}} message-item--self chat__message-item--self {{/if}}" tabindex="0">
-    {{#with message}}
     <div class="message-item__content">
         {{#if file}}
         <figure class="message-item__file-block">
@@ -10,12 +9,11 @@
         {{{content}}}
     </div>
     <div class="message-item__bottom">
-        {{#if isAuthor }}
-            {{{ Img src=(concat (basePath) "/img/read.svg") alt=""}}}
+        {{#if isCheckIcon }}
+            {{{ Img src="/img/read.svg" alt=""}}}
         {{/if}}
-        <time class="time message-item__time {{#if isAuthor }}message-item__time--self{{/if}}" datetime="{{time}}">{{#getTime time}}{{/getTime}}</time>
+        <time class="time message-item__time {{#if isAuthor}}message-item__time--self{{/if}}" datetime="{{time}}">{{#getTime time}}{{/getTime}}</time>
     </div>
-    {{/with}}
 </li>
 {{/with}}
 

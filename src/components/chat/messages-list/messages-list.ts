@@ -3,11 +3,11 @@ import Block, { type BlockOwnProps } from "../../../framework/Block";
 import MessagesListTemplate from "./messages-list.hbs?raw";
 import type { MessageItemProps } from "../message-item/message-item";
 import Store from "../../../framework/store/Store";
-import type { Message } from "../../../types/message";
+import { MessageModel, type Message } from "../../../types/message";
 import { isEqualDay } from "../../../utils/datetime";
 
 interface MessagesListProps extends BlockOwnProps{
-    messages: MessageItemProps[];
+    messages: MessageModel[];
 }
 
 export default class MessagesList extends Block<MessagesListProps>{
@@ -38,22 +38,14 @@ export default class MessagesList extends Block<MessagesListProps>{
 
     protected messagesBuilder = (messages: Message[]): void => {
         const thisMessages = [...messages];
-        const currentUserId = Store.getState().currentUser as number;
-        if(!currentUserId) return;
+
         //добавление свойства смены даты
         const messagesWithIsChangedDate = thisMessages.map((mess: Message, i, sourceMessages )=>{
-
             const isChangedDate = i ==0 || !isEqualDay(mess.time, sourceMessages[i-1].time);
 
-            const messageItem: MessageItemProps = {
-                block: 'chat',
-                message: {
-                    ...mess,
-                    content: mess.content.replace(/(?:\r\n|\r|\n)/g, "<br>")
-                },
-                isChangedDate: isChangedDate,
-                isAuthor: mess.user_id === currentUserId // логика определения автора
-            };
+            const messageItem: MessageModel = new MessageModel(mess);
+
+            messageItem.isChangedDate = isChangedDate;
 
             return messageItem;
         })

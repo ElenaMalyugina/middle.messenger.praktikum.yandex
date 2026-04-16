@@ -1,13 +1,20 @@
+import Store from "../framework/store/Store";
+
 export interface Message{
+    block: string;
     id: number;
     chat_id: number;
     user_id: number;
     time: string;
     content: string;
+    is_read: boolean;
     file?:{
         path: string;
     }
     type: string;
+    isAuthor: boolean;
+    isChangedDate: boolean;
+    isCheckIcon: boolean;
 }
 
 export interface MessageForSend{
@@ -16,6 +23,7 @@ export interface MessageForSend{
 }
 
 export class MessageModel implements Message{
+    block: string = "chat";
     id: number;
     chat_id: number;
     user_id: number;
@@ -25,9 +33,15 @@ export class MessageModel implements Message{
         path: string;
     }
     type: string;
+    is_read: boolean;
+    isAuthor: boolean;
+    isChangedDate: boolean;
+    isCheckIcon: boolean;
 
     //так как из сокета может прийти что угодно
-    constructor(data: Record<string, unknown>){
+    constructor(data: Message){
+        const currentUserId = Store.getState().currentUser as number;
+
         this.id = typeof data.id === 'number' ? data.id : 0;
         this.chat_id = typeof data.chat_id === 'number' ? data.chat_id : 0;
         this.user_id = typeof data.user_id === 'number' ? data.user_id : 0;
@@ -36,6 +50,12 @@ export class MessageModel implements Message{
         this.time = typeof data.time === 'string' ? data.time : '';
         this.content = typeof data.content === 'string' ? data.content : '';
         this.type = typeof data.type === 'string' ? data.type : '';
+        this.is_read = !!data.is_read;
+        this.isAuthor = this.user_id === currentUserId;
+        this.isChangedDate = false;
+        this.isCheckIcon = this.isAuthor && this.is_read;
+
+        this.content = typeof data.content === 'string'? data.content.replace(/(?:\r\n|\r|\n)/g, "<br>"): "";
 
         // Опциональное поле file с глубокой проверкой
         if (data.file && typeof data.file === 'object' && data.file !== null) {

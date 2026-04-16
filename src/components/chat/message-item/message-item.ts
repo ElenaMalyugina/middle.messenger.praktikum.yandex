@@ -4,14 +4,15 @@ import MessageItemTemplate from "./message-item.hbs?raw";
 import type { Message } from "../../../types/message";
 
 export interface MessageItemProps extends BlockOwnProps{
-    block: string;
     message: Message;
-    isAuthor: boolean;
-    isChangedDate: boolean;
 }
 
 export default class MessageItem extends Block<MessageItemProps>{
     static componentName = 'MessageItem';
     protected template = MessageItemTemplate;
+
+    constructor(props: MessageItemProps){
+        super(props)
+    }
 
 }
