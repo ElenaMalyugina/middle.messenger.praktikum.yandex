@@ -27,6 +27,7 @@ export default class PopupFilesForm extends Block<PopupFilesProps>{
     }
 
     protected submitForm = (file: File)=>{
+        this.errorFormHandler("");
         const validatorResult = validate(file, ["validatorFileImage"]);
 
         if(!validatorResult.isValid){
@@ -41,9 +42,7 @@ export default class PopupFilesForm extends Block<PopupFilesProps>{
 
     protected serverErrorFormHandler = ()=>{
         const error = Store.getState().MessageFileError as string;
-
         this.errorFormHandler(error);
-
     }
 
     protected errorFormHandler = (errorText: string)=>{
@@ -51,4 +50,5 @@ export default class PopupFilesForm extends Block<PopupFilesProps>{
         if(!errorMessageBlock) return;
         errorMessageBlock.setProps({message: errorText});
     }
+
 }
