@@ -9,6 +9,7 @@ import type Form from "../../../ui-units/form/form";
 interface MessagesBoxProps extends BlockOwnProps{
     currentChatId: number;
     submitFormHandler: (form: Form)=>void;
+    sendFileHandler: (file: File)=>void;
 }
 
 export default class MessagesBox extends Block<MessagesBoxProps>{
@@ -19,6 +20,7 @@ export default class MessagesBox extends Block<MessagesBoxProps>{
     constructor(props: MessagesBoxProps){
         super(props);
         this.props.submitFormHandler = this.submitForm;
+        this.props.sendFileHandler = this.sendFile;
 
         Store.subscribe(()=>{
             const activeChat= Store.getState().activeChat as ChatData;
@@ -26,10 +28,14 @@ export default class MessagesBox extends Block<MessagesBoxProps>{
 
             if(this.props.currentChatId !== activeChat.id){
                 this.messagesController.closeConnection();
-                this.messagesController.startConnecton(activeChat.id)
+                this.messagesController.startConnection(activeChat.id)
                 this.setProps({currentChatId: activeChat.id});
             }
         })
+    }
+
+    protected sendFile= (file: File)=>{
+        this.messagesController.uploadFile(file);
     }
 
     submitForm=(form: Form)=>{

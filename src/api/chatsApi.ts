@@ -2,10 +2,6 @@ import HTTPTransport from "../framework/Http/HTTPTransport";
 import { BaseAPI } from "../framework/Http/BaseApi";
 import type { ChatData } from "../types/chatData";
 
-interface Token{
-    token: string;
-}
-
 export default class ChatsApi extends BaseAPI {
     private transport = new HTTPTransport('api/v2/chats');
 
@@ -33,7 +29,4 @@ export default class ChatsApi extends BaseAPI {
         return this.transport.get(`/new/${chatId}`);
     }
 
-    getToken(chatId: number): Promise<Token>{
-        return this.transport.post(`/token/${chatId}`);
-    }
 }

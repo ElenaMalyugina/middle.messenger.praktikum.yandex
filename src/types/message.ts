@@ -10,6 +10,11 @@ export interface Message{
     type: string;
 }
 
+export interface MessageForSend{
+    message: string;
+    type?: string;
+}
+
 export class MessageModel implements Message{
     id: number;
     chat_id: number;
