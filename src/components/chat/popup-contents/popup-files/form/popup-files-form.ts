@@ -1,3 +1,4 @@
+import MessagesController from "../../../../../controllers/messagesController";
 import type { BlockOwnProps } from "../../../../../framework/Block";
 import Block from "../../../../../framework/Block";
 import { validate } from "../../../../../services/validationService";
@@ -12,6 +13,7 @@ interface PopupFilesProps extends BlockOwnProps{
 export default class PopupFilesForm extends Block<PopupFilesProps>{
     static componentName = 'PopupFilesForm';
     protected template = PopupFilesFormTemplate;
+     private messagesController = new MessagesController();
 
     constructor(props: PopupFilesProps){
         super(props);
@@ -28,9 +30,8 @@ export default class PopupFilesForm extends Block<PopupFilesProps>{
             }
             return;
         }
-        //через пропс, так как контроллер должен быть один.
-        //с синглтоном было бы слишком жесткое решение
-        this.props.sendFileHandler(file);
+
+        this.messagesController.uploadFile(file);
     }
 
     protected errorFormHandler = (errorText: string)=>{

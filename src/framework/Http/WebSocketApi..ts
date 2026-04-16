@@ -65,7 +65,6 @@ export default class WebSocketApi{
         this.reconnectAttempts = 0; // сброс счётчика при успехе
         this.isReconnecting = false;
 
-        //сообщить, что полключились
         this.pingConection();
     }
 

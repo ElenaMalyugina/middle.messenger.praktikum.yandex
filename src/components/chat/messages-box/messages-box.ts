@@ -19,7 +19,6 @@ export default class MessagesBox extends Block<MessagesBoxProps>{
 
     constructor(props: MessagesBoxProps){
         super(props);
-        this.props.submitFormHandler = this.submitForm;
         this.props.sendFileHandler = this.sendFile;
 
         Store.subscribe(()=>{
@@ -38,8 +37,6 @@ export default class MessagesBox extends Block<MessagesBoxProps>{
         this.messagesController.uploadFile(file);
     }
 
-    submitForm=(form: Form)=>{
-        this.messagesController.submitFormHandler(form);
-    }
+
 }
 

@@ -68,7 +68,7 @@ export default class MessagesController extends BaseFormController<MessageForSen
             const uploadedFile = await this.messagesApi.sendFile(formData);
             if(!uploadedFile ) return;
             this.formSend({
-                message: uploadedFile.path,
+                message: uploadedFile.id,
                 type: "file"
             })
         }

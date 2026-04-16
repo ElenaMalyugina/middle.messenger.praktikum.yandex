@@ -3,6 +3,7 @@ import Form, { type FormProps } from "../../../ui-units/form/form";
 import PopupFiles from "../popup-contents/popup-files/popup-files";
 import MessagesSendFormTemplate from "./message-send-form.hbs?raw";
 import type { Message } from "../../../types/message";
+import MessagesController from "../../../controllers/messagesController";
 
 interface MessagesSendFormProps extends FormProps{
     data: Message,
@@ -14,6 +15,7 @@ interface MessagesSendFormProps extends FormProps{
 export default class MessageSendForm extends Form<MessagesSendFormProps>{
     static componentName = 'MessageSendForm';
     protected template = MessagesSendFormTemplate;
+    private messagesController = new MessagesController();
 
     constructor(props:MessagesSendFormProps){
         super(props);
@@ -33,9 +35,7 @@ export default class MessageSendForm extends Form<MessagesSendFormProps>{
     }
 
     protected submitForm = (form: Form)=>{
-        //через пропс, так как контроллер должен быть один.
-        //с синглтоном было бы слишком жесткое решение
-        this.props.submitFormHandler(form);
+        this.messagesController.submitFormHandler(form);
         form.reset()
     };
 }
