@@ -6,7 +6,9 @@
             {{{ Img className="message-item__file" src=(concat "https://ya-praktikum.tech/api/v2/resources/" file.path) alt="Прикрепленная картинка" }}}
         </figure>
         {{/if}}
-        {{{content}}}
+        {{#unless file}}
+            {{{content}}}
+        {{/unless}}
     </div>
     <div class="message-item__bottom">
         {{#if isCheckIcon }}

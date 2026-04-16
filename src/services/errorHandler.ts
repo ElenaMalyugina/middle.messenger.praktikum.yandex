@@ -26,6 +26,4 @@ export const errorHandler = (error: unknown)=>{
         console.error("Не могу распарсить ошибку", parseError);
         return defaultError;
     }
-
-
 }

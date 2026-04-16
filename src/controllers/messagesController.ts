@@ -44,7 +44,7 @@ export default class MessagesController extends BaseFormController<MessageForSen
             const messagesArrayReversed = messagesArray.reverse();
             Store.setState("messages", messagesArrayReversed);
         }
-        else if(response.type == "message"){
+        else if(response.type == "message" || response.type == "file"){
             const oldMessages = Store.getState().messages as Message[];
             const newMessage = new MessageModel(response);
             Store.setState("messages", [...oldMessages, newMessage] )

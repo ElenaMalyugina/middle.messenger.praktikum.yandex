@@ -1,3 +1,3 @@
 export interface ApiError{
-  response: unknown
+    response: unknown
 };

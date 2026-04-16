@@ -1,6 +1,7 @@
 import MessagesController from "../../../../../controllers/messagesController";
 import type { BlockOwnProps } from "../../../../../framework/Block";
 import Block from "../../../../../framework/Block";
+import Store from "../../../../../framework/store/Store";
 import { validate } from "../../../../../services/validationService";
 import ErrorMessage from "../../../../../ui-units/error-message/error-message";
 import PopupFilesFormTemplate from "./popup-files-form.hbs?raw";
@@ -17,7 +18,11 @@ export default class PopupFilesForm extends Block<PopupFilesProps>{
 
     constructor(props: PopupFilesProps){
         super(props);
-        this.props.onChange = this.submitForm
+        this.props.onChange = this.submitForm;
+
+        Store.subscribe(()=>{
+            this.serverErrorFormHandler();
+        })
 
     }
 
@@ -32,6 +37,13 @@ export default class PopupFilesForm extends Block<PopupFilesProps>{
         }
 
         this.messagesController.uploadFile(file);
+    }
+
+    protected serverErrorFormHandler = ()=>{
+        const error = Store.getState().MessageFileError as string;
+
+        this.errorFormHandler(error);
+
     }
 
     protected errorFormHandler = (errorText: string)=>{
