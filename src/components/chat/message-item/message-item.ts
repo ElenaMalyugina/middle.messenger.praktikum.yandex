@@ -5,6 +5,7 @@ import type { Message } from "../../../types/message";
 
 export interface MessageItemProps extends BlockOwnProps{
     message: Message;
+    resourcePath: string;
 }
 
 export default class MessageItem extends Block<MessageItemProps>{
@@ -13,6 +14,7 @@ export default class MessageItem extends Block<MessageItemProps>{
 
     constructor(props: MessageItemProps){
         super(props)
+        this.props.resourcePath = "https://ya-praktikum.tech/api/v2/resources/";
     }
 
 }

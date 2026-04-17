@@ -3,9 +3,11 @@
     <div class="message-item__content">
         {{#if file}}
         <figure class="message-item__file-block">
-            {{{ Img className="message-item__file" src=(concat "https://ya-praktikum.tech/api/v2/resources/" file.path) alt="Прикрепленная картинка" }}}
+            {{{ Img className="message-item__file" src=(concat ../resourcePath file.path) alt="Прикрепленная картинка"  }}}
         </figure>
+        Прикрепленный файл
         {{/if}}
+
         {{#unless file}}
             {{{content}}}
         {{/unless}}
