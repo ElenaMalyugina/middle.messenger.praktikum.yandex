@@ -5,12 +5,10 @@
         <figure class="message-item__file-block">
             {{{ Img className="message-item__file" src=(concat ../resourcePath file.path) alt="Прикрепленная картинка"  }}}
         </figure>
-        Прикрепленный файл
-        {{/if}}
-
-        {{#unless file}}
+        Прикрепленный файл {{{content}}}
+        {{else}}
             {{{content}}}
-        {{/unless}}
+        {{/if}}
     </div>
     <div class="message-item__bottom">
         {{#if isCheckIcon }}
