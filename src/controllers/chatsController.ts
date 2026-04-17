@@ -92,5 +92,12 @@ export default class ChatsController extends BaseFormController<AddChat>  {
         }
     }
 
-
+    /*public async getUnreadMessagesCount(chatId: number){
+        try{
+            return await this.chatsApi.getUnreadCount(chatId);
+        }
+        catch(e){
+            console.log(e);
+        }
+    }*/
 }

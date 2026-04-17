@@ -20,8 +20,8 @@ export default class ChatsList extends Block<ChatsListProps>{
         Store.subscribe(()=>{
             this.updateChats();
         });
-
         this.chatsController.getChats();
+        setInterval(()=>this.chatsController.getChats(), 20000);
     }
 
     protected updateChats = ()=>{

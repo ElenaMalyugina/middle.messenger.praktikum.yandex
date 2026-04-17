@@ -19,7 +19,8 @@ export default class ChatItem extends Block<ChatItemProps>{
     constructor(props:ChatItemProps){
         super(props);
 
-        this.props.deleteChatHandler = this.deleteChat
+        this.props.deleteChatHandler = this.deleteChat;
+        //this.updateUnreadMessagesCount()
 
         Store.subscribe(()=>{
             this.setActive();
@@ -56,4 +57,9 @@ export default class ChatItem extends Block<ChatItemProps>{
 
         this.chatsController.deleteChat(this.props.chatData.id);
     }
+
+    /*async updateUnreadMessagesCount(): Promise<void>{
+        const unreadMessages = await this.chatsController.getUnreadMessagesCount(this.props.chatData.id);
+
+    }*/
 }
