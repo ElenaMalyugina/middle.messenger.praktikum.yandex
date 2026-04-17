@@ -4,7 +4,7 @@ import type { ChatItemProps } from "../chat-item/chat-item";
 import ChatsListTemplate from "./chats-list.hbs?raw";
 import ChatsController from "../../../controllers/chatsController";
 import Store from "../../../framework/store/Store";
-import { ChatDataModel } from "../../../types/chatData";
+import { ChatDataModel, type ChatData } from "../../../types/chatData";
 
 interface ChatsListProps extends BlockOwnProps{
     chats: ChatItemProps[];
@@ -18,16 +18,17 @@ export default class ChatsList extends Block<ChatsListProps>{
 
     constructor(props: ChatsListProps){
         super(props);
+
         Store.subscribe(()=>{
             this.updateChats();
         });
         this.chatsController.getChats();
-
     }
 
     protected componentDidMount(): void {
         this.intervalId = setInterval(
-            ()=>this.chatsController.getChats(), 10000
+            ()=>this.chatsController.getChats(),
+            10000
         );
     }
 
@@ -41,11 +42,12 @@ export default class ChatsList extends Block<ChatsListProps>{
     protected updateChats = ()=>{
         const chatsList = Store.getState().chats;
         if(!chatsList ||! Array.isArray(chatsList) ) return;
+        const chatActive = Store.getState().activeChat as ChatData;
 
         this.setProps({
             chats: chatsList.map(chat => ({
                 chatData: new ChatDataModel(chat),
-                isActive: false,
+                isActive: chatActive ? chat.id === chatActive.id : false,
             }))
         });
     }

@@ -1,4 +1,4 @@
-<li class="chat-item js-chat-item">
+<li class="chat-item {{#if isActive}} chat-item--active{{/if}} js-chat-item">
     {{#with chatData}}
     {{{ ChatAvatar avatarUrl=avatar addClass="chat-item__chat-avatar"  }}}
     <div class="chat-item__content">

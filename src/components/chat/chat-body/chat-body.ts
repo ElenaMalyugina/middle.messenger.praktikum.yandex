@@ -14,13 +14,14 @@ export default class ChatBody extends Block<ChatBodyProps>{
         super(props);
 
         Store.subscribe(()=>{
-            this.toggleMesssageBoxVisual();
+            this.toggleMessageBoxVisual();
         })
     }
 
-    toggleMesssageBoxVisual = ()=>{
+    toggleMessageBoxVisual = ()=>{
         const chatActive = Store.getState().activeChat;
         if(!chatActive ) return;
-        this.setProps({isSelectedChat: !!chatActive})
+
+        this.setProps({isSelectedChat: true})
     }
 }

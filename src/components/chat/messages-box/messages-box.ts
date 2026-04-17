@@ -19,7 +19,6 @@ export default class MessagesBox extends Block<MessagesBoxProps>{
 
     constructor(props: MessagesBoxProps){
         super(props);
-        this.props.sendFileHandler = this.sendFile;
 
         Store.subscribe(()=>{
             const activeChat= Store.getState().activeChat as ChatData;
@@ -32,11 +31,5 @@ export default class MessagesBox extends Block<MessagesBoxProps>{
             }
         })
     }
-
-    protected sendFile= (file: File)=>{
-        this.messagesController.uploadFile(file);
-    }
-
-
 }
 

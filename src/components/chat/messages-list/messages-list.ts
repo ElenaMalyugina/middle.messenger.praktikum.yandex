@@ -1,11 +1,9 @@
 import "./messages-list.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import MessagesListTemplate from "./messages-list.hbs?raw";
-import type { MessageItemProps } from "../message-item/message-item";
 import Store from "../../../framework/store/Store";
 import { MessageModel, type Message } from "../../../types/message";
 import { isEqualDay } from "../../../utils/datetime";
-import type { SocketResponse } from "../../../framework/Http/WebSocketApi";
 
 interface MessagesListProps extends BlockOwnProps{
     messages: MessageModel[];
@@ -17,8 +15,7 @@ export default class MessagesList extends Block<MessagesListProps>{
 
     constructor(props: MessagesListProps){
         super(props);
-        this.setProps({messages: []});
-
+        this.props.messages = [];
         Store.subscribe(()=>{
             this.updateMessages();
         })

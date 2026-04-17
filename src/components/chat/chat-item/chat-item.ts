@@ -18,36 +18,12 @@ export default class ChatItem extends Block<ChatItemProps>{
 
     constructor(props:ChatItemProps){
         super(props);
-
         this.props.deleteChatHandler = this.deleteChat;
-        //this.updateUnreadMessagesCount()
-
-        Store.subscribe(()=>{
-            this.setActive();
-        })
     }
 
     protected events = {
         click: () => {
-            Store.setState("messages", []);//чистим сообщения предыдущего чата
             Store.setState("activeChat", this.props.chatData);
-        }
-    }
-
-    protected setActive = ()=>{
-        const chatActive = Store.getState().activeChat as ChatData;
-        if( !chatActive ) return;
-
-        const chatActiveClass = "chat-item--active";
-
-        const htmlElement = this.element();
-
-        //Здесь нужно точечное воздействие на класс, не вызывающее перерисовку элемента
-        if(this.props.chatData.id == chatActive.id){
-            htmlElement?.classList.add(chatActiveClass)
-        }
-        else{
-            htmlElement?.classList.remove(chatActiveClass)
         }
     }
 
@@ -57,9 +33,4 @@ export default class ChatItem extends Block<ChatItemProps>{
 
         this.chatsController.deleteChat(this.props.chatData.id);
     }
-
-    /*async updateUnreadMessagesCount(): Promise<void>{
-        const unreadMessages = await this.chatsController.getUnreadMessagesCount(this.props.chatData.id);
-
-    }*/
 }
