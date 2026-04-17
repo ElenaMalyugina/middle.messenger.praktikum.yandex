@@ -1,5 +1,6 @@
 import type { SocketResponse } from "../framework/Http/WebSocketApi";
 import Store from "../framework/store/Store";
+import { UserService } from "../services/userService";
 
 export interface Message{
     block: string;
@@ -41,7 +42,7 @@ export class MessageModel implements Message{
 
     //так как из сокета может прийти что угодно
     constructor(data: SocketResponse){
-        const currentUserId = Store.getState().currentUser as number;
+        const currentUserId = UserService.getCurrentUser();
 
         this.id = typeof data.id === 'number' ? data.id : 0;
         this.chat_id = typeof data.chat_id === 'number' ? data.chat_id : 0;

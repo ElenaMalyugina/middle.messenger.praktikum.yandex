@@ -5,6 +5,7 @@ import Block, { type BlockOwnProps } from "./../../../framework/Block";
 import MessagesUsersListTemplate from "./messages-users-list.hbs?raw";
 import ChatUsersController from "../../../controllers/chatUsersController";
 import type { UserInfo } from "../../../types/userInfo";
+import { UserService } from "../../../services/userService";
 
 interface MessagesUsersListProps extends BlockOwnProps{
     users: UserInfo[];
@@ -34,7 +35,7 @@ export default class MessagesUsersList extends Block<MessagesUsersListProps>{
     }
 
     protected updateUserList = ()=>{
-        const currentUser = Store.getState().currentUser;
+        const currentUser = UserService.getCurrentUser();
         if(!currentUser) return;
         const users = Store.getState().ActiveChatsUsers;
 

@@ -2,6 +2,7 @@ import MessagesApi from "../api/messagesApi";
 import type { SocketRequest, SocketResponse } from "../framework/Http/WebSocketApi";
 import Store from "../framework/store/Store";
 import { errorHandler } from "../services/errorHandler";
+import { UserService } from "../services/userService";
 import type { MessageFile } from "../types/file";
 import { MessageModel, type Message, type MessageForSend } from "../types/message";
 import BaseFormController from "./baseFormController";
@@ -15,7 +16,7 @@ export default class MessagesController extends BaseFormController<MessageForSen
     }
 
     startConnection(chatId: number){
-        const currentUser = Store.getState().currentUser as number;
+        const currentUser = UserService.getCurrentUser();
         if(!currentUser) return;
 
         this.messagesApi.start(chatId, currentUser)

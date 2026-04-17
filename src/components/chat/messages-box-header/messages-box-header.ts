@@ -4,6 +4,7 @@ import MessagesBoxHeaderTemplate from "./messages-box-header.hbs?raw";
 import PopupUser from "../popup-contents/popup-user/popup-user";
 import Store from "../../../framework/store/Store";
 import { type ChatData } from "../../../types/chatData";
+import { UserService } from "../../../services/userService";
 
 
 interface MessagesBoxHeaderData{
@@ -48,7 +49,7 @@ export default class MessagesBoxHeader extends Block<MessagesBoxHeaderProps>{
                 title: activeChat.title,
                 avatarUrl: activeChat.avatar,
             },
-            isOwnChat: activeChat.created_by === Store.getState().currentUser
+            isOwnChat: activeChat.created_by === UserService.getCurrentUser()
         })
     }
 
