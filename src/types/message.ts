@@ -30,7 +30,7 @@ export class MessageModel implements Message{
     id: number;
     chat_id: number;
     user_id: number;
-    userLogin: string;
+    userLogin?: string;
     time: string;
     content: string;
     file?:{

@@ -14,6 +14,7 @@ export default class ChatsList extends Block<ChatsListProps>{
     static componentName = 'ChatsList';
     protected template = ChatsListTemplate;
     private chatsController =  new ChatsController();
+    private intervalId: number | null = null;
 
     constructor(props: ChatsListProps){
         super(props);
@@ -21,7 +22,20 @@ export default class ChatsList extends Block<ChatsListProps>{
             this.updateChats();
         });
         this.chatsController.getChats();
-        setInterval(()=>this.chatsController.getChats(), 20000);
+
+    }
+
+    protected componentDidMount(): void {
+        this.intervalId = setInterval(
+            ()=>this.chatsController.getChats(), 10000
+        );
+    }
+
+    protected componentWillUnmount(): void {
+        if (this.intervalId !== null) {
+            clearInterval(this.intervalId);
+            this.intervalId = null;
+        }
     }
 
     protected updateChats = ()=>{
@@ -35,5 +49,4 @@ export default class ChatsList extends Block<ChatsListProps>{
             }))
         });
     }
-
 }
