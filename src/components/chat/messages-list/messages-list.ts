@@ -30,10 +30,56 @@ export default class MessagesList extends Block<MessagesListProps>{
         this.messagesBuilder(messages);
     }
 
-    private addMessageAndScroll() {
+    private async addMessageAndScroll() {
         const chatScroll = document.getElementById("chat-scroll");
-        if(!chatScroll) return;
-        // Автоматически прокручиваем вниз
+        if (!chatScroll) return;
+
+        const images: NodeListOf<HTMLImageElement> = chatScroll.querySelectorAll("img:not([data-loaded])");
+
+        if (images.length === 0) {
+            // Без изображений — сразу скроллим
+            chatScroll.scrollTop = chatScroll.scrollHeight;
+            return;
+        }
+
+        // Устанавливаем флаг загрузки для всех изображений
+        images.forEach(img => img.setAttribute("data-loading", "true"));
+
+        // Создаём промис для загрузки изображений с таймаутом
+        const imageLoadPromise = Promise.race([
+            // Основной промис — ждём загрузки всех изображений
+            Promise.all(
+                Array.from(images).map(img =>
+                    new Promise<void>(resolve => {
+                        if (img.complete) {
+                            img.removeAttribute("data-loading");
+                            img.setAttribute("data-loaded", "true");
+                            resolve();
+                            return;
+                        }
+
+                        img.addEventListener("load", () => {
+                            img.removeAttribute("data-loading");
+                            img.setAttribute("data-loaded", "true");
+                            resolve();
+                        }, { once: true });
+
+                        img.addEventListener("error", () => {
+                            // В случае ошибки тоже считаем загруженным
+                            img.removeAttribute("data-loading");
+                            img.setAttribute("data-loaded", "true");
+                            resolve();
+                        }, { once: true });
+                    })
+                )
+            ),
+            // Таймаут — если изображения не загрузились за 5 с
+            new Promise<void>(resolve => setTimeout(resolve, 5000))
+        ]);
+
+        // Ждём либо загрузки изображений, либо таймаута
+        await imageLoadPromise;
+        // В любом случае прокручиваем вниз
         chatScroll.scrollTop = chatScroll.scrollHeight;
     }
 
