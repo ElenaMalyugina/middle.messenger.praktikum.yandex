@@ -1,5 +1,10 @@
 {{#with message}}
 <li class="message-item {{block}}__message-item {{#if isAuthor}} message-item--self chat__message-item--self {{/if}}" tabindex="0">
+    <div class="message-item__top">
+        {{#unless isAuthor}}
+            <h3 class="message-item__user">{{user_id}}</h3>
+        {{/unless}}
+    </div>
     <div class="message-item__content">
         {{#if file}}
         <figure class="message-item__file-block">
