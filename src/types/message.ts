@@ -1,6 +1,7 @@
 import type { SocketResponse } from "../framework/Http/WebSocketApi";
 import Store from "../framework/store/Store";
 import { UserService } from "../services/userService";
+import type { UserInfo } from "./userInfo";
 
 export interface Message{
     block: string;
@@ -29,6 +30,7 @@ export class MessageModel implements Message{
     id: number;
     chat_id: number;
     user_id: number;
+    userLogin: string;
     time: string;
     content: string;
     file?:{
@@ -44,9 +46,12 @@ export class MessageModel implements Message{
     constructor(data: SocketResponse){
         const currentUserId = UserService.getCurrentUser();
 
+        const ChatUsers = Store.getState().ActiveChatsUsers as UserInfo[];
+
         this.id = typeof data.id === 'number' ? data.id : 0;
         this.chat_id = typeof data.chat_id === 'number' ? data.chat_id : 0;
         this.user_id = typeof data.user_id === 'number' ? data.user_id : 0;
+        this.userLogin = ChatUsers.find(user=> user.id == this.user_id)?.login || "Неизвестный";
 
         // Строковые поля с проверкой
         this.time = typeof data.time === 'string' ? data.time : '';

@@ -16,5 +16,4 @@ export default class MessageItem extends Block<MessageItemProps>{
         super(props)
         this.props.resourcePath = "https://ya-praktikum.tech/api/v2/resources/";
     }
-
 }
