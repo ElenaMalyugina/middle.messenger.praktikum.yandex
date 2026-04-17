@@ -17,7 +17,6 @@ export default class ChatsList extends Block<ChatsListProps>{
 
     constructor(props: ChatsListProps){
         super(props);
-
         Store.subscribe(()=>{
             this.updateChats();
         });

@@ -28,6 +28,7 @@ export default class ChatItem extends Block<ChatItemProps>{
 
     protected events = {
         click: () => {
+            Store.setState("messages", []);//чистим сообщения предыдущего чата
             Store.setState("activeChat", this.props.chatData);
         }
     }
