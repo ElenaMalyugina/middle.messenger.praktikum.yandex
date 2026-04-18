@@ -22,7 +22,7 @@ export default class MessagesController extends BaseFormController<MessageForSen
         this.messagesApi.start(chatId, currentUser)
             .then(() => {
                 console.log('Соединение установлено, запрашиваем историю сообщений');
-                this.getMessages();
+                this.getMessages(0);
             })
             .catch(error => {
                 console.error('Ошибка подключения:', error);
@@ -43,7 +43,8 @@ export default class MessagesController extends BaseFormController<MessageForSen
         if(Array.isArray(response)){
             const messagesArray = response.map(mess => new MessageModel(mess));
             const messagesArrayReversed = messagesArray.reverse();
-            Store.setState("messages", messagesArrayReversed);
+            const oldMessages = Store.getState().messages as Message[] || [];
+            Store.setState("messages", [...messagesArrayReversed, ...oldMessages]);
         }
         else if(response.type == "message" || response.type == "file"){
             const oldMessages = Store.getState().messages as Message[];

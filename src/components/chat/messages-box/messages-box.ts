@@ -10,6 +10,7 @@ interface MessagesBoxProps extends BlockOwnProps{
     currentChatId: number;
     submitFormHandler: (form: Form)=>void;
     sendFileHandler: (file: File)=>void;
+    addOldMessages: (count: number)=>void;
 }
 
 export default class MessagesBox extends Block<MessagesBoxProps>{
@@ -21,12 +22,13 @@ export default class MessagesBox extends Block<MessagesBoxProps>{
         super(props);
 
         Store.subscribe(()=>{
+            //вешаем соединение на стабильный=компонент
             const activeChat= Store.getState().activeChat as ChatData;
             if(!activeChat) return;
 
             if(this.props.currentChatId !== activeChat.id){
                 this.messagesController.closeConnection();
-                this.messagesController.startConnection(activeChat.id)
+                this.messagesController.startConnection(activeChat.id);
                 this.setProps({currentChatId: activeChat.id});
             }
         })

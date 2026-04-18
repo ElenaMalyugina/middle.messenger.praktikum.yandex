@@ -4,23 +4,31 @@ import MessagesListTemplate from "./messages-list.hbs?raw";
 import Store from "../../../framework/store/Store";
 import { MessageModel, type Message } from "../../../types/message";
 import { isEqualDay } from "../../../utils/datetime";
+import MessagesController from "../../../controllers/messagesController";
 
 interface MessagesListProps extends BlockOwnProps{
     messages: MessageModel[];
+    addOldMessages: (count: number)=>void;
 }
 
 export default class MessagesList extends Block<MessagesListProps>{
     static componentName = 'MessagesList';
     protected template = MessagesListTemplate;
+    private messagesController = new MessagesController();
     private messageCount = 0;
 
     constructor(props: MessagesListProps){
         super(props);
+        this.props.addOldMessages = this.addOldMessages;
         this.props.messages = [];
 
         Store.subscribe(()=>{
             this.updateMessages();
         })
+    }
+
+    addOldMessages=()=>{
+        this.messagesController.getMessages(20);
     }
 
     protected updateMessages = ()=>{

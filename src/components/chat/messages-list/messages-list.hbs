@@ -1,4 +1,5 @@
 <ul class="messages-list messages-box__messages-list">
+    {{{ Button type="button" text="Загрузить более ранние" onClick=addOldMessages}}}
     {{#each messages as | messageItem |}}
         {{#if isChangedDate}}
             <li class="time messages-list__time">{{#getDayAndYear time}}{{/getDayAndYear}}</li>
