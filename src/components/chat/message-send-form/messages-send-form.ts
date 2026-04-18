@@ -36,6 +36,6 @@ export default class MessageSendForm extends Form<MessagesSendFormProps>{
 
     protected submitForm = (form: Form)=>{
         this.messagesController.submitFormHandler(form);
-        form.reset()
+        form.reset();
     };
 }

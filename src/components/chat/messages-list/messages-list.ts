@@ -17,6 +17,7 @@ export default class MessagesList extends Block<MessagesListProps>{
     protected template = MessagesListTemplate;
     private messagesController = new MessagesController();
     private messageCount = 0;
+    private scrollEl: HTMLElement | null = null;
 
     constructor(props: MessagesListProps){
         super(props);
@@ -28,24 +29,38 @@ export default class MessagesList extends Block<MessagesListProps>{
         })
     }
 
+    protected componentDidMount(): void {
+        this.scrollEl = document.getElementById("chat-scroll");
+    }
+
     addOldMessages=()=>{
+        if(this.scrollEl){
+            this.scrollEl.classList.add("no-scroll");
+        }
+
         this.messagesController.getMessages(this.messageCount);
     }
 
     protected updateMessages = ()=>{
         const messages = Store.getState().messages as Message[];
         if(!messages || messages.length === this.messageCount) return;
-
         //чтобы не дергалось при скролле
         this.messagesBuilder(messages);
         this.addMessageAndScroll();
 
         this.messageCount = messages.length;
+
+        if(this.scrollEl && this.scrollEl.classList.contains("no-scroll")){
+            setTimeout(()=>{
+                this.scrollEl?.classList.remove("no-scroll");
+            }, 5000)
+        }
     }
 
     private async addMessageAndScroll() {
         const chatScroll = document.getElementById("chat-scroll");
         if (!chatScroll) return;
+        if(chatScroll.classList.contains("no-scroll")) return;
 
         const images: NodeListOf<HTMLImageElement> = chatScroll.querySelectorAll("img:not([data-loaded])");
 
