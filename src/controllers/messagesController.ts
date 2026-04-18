@@ -45,6 +45,14 @@ export default class MessagesController extends BaseFormController<MessageForSen
     protected getMessagesHandler = (response: SocketResponse)=>{
         console.log('Получено сообщение от сокета:', response);
         if(Array.isArray(response)){
+            if(response.length == 0){
+                Store.setState("messagesError", "Пока нет новых сообщений");
+
+                setTimeout(()=>{
+                    Store.setState("messagesError", "");
+                }, 3000)
+                return;
+            }
             const messagesArray = response.map(mess => new MessageModel(mess));
             const messagesArrayReversed = messagesArray.reverse();
             const oldMessages = Store.getState().messages as Message[] || [];

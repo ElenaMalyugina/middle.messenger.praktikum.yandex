@@ -1,5 +1,6 @@
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import Store from "../../../framework/store/Store";
+import type { ChatData } from "../../../types/chatData";
 import ChatBodyTemplate from "./chat-body.hbs?raw";
 
 interface ChatBodyProps extends BlockOwnProps{
@@ -19,9 +20,11 @@ export default class ChatBody extends Block<ChatBodyProps>{
     }
 
     toggleMessageBoxVisual = ()=>{
-        const chatActive = Store.getState().activeChat;
+        const chatActive = Store.getState().activeChat as ChatData;
         if(!chatActive ) return;
 
-        this.setProps({isSelectedChat: true})
+        if(!this.props.isSelectedChat){
+            this.setProps({isSelectedChat: !!chatActive.id})
+        }
     }
 }

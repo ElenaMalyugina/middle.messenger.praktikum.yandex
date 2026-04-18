@@ -5,6 +5,7 @@ import Store from "../../../framework/store/Store";
 import { MessageModel, type Message } from "../../../types/message";
 import { isEqualDay } from "../../../utils/datetime";
 import MessagesController from "../../../controllers/messagesController";
+import ErrorMessage from "../../../ui-units/error-message/error-message";
 
 interface MessagesListProps extends BlockOwnProps{
     messages: MessageModel[];
@@ -26,6 +27,7 @@ export default class MessagesList extends Block<MessagesListProps>{
 
         Store.subscribe(()=>{
             this.updateMessages();
+            this.noMoreMessagesHandler();
         })
     }
 
@@ -34,11 +36,21 @@ export default class MessagesList extends Block<MessagesListProps>{
     }
 
     addOldMessages=()=>{
+        //отменяем прокрутку при получении более старых сообщений
         if(this.scrollEl){
             this.scrollEl.classList.add("no-scroll");
         }
 
         this.messagesController.getMessages(this.messageCount);
+    }
+
+    protected noMoreMessagesHandler(){
+        const noMoreText = Store.getState().messagesError as string;
+        if(noMoreText==undefined || noMoreText==null) return;
+
+        const errorBlock = this.children.find(el=> el instanceof ErrorMessage);
+        if(!errorBlock) return;
+        errorBlock.setProps({message: noMoreText});
     }
 
     protected updateMessages = ()=>{
@@ -50,10 +62,11 @@ export default class MessagesList extends Block<MessagesListProps>{
 
         this.messageCount = messages.length;
 
+        //чтобы прокрутка была при отправке и при получении новых сообщений
         if(this.scrollEl && this.scrollEl.classList.contains("no-scroll")){
             setTimeout(()=>{
                 this.scrollEl?.classList.remove("no-scroll");
-            }, 5000)
+            }, 1000)
         }
     }
 
