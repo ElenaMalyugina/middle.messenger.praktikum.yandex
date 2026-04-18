@@ -18,7 +18,6 @@ export default class MessagesList extends Block<MessagesListProps>{
         super(props);
         this.props.messages = [];
 
-
         Store.subscribe(()=>{
             this.updateMessages();
         })
@@ -28,6 +27,7 @@ export default class MessagesList extends Block<MessagesListProps>{
         const messages = Store.getState().messages as Message[];
         if(!messages) return;
 
+        //чтобы не дергалось при скролле
         if(messages.length != this.messageCount){
             this.messagesBuilder(messages);
             this.addMessageAndScroll();
