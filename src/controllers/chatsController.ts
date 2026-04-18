@@ -14,9 +14,9 @@ export default class ChatsController extends BaseFormController<AddChat>  {
         return this.createChat(data)
     };
 
-    public async getChats(){
+    public async getChats(queryString: string = ""){
         try{
-            const chatsList = await this.chatsApi.request({});
+            const chatsList = await this.chatsApi.request({data:{title: queryString}});
             Store.setState("chats", chatsList);
         }
         catch(_e){
@@ -24,7 +24,7 @@ export default class ChatsController extends BaseFormController<AddChat>  {
         }
     }
 
-    public async searchChats(queryString: string){
+    /*public async searchChats(queryString: string){
         try{
             const chatsList = await this.chatsApi.request({data:{title: queryString}});
             Store.setState("chats", chatsList);
@@ -32,7 +32,7 @@ export default class ChatsController extends BaseFormController<AddChat>  {
         catch(_e){
             console.log("Чаты не найдены");
         }
-    }
+    }*/
 
 
     private async createChat(chat: AddChat | null){

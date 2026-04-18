@@ -27,7 +27,10 @@ export default class ChatsList extends Block<ChatsListProps>{
 
     protected componentDidMount(): void {
         this.intervalId = setInterval(
-            ()=>this.chatsController.getChats(),
+            ()=>{
+                const queryString = Store.getState().queryString as string;
+                this.chatsController.getChats(queryString);
+            },
             10000
         );
     }

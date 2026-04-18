@@ -1,4 +1,5 @@
 import ChatsController from "../../../../controllers/chatsController";
+import Store from "../../../../framework/store/Store";
 import Form, { type FormProps } from "../../../../ui-units/form/form";
 import ChatSearchFormTemplate from "./chat-search-form.hbs?raw";
 
@@ -30,6 +31,7 @@ export default class ChatSearchForm extends Form<ChatSearchFormProps>{
         const input = this.refs["searchInput"] as HTMLInputElement;
         if(!input) return;
         const searchString = input.value;
-        this.chatsContorller.searchChats(searchString);
+        Store.setState("queryString", searchString);
+        this.chatsContorller.getChats(searchString);
     }
 }
