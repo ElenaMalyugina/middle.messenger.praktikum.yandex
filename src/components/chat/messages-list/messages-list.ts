@@ -12,10 +12,12 @@ interface MessagesListProps extends BlockOwnProps{
 export default class MessagesList extends Block<MessagesListProps>{
     static componentName = 'MessagesList';
     protected template = MessagesListTemplate;
+    private messageCount = 0;
 
     constructor(props: MessagesListProps){
         super(props);
         this.props.messages = [];
+
 
         Store.subscribe(()=>{
             this.updateMessages();
@@ -25,8 +27,12 @@ export default class MessagesList extends Block<MessagesListProps>{
     protected updateMessages = ()=>{
         const messages = Store.getState().messages as Message[];
         if(!messages) return;
-        this.messagesBuilder(messages);
-        //this.addMessageAndScroll();
+
+        if(messages.length != this.messageCount){
+            this.messagesBuilder(messages);
+            this.addMessageAndScroll();
+            this.messageCount = messages.length;
+        }
     }
 
     private async addMessageAndScroll() {
@@ -98,9 +104,7 @@ export default class MessagesList extends Block<MessagesListProps>{
         const resMessages = messagesWithIsChangedDate;
 
         this.setProps({
-            messages: {...resMessages}
+            messages: [...resMessages]
         });
-
-
     }
 }
