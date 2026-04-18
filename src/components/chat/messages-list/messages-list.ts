@@ -8,6 +8,7 @@ import MessagesController from "../../../controllers/messagesController";
 
 interface MessagesListProps extends BlockOwnProps{
     messages: MessageModel[];
+    showAddButton: boolean;
     addOldMessages: (count: number)=>void;
 }
 
@@ -28,19 +29,22 @@ export default class MessagesList extends Block<MessagesListProps>{
     }
 
     addOldMessages=()=>{
-        this.messagesController.getMessages(20);
+        this.messagesController.getMessages(this.messageCount);
     }
 
     protected updateMessages = ()=>{
         const messages = Store.getState().messages as Message[];
-        if(!messages) return;
+        if(!messages || messages.length === this.messageCount) return;
 
         //чтобы не дергалось при скролле
-        if(messages.length != this.messageCount){
-            this.messagesBuilder(messages);
-            this.addMessageAndScroll();
-            this.messageCount = messages.length;
-        }
+        this.messagesBuilder(messages);
+        this.addMessageAndScroll();
+
+        //так как вроде нет сервиса на бэке для получения количества всех сообщений (есть только для непрочитанных),
+        // то предполагаем, что если просили 20, а пришло 3, то больше на бэке сообщений нет
+        // иначе - непонятно, но лучше чем ничего
+        this.setProps({showAddButton: (messages.length - this.messageCount) % 20 === 0});
+        this.messageCount = messages.length;
     }
 
     private async addMessageAndScroll() {

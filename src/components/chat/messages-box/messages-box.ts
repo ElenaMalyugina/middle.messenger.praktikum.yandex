@@ -22,7 +22,7 @@ export default class MessagesBox extends Block<MessagesBoxProps>{
         super(props);
 
         Store.subscribe(()=>{
-            //вешаем соединение на стабильный=компонент
+            //вешаем соединение на стабильный компонент
             const activeChat= Store.getState().activeChat as ChatData;
             if(!activeChat) return;
 
