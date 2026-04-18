@@ -40,10 +40,6 @@ export default class MessagesList extends Block<MessagesListProps>{
         this.messagesBuilder(messages);
         this.addMessageAndScroll();
 
-        //так как вроде нет сервиса на бэке для получения количества всех сообщений (есть только для непрочитанных),
-        // то предполагаем, что если просили 20, а пришло 3, то больше на бэке сообщений нет
-        // иначе - непонятно, но лучше чем ничего
-        this.setProps({showAddButton: (messages.length - this.messageCount) % 20 === 0});
         this.messageCount = messages.length;
     }
 

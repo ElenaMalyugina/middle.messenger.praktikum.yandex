@@ -35,6 +35,10 @@ export default class MessagesController extends BaseFormController<MessageForSen
     }
 
     getMessages = (count: number = 0)=>{
+        if(count == 0){
+            Store.setState("messages", []);
+        }
+
         this.messagesApi.getMessages(count);
     }
 

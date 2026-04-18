@@ -8,3 +8,13 @@
     text-align: center;
     margin-bottom: 24px;
 }
+
+.messages-list__button{
+    padding: 4px 6px;
+}
+
+.messages-list__button-wrapper{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 6px;
+}
