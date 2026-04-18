@@ -10,7 +10,9 @@
         <figure class="message-item__file-block">
             {{{ Img className="message-item__file" src=(concat ../resourcePath file.path) alt="Прикрепленная картинка"  }}}
         </figure>
-        Прикрепленный файл {{{content}}}
+        <a href="{{concat ../resourcePath file.path}}" target="_blank" rel="noopener noreferrer">
+            Прикрепленный файл {{{content}}}
+        </a>
         {{else}}
             {{{content}}}
         {{/if}}

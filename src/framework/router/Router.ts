@@ -76,7 +76,7 @@ export default class Router {
         const url = new URL(link.href, window.location.href);
 
         if (url.origin !== window.location.origin) {
-            window.location.href = link.href;
+            window.open(link.href, '_blank');
             return;
         }
 
