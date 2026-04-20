@@ -60,13 +60,13 @@ export default class ChatsController extends BaseFormController<AddChat>  {
 
                 const updatedChats = chats.map(chat => {
                         if (chat.id === activeChat.id) {
-                            return activeChat; // заменяем на новый объект activeChat
+                            return newChat; // заменяем на новый объект activeChat
                         }
                         return chat; // оставляем без изменений
                     }
                 );
 
-                Store.setState("chats",  updatedChats);
+                Store.setState("chats", updatedChats);
             }
         }
         catch(error){

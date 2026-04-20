@@ -44,4 +44,8 @@
             color: var(--second-color);
         }
     }
+
+    &__link{
+        color: var(--second-color);
+    }
 }

@@ -1,74 +1,100 @@
 import HTTPTransport from "./HTTPTransport";
 
-export interface SocketResponse{
+export interface SocketResponse {
     type: string;
     [key: string]: unknown;
 }
 
-export interface SocketRequest{
+export interface SocketRequest {
     content: string;
     type: string;
 }
 
 type response<T> = T | T[];
 
-interface Token{
+interface Token {
     token: string;
 }
 
-export default class WebSocketApi{
+export default class WebSocketApi {
     private static instance: WebSocketApi;
     private socket: WebSocket | null = null;
     private isReconnecting = false;
     private reconnectAttempts = 0;
     private maxReconnectAttempts = 5;
-    private reconnectDelay = 1000; // начальная задержка 1 сек
+    private reconnectDelay = 1000;
     private token: string = "";
     private transport = new HTTPTransport('api/v2');
+    private messageBuffer: SocketRequest[] = [];
+    private pingInterval: number | null = null; // в браузере — number
     private static onMessagesReceived: ((response: response<SocketResponse>) => void) | null = null;
 
-    private constructor(){}
+    private constructor() {}
 
-    public static getInstance(onMessagesReceived: any): WebSocketApi {
+    public static getInstance(
+        onMessagesReceived: (response: response<SocketResponse>) => void
+    ): WebSocketApi {
         WebSocketApi.onMessagesReceived = onMessagesReceived;
         if (!WebSocketApi.instance) {
-            WebSocketApi.instance = new WebSocketApi();
+        WebSocketApi.instance = new WebSocketApi();
         }
         return WebSocketApi.instance;
     }
 
-    public async start(chatId: number, userId: number){
+    public async start(chatId: number, userId: number): Promise<void> {
         try {
             const tokenObj = await this.getToken(chatId);
             this.token = tokenObj.token;
             return this.connect(chatId, userId);
         } catch (e) {
-            console.log(e);
+            console.error("Ошибка при старте WebSocket:", e);
             return;
         }
     }
 
-    public async send(data: SocketRequest){
-        if(!this.socket){
-            console.log("Сокет не найден");
+    public async send(data: SocketRequest): Promise<void> {
+        if (!this.socket) {
+            console.log("Сокет не найден, добавляем в буфер");
+            this.messageBuffer.push(data);
             return;
         }
-        await this.socket.send(JSON.stringify(data))
+
+        switch (this.socket.readyState) {
+        case WebSocket.OPEN:
+            this.socket.send(JSON.stringify(data));
+            break;
+        case WebSocket.CONNECTING:
+            console.log("Соединение устанавливается, добавляем в буфер");
+            this.messageBuffer.push(data);
+            break;
+        default:
+            console.log("Сокет закрыт или закрывается, не можем отправить");
+        }
     }
 
-    private getToken(chatId: number): Promise<Token>{
+    private getToken(chatId: number): Promise<Token> {
         return this.transport.post(`/chats/token/${chatId}`);
     }
 
-    public openHandler=()=>{
+    private openHandler = (): void => {
         console.log('Соединение установлено');
-        this.reconnectAttempts = 0; // сброс счётчика при успехе
+        this.reconnectAttempts = 0;
         this.isReconnecting = false;
 
-        this.pingConection();
-    }
+        // Отправляем все сообщения из буфера
+        while (this.messageBuffer.length > 0) {
+            const data = this.messageBuffer.shift();
+            if (data) {
+                this.send(data).catch(err =>
+                console.error("Ошибка отправки из буфера:", err)
+                );
+            }
+        }
 
-    protected closeHandler = (event: CloseEvent, chatId: number, userId: number)=>{
+        this.pingConnection();
+    };
+
+    protected closeHandler = (event: CloseEvent, chatId: number, userId: number): void => {
         if (!event.wasClean) {
             console.log('Обрыв соединения. Попытка реконнекта...');
             this.startReconnect(chatId, userId);
@@ -76,56 +102,75 @@ export default class WebSocketApi{
             console.log('Соединение закрыто чисто');
         }
         console.log(`Код: ${event.code} | Причина: ${event.reason}`);
-    }
+    };
 
-    protected messageHandler = (event: MessageEvent)=>{
+    protected messageHandler = (event: MessageEvent): void => {
         console.log('Получены данные', event.data);
-        if(event.data){
-            try{
-                const response = JSON.parse(event.data);
-                if(WebSocketApi.onMessagesReceived ){
-                    WebSocketApi.onMessagesReceived(response);
-                }
+        if (event.data) {
+        try {
+            const response = JSON.parse(event.data);
+            if (WebSocketApi.onMessagesReceived) {
+                WebSocketApi.onMessagesReceived(response);
             }
-            catch(e){
-                console.error("Не удалось распарсить", e)
-            }
+        } catch (e) {
+            console.error("Не удалось распарсить", e);
         }
-    }
+        }
+    };
 
-    protected errorHandler = (event: Event)=>{
-        console.log('Ошибка', event);
-    }
+    protected errorHandler = (event: Event): void => {
+        console.error('Ошибка WebSocket', event);
+    };
 
-    private pingConection = ()=>{
-        setInterval(() => this.socket?.send(
-            JSON.stringify({type: "ping"})
-        ), 30000);
-    }
+    private pingConnection = (): void => {
+        // Очистка предыдущего интервала
+        if (this.pingInterval !== null) {
+            clearInterval(this.pingInterval);
+        }
 
-    private connect=(chatId: number, userId: number)=> {
+        this.pingInterval = window.setInterval(() => {
+        if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+            this.socket.send(JSON.stringify({ type: "ping" }));
+        }
+        }, 30000);
+    };
+
+    private connect = (chatId: number, userId: number): void => {
         if (this.isReconnecting) return;
+
+        // Очистка предыдущих обработчиков
+        if (this.socket) {
+            this.cleanupSocket();
+        }
 
         this.socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${userId}/${chatId}/${this.token}`);
 
         this.socket.addEventListener('open', this.openHandler);
+        this.socket.addEventListener('message', this.messageHandler);
+        this.socket.addEventListener('error', this.errorHandler);
 
-        this.socket.addEventListener('close', event => {
-            // Отключаем все обработчики, чтобы избежать утечек памяти
-            this.socket?.removeEventListener('open', this.openHandler);
-            this.socket?.removeEventListener('message', this.messageHandler);
-            this.socket?.removeEventListener('error', this.errorHandler);
-            this.socket = null;
-
+        this.socket.addEventListener('close', (event) => {
+            this.cleanupSocket();
             this.closeHandler(event, chatId, userId);
         });
+    };
 
-        this.socket.addEventListener('message', this.messageHandler);
+    private cleanupSocket(): void {
+        if (this.socket) {
+            this.socket.removeEventListener('open', this.openHandler);
+            this.socket.removeEventListener('message', this.messageHandler);
+            this.socket.removeEventListener('error', this.errorHandler);
+            this.socket = null;
+        }
 
-        this.socket.addEventListener('error', this.errorHandler);
+        // Останавливаем пинг
+        if (this.pingInterval !== null) {
+            clearInterval(this.pingInterval);
+            this.pingInterval = null;
+        }
     }
 
-    private startReconnect(chatId: number, userId: number) {
+    private startReconnect(chatId: number, userId: number): void {
         if (this.reconnectAttempts >= this.maxReconnectAttempts) {
             console.log('Достигнут лимит попыток реконнекта');
             return;
@@ -134,7 +179,7 @@ export default class WebSocketApi{
         this.isReconnecting = true;
         this.reconnectAttempts++;
 
-        const delay = this.reconnectDelay * Math.pow(2, this.reconnectAttempts - 1); // экспоненциальная задержка
+        const delay = this.reconnectDelay * Math.pow(2, this.reconnectAttempts - 1);
 
         setTimeout(() => {
             console.log(`Попытка реконнекта #${this.reconnectAttempts} через ${delay} мс`);
@@ -142,21 +187,20 @@ export default class WebSocketApi{
         }, delay);
     }
 
-    public closeConnection(code: number = 1000, reason: string = 'Закрытие соединения по запросу клиента') {
+    public closeConnection(code: number = 1000, reason: string = 'Закрытие соединения по запросу клиента'): void {
+        this.isReconnecting = false;
+        this.reconnectAttempts = 0;
+
         if (this.socket) {
             if (this.socket.readyState === WebSocket.OPEN) {
                 this.socket.close(code, reason);
             } else if (this.socket.readyState === WebSocket.CONNECTING) {
-                // Если соединение устанавливается, ждём открытия перед закрытием
+                // Ждём открытия перед закрытием
                 this.socket.addEventListener('open', () => {
-                    this.socket?.close(code, reason);
+                this.socket?.close(code, reason);
                 });
             }
-            // Если состояние CLOSING или CLOSED — ничего не делаем
+            this.cleanupSocket();
         }
-
-        // Сбрасываем состояние реконнекта
-        this.isReconnecting = false;
-        this.reconnectAttempts = 0;
     }
 }
