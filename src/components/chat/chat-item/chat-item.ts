@@ -26,7 +26,6 @@ export default class ChatItem extends Block<ChatItemProps>{
         click: (e: Event) => {
             e.preventDefault();
             AppRouter.go(`/messenger/${this.props.chatData.id}`);
-            Store.setState("activeChat", this.props.chatData);
         }
     }
 

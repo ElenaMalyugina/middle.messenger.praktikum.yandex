@@ -1,5 +1,6 @@
 import ChatsApi from "../api/chatsApi";
 import Store from "../framework/store/Store";
+import { ChatsService } from "../services/chatsService";
 import { errorHandler } from "../services/errorHandler";
 import type { AddChat } from "../types/addChat";
 import { ChatDataModel, type ChatData } from "../types/chatData";
@@ -54,7 +55,18 @@ export default class ChatsController extends BaseFormController<AddChat>  {
             }
 
             if((newChat as ChatData).avatar){
-                Store.setState("activeChat",  new ChatDataModel(newChat as ChatData));
+                const activeChat = ChatsService.getActiveChat() as ChatData;
+                const chats = Store.getState().chats as ChatData[];
+
+                const updatedChats = chats.map(chat => {
+                        if (chat.id === activeChat.id) {
+                            return activeChat; // заменяем на новый объект activeChat
+                        }
+                        return chat; // оставляем без изменений
+                    }
+                );
+
+                Store.setState("chats",  updatedChats);
             }
         }
         catch(error){

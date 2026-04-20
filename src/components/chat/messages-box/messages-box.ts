@@ -5,9 +5,10 @@ import MessagesController from "../../../controllers/messagesController";
 import Store from "../../../framework/store/Store";
 import type { ChatData } from "../../../types/chatData";
 import type Form from "../../../ui-units/form/form";
+import { ChatsService } from "../../../services/chatsService";
 
 interface MessagesBoxProps extends BlockOwnProps{
-    currentChatId: number;
+    currentChatId: number | null;
     submitFormHandler: (form: Form)=>void;
     sendFileHandler: (file: File)=>void;
     addOldMessages: (count: number)=>void;
@@ -16,22 +17,7 @@ interface MessagesBoxProps extends BlockOwnProps{
 export default class MessagesBox extends Block<MessagesBoxProps>{
     static componentName = 'MessagesBox';
     protected template = MessagesBoxTemplate;
-    private messagesController = new MessagesController();
 
-    constructor(props: MessagesBoxProps){
-        super(props);
 
-        Store.subscribe(()=>{
-            //вешаем соединение на стабильный компонент
-            const activeChat= Store.getState().activeChat as ChatData;
-            if(!activeChat) return;
-
-            if(this.props.currentChatId !== activeChat.id){
-                this.messagesController.closeConnection();
-                this.messagesController.startConnection(activeChat.id);
-                this.setProps({currentChatId: activeChat.id});
-            }
-        })
-    }
 }
 

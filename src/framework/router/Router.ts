@@ -1,6 +1,7 @@
 import { deepEqual } from "../../utils/deepEqual";
 import type { BlockOwnProps } from "../Block";
 import type Block from "../Block";
+import Store from "../store/Store";
 import { AllowedNoLoginMiddleware } from "./AllowedNoLogin";
 import { AuthGuardMiddleware } from "./AuthGuardMiddleware";
 import Route, { type RouteProps } from "./Route";
@@ -114,6 +115,9 @@ export default class Router {
         // Применяем обновлённые пропсы
         matchedRoute._blockProps = updatedBlockProps;
 
+        //пишем роут в стор
+        this.updateStoreWithRoute(pathname, matchResult.params);
+
         // Проверяем guards
         for (const guardName of matchedRoute.guards) {
             const guard = this.guardsMap[guardName];
@@ -133,6 +137,14 @@ export default class Router {
 
         this._currentRoute = matchedRoute;
         matchedRoute.createBlock();
+    }
+
+    private updateStoreWithRoute(path: string, params: Record<string, string>): void {
+        Store.setState('route', {
+            path,
+            params,
+            query: new URLSearchParams(window.location.search),
+        });
     }
 
 

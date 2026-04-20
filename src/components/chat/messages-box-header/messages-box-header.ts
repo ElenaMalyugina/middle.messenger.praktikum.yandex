@@ -5,6 +5,7 @@ import PopupUser from "../popup-contents/popup-user/popup-user";
 import Store from "../../../framework/store/Store";
 import { type ChatData } from "../../../types/chatData";
 import { UserService } from "../../../services/userService";
+import { ChatsService } from "../../../services/chatsService";
 
 
 interface MessagesBoxHeaderData{
@@ -41,7 +42,7 @@ export default class MessagesBoxHeader extends Block<MessagesBoxHeaderProps>{
     };
 
     updateData = ()=>{
-        const activeChat= Store.getState().activeChat as ChatData;
+        const activeChat= ChatsService.getActiveChat();
         if(!activeChat) return;
 
         this.setProps({

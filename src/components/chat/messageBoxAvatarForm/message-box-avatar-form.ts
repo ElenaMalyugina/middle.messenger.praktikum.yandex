@@ -6,6 +6,7 @@ import Block, { type BlockOwnProps } from "../../../framework/Block";
 import { validate } from "../../../services/validationService";
 import ChatsController from "../../../controllers/chatsController";
 import type { ChatData } from "../../../types/chatData";
+import { ChatsService } from "../../../services/chatsService";
 
 interface MessageBoxAvatarProps extends BlockOwnProps{
     onChange: (file: File)=> void
@@ -36,7 +37,7 @@ export default class MessageBoxAvatarForm extends Block<MessageBoxAvatarProps>{
             return;
         }
 
-        const activeChat = Store.getState().activeChat as ChatData;
+        const activeChat = ChatsService.getActiveChat();
         if(activeChat){
             this.chatsController.updateAvatar(file, activeChat.id);
         }

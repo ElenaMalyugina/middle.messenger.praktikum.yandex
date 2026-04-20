@@ -5,6 +5,7 @@ import ChatsListTemplate from "./chats-list.hbs?raw";
 import ChatsController from "../../../controllers/chatsController";
 import Store from "../../../framework/store/Store";
 import { ChatDataModel, type ChatData } from "../../../types/chatData";
+import { ChatsService } from "../../../services/chatsService";
 
 interface ChatsListProps extends BlockOwnProps{
     chats: ChatItemProps[];
@@ -22,6 +23,7 @@ export default class ChatsList extends Block<ChatsListProps>{
         Store.subscribe(()=>{
             this.updateChats();
         });
+
         this.chatsController.getChats();
     }
 
@@ -29,29 +31,29 @@ export default class ChatsList extends Block<ChatsListProps>{
         this.intervalId = setInterval(
             ()=>{
                 const queryString = Store.getState().queryString as string;
-                //this.chatsController.getChats(queryString);
+                this.chatsController.getChats(queryString);
             },
-            10000
+            20000
         );
     }
 
     protected componentWillUnmount(): void {
         if (this.intervalId !== null) {
-            //clearInterval(this.intervalId);
+            clearInterval(this.intervalId);
             this.intervalId = null;
         }
     }
 
     protected updateChats = ()=>{
         const chatsList = Store.getState().chats as ChatData[];
-        const chatActive = Store.getState().activeChat as ChatData;
-
         if(!chatsList ||! Array.isArray(chatsList)) return;
+
+        const activeChat = ChatsService.getActiveChat();
 
         this.setProps({
             chats: chatsList.map(chat => ({
                 chatData: new ChatDataModel(chat),
-                isActive: chatActive ? chat.id === chatActive.id : false,
+                isActive: chat.id === activeChat?.id || false,
             }))
         });
     }

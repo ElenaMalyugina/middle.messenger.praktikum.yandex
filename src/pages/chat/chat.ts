@@ -85,19 +85,8 @@ export default class Chat extends Block<ChatPageProps>{
     protected template = chatTemplate;
     private activeSidebarClass = "chat__sidebar--active";
 
-    constructor(props?: BlockOwnProps & { params?: { id: string } }) {
+    constructor(props?: BlockOwnProps) {
         super(props);
-
-        if(props && props.params && props.params.id){
-            const chatIdStr = props.params.id;
-            const chatIdNum = Number(chatIdStr);
-
-            if (!isNaN(chatIdNum) && Number.isInteger(chatIdNum) && chatIdNum > 0) {
-                Store.setState("activeChatId", chatIdNum);
-            } else {
-                AppRouter.replace("/404");
-            }
-        };
     }
 
     protected events={
@@ -112,7 +101,7 @@ export default class Chat extends Block<ChatPageProps>{
                 if(!sidebar || sidebar!=target) return;
                 this.showSidebar(sidebar);
             }
-        }
+        },
     }
 
     showSidebar = (sidebar:Element)=>{
