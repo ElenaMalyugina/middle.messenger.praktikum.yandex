@@ -107,14 +107,14 @@ export default class WebSocketApi {
     protected messageHandler = (event: MessageEvent): void => {
         console.log('Получены данные', event.data);
         if (event.data) {
-        try {
-            const response = JSON.parse(event.data);
-            if (WebSocketApi.onMessagesReceived) {
-                WebSocketApi.onMessagesReceived(response);
+            try {
+                const response = JSON.parse(event.data);
+                if (WebSocketApi.onMessagesReceived) {
+                    WebSocketApi.onMessagesReceived(response);
+                }
+            } catch (e) {
+                console.error("Не удалось распарсить", e);
             }
-        } catch (e) {
-            console.error("Не удалось распарсить", e);
-        }
         }
     };
 
@@ -129,9 +129,9 @@ export default class WebSocketApi {
         }
 
         this.pingInterval = window.setInterval(() => {
-        if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-            this.socket.send(JSON.stringify({ type: "ping" }));
-        }
+            if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+                this.socket.send(JSON.stringify({ type: "ping" }));
+            }
         }, 30000);
     };
 
@@ -197,7 +197,7 @@ export default class WebSocketApi {
             } else if (this.socket.readyState === WebSocket.CONNECTING) {
                 // Ждём открытия перед закрытием
                 this.socket.addEventListener('open', () => {
-                this.socket?.close(code, reason);
+                    this.socket?.close(code, reason);
                 });
             }
             this.cleanupSocket();
