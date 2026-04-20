@@ -29,6 +29,9 @@ import DeleteUser from "../../components/chat/modal-contents/delete-user/delete-
 import AddUserForm from "../../components/chat/modal-contents/add-user/form/add-user-form.ts";
 import AddUser from "../../components/chat/modal-contents/add-user/add-user.ts";
 import DeleteUserForm from "../../components/chat/modal-contents/delete-user/form/delete-user-form.ts";
+import Store from "../../framework/store/Store.ts";
+import { AppRouter } from "../../index.ts";
+import type { ChatData } from "../../types/chatData.ts";
 
 //Получение даты в читаемом формате
 Handlebars.registerHelper("getDayAndYear", function(dateString){
@@ -81,6 +84,21 @@ export default class Chat extends Block<ChatPageProps>{
     static componentName = 'Chat';
     protected template = chatTemplate;
     private activeSidebarClass = "chat__sidebar--active";
+
+    constructor(props?: BlockOwnProps & { params?: { id: string } }) {
+        super(props);
+
+        if(props && props.params && props.params.id){
+            const chatIdStr = props.params.id;
+            const chatIdNum = Number(chatIdStr);
+
+            if (!isNaN(chatIdNum) && Number.isInteger(chatIdNum) && chatIdNum > 0) {
+                Store.setState("activeChatId", chatIdNum);
+            } else {
+                AppRouter.replace("/404");
+            }
+        };
+    }
 
     protected events={
         click: (event: Event) => {

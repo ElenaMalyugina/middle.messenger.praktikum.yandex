@@ -24,17 +24,6 @@ export default class ChatsController extends BaseFormController<AddChat>  {
         }
     }
 
-    /*public async searchChats(queryString: string){
-        try{
-            const chatsList = await this.chatsApi.request({data:{title: queryString}});
-            Store.setState("chats", chatsList);
-        }
-        catch(_e){
-            console.log("Чаты не найдены");
-        }
-    }*/
-
-
     private async createChat(chat: AddChat | null){
         try{
             const newChat = await this.chatsApi.create(chat);

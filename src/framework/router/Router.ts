@@ -1,3 +1,4 @@
+import { deepEqual } from "../../utils/deepEqual";
 import type { BlockOwnProps } from "../Block";
 import type Block from "../Block";
 import { AllowedNoLoginMiddleware } from "./AllowedNoLogin";
@@ -73,6 +74,7 @@ export default class Router {
         if (link.tagName !== 'A' || !link.getAttribute('href')) return;
 
         e.preventDefault();
+
         const url = new URL(link.href, window.location.href);
 
         if (url.origin !== window.location.origin) {
@@ -89,34 +91,50 @@ export default class Router {
         }
     }
 
-
     private async _onRoute(pathname: string) {
-        const route = this.getRoute(pathname);
+        // Ищем подходящий маршрут
+        const matchedRoute = this.routes.find(route => {
+            const matchResult = route.match(pathname);
+            return matchResult.matched;
+        });
 
-        if (!route) {
+        if (!matchedRoute) {
             this.replace("/404");
             return;
         }
 
-        for (const guardName of route.guards) {
-            const guard = this.guardsMap[guardName as string];
+        const matchResult = matchedRoute.match(pathname);
 
+        // Обновляем пропсы блока, добавляя параметры маршрута
+        const updatedBlockProps = {
+            ...matchedRoute._blockProps,
+            params: matchResult.params
+        };
+
+        // Применяем обновлённые пропсы
+        matchedRoute._blockProps = updatedBlockProps;
+
+        // Проверяем guards
+        for (const guardName of matchedRoute.guards) {
+            const guard = this.guardsMap[guardName];
             if (!guard) {
                 console.error(`Unknown guard: ${guardName}`);
                 continue;
             }
 
             const isAllowed = await guard.isAllowed(this);
-            if (!isAllowed) return; // Прерываем выполнение маршрута
+            if (!isAllowed) return;
         }
 
-        if (this._currentRoute && this._currentRoute !== route) {
+        // Если текущий маршрут существует и отличается от нового
+        if (this._currentRoute && this._currentRoute !== matchedRoute ) {
             this._currentRoute.leave();
         }
 
-        this._currentRoute = route;
-        route.createBlock();
+        this._currentRoute = matchedRoute;
+        matchedRoute.createBlock();
     }
+
 
     public go(pathname: string) {
         this.history.pushState({}, '', pathname);

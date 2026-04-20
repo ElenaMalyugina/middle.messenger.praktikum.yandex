@@ -29,7 +29,7 @@ export default class ChatsList extends Block<ChatsListProps>{
         this.intervalId = setInterval(
             ()=>{
                 const queryString = Store.getState().queryString as string;
-                this.chatsController.getChats(queryString);
+                //this.chatsController.getChats(queryString);
             },
             10000
         );
@@ -37,15 +37,16 @@ export default class ChatsList extends Block<ChatsListProps>{
 
     protected componentWillUnmount(): void {
         if (this.intervalId !== null) {
-            clearInterval(this.intervalId);
+            //clearInterval(this.intervalId);
             this.intervalId = null;
         }
     }
 
     protected updateChats = ()=>{
-        const chatsList = Store.getState().chats;
-        if(!chatsList ||! Array.isArray(chatsList) ) return;
+        const chatsList = Store.getState().chats as ChatData[];
         const chatActive = Store.getState().activeChat as ChatData;
+
+        if(!chatsList ||! Array.isArray(chatsList)) return;
 
         this.setProps({
             chats: chatsList.map(chat => ({

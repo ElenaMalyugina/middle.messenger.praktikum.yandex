@@ -1,6 +1,7 @@
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import Store from "../../../framework/store/Store";
 import type { ChatData } from "../../../types/chatData";
+//import type { ChatData } from "../../../types/chatData";
 import ChatBodyTemplate from "./chat-body.hbs?raw";
 
 interface ChatBodyProps extends BlockOwnProps{

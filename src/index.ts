@@ -11,14 +11,14 @@ import EditProfile from "./pages/edit-profile/edit-profile";
 import ChangePassword from "./pages/change-password/change-password";
 import Router from "./framework/router/Router";
 
-const router = Router.getInstance("#app");
+export const AppRouter = Router.getInstance("#app");
 
 //чтобы при логауте не показать случайно страницу предыдущего пользователя - mode: "clean"
 //лучший вариант, конечно, при логауте перезагружать страницу, но не знаю, насколько это совместимо с целями спринта
-
-router
+AppRouter
     .use("/", Login, {}, {guards: ["AllowedNoLoginMiddleware"], mode: "clean"})
     .use("/messenger", Chat, {}, {guards: ["AuthGuard"], mode: "clean"})
+    .use("/messenger/:id", Chat, {}, {guards: ["AuthGuard"], mode: "clean"})
     .use("/sign-up", Registration, {}, {mode: "clean"})
     .use("/settings", Profile, {}, {guards: ["AuthGuard"], mode: "clean"})
     .use("/settings/edit-profile", EditProfile, {}, {guards: ["AuthGuard"], mode: "clean"})
