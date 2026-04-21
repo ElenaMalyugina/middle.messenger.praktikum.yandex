@@ -11,7 +11,7 @@ export default class MessagesApi  {
         this.socket = WebSocketApi.getInstance(onMessageReceived);
     }
 
-    public async start(chatId: number, userId: number): Promise<void> {
+    async start(chatId: number, userId: number): Promise<void> {
         return new Promise((resolve, reject) => {
             const originalOpenHandler = this.socket.openHandler;
 
@@ -24,8 +24,8 @@ export default class MessagesApi  {
         });
     }
 
-    public getMessages = (count: number = 0)=>{
-        this.socket.send({
+    getMessages = (count: number = 0)=>{
+        return this.socket.send({
             content: count.toString(),
             type: 'get old'
         })
@@ -36,7 +36,7 @@ export default class MessagesApi  {
     }
 
     send(data: SocketRequest){
-        this.socket.send(data);
+        return this.socket.send(data)
     }
 
     sendFile<T = FormData>(file: T){

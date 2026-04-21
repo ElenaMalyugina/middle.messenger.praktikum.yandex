@@ -10,8 +10,6 @@ export interface SocketRequest {
     type: string;
 }
 
-type response<T> = T | T[];
-
 interface Token {
     token: string;
 }
@@ -27,12 +25,14 @@ export default class WebSocketApi {
     private transport = new HTTPTransport('api/v2');
     private messageBuffer: SocketRequest[] = [];
     private pingInterval: number | null = null; // в браузере — number
-    private static onMessagesReceived: ((response: response<SocketResponse>) => void) | null = null;
+    private static onMessagesReceived: ((response: SocketResponse) => void) | null = null;
+
+    private url = "wss://ya-praktikum.tech/ws/chats/";
 
     private constructor() {}
 
     public static getInstance(
-        onMessagesReceived: (response: response<SocketResponse>) => void
+        onMessagesReceived: (response: SocketResponse) => void
     ): WebSocketApi {
         WebSocketApi.onMessagesReceived = onMessagesReceived;
         if (!WebSocketApi.instance) {
@@ -76,7 +76,7 @@ export default class WebSocketApi {
         return this.transport.post(`/chats/token/${chatId}`);
     }
 
-    private openHandler = (): void => {
+    openHandler = (): void => {
         console.log('Соединение установлено');
         this.reconnectAttempts = 0;
         this.isReconnecting = false;
@@ -108,7 +108,7 @@ export default class WebSocketApi {
         console.log('Получены данные', event.data);
         if (event.data) {
             try {
-                const response = JSON.parse(event.data);
+                const response = JSON.parse(event.data) as SocketResponse;
                 if (WebSocketApi.onMessagesReceived) {
                     WebSocketApi.onMessagesReceived(response);
                 }
@@ -137,13 +137,12 @@ export default class WebSocketApi {
 
     private connect = (chatId: number, userId: number): void => {
         if (this.isReconnecting) return;
-
         // Очистка предыдущих обработчиков
         if (this.socket) {
             this.cleanupSocket();
         }
 
-        this.socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${userId}/${chatId}/${this.token}`);
+        this.socket = new WebSocket(`${this.url}${userId}/${chatId}/${this.token}`);
 
         this.socket.addEventListener('open', this.openHandler);
         this.socket.addEventListener('message', this.messageHandler);
@@ -173,7 +172,16 @@ export default class WebSocketApi {
     private startReconnect(chatId: number, userId: number): void {
         if (this.reconnectAttempts >= this.maxReconnectAttempts) {
             console.log('Достигнут лимит попыток реконнекта');
-            return;
+            const reconnectMessage = {
+                type: "reconnect failed"
+            }
+            this.closeConnection();
+            this.start(chatId, userId);
+
+            if (WebSocketApi.onMessagesReceived) {
+                WebSocketApi.onMessagesReceived(reconnectMessage);
+                return;
+            }
         }
 
         this.isReconnecting = true;
@@ -183,6 +191,14 @@ export default class WebSocketApi {
 
         setTimeout(() => {
             console.log(`Попытка реконнекта #${this.reconnectAttempts} через ${delay} мс`);
+            const reconnectMessage = {
+                type: "reconnect trying"
+            }
+
+            if (WebSocketApi.onMessagesReceived) {
+                WebSocketApi.onMessagesReceived(reconnectMessage);
+                return;
+            }
             this.connect(chatId, userId);
         }, delay);
     }

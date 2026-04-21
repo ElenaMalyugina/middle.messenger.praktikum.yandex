@@ -39,14 +39,15 @@ export default class MessagesController extends BaseFormController<MessageForSen
             Store.setState("messages", []);
         }
 
-        this.messagesApi.getMessages(count);
+        this.messagesApi.getMessages(count)
+            .catch(e=> console.log(e));
     }
 
     protected getMessagesHandler = (response: SocketResponse)=>{
         console.log('Получено сообщение от сокета:', response);
         if(Array.isArray(response)){
             if(response.length == 0){
-                Store.setState("messagesError", "Пока нет новых сообщений");
+                Store.setState("messagesError", "Больше сообщений нет");
 
                 setTimeout(()=>{
                     Store.setState("messagesError", "");

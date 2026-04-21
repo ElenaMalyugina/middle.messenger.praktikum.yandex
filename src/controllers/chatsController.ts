@@ -3,7 +3,7 @@ import Store from "../framework/store/Store";
 import { ChatsService } from "../services/chatsService";
 import { errorHandler } from "../services/errorHandler";
 import type { AddChat } from "../types/addChat";
-import { ChatDataModel, type ChatData } from "../types/chatData";
+import type {ChatData } from "../types/chatData";
 import { modalHide } from "../utils/hideModal";
 import BaseFormController from "./baseFormController";
 
@@ -20,8 +20,8 @@ export default class ChatsController extends BaseFormController<AddChat>  {
             const chatsList = await this.chatsApi.request({data:{title: queryString}});
             Store.setState("chats", chatsList);
         }
-        catch(_e){
-            console.log("Не получилось доставить чаты");
+        catch(e){
+            console.log(e);
         }
     }
 

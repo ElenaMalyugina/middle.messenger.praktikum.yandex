@@ -50,11 +50,13 @@ export default class ChatsList extends Block<ChatsListProps>{
 
         const activeChat = ChatsService.getActiveChat();
 
-        this.setProps({
-            chats: chatsList.map(chat => ({
+        const buildedChat = chatsList.map(chat => ({
                 chatData: new ChatDataModel(chat),
                 isActive: chat.id === activeChat?.id || false,
-            }))
-        });
+        }))
+
+        this.setProps({
+            chats: buildedChat
+        })
     }
 }
