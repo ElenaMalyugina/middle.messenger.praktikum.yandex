@@ -81,7 +81,14 @@ export default class MessagesController extends BaseFormController<MessageForSen
         const oldMessages = Store.getState().messages as Message[] || [];
 
         Store.setState("isLoaderActive", false);
-        Store.setState("messages", [...messagesArrayReversed, ...oldMessages]);
+
+        //Найти причину - там начинает вызываться 2 раза
+        if(oldMessages.length > 0 && oldMessages[0].id === messagesArrayReversed[0].id){
+            Store.setState("messages", [...messagesArrayReversed]);
+        }
+        else{
+            Store.setState("messages", [...messagesArrayReversed, ...oldMessages]);
+        }
     }
 
     private onSendMessageCallback = (rawMessage: SocketResponse)=>{

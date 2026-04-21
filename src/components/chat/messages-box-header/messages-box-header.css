@@ -16,6 +16,8 @@
 }
 
 .messages-box-header__chat-avatar{
+    --width: 48px;
+
     margin: 0;
     flex-shrink: 0;
     overflow: hidden;
