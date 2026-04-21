@@ -8,7 +8,7 @@ import ChatBodyTemplate from "./chat-body.hbs?raw";
 
 interface ChatBodyProps extends BlockOwnProps{
     isSelectedChat: boolean;
-    currentChatId: number
+    currentChatId: number | null;
 }
 
 export default class ChatBody extends Block<ChatBodyProps>{
@@ -25,19 +25,19 @@ export default class ChatBody extends Block<ChatBodyProps>{
     }
 
     socketConnect=()=>{
-        const activeChat= ChatsService.getActiveChat() as ChatData;
+        const activeChat = ChatsService.getActiveChat() as ChatData;
+
         if(activeChat && (activeChat.id === this.props.currentChatId)) return;
 
         if(!activeChat) {
             this.messagesController.closeConnection();
 
             this.setProps({
-                currentChatId: -1,
+                currentChatId: null,
                 isSelectedChat: false
             });
         }
         else if(this.props.currentChatId !== activeChat.id){
-            this.messagesController.closeConnection();
             this.messagesController.startConnection(activeChat.id);
 
             this.setProps({

@@ -21,6 +21,8 @@ export default class WebSocketApi {
     private reconnectAttempts = 0;
     private maxReconnectAttempts = 5;
     private reconnectDelay = 1000;
+    private chatId: number = -1;
+    private userId: number = -1;
     private token: string = "";
     private transport = new HTTPTransport('api/v2');
     private messageBuffer: SocketRequest[] = [];
@@ -40,17 +42,24 @@ export default class WebSocketApi {
     }
 
     public async start(chatId: number, userId: number): Promise<void> {
-        try {
-            const tokenObj = await this.getToken(chatId);
-            this.token = tokenObj.token;
-            return this.connect(chatId, userId);
-        } catch (e) {
-            console.error("Ошибка при старте WebSocket:", e);
-            return;
-        }
+        this.closeConnection()
+            .then(async() => {
+                try {
+                    const tokenObj = await this.getToken(chatId);
+                    this.token = tokenObj.token;
+                    this.chatId = chatId;
+                    this.userId = userId;
+                    return this.connect();
+                } catch (e) {
+                    console.error("Ошибка при старте WebSocket:", e);
+                    return;
+                }
+            }
+        )
+
     }
 
-    public async send(data: SocketRequest): Promise<void> {
+    public send(data: SocketRequest): void{
         if (!this.socket) {
             console.log("Сокет не найден, добавляем в буфер");
             this.messageBuffer.push(data);
@@ -91,21 +100,19 @@ export default class WebSocketApi {
         while (this.messageBuffer.length > 0) {
             const data = this.messageBuffer.shift();
             if (data) {
-                this.send(data).catch(err =>
-                    console.error("Ошибка отправки из буфера:", err)
-                );
+                this.send(data);
             }
         }
 
         this.pingConnection();
     };
 
-    protected closeHandler = (event: CloseEvent, chatId: number, userId: number): void => {
+    protected closeHandler = (event: CloseEvent): void => {
         if (!event.wasClean) {
             console.log('Обрыв соединения. Попытка реконнекта...');
-            this.startReconnect(chatId, userId);
+            this.startReconnect();
         } else {
-            console.log(`Соединение закрыто чисто ${chatId}`);
+            console.log(`Соединение закрыто чисто ${this.chatId}`);
         }
 
         console.log(`Код: ${event.code} | Причина: ${event.reason}`);
@@ -120,7 +127,9 @@ export default class WebSocketApi {
                     WebSocketApi.onMessagesReceived(response);
                 }
             } catch (e) {
-                console.error("Не удалось распарсить", e);
+                const response = {type: "error"}
+                //возможно, протух токен?
+                this.start(this.chatId, this.userId);
             }
         }
     };
@@ -142,11 +151,11 @@ export default class WebSocketApi {
         }, 10000);
     }
 
-    private connect = (chatId: number, userId: number): void => {
+    private connect = (): void => {
         this.cleanupSocket();
 
-        this.socket = new WebSocket(`${this.url}${userId}/${chatId}/${this.token}`);
-        console.log(`Создаём соединение для чата ${chatId}, пользователя ${userId}`);
+        this.socket = new WebSocket(`${this.url}${this.userId}/${this.chatId}/${this.token}`);
+        console.log(`Создаём соединение для чата ${this.chatId}, пользователя ${this.userId}`);
 
 
         this.socket.addEventListener('open', this.openHandler);
@@ -155,7 +164,7 @@ export default class WebSocketApi {
 
         this.socket.addEventListener('close', (event) => {
             this.cleanupSocket();
-            this.closeHandler(event, chatId, userId);
+            this.closeHandler(event);
         });
     }
 
@@ -175,7 +184,7 @@ export default class WebSocketApi {
         }
     }
 
-    private startReconnect(chatId: number, userId: number): void {
+    private startReconnect(): void {
         if (this.isReconnecting) {
             console.log('Реконнект уже выполняется, новая попытка пропущена');
             return;
@@ -187,19 +196,17 @@ export default class WebSocketApi {
                 type: "reconnect failed"
             }
 
-        if (WebSocketApi.onMessagesReceived) {
-            WebSocketApi.onMessagesReceived(reconnectMessage);
+            if (WebSocketApi.onMessagesReceived) {
+                WebSocketApi.onMessagesReceived(reconnectMessage);
+            }
+
+            return
         }
 
-        //this.closeConnection();
-        //this.start(chatId, userId);
-        return
-    }
+        this.isReconnecting = true;
+        this.reconnectAttempts++;
 
-    this.isReconnecting = true;
-    this.reconnectAttempts++;
-
-    const delay = this.reconnectDelay * Math.pow(2, this.reconnectAttempts - 1);
+        const delay = this.reconnectDelay * Math.pow(2, this.reconnectAttempts - 1);
 
         setTimeout(() => {
             console.log(`Попытка реконнекта #${this.reconnectAttempts} через ${delay} мс`);
@@ -213,16 +220,13 @@ export default class WebSocketApi {
 
             this.closeConnection().then(() => {
                 // Только после полного закрытия начинаем новое подключение
-                this.connect(chatId, userId);
+                this.connect();
             });
 
         }, delay);
     }
 
-    public closeConnection(
-            code: number = 1000,
-            reason: string = 'Закрытие соединения по запросу клиента'
-        ): Promise<void> {
+    public closeConnection(code: number = 1000, reason: string = 'Закрытие по запросу клиента'): Promise<void> {
         return new Promise((resolve) => {
             this.isReconnecting = false;
             this.reconnectAttempts = 0;
@@ -240,22 +244,24 @@ export default class WebSocketApi {
 
             // Если сокет уже закрыт, сразу очищаем
             if (this.socket.readyState === WebSocket.CLOSED) {
-            cleanupAndResolve();
-            return;
+                cleanupAndResolve();
+                return;
             }
 
-        // Подписываемся на событие close с флагом once
-        this.socket.addEventListener('close', cleanupAndResolve, { once: true });
+            // Подписываемся на событие close с флагом once
+            this.socket.addEventListener('close', cleanupAndResolve, { once: true });
 
-        // Если соединение открыто, инициируем закрытие
-        if (this.socket.readyState === WebSocket.OPEN) {
-            this.socket.close(code, reason);
-            } else if (this.socket.readyState === WebSocket.CONNECTING) {
+            // Если соединение открыто, инициируем закрытие
+            if (this.socket.readyState === WebSocket.OPEN) {
+                this.socket.close(code, reason);
+            }
+            else if (this.socket.readyState === WebSocket.CONNECTING) {
                 // Если устанавливается, ждём открытия и закрываем
                 this.socket.addEventListener('open', () => {
                     this.socket?.close(code, reason);
                 }, { once: true });
-            } else {
+            }
+            else {
             // Для других состояний (CLOSING) просто очищаем
                 cleanupAndResolve();
             }

@@ -1,7 +1,6 @@
 import "./chat-item.css";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import ChatItemTemplate from "./chat-item.hbs?raw";
-import Store from "../../../framework/store/Store";
 import type { ChatData } from "../../../types/chatData";
 import ChatsController from "../../../controllers/chatsController";
 import { AppRouter } from "../../..";
@@ -25,7 +24,10 @@ export default class ChatItem extends Block<ChatItemProps>{
     protected events = {
         click: (e: Event) => {
             e.preventDefault();
-            AppRouter.go(`/messenger/${this.props.chatData.id}`);
+
+            if(!this.props.isActive){
+                AppRouter.go(`/messenger/${this.props.chatData.id}`);
+            }
         }
     }
 

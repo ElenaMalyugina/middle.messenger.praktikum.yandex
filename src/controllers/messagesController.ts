@@ -39,42 +39,56 @@ export default class MessagesController extends BaseFormController<MessageForSen
             Store.setState("messages", []);
         }
 
-        this.messagesApi.getMessages(count)
-            .catch(e=> console.log(e));
+        this.messagesApi.getMessages(count);
     }
 
     protected getMessagesHandler = (response: SocketResponse)=>{
         console.log('Получено сообщение от сокета:', response);
-        if(Array.isArray(response)){
-            if(response.length == 0){
-                Store.setState("messagesError", "Больше сообщений нет");
 
-                setTimeout(()=>{
-                    Store.setState("messagesError", "");
-                }, 3000)
-                return;
-            }
-            const messagesArray = response.map(mess => new MessageModel(mess));
-            const messagesArrayReversed = messagesArray.reverse();
-            const oldMessages = Store.getState().messages as Message[] || [];
-            Store.setState("isLoaderActive", false);
-            Store.setState("messages", [...messagesArrayReversed, ...oldMessages]);
+        //получение новых сообщений
+        if(Array.isArray(response)){
+            this.onGetMessagesHandler(response);
         }
+        //отправили собщение
         else if(response.type == "message" || response.type == "file"){
-            Store.setState("isLoaderActive", false);
-            const oldMessages = Store.getState().messages as Message[];
-            const newMessage = new MessageModel(response);
-            Store.setState("messages", [...oldMessages, newMessage] )
+            this.onSendMessageCallback(response);
         }
+        //завалили реконнект, предлагаем перезагруз страницыы
         else if(response.type == "reconnect failed"){
             Store.setState("isLoaderActive", true);
         }
+        //пытаемся восстановить соединение
         else if(response.type == "reconnect trying"){
             Store.setState("isLoaderActive", true);
         }
+        //установлено соединение
         else if(response.type == "connected"){
             Store.setState("isLoaderActive", false);
         }
+    }
+
+    private onGetMessagesHandler = (rawMessages: SocketResponse[])=>{
+        if(rawMessages.length == 0){
+            Store.setState("messagesError", "Больше сообщений нет");
+            setTimeout(()=>{
+                Store.setState("messagesError", "");
+            }, 3000)
+            return;
+        }
+
+        const messagesArray = rawMessages.map(mess => new MessageModel(mess));
+        const messagesArrayReversed = messagesArray.reverse();
+        const oldMessages = Store.getState().messages as Message[] || [];
+
+        Store.setState("isLoaderActive", false);
+        Store.setState("messages", [...messagesArrayReversed, ...oldMessages]);
+    }
+
+    private onSendMessageCallback = (rawMessage: SocketResponse)=>{
+        Store.setState("isLoaderActive", false);
+        const oldMessages = Store.getState().messages as Message[];
+        const newMessage = new MessageModel(rawMessage);
+        Store.setState("messages", [...oldMessages, newMessage] )
     }
 
     protected formSend = (data: MessageForSend | null)=>{

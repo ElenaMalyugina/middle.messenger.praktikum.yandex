@@ -20,7 +20,8 @@ export default class MessagesApi  {
                 resolve();
             };
 
-            this.socket.start(chatId, userId).catch(reject);
+            this.socket.start(chatId, userId)
+                .catch((e)=>reject(e));
         });
     }
 
