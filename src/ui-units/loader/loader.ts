@@ -6,6 +6,7 @@ import Store from "../../framework/store/Store";
 interface LoaderProps extends BlockOwnProps{
     activeClass: string;
     isActive: boolean;
+    text: string;
 }
 
 export default abstract class Loader extends Block<LoaderProps> {
@@ -16,6 +17,10 @@ export default abstract class Loader extends Block<LoaderProps> {
     constructor(props:LoaderProps){
         super(props)
         this.props.activeClass = this.activeClass;
+
+        if(!props.text){
+            this.props.text = "В процессе...";
+        }
 
         Store.subscribe(()=>{
             this.loaderHandler();

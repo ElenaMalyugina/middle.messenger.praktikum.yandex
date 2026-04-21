@@ -27,3 +27,14 @@
     height: 100%;
 }
 
+.messages-box__loader-inner{
+    animation: none;
+    font-size: 14px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.messages-box__loader .loader{
+    @extend .messages-box__loader-inner;
+}
+

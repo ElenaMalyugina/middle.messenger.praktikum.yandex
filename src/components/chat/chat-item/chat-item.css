@@ -90,6 +90,6 @@
     }
 }
 
-.chat-item:not(.chat-item--active):hover .chat-item__delete-button{
+.chat-item__link:not(.chat-item__link--active):hover .chat-item__delete-button{
     @extend .chat-item__delete-button--active;
 }
