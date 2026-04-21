@@ -20,18 +20,17 @@ export default class ChatBody extends Block<ChatBodyProps>{
     constructor(props: ChatBodyProps){
         super(props);
         Store.subscribe(()=>{
-            const activeChat= ChatsService.getActiveChat() as ChatData;
-            if(activeChat && (activeChat.id === this.props.currentChatId)) return;
-
-            this.socketConnect(activeChat);
+            this.socketConnect();
         })
     }
 
-    socketConnect=(activeChat: ChatData | null)=>{
+    socketConnect=()=>{
+        const activeChat= ChatsService.getActiveChat() as ChatData;
+        if(activeChat && (activeChat.id === this.props.currentChatId)) return;
+
         if(!activeChat) {
             this.messagesController.closeConnection();
 
-            //упростим установку props
             this.setProps({
                 currentChatId: -1,
                 isSelectedChat: false
