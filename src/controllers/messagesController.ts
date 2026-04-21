@@ -57,12 +57,23 @@ export default class MessagesController extends BaseFormController<MessageForSen
             const messagesArray = response.map(mess => new MessageModel(mess));
             const messagesArrayReversed = messagesArray.reverse();
             const oldMessages = Store.getState().messages as Message[] || [];
+            Store.setState("isLoaderActive", false);
             Store.setState("messages", [...messagesArrayReversed, ...oldMessages]);
         }
         else if(response.type == "message" || response.type == "file"){
+            Store.setState("isLoaderActive", false);
             const oldMessages = Store.getState().messages as Message[];
             const newMessage = new MessageModel(response);
             Store.setState("messages", [...oldMessages, newMessage] )
+        }
+        else if(response.type == "reconnect failed"){
+            Store.setState("isLoaderActive", true);
+        }
+        else if(response.type == "reconnect trying"){
+            Store.setState("isLoaderActive", true);
+        }
+        else if(response.type == "connected"){
+            Store.setState("isLoaderActive", false);
         }
     }
 
