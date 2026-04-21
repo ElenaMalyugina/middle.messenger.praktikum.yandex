@@ -28,7 +28,7 @@ export default class MessageBoxAvatarForm extends Block<MessageBoxAvatarProps>{
     }
 
     protected submitForm = (file: File)=>{
-        const validatorResult = validate(file, ["validatorFileImage"]);
+        const validatorResult = validate(file, ["validatorFileImage","validatorFileMaxSize"]);
 
         if(!validatorResult.isValid){
             if(validatorResult.text){

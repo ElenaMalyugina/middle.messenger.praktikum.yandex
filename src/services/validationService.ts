@@ -118,13 +118,26 @@ const validatorFileImage = (file: unknown) =>{
     if (allowedExtensions.test(file.name) && allowedMimes.includes(file.type)) {
         return {
             isValid: true,
-            text: "Можно загрузить JPEG, JPG, PNG, GIF, WebP"
+            text: ""
         };
     }
 
     return {
         isValid: false,
         text: "Можно загрузить JPEG, JPG, PNG, GIF, WebP"
+    };
+}
+
+const validatorFileMaxSize = (file: unknown) =>{
+    if(file instanceof File && file.size < 1024000){
+        return {
+            isValid: true,
+            text: ""
+        };
+    }
+    return {
+        isValid: false,
+        text: "Файл слишком большой"
     };
 }
 
@@ -191,6 +204,10 @@ export const validate = (value: unknown, validators:string[]): formError =>{
 
         if(validator == "validatorFileImage"){
             return validatorFileImage(value)
+        }
+
+        if(validator == "validatorFileMaxSize"){
+            return validatorFileMaxSize(value)
         }
 
         return noError

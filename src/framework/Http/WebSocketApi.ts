@@ -139,7 +139,7 @@ export default class WebSocketApi {
             if (this.socket && this.socket.readyState === WebSocket.OPEN) {
                 this.socket.send(JSON.stringify({ type: "ping" }));
             }
-        }, 30000);
+        }, 10000);
     }
 
     private connect = (chatId: number, userId: number): void => {

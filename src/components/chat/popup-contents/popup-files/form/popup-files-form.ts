@@ -28,7 +28,7 @@ export default class PopupFilesForm extends Block<PopupFilesProps>{
 
     protected submitForm = (file: File)=>{
         this.errorFormHandler("");
-        const validatorResult = validate(file, ["validatorFileImage"]);
+        const validatorResult = validate(file, ["validatorFileImage","validatorFileMaxSize"]);
 
         if(!validatorResult.isValid){
             if(validatorResult.text){
