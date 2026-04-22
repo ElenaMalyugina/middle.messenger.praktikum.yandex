@@ -76,11 +76,7 @@ registerComponent(MessageBoxAvatarForm);
 registerComponent(MessagesUsersList);
 
 
-interface ChatPageProps extends BlockOwnProps{
-    sidebarActive?: boolean;
-}
-
-export default class Chat extends Block<ChatPageProps>{
+export default class Chat extends Block<BlockOwnProps>{
     static componentName = 'Chat';
     protected template = chatTemplate;
     private activeSidebarClass = "chat__sidebar--active";

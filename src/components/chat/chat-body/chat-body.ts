@@ -19,6 +19,9 @@ export default class ChatBody extends Block<ChatBodyProps>{
 
     constructor(props: ChatBodyProps){
         super(props);
+        this.props.currentChatId = null;
+        this.props.isSelectedChat = false;
+
         Store.subscribe(()=>{
             this.socketConnect();
         })
@@ -30,8 +33,6 @@ export default class ChatBody extends Block<ChatBodyProps>{
         if(activeChat && (activeChat.id === this.props.currentChatId)) return;
 
         if(!activeChat) {
-            this.messagesController.closeConnection();
-
             this.setProps({
                 currentChatId: null,
                 isSelectedChat: false

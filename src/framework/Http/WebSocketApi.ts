@@ -42,21 +42,23 @@ export default class WebSocketApi {
     }
 
     public async start(chatId: number, userId: number): Promise<void> {
-        this.closeConnection()
-            .then(async() => {
-                try {
-                    const tokenObj = await this.getToken(chatId);
-                    this.token = tokenObj.token;
-                    this.chatId = chatId;
-                    this.userId = userId;
-                    return this.connect();
-                } catch (e) {
-                    console.error("Ошибка при старте WebSocket:", e);
-                    return;
-                }
-            }
-        )
+        if(this.socket){
+            await this.closeConnection();
+        }
+        return await this.startConnect(chatId, userId);
+    }
 
+    private async startConnect(chatId: number, userId: number){
+        try {
+            const tokenObj = await this.getToken(chatId);
+            this.token = tokenObj.token;
+            this.chatId = chatId;
+            this.userId = userId;
+            return this.connect();
+        } catch (e) {
+            console.error("Ошибка при старте WebSocket:", e);
+            return;
+        }
     }
 
     public send(data: SocketRequest): void{
