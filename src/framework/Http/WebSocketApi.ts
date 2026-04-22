@@ -54,7 +54,6 @@ export default class WebSocketApi {
             this.token = tokenObj.token;
             this.chatId = chatId;
             this.userId = userId;
-            this.flag = true;
             return this.connect();
         } catch (e) {
             console.error("Ошибка при старте WebSocket:", e);
