@@ -37,6 +37,8 @@ export default class ChatBody extends Block<ChatBodyProps>{
                 currentChatId: null,
                 isSelectedChat: false
             });
+            this.messagesController.closeConnection();
+
         }
         else if(this.props.currentChatId !== activeChat.id){
             this.messagesController.startConnection(activeChat.id);
@@ -48,5 +50,7 @@ export default class ChatBody extends Block<ChatBodyProps>{
         }
     }
 
-
+    protected componentWillUnmount(): void {
+        this.messagesController.closeConnection();
+    }
 }

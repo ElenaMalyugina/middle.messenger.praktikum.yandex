@@ -25,19 +25,25 @@ export default class ChatsList extends Block<ChatsListProps>{
         });
 
         this.chatsController.getChats();
+
     }
 
-    protected componentDidMount(): void {
-        this.intervalId = setInterval(
-            ()=>{
-                const queryString = Store.getState().queryString as string;
-                this.chatsController.getChats(queryString);
-            },
-            20000
-        );
+    protected render(): void {
+        super.render()
+        if(!this.intervalId){
+            this.intervalId = setInterval(
+                ()=>{
+                    console.log("tick");
+                    const queryString = Store.getState().queryString as string;
+                    this.chatsController.getChats(queryString);
+                },
+                20000
+            );
+        }
     }
 
     protected componentWillUnmount(): void {
+        //debugger
         if (this.intervalId !== null) {
             clearInterval(this.intervalId);
             this.intervalId = null;

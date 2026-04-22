@@ -174,10 +174,10 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
             if (this.domElement.parentNode) {
                 this.domElement.parentNode.removeChild(this.domElement);
             }
+            this.unmountComponent();
 
             // Очищаем все внутренние ссылки для последующего создания чистого компонента
             if(mode === "clean"){
-                //this.unmountComponent();
                 this.domElement = null;
                 this.children = [];
                 this.refs = {};
