@@ -15,7 +15,7 @@ interface MessagesSendFormProps extends FormProps{
 export default class MessageSendForm extends Form<MessagesSendFormProps>{
     static componentName = 'MessageSendForm';
     protected template = MessagesSendFormTemplate;
-    private messagesController = new MessagesController();
+    private messagesController = MessagesController;
 
     constructor(props:MessagesSendFormProps){
         super(props);

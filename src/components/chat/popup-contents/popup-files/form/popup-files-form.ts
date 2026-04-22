@@ -14,7 +14,7 @@ interface PopupFilesProps extends BlockOwnProps{
 export default class PopupFilesForm extends Block<PopupFilesProps>{
     static componentName = 'PopupFilesForm';
     protected template = PopupFilesFormTemplate;
-     private messagesController = new MessagesController();
+     private messagesController = MessagesController;
 
     constructor(props: PopupFilesProps){
         super(props);

@@ -16,7 +16,7 @@ interface MessagesListProps extends BlockOwnProps{
 export default class MessagesList extends Block<MessagesListProps>{
     static componentName = 'MessagesList';
     protected template = MessagesListTemplate;
-    private messagesController = new MessagesController();
+    private messagesController = MessagesController;
     private messageCount = 0;
     private scrollEl: HTMLElement | null = null;
 

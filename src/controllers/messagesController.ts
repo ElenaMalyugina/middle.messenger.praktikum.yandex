@@ -7,7 +7,7 @@ import type { MessageFile } from "../types/file";
 import { MessageModel, type Message, type MessageForSend } from "../types/message";
 import BaseFormController from "./baseFormController";
 
-export default class MessagesController extends BaseFormController<MessageForSend>{
+class MessagesController extends BaseFormController<MessageForSend>{
     private messagesApi: MessagesApi;
 
     constructor(){
@@ -127,3 +127,5 @@ export default class MessagesController extends BaseFormController<MessageForSen
         }
     }
 }
+
+export default new MessagesController();

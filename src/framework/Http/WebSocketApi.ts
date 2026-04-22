@@ -54,6 +54,7 @@ export default class WebSocketApi {
             this.token = tokenObj.token;
             this.chatId = chatId;
             this.userId = userId;
+            this.flag = true;
             return this.connect();
         } catch (e) {
             console.error("Ошибка при старте WebSocket:", e);
@@ -155,7 +156,6 @@ export default class WebSocketApi {
 
     private connect = (): void => {
         this.cleanupSocket();
-
         this.socket = new WebSocket(`${this.url}${this.userId}/${this.chatId}/${this.token}`);
         console.log(`Создаём соединение для чата ${this.chatId}, пользователя ${this.userId}`);
 
