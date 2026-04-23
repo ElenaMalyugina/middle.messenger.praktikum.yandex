@@ -4,23 +4,24 @@ import WebSocketApi, { type SocketRequest, type SocketResponse } from "../framew
 export default class MessagesApi  {
     private transport: HTTPTransport;
     private socket: WebSocketApi;
+    private originalOpenHandler: ()=>void;
 
 
     constructor(onMessageReceived: (response: SocketResponse) => void) {
         this.transport = new HTTPTransport('api/v2');
         this.socket = WebSocketApi.getInstance(onMessageReceived);
+
+        this.originalOpenHandler = this.socket.openHandler;
+
     }
 
     async start(chatId: number, userId: number): Promise<void> {
         return new Promise((resolve, reject) => {
-            const originalOpenHandler = this.socket.openHandler;
-
-            this.socket.openHandler = () => {
-                originalOpenHandler();
-                resolve();
-            };
-
             this.socket.start(chatId, userId)
+                .then(res=>{
+                    this.originalOpenHandler();
+                    resolve(res)
+                })
                 .catch((e)=>reject(e));
         });
     }
