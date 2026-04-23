@@ -22,6 +22,7 @@
     "autoprefixer": "^10.4.27",
     "eslint": "^10.1.0",
     "globals": "^17.4.0",
+    "jest": "^30.3.0",
     "postcss": "^8.5.8",
     "postcss-extend-rule": "^4.0.0",
     "postcss-nested": "^7.0.2",

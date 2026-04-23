@@ -21,10 +21,12 @@ export default class ChatBody extends Block<ChatBodyProps>{
         super(props);
         this.props.currentChatId = null;
         this.props.isSelectedChat = false;
+    }
 
-        Store.subscribe(()=>{
-            this.socketConnect();
-        })
+    protected componentDidMount(): void {
+        Store.subscribe(
+            this.socketConnect
+        )
     }
 
     socketConnect=()=>{
@@ -51,6 +53,7 @@ export default class ChatBody extends Block<ChatBodyProps>{
     }
 
     protected componentWillUnmount(): void {
-        this.messagesController.closeConnection();
+        //this.messagesController.closeConnection();
+        Store.unsubscribe(this.socketConnect);
     }
 }
