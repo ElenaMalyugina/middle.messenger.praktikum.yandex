@@ -3,7 +3,6 @@ import Block, { type BlockOwnProps } from "../../../framework/Block";
 import MessagesBoxHeaderTemplate from "./messages-box-header.hbs?raw";
 import PopupUser from "../popup-contents/popup-user/popup-user";
 import Store from "../../../framework/store/Store";
-import { type ChatData } from "../../../types/chatData";
 import { UserService } from "../../../services/userService";
 import { ChatsService } from "../../../services/chatsService";
 
@@ -25,10 +24,8 @@ export default class MessagesBoxHeader extends Block<MessagesBoxHeaderProps>{
 
     constructor(props: MessagesBoxHeaderProps){
         super(props);
+        this.props.popupUserShow = this.popupUserShow
 
-        this.setProps({
-            popupUserShow: this.popupUserShow
-        })
     }
 
     protected componentDidMount(): void {
