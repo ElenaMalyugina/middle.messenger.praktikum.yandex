@@ -21,18 +21,24 @@ export default class ProfileChangePasswordForm extends Form<ProfileChangePasswor
 
     constructor(props: ProfileChangePasswordFormProps){
         super(props);
+    }
 
-        Store.subscribe(()=>{
-            //если ошибка на бэке
-            this.errorFormHandler();
-        })
-
-        this.setProps({
+    protected componentDidMount(): void {
+         this.setProps({
             data: {...initialData}
         })
+
+        this.removeStoreListeners = Store.subscribe(
+            //если ошибка на бэке
+            this.errorFormHandler
+        )
     }
 
     protected submitForm = ()=>{
         this.changePasswordController.submitFormHandler(this);
     };
+
+    protected componentWillUnmount(): void {
+        this.removeStoreListeners()
+    }
 }

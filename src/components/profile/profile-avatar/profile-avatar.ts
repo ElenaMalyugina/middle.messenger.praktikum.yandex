@@ -22,10 +22,14 @@ export default class ProfileAvatar extends Block<ProfileAvatarProps>{
     constructor(props: ProfileAvatarProps){
         super(props);
 
-        Store.subscribe(()=>{
-            this.updateData();
-        })
     }
+
+    protected componentDidMount(): void {
+        this.removeStoreListeners = Store.subscribe(
+            this.updateData
+        )
+    }
+
 
     protected updateData=()=>{
         const userDataRaw = Store.getState().userData as UserInfo;
@@ -43,5 +47,9 @@ export default class ProfileAvatar extends Block<ProfileAvatarProps>{
                 userData: {...userData}
             }
         )
+    }
+
+    protected componentWillUnmount(): void {
+        this.removeStoreListeners()
     }
 }

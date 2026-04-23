@@ -14,14 +14,22 @@ export default class ProfileInfoBlock extends Block<ProfileInfoBlockProps> {
     constructor(props: ProfileInfoBlockProps){
         super(props);
 
-        Store.subscribe(()=>{
-            this.updateData();
-        })
+
+    }
+
+    protected componentDidMount(): void {
+        this.removeStoreListeners = Store.subscribe(
+            this.updateData
+        )
     }
 
     protected updateData = ()=>{
         const userData = Store.getState().userData;
         if(!userData) return;
         this.setProps({data: userData as UserInfo})
+    }
+
+    protected componentWillUnmount(): void {
+        this.removeStoreListeners()
     }
 }
