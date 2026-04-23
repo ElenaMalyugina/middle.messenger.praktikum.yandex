@@ -11,6 +11,8 @@ interface ChatsListProps extends BlockOwnProps{
     chats: ChatItemProps[];
 }
 
+window.intervals = [];
+
 export default class ChatsList extends Block<ChatsListProps>{
     static componentName = 'ChatsList';
     protected template = ChatsListTemplate;
@@ -39,15 +41,16 @@ export default class ChatsList extends Block<ChatsListProps>{
                 },
                 20000
             );
+
+            window.intervals.push(this.intervalId);
         }
     }
 
     protected componentWillUnmount(): void {
-        //debugger
-        if (this.intervalId !== null) {
-            clearInterval(this.intervalId);
-            this.intervalId = null;
-        }
+        window.intervals.forEach(el=>{
+            clearInterval(el);
+        })
+        this.intervalId = null;
     }
 
     protected updateChats = ()=>{
