@@ -14,6 +14,8 @@ interface Token {
     token: string;
 }
 
+window.sockets = [];
+
 export default class WebSocketApi {
     private static instance: WebSocketApi;
     private socket: WebSocket | null = null;
@@ -45,11 +47,18 @@ export default class WebSocketApi {
         if(this.socket){
             await this.closeConnection();
         }
+
+        console.log("Сокеты ", window.sockets)
+
         return await this.startConnect(chatId, userId);
     }
 
     private async startConnect(chatId: number, userId: number){
         try {
+            window.sockets.forEach(socket =>{
+                socket.close();
+            })
+
             const tokenObj = await this.getToken(chatId);
             this.token = tokenObj.token;
             this.chatId = chatId;
@@ -156,6 +165,7 @@ export default class WebSocketApi {
     private connect = (): void => {
         this.cleanupSocket();
         this.socket = new WebSocket(`${this.url}${this.userId}/${this.chatId}/${this.token}`);
+        window.sockets.push(this.socket);
         console.log(`Создаём соединение для чата ${this.chatId}, пользователя ${this.userId}`);
 
 
@@ -183,6 +193,7 @@ export default class WebSocketApi {
             clearInterval(this.pingInterval);
             this.pingInterval = null;
         }
+
     }
 
     private startReconnect(): void {
