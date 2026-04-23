@@ -5,7 +5,6 @@ import ErrorMessage from "../../../ui-units/error-message/error-message";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import { validate } from "../../../services/validationService";
 import ChatsController from "../../../controllers/chatsController";
-import type { ChatData } from "../../../types/chatData";
 import { ChatsService } from "../../../services/chatsService";
 
 interface MessageBoxAvatarProps extends BlockOwnProps{
