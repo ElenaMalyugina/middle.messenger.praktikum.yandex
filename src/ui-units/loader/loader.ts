@@ -34,7 +34,7 @@ export default abstract class Loader extends Block<LoaderProps> {
             this.show()
         }
         else{
-            this.hide();
+            this.loaderHide();
         }
     }
 
@@ -42,7 +42,7 @@ export default abstract class Loader extends Block<LoaderProps> {
         this.setProps({isActive: true});
     }
 
-    hide=()=>{
+    loaderHide=()=>{
         this.setProps({isActive: false});
     }
 }
