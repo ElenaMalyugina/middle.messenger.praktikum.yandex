@@ -32,6 +32,7 @@ export default class MessagesList extends Block<MessagesListProps>{
     }
 
     protected componentDidMount(): void {
+        //debugger
         this.scrollEl = document.getElementById("chat-scroll");
     }
 
@@ -142,5 +143,9 @@ export default class MessagesList extends Block<MessagesListProps>{
         this.setProps({
             messages: [...resMessages]
         });
+    }
+
+    protected componentWillUnmount(): void {
+        //debugger
     }
 }

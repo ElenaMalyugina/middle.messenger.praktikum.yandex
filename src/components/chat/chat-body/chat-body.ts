@@ -16,7 +16,6 @@ export default class ChatBody extends Block<ChatBodyProps>{
     protected template = ChatBodyTemplate;
     private messagesController = MessagesController;
 
-
     constructor(props: ChatBodyProps){
         super(props);
         this.props.currentChatId = null;
@@ -24,7 +23,7 @@ export default class ChatBody extends Block<ChatBodyProps>{
     }
 
     protected componentDidMount(): void {
-        Store.subscribe(
+        this.removeStoreListeners = Store.subscribe(
             this.socketConnect
         )
     }
@@ -53,7 +52,6 @@ export default class ChatBody extends Block<ChatBodyProps>{
     }
 
     protected componentWillUnmount(): void {
-        //this.messagesController.closeConnection();
-        Store.unsubscribe(this.socketConnect);
+       this.removeStoreListeners()
     }
 }

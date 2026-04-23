@@ -19,11 +19,12 @@ export default class PopupFilesForm extends Block<PopupFilesProps>{
     constructor(props: PopupFilesProps){
         super(props);
         this.props.onChange = this.submitForm;
+    }
 
-        Store.subscribe(()=>{
-            this.serverErrorFormHandler();
-        })
-
+    protected componentDidMount(): void {
+        this.removeStoreListeners = Store.subscribe(
+            this.serverErrorFormHandler
+        )
     }
 
     protected submitForm = (file: File)=>{
@@ -49,6 +50,10 @@ export default class PopupFilesForm extends Block<PopupFilesProps>{
         const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
         if(!errorMessageBlock) return;
         errorMessageBlock.setProps({message: errorText});
+    }
+
+    protected componentWillUnmount(): void {
+        this.removeStoreListeners();
     }
 
 }

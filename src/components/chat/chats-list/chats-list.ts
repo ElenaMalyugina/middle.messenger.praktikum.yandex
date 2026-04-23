@@ -21,17 +21,14 @@ export default class ChatsList extends Block<ChatsListProps>{
 
     constructor(props: ChatsListProps){
         super(props);
-
-        Store.subscribe(()=>{
-            this.updateChats();
-        });
-
         this.chatsController.getChats();
-
     }
 
-    protected render(): void {
-        super.render()
+    protected componentDidMount(): void {
+        this.removeStoreListeners = Store.subscribe(
+            this.updateChats
+        );
+
         if(!this.intervalId){
             this.intervalId = setInterval(
                 ()=>{
@@ -51,6 +48,7 @@ export default class ChatsList extends Block<ChatsListProps>{
             clearInterval(el);
         })
         this.intervalId = null;
+        this.removeStoreListeners();
     }
 
     protected updateChats = ()=>{

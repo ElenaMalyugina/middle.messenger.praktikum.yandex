@@ -29,10 +29,12 @@ export default class MessagesBoxHeader extends Block<MessagesBoxHeaderProps>{
         this.setProps({
             popupUserShow: this.popupUserShow
         })
+    }
 
-        Store.subscribe(()=>{
-            this.updateData()
-        })
+    protected componentDidMount(): void {
+        this.removeStoreListeners =  Store.subscribe(
+            this.updateData
+        )
     }
 
     protected events={
@@ -63,5 +65,9 @@ export default class MessagesBoxHeader extends Block<MessagesBoxHeaderProps>{
         if(popup){
             popup.popupShow(event, "#user-button", activeClass);
         }
+    }
+
+    protected componentWillUnmount(): void {
+        this.removeStoreListeners();
     }
 }

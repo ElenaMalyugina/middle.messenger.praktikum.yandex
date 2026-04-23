@@ -21,10 +21,12 @@ export default abstract class Loader extends Block<LoaderProps> {
         if(!props.text){
             this.props.text = "В процессе...";
         }
+    }
 
-        Store.subscribe(()=>{
-            this.loaderHandler();
-        })
+    protected componentDidMount(): void {
+        this.removeStoreListeners = Store.subscribe(
+            this.loaderHandler
+        )
     }
 
     private loaderHandler = ()=>{
@@ -44,5 +46,9 @@ export default abstract class Loader extends Block<LoaderProps> {
 
     loaderHide=()=>{
         this.setProps({isActive: false});
+    }
+
+    protected componentWillUnmount(): void {
+        this.removeStoreListeners();
     }
 }

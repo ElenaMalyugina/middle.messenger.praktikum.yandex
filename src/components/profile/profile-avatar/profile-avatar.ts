@@ -21,6 +21,7 @@ export default class ProfileAvatar extends Block<ProfileAvatarProps>{
 
     constructor(props: ProfileAvatarProps){
         super(props);
+
         Store.subscribe(()=>{
             this.updateData();
         })

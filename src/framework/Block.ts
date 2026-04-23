@@ -39,6 +39,8 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
     /** В этом объекте ключ — это название метода, а значение — обработчик */
     protected events: EventListType = {};
 
+    protected removeStoreListeners: ()=>void = ()=>{}
+
     /** Если у компонента нет свойств, задаём пустой объект */
     constructor(props: Props = {} as Props) {
         this.props = props;
@@ -179,6 +181,7 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
             // Очищаем все внутренние ссылки для последующего создания чистого компонента
             if(mode === "clean"){
                 this.domElement = null;
+
                 this.children = [];
                 this.refs = {};
                 if (this.props.__children) {

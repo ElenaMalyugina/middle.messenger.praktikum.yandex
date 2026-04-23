@@ -20,11 +20,12 @@ export default class MessageBoxAvatarForm extends Block<MessageBoxAvatarProps>{
     constructor(props: MessageBoxAvatarProps){
         super(props);
         this.props.onChange = this.submitForm;
+    }
 
-        Store.subscribe(()=>{
-            //если ошибка на бэке
-            this.serverErrorHandler();
-        })
+    protected componentDidMount(): void {
+        Store.subscribe(
+            this.serverErrorHandler
+        )
     }
 
     protected submitForm = (file: File)=>{
@@ -52,6 +53,10 @@ export default class MessageBoxAvatarForm extends Block<MessageBoxAvatarProps>{
         const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
         if(!errorMessageBlock) return;
         errorMessageBlock.setProps({message: errorText});
+    }
+
+    protected componentWillUnmount(): void {
+        this.removeStoreListeners()
     }
 
 }

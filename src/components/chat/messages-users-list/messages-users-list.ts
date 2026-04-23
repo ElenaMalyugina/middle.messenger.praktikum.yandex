@@ -22,11 +22,11 @@ export default class MessagesUsersList extends Block<MessagesUsersListProps>{
         this.props.users = [];
 
         this.getChatUsers();
+    }
 
-        Store.subscribe(
-            ()=>{
-                this.updateUserList();
-            }
+    protected componentDidMount(): void {
+        this.removeStoreListeners = Store.subscribe(
+            this.updateUserList
         )
     }
 
@@ -64,6 +64,10 @@ export default class MessagesUsersList extends Block<MessagesUsersListProps>{
         }, [] as typeof users);
 
         return sortedUsers;
+    }
+
+    protected componentWillUnmount(): void {
+        this.removeStoreListeners()
     }
 
 }

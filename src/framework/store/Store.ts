@@ -35,11 +35,6 @@ class Store {
     private emit() {
         this.listeners.forEach(listener => listener());
     }
-
-    public unsubscribe(listener: Listener){
-        console.log(this.listeners)
-        this.listeners.delete(listener);
-    }
 }
 
 export default new Store();

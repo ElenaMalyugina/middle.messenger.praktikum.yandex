@@ -73,7 +73,6 @@ class MessagesController extends BaseFormController<MessageForSend>{
             setTimeout(()=>{
                 Store.setState("messagesError", "");
             }, 3000)
-            return;
         }
 
         const messagesArray = rawMessages.map(mess => new MessageModel(mess));
@@ -83,12 +82,14 @@ class MessagesController extends BaseFormController<MessageForSend>{
         Store.setState("isLoaderActive", false);
 
         //Найти причину - там начинает вызываться 2 раза
-        if(oldMessages.length > 0 && oldMessages[0].id === messagesArrayReversed[0].id){
+        /*if(oldMessages.length > 0 && oldMessages[0].id === messagesArrayReversed[0].id){
             Store.setState("messages", [...messagesArrayReversed]);
         }
         else{
+
             Store.setState("messages", [...messagesArrayReversed, ...oldMessages]);
-        }
+        }*/
+        Store.setState("messages", [...messagesArrayReversed, ...oldMessages]);
     }
 
     private onSendMessageCallback = (rawMessage: SocketResponse)=>{
