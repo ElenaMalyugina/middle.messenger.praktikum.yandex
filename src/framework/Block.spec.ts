@@ -1,185 +1,100 @@
 import * as Handlebars from 'handlebars';
-import Block, { type BlockOwnProps } from './Block'; // путь к вашему классу Block
-
+import Block, { type BlockOwnProps } from './Block';
 import { describe, expect, beforeEach, jest, test, afterEach } from '@jest/globals';
 
-interface TestProps extends BlockOwnProps{
-    text: string;
+
+interface TestProps extends BlockOwnProps {
+  text: string;
 }
 
 class TestableBlock extends Block<TestProps> {
-    protected template = "";
+  protected template = '';
 
-    constructor(template: string, props: TestProps){
-        super(props)
+  constructor(template: string, props: TestProps) {
+    super(props);
+    this.template = template;
+  }
 
-        this.template = template;
-    }
-
-    getProps() {
-        return this.props;
-    }
+  getProps() {
+    return this.props;
+  }
 }
 
-// Мокируем зависимости
-jest.mock('handlebars');
-jest.mock('../utils/deepEqual');
+// Мокируем зависимости ДО describe
+jest.mock('handlebars', () => ({
+  compile: jest.fn().mockImplementation(() => (context: unknown): string => {
+    const props = context as Partial<TestProps>;
+    return `<div>${props.text || ''}</div>`;
+  })
+}));
+
+jest.mock('../utils/deepEqual', () => jest.fn((a: any, b: any) => {
+  if (typeof a !== 'object' && typeof b !== 'object') {
+    return a === b;
+  }
+  return JSON.stringify(a) === JSON.stringify(b);
+}));
 
 describe('Block class', () => {
-    let mockTemplate: string;
-    let mockProps: any;
-    let block: TestableBlock;
+  let mockTemplate: string;
+  let mockProps: TestProps;
+  let block: TestableBlock;
 
-    beforeEach(() => {
-        // Инициализируем моки перед каждым тестом
-        mockTemplate = '<div>{{text}}</div>';
-        mockProps = { text: 'Test text' };
+  beforeEach(() => {
+    mockTemplate = '<div>{{text}}</div>';
+    mockProps = { text: 'Test text' };
 
-        // Создаём мок для Handlebars.compile
-        (Handlebars.compile as jest.Mock).mockReturnValue(() => '<div>Test text</div>');
+    block = new TestableBlock(mockTemplate, mockProps);
+  });
 
-        block = new TestableBlock(mockTemplate, mockProps);
-    });
+  afterEach(() => {
+    jest.clearAllMocks(); // Очищаем моки между тестами
+  });
 
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
+  test('should create instance', () => {
+    expect(block).toBeTruthy();
+    expect(block instanceof TestableBlock).toBe(true);
+  });
 
-    test('should create instance', () => {
-        expect(block).toBeTruthy();
-    });
+  test('should create instance with props', () => {
+    const props = block.getProps();
+    expect(props).toHaveProperty('text');
+    expect(typeof props.text).toBe('string');
+    expect(props.text).toBe('Test text');
+  });
 
-    test('should create instance with props', () => {
-        expect(block.getProps()).toHaveProperty('text');
+  test('element() should return domElement after render', () => {
+    // Убедимся, что domElement ещё не создан
+    expect((block as any).domElement).toBeNull();
 
-        expect(typeof block.getProps().text).toBe('string');
-
-        expect(block.getProps().text).toBe('Test text');
-    });
-
-  /*test('element() should return domElement after render', () => {
     const element = block.element();
+
+    // Проверяем, что возвращён DOM‑элемент
     expect(element).toBeInstanceOf(Element);
+    expect(element?.tagName).toBe('DIV');
+    expect(element?.textContent).toBe('Test text');
+
+    // Проверяем, что domElement инициализирован
+    expect((block as any).domElement).not.toBeNull();
+    expect((block as any).domElement).toBe(element);
+
+    // Проверяем количество вызовов Handlebars.compile
     expect((Handlebars.compile as jest.Mock).mock.calls.length).toBe(1);
   });
 
   test('setProps() should trigger re-render when props change', () => {
-    const newProps = { text: 'New text' };
-    const renderSpy = jest.spyOn(block, 'render');
+    const oldElement = block.element();
+    const oldContent = oldElement?.textContent || '';
 
+    const newProps = { text: 'New text' };
     block.setProps(newProps);
 
-    expect(renderSpy).toHaveBeenCalled();
-    expect(block.props.text).toBe('New text');
+    const newElement = block.element();
+    const newContent = newElement?.textContent || '';
+
+    expect(newElement).not.toBe(oldElement);
+    expect(newContent).not.toBe(oldContent);
+    expect(newContent).toBe('New text');
+    expect(block.getProps().text).toBe('New text');
   });
-
-  test('setProps() should not trigger re-render when props are the same', () => {
-    (deepEqual as jest.Mock).mockReturnValue(true);
-    const renderSpy = jest.spyOn(block, 'render');
-
-    block.setProps({ text: 'Test text' });
-
-    expect(renderSpy).not.toHaveBeenCalled();
-  });
-
-  test('isNeedRerender() should return true for different primitive values', () => {
-    const result = (block as any).isNeedRerender({ text: 'new' }, { text: 'old' });
-    expect(result).toBe(true);
-  });
-
-  test('isNeedRerender() should use deepEqual for objects', () => {
-    (deepEqual as jest.Mock).mockReturnValue(false);
-    const result = (block as any).isNeedRerender(
-      { obj: { a: 1 } },
-      { obj: { a: 2 } }
-    );
-    expect(deepEqual).toHaveBeenCalled();
-    expect(result).toBe(true);
-  });
-
-  test('attachListeners() should add event listeners', () => {
-    const mockElement = document.createElement('div');
-    block['domElement'] = mockElement;
-    block['events'] = { click: jest.fn() };
-
-    const addEventListenerSpy = jest.spyOn(mockElement, 'addEventListener');
-    (block as any).attachListeners();
-
-    expect(addEventListenerSpy).toHaveBeenCalledWith('click', expect.any(Function));
-  });
-
-  test('removeListeners() should remove event listeners', () => {
-    const mockElement = document.createElement('div');
-    block['domElement'] = mockElement;
-    block['events'] = { click: jest.fn() };
-
-    const removeEventListenerSpy = jest.spyOn(mockElement, 'removeEventListener');
-    (block as any).removeListeners();
-
-    expect(removeEventListenerSpy).toHaveBeenCalledWith('click', expect.any(Function));
-  });
-
-  test('render() should call unmountComponent and mountComponent', () => {
-    const unmountSpy = jest.spyOn(block as any, 'unmountComponent');
-    const mountSpy = jest.spyOn(block as any, 'mountComponent');
-
-    block.render();
-
-    expect(unmountSpy).toHaveBeenCalled();
-    expect(mountSpy).toHaveBeenCalled();
-  });
-
-  test('compile() should process template and children', () => {
-    const mockChild = {
-      component: new Block({}),
-      embed: jest.fn(),
-    };
-    const propsWithChildren = {
-      ...mockProps,
-      __children: [mockChild],
-      __refs: {},
-    };
-
-    class TestBlockWithChildren extends Block<any> {
-      protected template = '<div><span ref="testRef"></span></div>';
-      constructor(props: any) {
-        super(props);
-      }
-    }
-
-    const blockWithChildren = new TestBlockWithChildren(propsWithChildren);
-    const compiledElement = (blockWithChildren as any).compile();
-
-    expect(compiledElement).toBeInstanceOf(Element);
-    expect(blockWithChildren.refs).toHaveProperty('testRef');
-    expect(mockChild.embed).toHaveBeenCalled();
-  });
-
-  test('hide() should remove element from DOM', () => {
-    const mockParent = document.createElement('div');
-    const mockElement = document.createElement('div');
-    mockParent.appendChild(mockElement);
-
-    block['domElement'] = mockElement;
-
-    const unmountSpy = jest.spyOn(block as any, 'unmountComponent');
-    block.hide('clean');
-
-    expect(unmountSpy).toHaveBeenCalled();
-    expect(mockParent.contains(mockElement)).toBe(false);
-    expect(block['domElement']).toBeNull();
-  });
-
-  test('renderDom() should append element to root', () => {
-    const mockRoot = document.createElement('div');
-    document.body.appendChild(mockRoot);
-
-    jest.spyOn(document, 'querySelector').mockReturnValue(mockRoot);
-    const appendChildSpy = jest.spyOn(mockRoot, 'appendChild');
-
-    block.renderDom('#test-root');
-
-    expect(appendChildSpy).toHaveBeenCalled();
-    document.body.removeChild(mockRoot);
-  });*/
 });
