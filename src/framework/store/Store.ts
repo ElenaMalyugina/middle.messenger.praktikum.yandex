@@ -21,7 +21,6 @@ class Store {
 
     public subscribe(listener: Listener): () => void {
         this.listeners.add(listener);
-        console.log(this.listeners)
         // Возвращаем функцию для отписки
         return () => {
             this.listeners.delete(listener);

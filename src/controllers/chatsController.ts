@@ -20,8 +20,8 @@ export default class ChatsController extends BaseFormController<AddChat>  {
             const chatsList = await this.chatsApi.request({data:{title: queryString}});
             Store.setState("chats", chatsList);
         }
-        catch(e){
-            console.log(e);
+        catch(_e){
+
         }
     }
 
@@ -97,8 +97,8 @@ export default class ChatsController extends BaseFormController<AddChat>  {
         try{
             return await this.chatsApi.getUnreadCount(chatId);
         }
-        catch(e){
-            console.log(e);
+        catch(_e){
+
         }
     }
 }

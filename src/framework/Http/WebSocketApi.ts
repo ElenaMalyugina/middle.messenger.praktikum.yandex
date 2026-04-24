@@ -47,9 +47,6 @@ export default class WebSocketApi {
         if(this.socket){
             await this.closeConnection();
         }
-
-        console.log("Сокеты ", window.sockets)
-
         return await this.startConnect(chatId, userId);
     }
 
@@ -72,7 +69,6 @@ export default class WebSocketApi {
 
     public send(data: SocketRequest): void{
         if (!this.socket) {
-            console.log("Сокет не найден, добавляем в буфер");
             this.messageBuffer.push(data);
             return;
         }
@@ -82,11 +78,8 @@ export default class WebSocketApi {
                 this.socket.send(JSON.stringify(data));
                 break;
             case WebSocket.CONNECTING:
-                console.log("Соединение устанавливается, добавляем в буфер");
                 this.messageBuffer.push(data);
                 break;
-            default:
-                console.log("Сокет закрыт или закрывается, не можем отправить");
         }
     }
 
@@ -95,7 +88,6 @@ export default class WebSocketApi {
     }
 
     openHandler = (): void => {
-        console.log('Соединение установлено');
         const connectMessage = {
             type: "connected"
         }
@@ -120,17 +112,11 @@ export default class WebSocketApi {
 
     protected closeHandler = (event: CloseEvent): void => {
         if (!event.wasClean) {
-            console.log('Обрыв соединения. Попытка реконнекта...');
             this.startReconnect();
-        } else {
-            console.log(`Соединение закрыто чисто ${this.chatId}`);
         }
-
-        console.log(`Код: ${event.code} | Причина: ${event.reason}`);
     };
 
     protected messageHandler = (event: MessageEvent): void => {
-        console.log('Получены данные', event.data);
         if (event.data) {
             try {
                 const response = JSON.parse(event.data) as SocketResponse;
@@ -166,8 +152,6 @@ export default class WebSocketApi {
         this.cleanupSocket();
         this.socket = new WebSocket(`${this.url}${this.userId}/${this.chatId}/${this.token}`);
         window.sockets.push(this.socket);
-        console.log(`Создаём соединение для чата ${this.chatId}, пользователя ${this.userId}`);
-
 
         this.socket.addEventListener('open', this.openHandler);
         this.socket.addEventListener('message', this.messageHandler);
@@ -198,12 +182,10 @@ export default class WebSocketApi {
 
     private startReconnect(): void {
         if (this.isReconnecting) {
-            console.log('Реконнект уже выполняется, новая попытка пропущена');
             return;
         }
 
         if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-            console.log('Достигнут лимит попыток реконнекта');
             const reconnectMessage = {
                 type: "reconnect failed"
             }
@@ -221,7 +203,6 @@ export default class WebSocketApi {
         const delay = this.reconnectDelay * Math.pow(2, this.reconnectAttempts - 1);
 
         setTimeout(() => {
-            console.log(`Попытка реконнекта #${this.reconnectAttempts} через ${delay} мс`);
             const reconnectMessage = {
                 type: "reconnect trying"
             }

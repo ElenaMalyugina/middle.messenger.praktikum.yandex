@@ -25,7 +25,7 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
             Store.setState("ActiveChatsUsers", users);
         }
         catch(_e){
-            console.log("Не удалось загрузить списки пользователей");
+
         }
     }
 
@@ -35,7 +35,7 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
             Store.setState("searchedUser", users);
         }
         catch(_e){
-            console.log("Не удалось загрузить");
+
         }
     }
 

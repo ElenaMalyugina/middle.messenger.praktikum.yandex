@@ -32,7 +32,6 @@ export default class ChatsList extends Block<ChatsListProps>{
         if(!this.intervalId){
             this.intervalId = setInterval(
                 ()=>{
-                    console.log("tick");
                     const queryString = Store.getState().queryString as string;
                     this.chatsController.getChats(queryString);
                 },

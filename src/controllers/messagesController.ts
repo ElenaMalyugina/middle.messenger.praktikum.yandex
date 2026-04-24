@@ -21,7 +21,6 @@ class MessagesController extends BaseFormController<MessageForSend>{
 
         this.messagesApi.start(chatId, currentUser)
             .then(() => {
-                console.log('Соединение установлено, запрашиваем историю сообщений');
                 this.getMessages(0);
             })
             .catch(error => {
@@ -43,8 +42,6 @@ class MessagesController extends BaseFormController<MessageForSend>{
     }
 
     protected getMessagesHandler = (response: SocketResponse)=>{
-        console.log('Получено сообщение от сокета:', response);
-
         //получение новых сообщений
         if(Array.isArray(response)){
             this.onGetMessagesHandler(response);
