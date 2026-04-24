@@ -23,18 +23,30 @@ export default class MessagesList extends Block<MessagesListProps>{
     constructor(props: MessagesListProps){
         super(props);
         this.props.addOldMessages = this.addOldMessages;
-        this.props.messages = [];
+        /*this.props.messages = [];
 
-        Store.subscribe(()=>{
+        this.removeStoreListeners = Store.subscribe(()=>{
             this.updateMessages();
             this.noMoreMessagesHandler();
-        })
+        })*/
     }
 
     protected componentDidMount(): void {
+
+        //this.props.messages = [];
+
+        this.removeStoreListeners = Store.subscribe(
+            this.updateHandler
+        )
         //debugger
         this.scrollEl = document.getElementById("chat-scroll");
     }
+
+    updateHandler=()=>{
+        this.updateMessages();
+        this.noMoreMessagesHandler();
+    }
+
 
     addOldMessages=()=>{
         //отменяем прокрутку при получении более старых сообщений
@@ -146,6 +158,6 @@ export default class MessagesList extends Block<MessagesListProps>{
     }
 
     protected componentWillUnmount(): void {
-        //debugger
+        this.removeStoreListeners();
     }
 }

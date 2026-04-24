@@ -52,6 +52,7 @@ export default class ChatBody extends Block<ChatBodyProps>{
     }
 
     protected componentWillUnmount(): void {
-       this.removeStoreListeners()
+        this.removeStoreListeners();
+        this.messagesController.closeConnection();
     }
 }

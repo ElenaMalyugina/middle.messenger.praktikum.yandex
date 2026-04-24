@@ -22,7 +22,7 @@ export default class MessageBoxAvatarForm extends Block<MessageBoxAvatarProps>{
     }
 
     protected componentDidMount(): void {
-        Store.subscribe(
+        this.removeStoreListeners= Store.subscribe(
             this.serverErrorHandler
         )
     }
