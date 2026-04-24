@@ -8,7 +8,7 @@
     "skipLibCheck": true,
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true,
+    //"verbatimModuleSyntax": true,
     "moduleDetection": "force",
     "noEmit": true,
     "strict": true,
@@ -19,7 +19,8 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "sourceMap": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "esModuleInterop": true
   },
   "include": ["src"]
 }
