@@ -131,31 +131,48 @@ describe('Block class', () => {
         expect(removeEventListenerSpy).toHaveBeenCalledWith('click', expect.any(Function));
     });
 
+    test('render() should call unmountComponent and mountComponent', () => {
+        const unmountSpy = jest.spyOn(block as any, 'unmountComponent');
+        const mountSpy = jest.spyOn(block as any, 'mountComponent');
+
+        (block as any).render();
+
+        expect(unmountSpy).toHaveBeenCalled();
+        expect(mountSpy).toHaveBeenCalled();
+    });
+
+    test('hide() should remove element from DOM', () => {
+        const mockParent = document.createElement('div');
+        const mockElement = document.createElement('div');
+        mockParent.appendChild(mockElement);
+
+        block['domElement'] = mockElement;
+
+        const unmountSpy = jest.spyOn(block as any, 'unmountComponent');
+        block.hide('clean');
+
+        expect(unmountSpy).toHaveBeenCalled();
+        expect(mockParent.contains(mockElement)).toBe(false);
+        expect(block['domElement']).toBeNull();
+    });
+
+    test('renderDom() should append element to root', () => {
+        const mockRoot = document.createElement('div');
+        document.body.appendChild(mockRoot);
+
+        jest.spyOn(document, 'querySelector').mockReturnValue(mockRoot);
+        const appendChildSpy = jest.spyOn(mockRoot, 'appendChild');
+
+        block.renderDom('#test-root');
+
+        expect(appendChildSpy).toHaveBeenCalled();
+        document.body.removeChild(mockRoot);
+    });
+
+
+
   /*
 
-
-
-
-  test('removeListeners() should remove event listeners', () => {
-    const mockElement = document.createElement('div');
-    block['domElement'] = mockElement;
-    block['events'] = { click: jest.fn() };
-
-    const removeEventListenerSpy = jest.spyOn(mockElement, 'removeEventListener');
-    (block as any).removeListeners();
-
-    expect(removeEventListenerSpy).toHaveBeenCalledWith('click', expect.any(Function));
-  });
-
-  test('render() should call unmountComponent and mountComponent', () => {
-    const unmountSpy = jest.spyOn(block as any, 'unmountComponent');
-    const mountSpy = jest.spyOn(block as any, 'mountComponent');
-
-    block.render();
-
-    expect(unmountSpy).toHaveBeenCalled();
-    expect(mountSpy).toHaveBeenCalled();
-  });
 
   test('compile() should process template and children', () => {
     const mockChild = {
