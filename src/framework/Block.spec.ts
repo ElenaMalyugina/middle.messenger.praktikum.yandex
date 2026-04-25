@@ -1,10 +1,11 @@
 import { deepEqual } from '../utils/deepEqual';
+import * as Handlebars from 'handlebars';
 import Block, { type BlockOwnProps } from './Block';
 import { describe, expect, beforeEach, jest, test, afterEach } from '@jest/globals';
 
 
 interface TestProps extends BlockOwnProps {
-    text: string;
+    text?: string;
 }
 
 class TestableBlock extends Block<Partial<TestProps>> {
@@ -37,7 +38,7 @@ jest.mock('../utils/deepEqual', () => ({
     })
 }));
 
-describe('Block class', () => {
+describe('Тесты для базового класса Block', () => {
     let mockTemplate: string;
     let mockProps: TestProps;
     let block: TestableBlock;
@@ -61,6 +62,10 @@ describe('Block class', () => {
     test('Создается экземпляр класса Block c props', () => {
         const props = block.getProps();
         expect(props).toHaveProperty('text');
+    });
+
+    test('props-значения применяются', () => {
+        const props = block.getProps();
         expect(props.text).toBe('Test text');
     });
 
@@ -151,6 +156,86 @@ describe('Block class', () => {
         expect(mountSpy).toHaveBeenCalled();
     });
 
+    test('compile() должен заполнять refs при наличии элемента с ref', () => {
+        const template = '<div><span ref="testRef"></span></div>';
+        const blockWithRef = new TestableBlock(template, {});
+
+        jest.spyOn(Handlebars, 'compile').mockReturnValue(
+            () => '<div><span ref="testRef"></span></div>'
+        );
+
+        (blockWithRef as any).compile();
+        const refs = (blockWithRef as any).refs;
+
+        expect(refs).toHaveProperty('testRef');
+        expect(refs.testRef.tagName).toBe('SPAN');
+    });
+
+    test('compile() должен добавлять __children', () => {
+        const mockEmbed1 = jest.fn((fragment: DocumentFragment) => {
+            const element = childComponent1.element();
+            if (element) fragment.appendChild(element);
+        });
+
+        const mockEmbed2 = jest.fn((fragment: DocumentFragment) => {
+            const element = childComponent1.element();
+            if (element) fragment.appendChild(element);
+        });
+
+        const childComponent1 = new TestableBlock(`<span id="child1">ChildContent</span>`, {});
+        const childComponent2 = new TestableBlock(`<span id="child2">ChildContent</span>`, {});
+
+        const props = {
+            __children: [
+                {
+                    component: childComponent1,
+                    embed: mockEmbed1
+                },
+                {
+                    component: childComponent2,
+                    embed: mockEmbed2
+                }
+            ]
+        };
+
+        const blockWithChildren = new TestableBlock(`<div id="parent"></div>`, props as any);
+        (blockWithChildren as any).compile();
+        const blockChildren = blockWithChildren.publicChildren;
+
+        expect(blockWithChildren).toBeTruthy();
+        expect(blockChildren).toHaveLength(2);
+
+        expect(blockChildren[0]).toEqual(childComponent1);
+        expect(blockChildren[1]).toEqual(childComponent2);
+    });
+
+
+    test('compile() должен вызывать embed() для дочернего компонента', () => {
+        const mockEmbed = jest.fn((fragment: DocumentFragment) => {
+            const element = childComponent.element();
+            if (element) fragment.appendChild(element);
+        });
+
+        const childComponent = new TestableBlock(`<span id="child1">ChildContent</span>`, {});
+
+        const props = {
+            __children: [
+                {
+                    component: childComponent,
+                    embed: mockEmbed
+                },
+
+            ]
+        };
+
+        const blockWithChildren = new TestableBlock(`<div id="parent"></div>`, props as any);
+        (blockWithChildren as any).compile();
+
+        expect(mockEmbed).toHaveBeenCalledTimes(1);
+    });
+
+
+
     test('hide() должен запускать unmountComponent', () => {
         const mockParent = document.createElement('div');
         const mockElement = document.createElement('div');
@@ -197,65 +282,6 @@ describe('Block class', () => {
         expect(appendChildSpy).toHaveBeenCalled();
         document.body.removeChild(mockRoot);
     });
-
-
-
-  /*
-
-
-  test('compile() should process template and children', () => {
-    const mockChild = {
-      component: new Block({}),
-      embed: jest.fn(),
-    };
-    const propsWithChildren = {
-      ...mockProps,
-      __children: [mockChild],
-      __refs: {},
-    };
-
-    class TestBlockWithChildren extends Block<any> {
-      protected template = '<div><span ref="testRef"></span></div>';
-      constructor(props: any) {
-        super(props);
-      }
-    }
-
-    const blockWithChildren = new TestBlockWithChildren(propsWithChildren);
-    const compiledElement = (blockWithChildren as any).compile();
-
-    expect(compiledElement).toBeInstanceOf(Element);
-    expect(blockWithChildren.refs).toHaveProperty('testRef');
-    expect(mockChild.embed).toHaveBeenCalled();
-  });
-
-  test('hide() should remove element from DOM', () => {
-    const mockParent = document.createElement('div');
-    const mockElement = document.createElement('div');
-    mockParent.appendChild(mockElement);
-
-    block['domElement'] = mockElement;
-
-    const unmountSpy = jest.spyOn(block as any, 'unmountComponent');
-    block.hide('clean');
-
-    expect(unmountSpy).toHaveBeenCalled();
-    expect(mockParent.contains(mockElement)).toBe(false);
-    expect(block['domElement']).toBeNull();
-  });
-
-  test('renderDom() should append element to root', () => {
-    const mockRoot = document.createElement('div');
-    document.body.appendChild(mockRoot);
-
-    jest.spyOn(document, 'querySelector').mockReturnValue(mockRoot);
-    const appendChildSpy = jest.spyOn(mockRoot, 'appendChild');
-
-    block.renderDom('#test-root');
-
-    expect(appendChildSpy).toHaveBeenCalled();
-    document.body.removeChild(mockRoot);
-  });*/
 
 
 });

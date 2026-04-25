@@ -150,11 +150,11 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
         const fragment = templateElement.content;
 
         if (this.props.__children) {
-        this.children = this.props.__children.map((child) => child.component);
+            this.children = this.props.__children.map((child) => child.component);
 
-        this.props.__children.forEach((child) => {
-            child.embed(fragment);
-        });
+            this.props.__children.forEach((child) => {
+                child.embed(fragment);
+            });
         }
 
         const defaultRefs = this.props?.__refs ?? {};
