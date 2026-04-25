@@ -171,7 +171,7 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
         return templateElement.content.firstElementChild;
     }
 
-    public hide(mode: RouteMode) {
+    public hide(mode?: RouteMode) {
         if (this.domElement) {
             if (this.domElement.parentNode) {
                 this.domElement.parentNode.removeChild(this.domElement);

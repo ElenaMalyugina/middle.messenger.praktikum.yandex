@@ -102,7 +102,6 @@ describe('Block class', () => {
             { obj: { a: 1 } },
             { obj: { a: 2 } }
         );
-
         expect(result).toBe(true);
     });
 
@@ -137,28 +136,52 @@ describe('Block class', () => {
         expect(removeEventListenerSpy).toHaveBeenCalledWith('click', expect.any(Function));
     });
 
-    test('render() должен вызывать unmountComponent and mountComponent', () => {
+    test('render() должен вызывать unmountComponent (в начале)', () => {
         const unmountSpy = jest.spyOn(block as any, 'unmountComponent');
+        (block as any).render();
+
+        expect(unmountSpy).toHaveBeenCalled();
+    });
+
+    test('render() должен вызывать mountComponent', () => {
         const mountSpy = jest.spyOn(block as any, 'mountComponent');
 
         (block as any).render();
 
-        expect(unmountSpy).toHaveBeenCalled();
         expect(mountSpy).toHaveBeenCalled();
     });
 
-    test('hide() должен удалять элемент из DOM', () => {
+    test('hide() должен запускать unmountComponent', () => {
+        const mockParent = document.createElement('div');
+        const mockElement = document.createElement('div');
+        mockParent.appendChild(mockElement);
+
+        block['domElement'] = mockElement;
+        const unmountSpy = jest.spyOn(block as any, 'unmountComponent');
+
+        block.hide();
+        expect(unmountSpy).toHaveBeenCalled();
+    });
+
+     test('hide() должен удалять элемент из children DomElement', () => {
         const mockParent = document.createElement('div');
         const mockElement = document.createElement('div');
         mockParent.appendChild(mockElement);
 
         block['domElement'] = mockElement;
 
-        const unmountSpy = jest.spyOn(block as any, 'unmountComponent');
-        block.hide('clean');
-
-        expect(unmountSpy).toHaveBeenCalled();
+        block.hide();
         expect(mockParent.contains(mockElement)).toBe(false);
+    });
+
+    test('hide("clean") должен удалять элемент из DOM', () => {
+        const mockParent = document.createElement('div');
+        const mockElement = document.createElement('div');
+        mockParent.appendChild(mockElement);
+
+        block['domElement'] = mockElement;
+
+        block.hide("clean");
         expect(block['domElement']).toBeNull();
     });
 
