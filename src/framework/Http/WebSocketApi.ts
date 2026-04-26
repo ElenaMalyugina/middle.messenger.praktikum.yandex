@@ -70,8 +70,8 @@ export default class WebSocketApi {
     }
 
     public send(data: SocketRequest): void{
-        if (!this.socket) {
-            this.messageBuffer.push(data);
+        if (!this.socket ) {
+            this.addMessagesInBuffer(data);
             return;
         }
 
@@ -80,8 +80,23 @@ export default class WebSocketApi {
                 this.socket.send(JSON.stringify(data));
                 break;
             case WebSocket.CONNECTING:
-                this.messageBuffer.push(data);
+                this.addMessagesInBuffer(data)
                 break;
+        }
+    }
+
+    private addMessagesInBuffer = (data: SocketRequest)=>{
+        //Предотвращаем бескконечное добавление
+        if(this.messageBuffer.length < 6){
+            this.messageBuffer.push(data);
+        }
+        else{
+            const bufferOverflowMessage = {
+                type: "bufferOverflow"
+            }
+            if (WebSocketApi.onMessagesReceived) {
+                WebSocketApi.onMessagesReceived(bufferOverflowMessage);
+            }
         }
     }
 

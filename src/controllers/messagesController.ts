@@ -62,6 +62,9 @@ class MessagesController extends BaseFormController<MessageForSend>{
         else if(response.type == "connected"){
             Store.setState("isLoaderActive", false);
         }
+        else if(response.type == "bufferOverflow"){
+            Store.setState("isLoaderActive", true);
+        }
     }
 
     private onGetMessagesHandler = (rawMessages: SocketResponse[])=>{
