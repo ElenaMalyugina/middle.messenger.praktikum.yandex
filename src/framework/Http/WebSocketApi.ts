@@ -52,9 +52,11 @@ export default class WebSocketApi {
 
     private async startConnect(chatId: number, userId: number){
         try {
-            window.sockets.forEach(socket =>{
-                socket.close();
-            })
+            if(window.sockets && window.sockets.length){
+                window.sockets.forEach(socket =>{
+                    socket.close();
+                })
+            }
 
             const tokenObj = await this.getToken(chatId);
             this.token = tokenObj.token;

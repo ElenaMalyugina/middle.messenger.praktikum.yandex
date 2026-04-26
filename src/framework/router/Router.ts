@@ -1,4 +1,3 @@
-import { deepEqual } from "../../utils/deepEqual";
 import type { BlockOwnProps } from "../Block";
 import type Block from "../Block";
 import Store from "../store/Store";
