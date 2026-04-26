@@ -86,7 +86,7 @@ export default class WebSocketApi {
     }
 
     private addMessagesInBuffer = (data: SocketRequest)=>{
-        //Предотвращаем бескконечное добавление
+        //Предотвращаем бесконечное добавление
         if(this.messageBuffer.length < 6){
             this.messageBuffer.push(data);
         }

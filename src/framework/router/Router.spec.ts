@@ -5,12 +5,12 @@ import Route from './Route';
 //import Store from '../store/Store';
 
 // Мок для History API
-/*const mockHistory = {
+const mockHistory = {
     pushState: jest.fn(),
     replaceState: jest.fn(),
     back: jest.fn(),
     forward: jest.fn(),
-};*/
+};
 
 // Мок для Store
 jest.mock('../store/Store', () => ({
@@ -90,7 +90,6 @@ describe('Router - use method', () => {
     it('должен принимать опции guards', () => {
         router.use('/messenger', MockBlock, {}, { guards: ['AuthGuard'] });
         const route = router['routes'][0];
-        console.log(router['routes'])
         expect(route.guards).toEqual(['AuthGuard']);
     });
 
@@ -99,4 +98,39 @@ describe('Router - use method', () => {
         expect(result).toBe(router);
     });
 });
+
+describe('Router - start method', () => {
+    let router: Router;
+
+    beforeEach(() => {
+        router = Router.getInstance('#app');
+        jest.clearAllMocks();
+        window.history = mockHistory as any;
+    });
+
+    it('должен добавлять обработчики событий', () => {
+        const addEventListenerSpy = jest.spyOn(window, 'addEventListener').mockImplementation(() => {});
+        const addDocumentEventListenerSpy = jest.spyOn(document, 'addEventListener').mockImplementation(() => {});
+
+        router.start();
+        expect(addEventListenerSpy).toHaveBeenNthCalledWith(
+            1,
+            'popstate',
+            expect.any(Function)
+        );
+
+        expect(addDocumentEventListenerSpy).toHaveBeenCalledWith(
+            'click',
+            expect.any(Function)
+        );
+    });
+
+    it('handleLinkClick должен обрабатывать внутренние ссылки', () => {
+
+    });
+});
+
+
+
+
 

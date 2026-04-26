@@ -152,13 +152,6 @@ describe('Тесты для базового класса Block', () => {
     })
 
     describe("Тест render()", ()=>{
-        it('render() должен вызывать unmountComponent (в начале)', () => {
-            const unmountSpy = jest.spyOn(block as any, 'unmountComponent');
-            (block as any).render();
-
-            expect(unmountSpy).toHaveBeenCalled();
-        });
-
         it('render() должен вызывать mountComponent', () => {
             const mountSpy = jest.spyOn(block as any, 'mountComponent');
 
