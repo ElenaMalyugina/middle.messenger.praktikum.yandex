@@ -181,6 +181,8 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
             // Очищаем все внутренние ссылки для последующего создания чистого компонента
             if(mode === "clean"){
                 this.domElement = null;
+                this.removeListeners();
+                this.removeStoreListeners();
 
                 this.children = [];
                 this.refs = {};
