@@ -1,7 +1,7 @@
 import { deepEqual } from '../utils/deepEqual';
 import * as Handlebars from 'handlebars';
 import Block, { type BlockOwnProps } from './Block';
-import { describe, expect, beforeEach, jest, test, afterEach } from '@jest/globals';
+import { describe, expect, beforeEach, jest, afterEach, it } from '@jest/globals';
 
 
 interface TestProps extends BlockOwnProps {
@@ -54,27 +54,27 @@ describe('Тесты для базового класса Block', () => {
         jest.clearAllMocks();
     });
 
-    test('Создается экземпляр класса Block', () => {
+    it('Создается экземпляр класса Block', () => {
         expect(block).toBeTruthy();
         expect(block instanceof TestableBlock).toBe(true);
     });
 
-    test('Создается экземпляр класса Block c props', () => {
+    it('Создается экземпляр класса Block c props', () => {
         const props = block.getProps();
         expect(props).toHaveProperty('text');
     });
 
-    test('props-значения применяются', () => {
+    it('props-значения применяются', () => {
         const props = block.getProps();
         expect(props.text).toBe('Test text');
     });
 
-    test('element() после рендера возвращает HTML элемент', () => {
+    it('element() после рендера возвращает HTML элемент', () => {
         const element = block.element();
         expect(element).toBeInstanceOf(HTMLElement);
     });
 
-    test('setProps() должен запускать ререндер после обновления props', () => {
+    it('setProps() должен запускать ререндер после обновления props', () => {
         const newProps = { text: 'New text' };
         const renderSpy = jest.spyOn(block as any, 'render');
         block.setProps(newProps);
@@ -82,19 +82,19 @@ describe('Тесты для базового класса Block', () => {
         expect(renderSpy).toHaveBeenCalled();
     });
 
-    test('setProps() НЕ должен запускать ререндер, если новые пропсы идентичны предыдущим', () => {
+    it('setProps() НЕ должен запускать ререндер, если новые пропсы идентичны предыдущим', () => {
         const renderSpy = jest.spyOn(block as any, 'render');
 
         block.setProps({ text: 'Test text' });
         expect(renderSpy).not.toHaveBeenCalled();
     });
 
-    test('isNeedRerender() должен возвращать true, если значения-примитивы равны', () => {
+    it('isNeedRerender() должен возвращать true, если значения-примитивы равны', () => {
         const result = (block as any).isNeedRerender({ text: 'new' }, { text: 'old' });
         expect(result).toBe(true);
     });
 
-    test('isNeedRerender() должен применять deepEqual, если сравниваемые значения- объекты', () => {
+    it('isNeedRerender() должен применять deepEqual, если сравниваемые значения- объекты', () => {
         (block as any).isNeedRerender(
             { obj: { a: 1 } },
             { obj: { a: 2 } }
@@ -102,7 +102,7 @@ describe('Тесты для базового класса Block', () => {
         expect(deepEqual).toHaveBeenCalled();
     });
 
-    test('isNeedRerender() должен возвращать true, если значения-обекты, и они с точки зрения deepEqual НЕ равны', () => {
+    it('isNeedRerender() должен возвращать true, если значения-обекты, и они с точки зрения deepEqual НЕ равны', () => {
         const result = (block as any).isNeedRerender(
             { obj: { a: 1 } },
             { obj: { a: 2 } }
@@ -110,7 +110,7 @@ describe('Тесты для базового класса Block', () => {
         expect(result).toBe(true);
     });
 
-    test('isNeedRerender() должен возвращать false, если значения-обекты, и они с точки зрения deepEqual равны', () => {
+    it('isNeedRerender() должен возвращать false, если значения-обекты, и они с точки зрения deepEqual равны', () => {
         const result = (block as any).isNeedRerender(
             { obj: { a: 2 } },
             { obj: { a: 2 } }
@@ -119,7 +119,7 @@ describe('Тесты для базового класса Block', () => {
         expect(result).toBe(false);
     });
 
-    test('attachListeners() должен добавлять event listeners к элементу', () => {
+    it('attachListeners() должен добавлять event listeners к элементу', () => {
         const mockElement = document.createElement('div');
         block['domElement'] = mockElement;
         block['events'] = { click: jest.fn() };
@@ -130,7 +130,7 @@ describe('Тесты для базового класса Block', () => {
         expect(addEventListenerSpy).toHaveBeenCalledWith('click', expect.any(Function));
     });
 
-    test('removeListeners() должен удалять event listeners с элемента', () => {
+    it('removeListeners() должен удалять event listeners с элемента', () => {
         const mockElement = document.createElement('div');
         block['domElement'] = mockElement;
         block['events'] = { click: jest.fn() };
@@ -141,14 +141,14 @@ describe('Тесты для базового класса Block', () => {
         expect(removeEventListenerSpy).toHaveBeenCalledWith('click', expect.any(Function));
     });
 
-    test('render() должен вызывать unmountComponent (в начале)', () => {
+    it('render() должен вызывать unmountComponent (в начале)', () => {
         const unmountSpy = jest.spyOn(block as any, 'unmountComponent');
         (block as any).render();
 
         expect(unmountSpy).toHaveBeenCalled();
     });
 
-    test('render() должен вызывать mountComponent', () => {
+    it('render() должен вызывать mountComponent', () => {
         const mountSpy = jest.spyOn(block as any, 'mountComponent');
 
         (block as any).render();
@@ -156,7 +156,7 @@ describe('Тесты для базового класса Block', () => {
         expect(mountSpy).toHaveBeenCalled();
     });
 
-    test('compile() должен заполнять refs при наличии элемента с ref', () => {
+    it('compile() должен заполнять refs при наличии элемента с ref', () => {
         const template = '<div><span ref="testRef"></span></div>';
         const blockWithRef = new TestableBlock(template, {});
 
@@ -171,7 +171,7 @@ describe('Тесты для базового класса Block', () => {
         expect(refs.testRef.tagName).toBe('SPAN');
     });
 
-    test('compile() должен добавлять __children', () => {
+    it('compile() должен добавлять __children', () => {
         const mockEmbed1 = jest.fn((fragment: DocumentFragment) => {
             const element = childComponent1.element();
             if (element) fragment.appendChild(element);
@@ -210,7 +210,7 @@ describe('Тесты для базового класса Block', () => {
     });
 
 
-    test('compile() должен вызывать embed() для дочернего компонента', () => {
+    it('compile() должен вызывать embed() для дочернего компонента', () => {
         const mockEmbed = jest.fn((fragment: DocumentFragment) => {
             const element = childComponent.element();
             if (element) fragment.appendChild(element);
@@ -234,9 +234,7 @@ describe('Тесты для базового класса Block', () => {
         expect(mockEmbed).toHaveBeenCalledTimes(1);
     });
 
-
-
-    test('hide() должен запускать unmountComponent', () => {
+    it('hide() должен запускать unmountComponent', () => {
         const mockParent = document.createElement('div');
         const mockElement = document.createElement('div');
         mockParent.appendChild(mockElement);
@@ -248,7 +246,7 @@ describe('Тесты для базового класса Block', () => {
         expect(unmountSpy).toHaveBeenCalled();
     });
 
-     test('hide() должен удалять элемент из children DomElement', () => {
+    it('hide() должен удалять элемент из children DomElement', () => {
         const mockParent = document.createElement('div');
         const mockElement = document.createElement('div');
         mockParent.appendChild(mockElement);
@@ -259,7 +257,7 @@ describe('Тесты для базового класса Block', () => {
         expect(mockParent.contains(mockElement)).toBe(false);
     });
 
-    test('hide("clean") должен удалять элемент из DOM', () => {
+    it('hide("clean") должен удалять элемент из DOM', () => {
         const mockParent = document.createElement('div');
         const mockElement = document.createElement('div');
         mockParent.appendChild(mockElement);
@@ -270,7 +268,7 @@ describe('Тесты для базового класса Block', () => {
         expect(block['domElement']).toBeNull();
     });
 
-    test('renderDom() should append element to root', () => {
+    it('renderDom() should append element to root', () => {
         const mockRoot = document.createElement('div');
         document.body.appendChild(mockRoot);
 
@@ -282,6 +280,4 @@ describe('Тесты для базового класса Block', () => {
         expect(appendChildSpy).toHaveBeenCalled();
         document.body.removeChild(mockRoot);
     });
-
-
 });

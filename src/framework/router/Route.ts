@@ -28,14 +28,6 @@ export default class Route {
         this._blockProps = blockProps;
     }
 
-    //отправить по роуту
-    public navigate(pathname: string):void {
-        if (this.match(pathname)) {
-            this._pathname = pathname;
-            this.createBlock();
-        }
-    }
-
     //Если уходим с маршрута, очищаем содержимое
     public leave():void {
         if (this._block) {
