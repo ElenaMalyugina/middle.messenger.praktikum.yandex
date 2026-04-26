@@ -131,7 +131,7 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
 
 
     protected render() {
-        this.unmountComponent();
+        //this.unmountComponent();
         const fragment = this.compile();
 
         /** Если элемент уже существовал, обновляем его по имеющейся ссылке */
