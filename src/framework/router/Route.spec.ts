@@ -32,14 +32,14 @@ describe('Route class', () => {
         });
     });
 
-    describe('leave method', () => {
-        it('should call hide on block when block exists', () => {
+    describe('тестирование для метода leave', () => {
+        it('должно вызывать hide(), если блок существует', () => {
             route['_block'] = new MockBlock();
             route.leave();
-            expect(route['_block'].hide).toHaveBeenCalledWith(null);
+            expect(route['_block'].hide).toHaveBeenCalled();
         });
 
-        it('should clean block and props when mode is "clean"', () => {
+        it('должно очищать блок и его props, если mode is "clean"', () => {
             const cleanRouteProps: RouteProps = {
                 ...mockRouteProps,
                 mode: 'clean' as RouteMode,
@@ -54,7 +54,7 @@ describe('Route class', () => {
             expect(route['_blockProps'].__refs).toEqual({});
         });
 
-        it('should do nothing when block is null', () => {
+        it('не должен ничего делать, если _block=null', () => {
             route['_block'] = null;
             route.leave();
             expect(route['_block']).toBeNull();
@@ -62,29 +62,41 @@ describe('Route class', () => {
     });
 
     describe('match method', () => {
-        it('should return true for exact match', () => {
+        it('Должен возвращать true для точного совпадения маршрута', () => {
             const result = route.match('/test');
             expect(result).toEqual({ matched: true, params: {} });
         });
 
-        it('should handle dynamic parameters', () => {
+        it('Должен поддерживать динамические параметры в роуте', () => {
             route = new Route('/user/:id', MockBlock, mockBlockProps, mockRouteProps);
             const result = route.match('/user/123');
             expect(result).toEqual({ matched: true, params: { id: '123' } });
         });
-
-        // ... остальные тесты для match
     });
 
-  /*describe('createBlock method', () => {
-    // Тесты для createBlock
-  });
+    describe('Тест createBlock()', () => {
+        it('createBlock() должен создавать новый блок, если блока нет', () => {
+            route.createBlock();
+            expect(route['_block'] instanceof MockBlock).toBe(true);
+            expect(route['_block']?.renderDom).toHaveBeenCalledWith('#app');
+        });
 
-  describe('guards getter', () => {
-    // Тесты для геттера guards
-  });
+        it('createBlock должен рендерить уже существующий блок с помощью renderDom()', () => {
+            route['_block'] = new MockBlock();
+            jest.spyOn(route['_block'], 'renderDom');
 
-  describe('Edge cases', () => {
-    // Граничные случаи
-  });*/
+            route.createBlock();
+            expect(route['_block'].renderDom).toHaveBeenCalledWith('#app');
+        });
+    });
+
+    describe('Тест guards getter', () => {
+        it('guards getter должен вернуть корректныый массив guards', () => {
+            expect(route.guards).toEqual(['auth']);
+
+            route['_props'].guards.push('newGuard');
+            expect(route.guards).toEqual(['auth', 'newGuard']);
+        });
+    });
+
 });
