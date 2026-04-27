@@ -1,3 +1,4 @@
+import { urls } from "../../constants/urls";
 import { queryString } from "../../utils/queryString";
 
 export const METHODS = {
@@ -24,7 +25,7 @@ export default class HTTPTransport {
     private resourceUrl: string;
 
     constructor(url: string){
-        this.resourceUrl = 'https://ya-praktikum.tech/' + url;
+        this.resourceUrl = `${urls.apiUrl}${url}`;
     }
 
     get: HTTPMethod = (url, options = {}) => (this.request(url, {...options, method: METHODS.GET}, options.timeout));
