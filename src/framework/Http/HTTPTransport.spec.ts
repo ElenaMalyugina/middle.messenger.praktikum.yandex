@@ -1,0 +1,318 @@
+import { urls } from '../../constants/urls';
+import HTTPTransport, { METHODS } from './HTTPTransport'; // путь к вашему файлу
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
+
+// Мокируем зависимость queryString
+jest.mock('../../utils/queryString', () => ({
+    queryString: jest.fn((data: unknown) => {
+        if (data && typeof data === 'object' && !Array.isArray(data)) {
+        const params = new URLSearchParams(data as Record<string, string>);
+        return `?${params.toString()}`;
+        }
+        return '';
+    }),
+}));
+
+describe('HTTPTransport', () => {
+    let http: HTTPTransport;
+    let xhrMock: XMLHttpRequest;
+    const mockUrl = 'api/test';
+
+    beforeEach(() => {
+        http = new HTTPTransport(mockUrl);
+
+        // Создаём мок XMLHttpRequest
+        xhrMock = {
+            open: jest.fn(),
+            send: jest.fn(),
+            setRequestHeader: jest.fn(),
+            getResponseHeader: jest.fn(),
+            addEventListener: jest.fn(),
+            removeEventListener: jest.fn(),
+            abort: jest.fn(),
+            status: 200,
+            statusText: 'OK',
+            response: '',
+            responseText: '',
+            responseType: '',
+            timeout: 0,
+            onreadystatechange: null,
+            readyState: 4,
+        } as unknown as XMLHttpRequest;
+
+        // Заменяем глобальный XMLHttpRequest на мок
+        jest.spyOn(window, 'XMLHttpRequest').mockImplementation(() => xhrMock);
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
+    describe('constructor', () => {
+        it('should construct with correct resourceUrl', () => {
+            expect(http['resourceUrl']).toBe(`${urls.apiUrl}${mockUrl}`);
+        });
+    });
+
+    describe('get method', () => {
+        it('should make GET request with query parameters', async () => {
+            const data = { id: 1, name: 'test' };
+            const expectedUrl = `${urls.apiUrl}${mockUrl}/endpoint?id=1&name=test`;
+
+            // Настраиваем мок-ответы
+            (xhrMock.getResponseHeader as jest.Mock).mockReturnValue('application/json');
+            (xhrMock as any).responseText = JSON.stringify({ success: true });
+
+            // Запускаем запрос
+            const promise = http.get('/endpoint', { data });
+
+            // Инициируем обработчик onload — имитируем успешный ответ сервера
+            (xhrMock.onload as any).call(xhrMock);
+
+            // Ждём результата
+            const result = await promise;
+
+            expect(xhrMock.open).toHaveBeenCalledWith(METHODS.GET, expectedUrl);
+            expect(xhrMock.send).toHaveBeenCalled();
+            expect(result).toEqual({ success: true });
+        });
+
+        /*it('should handle GET request without data', async () => {
+            const expectedUrl = `https://ya-praktikum.tech${mockUrl}/endpoint`;
+
+            (xhrMock.getResponseHeader as any).mockReturnValue('application/json');
+            (xhrMock as any).responseText = JSON.stringify({ success: true });
+
+            const result = await http.get('/endpoint');
+
+            expect(xhrMock.open).toHaveBeenCalledWith(METHODS.GET, expectedUrl);
+            expect(xhrMock.send).toHaveBeenCalled();
+            expect(result).toEqual({ success: true });
+        });*/
+    });
+
+    /*describe('post method', () => {
+        it('should make POST request with JSON data', async () => {
+        const data = { name: 'John', age: 30 };
+        const expectedUrl = `https://ya-praktikum.tech${mockUrl}/endpoint`;
+
+        xhrMock.getResponseHeader.mockReturnValue('application/json');
+        xhrMock.responseText = JSON.stringify({ id: 1, ...data });
+
+        const result = await http.post('/endpoint', { data });
+
+        expect(xhrMock.open).toHaveBeenCalledWith(METHODS.POST, expectedUrl);
+        expect(xhrMock.setRequestHeader).toHaveBeenCalledWith('Content-Type', 'application/json');
+        expect(xhrMock.send).toHaveBeenCalledWith(JSON.stringify(data));
+        expect(result).toEqual({ id: 1, ...data });
+        });
+
+    it('should make POST request with FormData', async () => {
+      const formData = new FormData();
+      formData.append('file', new Blob(['test'], { type: 'text/plain' }));
+
+      const expectedUrl = `https://ya-praktikum.tech${mockUrl}/endpoint`;
+
+      xhrMock.getResponseHeader.mockReturnValue('application/json');
+      xhrMock.responseText = JSON.stringify({ success: true });
+
+      const result = await http.post('/endpoint', { data: formData });
+
+      expect(xhrMock.open).toHaveBeenCalledWith(METHODS.POST, expectedUrl);
+      expect(xhrMock.setRequestHeader).not.toHaveBeenCalledWith('Content-Type', 'application/json');
+      expect(xhrMock.send).toHaveBeenCalledWith(formData);
+      expect(result).toEqual({ success: true });
+    });
+  });
+
+  describe('put method', () => {
+    it('should make PUT request', async () => {
+      const data = { id: 1, updated: true };
+      const expectedUrl = `https://ya-praktikum.tech${mockUrl}/endpoint`;
+
+      xhrMock.getResponseHeader.mockReturnValue('application/json');
+      xhrMock.responseText = JSON.stringify({ ...data, modified: new Date().toISOString() });
+
+      const result = await http.put('/endpoint', { data });
+
+      expect(xhrMock.open).toHaveBeenCalledWith(METHODS.PUT, expectedUrl);
+      expect(xhrMock.setRequestHeader).toHaveBeenCalledWith('Content-Type', 'application/json');
+      expect(xhrMock.send).toHaveBeenCalledWith(JSON.stringify(data));
+      expect(result.updated).toBe(true);
+    });
+  });
+
+  describe('delete method', () => {
+    it('should make DELETE request', async () => {
+      const expectedUrl = `https://ya-praktikum.tech${mockUrl}/endpoint`;
+
+      xhrMock.getResponseHeader.mockReturnValue('application/json');
+      xhrMock.responseText = JSON.stringify({ deleted: true, id: 1 });
+
+      const result = await http.delete('/endpoint');
+
+      expect(xhrMock.open).toHaveBeenCalledWith(METHODS.DELETE, expectedUrl);
+      expect(xhrMock.send).toHaveBeenCalled();
+      expect(result).toEqual({ deleted: true, id: 1 });
+    });
+  });
+
+  describe('request method (private)', () => {
+    it('should reject if method is not provided', async () => {
+      await expect(
+        (http as any).request('/endpoint', {})
+      ).rejects.toThrow('HTTP method is required');
+    });
+
+    it('should handle successful JSON response', async () => {
+      xhrMock.status = 201;
+      xhrMock.getResponseHeader.mockReturnValue('application/json');
+      xhrMock.responseText = JSON.stringify({ created: true });
+
+      const result = await (http as any).request(
+        '/endpoint',
+        { method: METHODS.POST, data: { test: 'data' } }
+      );
+
+      expect(result).toEqual({ created: true });
+    });
+
+    it('should handle non-JSON response', async () => {
+      xhrMock.status = 200;
+      xhrMock.getResponseHeader.mockReturnValue('text/plain');
+      xhrMock.responseText = 'Plain text response';
+
+      const result = await (http as any).request(
+        '/endpoint',
+        { method: METHODS.GET }
+      );
+
+      expect(result).toBe('Plain text response');
+    });
+
+    it('should handle error responses', async () => {
+      xhrMock.status = 404;
+      xhrMock.statusText = 'Not Found';
+      xhrMock.responseText = 'Resource not found';
+
+      await expect(
+        (http as any).request('/endpoint', { method: METHODS.GET })
+      ).rejects.toEqual({
+        status: 404,
+        statusText: 'Not Found',
+        response: 'Resource not found',
+        request: xhrMock,
+      });
+    });
+
+    it('should handle timeout', async () => {
+      xhrMock.ontimeout = xhrMock.ontimeout;
+
+      await expect(
+        (http as any).request('/endpoint', { method: METHODS.GET }, 100)
+      ).rejects.toEqual({
+        reason: 'Request timeout',
+        timeout: 100,
+        request: xhrMock,
+      });
+    });
+
+    it('should handle network error', async () => {
+      xhrMock.onerror = xhrMock.onerror;
+
+      await expect(
+        (http as any).request('/endpoint', { method: METHODS.GET })
+            ).rejects.toEqual({
+      reason: 'Network error',
+      request: xhrMock,
+    });
+  });
+
+  it('should handle abort', async () => {
+    xhrMock.onabort = xhrMock.onabort;
+
+    await expect(
+      (http as any).request('/endpoint', { method: METHODS.GET })
+    ).rejects.toEqual({
+      reason: 'Request aborted',
+      request: xhrMock,
+    });
+  });
+
+  it('should set withCredentials to true', () => {
+    (http as any).request('/endpoint', { method: METHODS.GET });
+    expect(xhrMock.withCredentials).toBe(true);
+  });
+
+  it('should set responseType when provided', () => {
+    const responseType: XMLHttpRequestResponseType = 'blob';
+    (http as any).request('/endpoint', {
+      method: METHODS.GET,
+      responseType
+    });
+    expect(xhrMock.responseType).toBe(responseType);
+  });
+
+  it('should set custom headers', () => {
+    const headers = {
+      'Authorization': 'Bearer token',
+      'X-Custom-Header': 'value'
+    };
+    (http as any).request('/endpoint', {
+      method: METHODS.GET,
+      headers
+    });
+
+    Object.keys(headers).forEach(key => {
+      expect(xhrMock.setRequestHeader).toHaveBeenCalledWith(key, headers[key]);
+    });
+  });
+
+  it('should serialize object data to JSON and set Content-Type header', async () => {
+    const data = { name: 'John', age: 30 };
+    xhrMock.getResponseHeader.mockReturnValue('application/json');
+    xhrMock.responseText = JSON.stringify({ id: 1, ...data });
+
+    await (http as any).request('/endpoint', {
+      method: METHODS.POST,
+      data
+    });
+
+    expect(xhrMock.setRequestHeader).toHaveBeenCalledWith('Content-Type', 'application/json');
+    expect(xhrMock.send).toHaveBeenCalledWith(JSON.stringify(data));
+  });
+
+  it('should not set Content-Type for FormData', async () => {
+    const formData = new FormData();
+    formData.append('file', new Blob(['test'], { type: 'text/plain' }));
+
+    xhrMock.getResponseHeader.mockReturnValue('application/json');
+    xhrMock.responseText = JSON.stringify({ success: true });
+
+    await (http as any).request('/endpoint', {
+      method: METHODS.POST,
+      data: formData
+    });
+
+    expect(xhrMock.setRequestHeader).not.toHaveBeenCalledWith('Content-Type', 'application/json');
+  });
+
+  it('should handle data serialization error', async () => {
+    // Создаём объект с циклической ссылкой для вызова ошибки сериализации
+    const circularData: any = { a: 1 };
+    circularData.b = circularData;
+
+    console.error = jest.fn();
+
+    xhrMock.status = 200;
+    xhrMock.responseText = '';
+
+    await (http as any).request('/endpoint', {
+      method: METHODS.POST,
+      data: circularData
+    });
+
+    expect(console.error).toHaveBeenCalledWith("Ошибка сериализации данных");
+  });*/
+});
+
