@@ -147,9 +147,9 @@ export default class Router {
     }
 
 
-    public go(pathname: string) {
+    public async go(pathname: string) {
         this.history.pushState({}, '', pathname);
-        this._onRoute(pathname);
+        await this._onRoute(pathname);
     }
 
     public back() {
@@ -167,7 +167,7 @@ export default class Router {
     }
 
 
-    public getRoute(pathname: string) {
+    /*public getRoute(pathname: string) {
         return this.routes.find(route => route.match(pathname));
-    }
+    }*/
 }
