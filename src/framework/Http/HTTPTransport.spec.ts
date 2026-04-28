@@ -294,7 +294,7 @@ describe('HTTPTransport', () => {
         });
 
 
-        it('should serialize object data to JSON and set Content-Type header', async () => {
+        it('должен сериализовать объект data в JSON и устанавливать соответствующий Content-Type header', async () => {
             const data = { name: 'John', age: 30 };
             const serializedData = JSON.stringify(data);
 
@@ -324,7 +324,7 @@ describe('HTTPTransport', () => {
             expect(result).toEqual({ id: 1, name: 'John', age: 30 });
         });
 
-        it('should not set Content-Type for FormData', async () => {
+        it('Не должен уствнавливать Content-Type для FormData', async () => {
             const formData = new FormData();
             formData.append('file', new Blob(['test'], { type: 'text/plain' }));
 
@@ -346,7 +346,7 @@ describe('HTTPTransport', () => {
         });
 
 
-        it('should handle data serialization error', async () => {
+        it('Должен поддерживать data serialization error (при ошибке сериализации приложение не должено падать)', async () => {
             // Создаём объект с циклической ссылкой для вызова ошибки сериализации
             const circularData: any = { a: 1 };
             circularData.b = circularData;
