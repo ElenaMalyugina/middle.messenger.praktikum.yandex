@@ -88,7 +88,7 @@ describe("WebSocketApi", () => {
         window.WebSocket = OriginalWebSocket;
     });
 
-    it("closeConnection закрыввает сокет, если сокет открыт", async () => {
+    it("closeConnection закрывает сокет, если сокет открыт", async () => {
         const OriginalWebSocket = window.WebSocket as any;
 
         (window.WebSocket as any) = WS_STATES;
@@ -116,13 +116,12 @@ describe("WebSocketApi", () => {
         window.WebSocket = OriginalWebSocket;
     });
 
+    it("closeConnection закрывает сокет, если сокет в состоянии connecting", async () => {
+        const OriginalWebSocket = window.WebSocket as any;
+        (window.WebSocket as any) = WS_STATES;
 
-
-    /*
-
-    it("closeConnection closes if socket is connecting", async () => {
-        const cleanupSpy = jest.spyOn(ws as any, "cleanupSocket").mockImplementation();
-        const mockAddEventListener = jest.fn((event, cb) => {
+        const cleanupSpy = jest.spyOn(ws as any, "cleanupSocket").mockImplementation(()=>undefined);
+        const mockAddEventListener = jest.fn((event, cb: ()=>{}, _options: unknown) => {
             if (event === 'open') {
                 cb();
             }
@@ -142,10 +141,15 @@ describe("WebSocketApi", () => {
         expect(mockAddEventListener).toHaveBeenCalledWith('open', expect.any(Function), { once: true });
         expect(mockClose).toHaveBeenCalledWith(9999, "waiting for open");
         expect(cleanupSpy).toHaveBeenCalled();
+
+        window.WebSocket = OriginalWebSocket;
     });
 
     it("closeConnection cleans up for closing state", async () => {
-        const cleanupSpy = jest.spyOn(ws as any, "cleanupSocket").mockImplementation();
+        const OriginalWebSocket = window.WebSocket as any;
+        (window.WebSocket as any) = WS_STATES;
+
+        const cleanupSpy = jest.spyOn(ws as any, "cleanupSocket").mockImplementation(()=>undefined);
 
         ws['socket'] = {
             readyState: WebSocket.CLOSING,
@@ -155,6 +159,8 @@ describe("WebSocketApi", () => {
 
         await ws.closeConnection();
         expect(cleanupSpy).toHaveBeenCalled();
+
+        window.WebSocket = OriginalWebSocket;
     });
 
     it("getInstance sets onMessagesReceived handler", () => {
@@ -162,6 +168,8 @@ describe("WebSocketApi", () => {
         WebSocketApi.getInstance(cb);
         expect((WebSocketApi as any).onMessagesReceived).toBe(cb);
     });
+
+    /*
 
     it("should buffer messages if socket is not open", async () => {
         ws['socket'] = {
