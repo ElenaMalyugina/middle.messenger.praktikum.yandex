@@ -236,105 +236,139 @@ describe('HTTPTransport', () => {
             });
         });
 
+        it('должен поддерживать network error', async () => {
+            const promise = (http as any).request('/endpoint', {
+                method: METHODS.GET,
+            });
 
-/*
-        it('should handle network error', async () => {
-        xhrMock.onerror = xhrMock.onerror;
+            (xhrMock.onerror as any).call(xhrMock);
+            await expect(promise).rejects.toEqual({
+                reason: 'Network error',
+                request: xhrMock,
+            });
+        });
 
-        await expect(
-            (http as any).request('/endpoint', { method: METHODS.GET })
-                ).rejects.toEqual({
-        reason: 'Network error',
-        request: xhrMock,
-        });*/
-  });
-  /*
 
-  it('should handle abort', async () => {
-    xhrMock.onabort = xhrMock.onabort;
+        it('должен поддерживать прерывание запроса', async () => {
+            const promise = (http as any).request('/endpoint', {
+                method: METHODS.GET,
+            });
 
-    await expect(
-      (http as any).request('/endpoint', { method: METHODS.GET })
-    ).rejects.toEqual({
-      reason: 'Request aborted',
-      request: xhrMock,
+            (xhrMock.onabort as any).call(xhrMock);
+            await expect(promise).rejects.toEqual({
+                reason: 'Request aborted',
+                request: xhrMock,
+            });
+        });
+
+        it('должен устанавливать withCredentials в true', () => {
+            (http as any).request('/endpoint', { method: METHODS.GET });
+            expect(xhrMock.withCredentials).toBe(true);
+        });
+
+        it('should set responseType when provided', () => {
+            const responseType: XMLHttpRequestResponseType = 'blob';
+
+            (http as any).request('/endpoint', {
+                method: METHODS.GET,
+                responseType
+            });
+
+            expect(xhrMock.responseType).toBe(responseType);
+        });
+
+        it('должен устанавливать кастомные headers', () => {
+            const headers:Record<string, string> = {
+                'Authorization': 'Bearer token',
+                'X-Custom-Header': 'value'
+            };
+
+            (http as any).request('/endpoint', {
+                method: METHODS.GET,
+                headers
+            });
+
+            Object.keys(headers).forEach((key:string) => {
+                expect(xhrMock.setRequestHeader).toHaveBeenCalledWith(key, headers[key]);
+            });
+        });
+
+
+        it('should serialize object data to JSON and set Content-Type header', async () => {
+            const data = { name: 'John', age: 30 };
+            const serializedData = JSON.stringify(data);
+
+            // Настраиваем мок для ответа сервера
+            (xhrMock.getResponseHeader as jest.Mock).mockReturnValue('application/json');
+            (xhrMock as any).responseText = JSON.stringify({ id: 1, ...data });
+
+            // Запускаем запрос
+            const promise = (http as any).request('/endpoint', {
+                method: METHODS.POST,
+                data
+            });
+
+            // Имитируем успешный ответ сервера
+            (xhrMock.onload as any).call(xhrMock);
+
+            // Ждём результата запроса
+            const result = await promise;
+
+            // Проверяем сериализацию данных
+            expect(xhrMock.send).toHaveBeenCalledWith(serializedData);
+
+            // Проверяем установку заголовка Content-Type
+            expect(xhrMock.setRequestHeader).toHaveBeenCalledWith('Content-Type', 'application/json');
+
+            // Дополнительно: проверяем, что результат соответствует ответу сервера
+            expect(result).toEqual({ id: 1, name: 'John', age: 30 });
+        });
+
+        it('should not set Content-Type for FormData', async () => {
+            const formData = new FormData();
+            formData.append('file', new Blob(['test'], { type: 'text/plain' }));
+
+            (xhrMock.getResponseHeader as jest.Mock).mockReturnValue('application/json');
+            (xhrMock as any).responseText = JSON.stringify({ success: true });
+
+            const promise =  (http as any).request('/endpoint', {
+                method: METHODS.POST,
+                data: formData
+            });
+
+            (xhrMock.onload as any).call(xhrMock);
+
+            // Ждём результата запроса
+            const result = await promise;
+
+            expect(xhrMock.setRequestHeader).not.toHaveBeenCalledWith('Content-Type', 'application/json');
+            expect(result).toBeTruthy;
+        });
+
+
+        it('should handle data serialization error', async () => {
+            // Создаём объект с циклической ссылкой для вызова ошибки сериализации
+            const circularData: any = { a: 1 };
+            circularData.b = circularData;
+
+            console.error = jest.fn();
+
+            (xhrMock as any).status = 200;
+            (xhrMock as any).responseText = '';
+
+            const promise =  (http as any).request('/endpoint', {
+                method: METHODS.POST,
+                data: circularData
+            });
+
+            (xhrMock.onload as any).call(xhrMock);
+
+            // Ждём результата запроса
+            const result = await promise;
+
+            expect(console.error).toHaveBeenCalledWith("Ошибка сериализации данных");
+            expect(result).toBeTruthy;
+        });
     });
-  });
-
-  it('should set withCredentials to true', () => {
-    (http as any).request('/endpoint', { method: METHODS.GET });
-    expect(xhrMock.withCredentials).toBe(true);
-  });
-
-  it('should set responseType when provided', () => {
-    const responseType: XMLHttpRequestResponseType = 'blob';
-    (http as any).request('/endpoint', {
-      method: METHODS.GET,
-      responseType
-    });
-    expect(xhrMock.responseType).toBe(responseType);
-  });
-
-  it('should set custom headers', () => {
-    const headers = {
-      'Authorization': 'Bearer token',
-      'X-Custom-Header': 'value'
-    };
-    (http as any).request('/endpoint', {
-      method: METHODS.GET,
-      headers
-    });
-
-    Object.keys(headers).forEach(key => {
-      expect(xhrMock.setRequestHeader).toHaveBeenCalledWith(key, headers[key]);
-    });
-  });
-
-  it('should serialize object data to JSON and set Content-Type header', async () => {
-    const data = { name: 'John', age: 30 };
-    xhrMock.getResponseHeader.mockReturnValue('application/json');
-    xhrMock.responseText = JSON.stringify({ id: 1, ...data });
-
-    await (http as any).request('/endpoint', {
-      method: METHODS.POST,
-      data
-    });
-
-    expect(xhrMock.setRequestHeader).toHaveBeenCalledWith('Content-Type', 'application/json');
-    expect(xhrMock.send).toHaveBeenCalledWith(JSON.stringify(data));
-  });
-
-  it('should not set Content-Type for FormData', async () => {
-    const formData = new FormData();
-    formData.append('file', new Blob(['test'], { type: 'text/plain' }));
-
-    xhrMock.getResponseHeader.mockReturnValue('application/json');
-    xhrMock.responseText = JSON.stringify({ success: true });
-
-    await (http as any).request('/endpoint', {
-      method: METHODS.POST,
-      data: formData
-    });
-
-    expect(xhrMock.setRequestHeader).not.toHaveBeenCalledWith('Content-Type', 'application/json');
-  });
-
-  it('should handle data serialization error', async () => {
-    // Создаём объект с циклической ссылкой для вызова ошибки сериализации
-    const circularData: any = { a: 1 };
-    circularData.b = circularData;
-
-    console.error = jest.fn();
-
-    xhrMock.status = 200;
-    xhrMock.responseText = '';
-
-    await (http as any).request('/endpoint', {
-      method: METHODS.POST,
-      data: circularData
-    });
-
-    expect(console.error).toHaveBeenCalledWith("Ошибка сериализации данных");
-  });*/
 });
 
