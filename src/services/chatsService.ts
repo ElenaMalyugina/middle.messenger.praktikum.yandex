@@ -3,7 +3,8 @@ import { ChatDataModel, type ChatData } from "../types/chatData";
 import type { RouteState } from "../types/RouteState";
 
 export class ChatsService{
-    static getActiveChat: ()=> ChatData | null = ()=>{
+
+    static getActiveChat: ()=> ChatData | null | Error= ()=>{
         const routeState = Store.getState().route as RouteState | null;
         if(!routeState) return null;
         const currentChatId = Number(routeState.params.id);
@@ -18,6 +19,6 @@ export class ChatsService{
             return new ChatDataModel(activeChat);
         }
 
-        return null;
+        return new Error("404");
     }
 }

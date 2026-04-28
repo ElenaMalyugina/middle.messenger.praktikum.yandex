@@ -210,7 +210,6 @@ export default class WebSocketApi {
             if (WebSocketApi.onMessagesReceived) {
                 WebSocketApi.onMessagesReceived(reconnectMessage);
             }
-
             return
         }
 

@@ -6,6 +6,7 @@ import ChatsController from "../../../controllers/chatsController";
 import Store from "../../../framework/store/Store";
 import { ChatDataModel, type ChatData } from "../../../types/chatData";
 import { ChatsService } from "../../../services/chatsService";
+import { AppRouter } from "../../..";
 
 interface ChatsListProps extends BlockOwnProps{
     chats: ChatItemProps[];
@@ -55,6 +56,11 @@ export default class ChatsList extends Block<ChatsListProps>{
         if(!chatsList ||! Array.isArray(chatsList)) return;
 
         const activeChat = ChatsService.getActiveChat();
+
+        if(activeChat instanceof Error){
+            AppRouter.replace("/404");
+            return;
+        }
 
         const buildedChat = chatsList.map(chat => ({
                 chatData: new ChatDataModel(chat),

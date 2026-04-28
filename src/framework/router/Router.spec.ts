@@ -2,7 +2,6 @@ import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals
 import Router from './Router';
 import Block from '../Block';
 import Route from './Route';
-//import Store from '../store/Store';
 
 // Мок для History API
 const mockHistory = {

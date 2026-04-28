@@ -1,5 +1,4 @@
-import MessagesController from "../../../controllers/messagesController";
-import Block, { type BlockOwnProps } from "../../../framework/Block";
+import Block from "../../../framework/Block";
 import Store from "../../../framework/store/Store";
 import { ChatsService } from "../../../services/chatsService";
 import type { ChatData } from "../../../types/chatData";
