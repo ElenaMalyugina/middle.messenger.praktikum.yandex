@@ -21,7 +21,7 @@ export default class ChatsController extends BaseFormController<AddChat>  {
             Store.setState("chats", chatsList);
         }
         catch(_e){
-
+            console.error(_e)
         }
     }
 
@@ -100,7 +100,7 @@ export default class ChatsController extends BaseFormController<AddChat>  {
             return await this.chatsApi.getUnreadCount(chatId);
         }
         catch(_e){
-
+            console.error(_e)
         }
     }
 }

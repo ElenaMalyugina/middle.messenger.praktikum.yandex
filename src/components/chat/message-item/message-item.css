@@ -10,6 +10,7 @@
         background-color: var(--selected-color);
         border-bottom-right-radius:0;
     }
+
     &__top{
         margin-bottom: 4px;
     }

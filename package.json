@@ -7,14 +7,15 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "eslint . && stylelint **/*.css && tsc --noEmit && vite build",
+    "build": "jest && eslint . && stylelint **/*.css && tsc --noEmit && vite build",
     "build:gh": "vite build --base=/middle.messenger.praktikum.yandex/ && cp dist/index.html dist/404.html",
     "preview": "vite preview",
-    "start": "eslint . && stylelint **/*.css && tsc --noEmit && vite build && vite preview",
+    "start": "jest && eslint . && stylelint **/*.css && tsc --noEmit && vite build && vite preview",
     "lint": "eslint . && stylelint **/*.css && tsc --noEmit",
     "lint:css": "stylelint **/*.css",
     "test": "jest"
   },
+
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@jest/globals": "^30.3.0",
@@ -26,6 +27,7 @@
     "autoprefixer": "^10.4.27",
     "eslint": "^10.1.0",
     "globals": "^17.4.0",
+    "husky": "^9.1.7",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
     "postcss": "^8.5.8",
@@ -39,5 +41,10 @@
   },
   "dependencies": {
     "handlebars": "^4.7.8"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm-run-all test lint:all"
+    }
   }
 }

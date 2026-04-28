@@ -24,8 +24,8 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
             const users = await this.chatsUsersApi.getUsers(chatId, {});
             Store.setState("ActiveChatsUsers", users);
         }
-        catch(_e){
-
+        catch(e){
+            console.log(e)
         }
     }
 
@@ -34,8 +34,8 @@ export default class ChatUsersController extends BaseFormController<RawChatUsers
             const users = await this.chatsUsersApi.searchUsers(searchString);
             Store.setState("searchedUser", users);
         }
-        catch(_e){
-
+        catch(e){
+            console.log(e)
         }
     }
 

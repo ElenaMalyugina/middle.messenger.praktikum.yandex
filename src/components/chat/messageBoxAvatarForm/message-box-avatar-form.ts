@@ -6,7 +6,7 @@ import Block, { type BlockOwnProps } from "../../../framework/Block";
 import { validate } from "../../../services/validationService";
 import ChatsController from "../../../controllers/chatsController";
 import { ChatsService } from "../../../services/chatsService";
-import { ChatData, ChatDataModel } from "../../../types/chatData";
+import { ChatDataModel } from "../../../types/chatData";
 
 interface MessageBoxAvatarProps extends BlockOwnProps{
     onChange: (file: File)=> void

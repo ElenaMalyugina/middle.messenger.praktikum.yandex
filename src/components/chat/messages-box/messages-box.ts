@@ -3,7 +3,7 @@ import MessagesBoxTemplate from "./messages-box.hbs?raw";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import MessagesController from "../../../controllers/messagesController";
 import Store from "../../../framework/store/Store";
-import { ChatData, ChatDataModel } from "../../../types/chatData";
+import { ChatDataModel } from "../../../types/chatData";
 import { ChatsService } from "../../../services/chatsService";
 
 export default class MessagesBox extends Block<BlockOwnProps>{

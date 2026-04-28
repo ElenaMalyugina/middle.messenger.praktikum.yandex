@@ -10,5 +10,4 @@ export default {
     '^.+\\.svg$': 'jest-svg-transformer', // обработка SVG
     '^@/(.*)$': '<rootDir>/src/$1',
   },
-  //setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'], // опционально, для инициализации окружения
 };

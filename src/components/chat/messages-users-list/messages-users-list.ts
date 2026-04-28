@@ -1,6 +1,6 @@
 import "./messages-users-list.css";
 import Store from "../../../framework/store/Store";
-import { ChatDataModel, type ChatData } from "../../../types/chatData";
+import { ChatDataModel } from "../../../types/chatData";
 import Block, { type BlockOwnProps } from "./../../../framework/Block";
 import MessagesUsersListTemplate from "./messages-users-list.hbs?raw";
 import ChatUsersController from "../../../controllers/chatUsersController";

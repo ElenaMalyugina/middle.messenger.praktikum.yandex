@@ -2,7 +2,7 @@ import ChatUsersController from "../../../../controllers/chatUsersController";
 import Store from "../../../../framework/store/Store";
 import { ChatsService } from "../../../../services/chatsService";
 import type { AddDeleteUserFormProps } from "../../../../types/addDeleteUser";
-import { ChatDataModel, type ChatData } from "../../../../types/chatData";
+import { ChatDataModel} from "../../../../types/chatData";
 import DataList, { notFoundText } from "../../../../ui-units/datalist/datalist";
 import Form from "../../../../ui-units/form/form";
 import { debounce } from "../../../../utils/debounce";
