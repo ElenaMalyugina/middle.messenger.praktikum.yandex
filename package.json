@@ -13,9 +13,9 @@
     "start": "jest && eslint . && stylelint **/*.css && tsc --noEmit && vite build && vite preview",
     "lint": "eslint . && stylelint **/*.css && tsc --noEmit",
     "lint:css": "stylelint **/*.css",
-    "test": "jest"
+    "test": "jest",
+    "prepare": "husky"
   },
-
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@jest/globals": "^30.3.0",
@@ -41,10 +41,5 @@
   },
   "dependencies": {
     "handlebars": "^4.7.8"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "jest && eslint . && stylelint **/*.css && tsc --noEmit"
-    }
   }
 }
