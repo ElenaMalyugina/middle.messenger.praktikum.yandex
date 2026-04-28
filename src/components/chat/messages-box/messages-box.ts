@@ -3,7 +3,7 @@ import MessagesBoxTemplate from "./messages-box.hbs?raw";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import MessagesController from "../../../controllers/messagesController";
 import Store from "../../../framework/store/Store";
-import { ChatData } from "../../../types/chatData";
+import { ChatData, ChatDataModel } from "../../../types/chatData";
 import { ChatsService } from "../../../services/chatsService";
 
 export default class MessagesBox extends Block<BlockOwnProps>{
@@ -20,8 +20,8 @@ export default class MessagesBox extends Block<BlockOwnProps>{
     }
 
     socketConnect=()=>{
-        const activeChat = ChatsService.getActiveChat() as ChatData;
-        if(!activeChat || !activeChat.id || this.currentChatId == activeChat.id) return;
+        const activeChat = ChatsService.getActiveChat();
+        if(!activeChat || !(activeChat instanceof ChatDataModel) || this.currentChatId == activeChat.id) return;
 
         this.messagesController.startConnection(activeChat.id);
         this.currentChatId = activeChat.id

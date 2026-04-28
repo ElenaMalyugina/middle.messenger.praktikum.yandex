@@ -1,7 +1,7 @@
 import Block from "../../../framework/Block";
 import Store from "../../../framework/store/Store";
 import { ChatsService } from "../../../services/chatsService";
-import type { ChatData } from "../../../types/chatData";
+import { ChatDataModel, type ChatData } from "../../../types/chatData";
 import MessagesBox from "../messages-box/messages-box";
 import NoMessages from "../no-messages/no-messages";
 import ChatBodyTemplate from "./chat-body.hbs?raw";
@@ -18,11 +18,11 @@ export default class ChatBody extends Block{
     }
 
     toggleView=()=>{
-        const activeChat = ChatsService.getActiveChat() as ChatData;
+        const activeChat = ChatsService.getActiveChat();
         const messagesBox = this.children.find(el=> el instanceof MessagesBox);
         const noMessages = this.children.find(el=> el instanceof NoMessages);
 
-        if(!activeChat){
+        if(!activeChat || !(activeChat instanceof ChatDataModel)){
             messagesBox?.hide();
             noMessages?.renderDom("#chat-body");
             return

@@ -3,7 +3,7 @@ import Store from "../framework/store/Store";
 import { ChatsService } from "../services/chatsService";
 import { errorHandler } from "../services/errorHandler";
 import type { AddChat } from "../types/addChat";
-import type {ChatData } from "../types/chatData";
+import {ChatDataModel, type ChatData } from "../types/chatData";
 import { modalHide } from "../utils/hideModal";
 import BaseFormController from "./baseFormController";
 
@@ -55,7 +55,9 @@ export default class ChatsController extends BaseFormController<AddChat>  {
             }
 
             if((newChat as ChatData).avatar){
-                const activeChat = ChatsService.getActiveChat() as ChatData;
+                const activeChat = ChatsService.getActiveChat();
+
+                if(!activeChat || !(activeChat instanceof ChatDataModel)) return;
                 const chats = Store.getState().chats as ChatData[];
 
                 const updatedChats = chats.map(chat => {

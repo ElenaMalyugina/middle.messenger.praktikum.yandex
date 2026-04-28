@@ -2,7 +2,7 @@ import ChatUsersController from "../../../../controllers/chatUsersController";
 import Store from "../../../../framework/store/Store";
 import { ChatsService } from "../../../../services/chatsService";
 import type { AddDeleteUserFormProps } from "../../../../types/addDeleteUser";
-import type { ChatData } from "../../../../types/chatData";
+import { ChatDataModel, type ChatData } from "../../../../types/chatData";
 import DataList, { notFoundText } from "../../../../ui-units/datalist/datalist";
 import Form from "../../../../ui-units/form/form";
 import { debounce } from "../../../../utils/debounce";
@@ -44,8 +44,8 @@ export default abstract class BaseUserForm <T extends AddDeleteUserFormProps = A
 
     setInitialProps = ()=>{
         this.debouncedSearch = debounce(this.searchUsers.bind(this), 500);
-        const currentChat = ChatsService.getActiveChat() as ChatData;
-        if(!currentChat) return;
+        const currentChat = ChatsService.getActiveChat();
+        if(!currentChat || !(currentChat instanceof ChatDataModel)) return;
 
         this.setProps({
             data: {

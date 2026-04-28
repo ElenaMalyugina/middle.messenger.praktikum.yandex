@@ -1,6 +1,6 @@
 import "./messages-users-list.css";
 import Store from "../../../framework/store/Store";
-import type { ChatData } from "../../../types/chatData";
+import { ChatDataModel, type ChatData } from "../../../types/chatData";
 import Block, { type BlockOwnProps } from "./../../../framework/Block";
 import MessagesUsersListTemplate from "./messages-users-list.hbs?raw";
 import ChatUsersController from "../../../controllers/chatUsersController";
@@ -32,7 +32,7 @@ export default class MessagesUsersList extends Block<MessagesUsersListProps>{
 
     protected getChatUsers = ()=>{
         const currentChat = ChatsService.getActiveChat();
-        if(!currentChat) return;
+        if(!currentChat || !(currentChat instanceof ChatDataModel)) return;
         this.chatUsersController.getChatUsers(currentChat.id);
     }
 
