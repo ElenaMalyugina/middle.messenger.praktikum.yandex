@@ -49,13 +49,13 @@ describe('HTTPTransport', () => {
     });
 
     describe('constructor', () => {
-        it('should construct with correct resourceUrl', () => {
+        it('должен создавать объект с правильным resourceUrl', () => {
             expect(http['resourceUrl']).toBe(`${urls.apiUrl}${mockUrl}`);
         });
     });
 
     describe('get method', () => {
-        it('should make GET request with query parameters', async () => {
+        it('должен создавать GET-запрос с правильными параметрами и созданием query string', async () => {
             const data = { id: 1, name: 'test' };
             const expectedUrl = `${urls.apiUrl}${mockUrl}/endpoint?id=1&name=test`;
 
@@ -77,7 +77,7 @@ describe('HTTPTransport', () => {
             expect(result).toEqual({ success: true });
         });
 
-        it('should handle GET request without data', async () => {
+        it('должен отправлять GET-запрос, если данных для query string нет', async () => {
             const expectedUrl = `${urls.apiUrl}${mockUrl}/endpoint`;
 
             (xhrMock.getResponseHeader as jest.Mock).mockReturnValue('application/json');
