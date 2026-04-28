@@ -5,6 +5,13 @@ describe("WebSocketApi", () => {
     let ws: WebSocketApi;
     let onMessagesReceived: jest.Mock;
 
+    const WS_STATES = {
+        CONNECTING: 0,
+        OPEN: 1,
+        CLOSING: 2,
+        CLOSED: 3,
+    } as const;
+
     beforeEach(() => {
         // Сбросим синглтон перед каждым тестом
         (WebSocketApi as any).instance = undefined;
@@ -14,7 +21,7 @@ describe("WebSocketApi", () => {
 
         // Мокаем глобальный WebSocket (простая заглушка)
         window.WebSocket = jest.fn().mockImplementation(() => ({
-            readyState: 1,
+            readyState: WS_STATES.OPEN,
             send: jest.fn(),
             close: jest.fn(),
             addEventListener: jest.fn((_event, _cb, _opts) => {
@@ -60,37 +67,58 @@ describe("WebSocketApi", () => {
         const promise = ws.closeConnection();
         await expect(promise).resolves.toBeUndefined();
     });
-    /*
 
-    it("closeConnection cleans up if socket is already closed", async () => {
-        const cleanupSpy = jest.spyOn(ws as any, "cleanupSocket").mockImplementation();
+    it("closeConnection запускает cleanup, если socket уже закрыт", async () => {
+        const OriginalWebSocket = window.WebSocket as any;
+        (window.WebSocket as any) = WS_STATES;
+
+        const cleanupSpy = jest.spyOn(ws as any, "cleanupSocket").mockImplementation(()=>undefined);
+
         ws['socket'] = {
-            readyState: WebSocket.CLOSED,
+            readyState: WS_STATES.CLOSED,
             addEventListener: jest.fn(),
             close: jest.fn()
         } as any;
 
         await ws.closeConnection();
+
+        expect(ws['socket']?.addEventListener).not.toHaveBeenCalled();
+        expect(ws['socket']?.close).not.toHaveBeenCalled();
         expect(cleanupSpy).toHaveBeenCalled();
+        window.WebSocket = OriginalWebSocket;
     });
 
-    it("closeConnection closes if socket is open", async () => {
-        const cleanupSpy = jest.spyOn(ws as any, "cleanupSocket").mockImplementation();
-        const mockClose = jest.fn();
-        ws['socket'] = {
-            readyState: WebSocket.OPEN,
+    it("closeConnection закрыввает сокет, если сокет открыт", async () => {
+        const OriginalWebSocket = window.WebSocket as any;
+
+        (window.WebSocket as any) = WS_STATES;
+
+        const cleanupSpy = jest.spyOn(ws as any, "cleanupSocket").mockImplementation(()=>undefined);
+
+        let onClose: (() => void) | undefined;
+        const mockClose = jest.fn((_code?: number, _reason?: string) => {
+            onClose?.();
+        });
+
+        ws["socket"] = {
+            readyState: WS_STATES.OPEN,
             addEventListener: jest.fn((event, cb) => {
-                if (event === 'close') {
-                    cb(); // имитируем закрытие
-                }
+                if (event === "close") onClose = cb as () => void;
             }),
             close: mockClose,
         } as any;
 
         await ws.closeConnection(3333, "test reason");
+
         expect(mockClose).toHaveBeenCalledWith(3333, "test reason");
         expect(cleanupSpy).toHaveBeenCalled();
+
+        window.WebSocket = OriginalWebSocket;
     });
+
+
+
+    /*
 
     it("closeConnection closes if socket is connecting", async () => {
         const cleanupSpy = jest.spyOn(ws as any, "cleanupSocket").mockImplementation();
