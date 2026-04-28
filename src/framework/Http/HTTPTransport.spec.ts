@@ -167,77 +167,88 @@ describe('HTTPTransport', () => {
         });
     });
 
-    /*
-  describe('request method (private)', () => {
-    it('should reject if method is not provided', async () => {
-      await expect(
-        (http as any).request('/endpoint', {})
-      ).rejects.toThrow('HTTP method is required');
-    });
 
-    it('should handle successful JSON response', async () => {
-      xhrMock.status = 201;
-      xhrMock.getResponseHeader.mockReturnValue('application/json');
-      xhrMock.responseText = JSON.stringify({ created: true });
+    describe('request method (private)', () => {
+        it('должен вызывать reject, если метод не указан', async () => {
+            await expect(
+                (http as any).request('/endpoint', {})
+            ).rejects.toThrow('HTTP method is required');
+        });
 
-      const result = await (http as any).request(
-        '/endpoint',
-        { method: METHODS.POST, data: { test: 'data' } }
-      );
+        it('должен поддерживать успешный JSON response', async () => {
+            (xhrMock as any).status = 201;
+            (xhrMock.getResponseHeader as jest.Mock).mockReturnValue('application/json');
+            (xhrMock as any).responseText = JSON.stringify({ created: true });
 
-      expect(result).toEqual({ created: true });
-    });
+            const promise = (http as any).request(
+                '/endpoint',
+                { method: METHODS.POST, data: { test: 'data' } }
+            );
+            (xhrMock.onload as any).call(xhrMock);
+            const result = await promise;
 
-    it('should handle non-JSON response', async () => {
-      xhrMock.status = 200;
-      xhrMock.getResponseHeader.mockReturnValue('text/plain');
-      xhrMock.responseText = 'Plain text response';
+            expect(result).toEqual({ created: true });
+        });
 
-      const result = await (http as any).request(
-        '/endpoint',
-        { method: METHODS.GET }
-      );
+        it('должен поддерживать успешный non-JSON response', async () => {
+            (xhrMock as any).status = 200;
+            (xhrMock.getResponseHeader as jest.Mock).mockReturnValue('text/plain');
+            (xhrMock as any).responseText = 'Plain text response';
 
-      expect(result).toBe('Plain text response');
-    });
+            const promise = (http as any).request(
+                '/endpoint',
+                { method: METHODS.GET }
+            );
+            (xhrMock.onload as any).call(xhrMock);
+            const result = await promise;
 
-    it('should handle error responses', async () => {
-      xhrMock.status = 404;
-      xhrMock.statusText = 'Not Found';
-      xhrMock.responseText = 'Resource not found';
+            expect(result).toBe('Plain text response');
+        });
 
-      await expect(
-        (http as any).request('/endpoint', { method: METHODS.GET })
-      ).rejects.toEqual({
-        status: 404,
-        statusText: 'Not Found',
-        response: 'Resource not found',
+        it('должен поддерживать error responses', async () => {
+            (xhrMock as any).status = 404;
+            (xhrMock as any).statusText = 'Not Found';
+            (xhrMock as any).responseText = 'Resource not found';
+
+            const promise = (http as any).request('/endpoint', { method: METHODS.GET });
+
+            (xhrMock.onload as any).call(xhrMock);
+
+            await expect(promise).rejects.toEqual({
+                status: 404,
+                statusText: 'Not Found',
+                response: 'Resource not found',
+                request: xhrMock,
+            });
+        });
+
+       it('должен поддерживать timeout', async () => {
+            const promise = (http as any).request('/endpoint', {
+                method: METHODS.GET,
+            }, 100);
+
+            (xhrMock.ontimeout as any).call(xhrMock);
+
+            await expect(promise).rejects.toEqual({
+                reason: 'Request timeout',
+                timeout: 100,
+                request: xhrMock,
+            });
+        });
+
+
+/*
+        it('should handle network error', async () => {
+        xhrMock.onerror = xhrMock.onerror;
+
+        await expect(
+            (http as any).request('/endpoint', { method: METHODS.GET })
+                ).rejects.toEqual({
+        reason: 'Network error',
         request: xhrMock,
-      });
-    });
-
-    it('should handle timeout', async () => {
-      xhrMock.ontimeout = xhrMock.ontimeout;
-
-      await expect(
-        (http as any).request('/endpoint', { method: METHODS.GET }, 100)
-      ).rejects.toEqual({
-        reason: 'Request timeout',
-        timeout: 100,
-        request: xhrMock,
-      });
-    });
-
-    it('should handle network error', async () => {
-      xhrMock.onerror = xhrMock.onerror;
-
-      await expect(
-        (http as any).request('/endpoint', { method: METHODS.GET })
-            ).rejects.toEqual({
-      reason: 'Network error',
-      request: xhrMock,
-    });
+        });*/
   });
+  /*
 
   it('should handle abort', async () => {
     xhrMock.onabort = xhrMock.onabort;
