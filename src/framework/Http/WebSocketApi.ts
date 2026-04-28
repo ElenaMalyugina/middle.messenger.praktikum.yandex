@@ -140,8 +140,8 @@ export default class WebSocketApi {
                 if (WebSocketApi.onMessagesReceived) {
                     WebSocketApi.onMessagesReceived(response);
                 }
-            } catch (e) {
-                const response = {type: "error"}
+            } catch (_e) {
+                //const response = {type: "error"}
                 //возможно, протух токен?
                 this.start(this.chatId, this.userId);
             }
