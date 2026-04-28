@@ -1,7 +1,7 @@
 import Block from "../../../framework/Block";
 import Store from "../../../framework/store/Store";
 import { ChatsService } from "../../../services/chatsService";
-import { ChatDataModel, type ChatData } from "../../../types/chatData";
+import { ChatDataModel } from "../../../types/chatData";
 import MessagesBox from "../messages-box/messages-box";
 import NoMessages from "../no-messages/no-messages";
 import ChatBodyTemplate from "./chat-body.hbs?raw";
