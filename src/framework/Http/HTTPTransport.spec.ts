@@ -95,7 +95,7 @@ describe('HTTPTransport', () => {
     });
 
     describe('post method', () => {
-        it('should make POST request with JSON data', async () => {
+        it('должен отправлять POST-запрос с данными в JSON-формате', async () => {
             const data = { name: 'John', age: 30 };
             const expectedUrl = `${urls.apiUrl}${mockUrl}/endpoint`;
 
@@ -112,7 +112,7 @@ describe('HTTPTransport', () => {
             expect(result).toEqual({ id: 1, ...data });
         });
 
-        it('should make POST request with FormData', async () => {
+        it('должен отправлять POST-запрос с данными в FormData', async () => {
             const formData = new FormData();
             formData.append('file', new Blob(['test'], { type: 'text/plain' }));
             const expectedUrl = `${urls.apiUrl}${mockUrl}/endpoint`;
@@ -132,38 +132,38 @@ describe('HTTPTransport', () => {
     });
 
     describe('put method', () => {
-        it('should make PUT request', async () => {
-        const data = { id: 1, updated: true };
-        const expectedUrl = `${urls.apiUrl}${mockUrl}/endpoint`;
+        it('должен отправлять PUT-запрос', async () => {
+            const data = { id: 1, updated: true };
+            const expectedUrl = `${urls.apiUrl}${mockUrl}/endpoint`;
 
-        (xhrMock.getResponseHeader as jest.Mock).mockReturnValue('application/json');
-        (xhrMock as any).responseText = JSON.stringify({ ...data, modified: new Date().toISOString() });
+            (xhrMock.getResponseHeader as jest.Mock).mockReturnValue('application/json');
+            (xhrMock as any).responseText = JSON.stringify({ ...data, modified: new Date().toISOString() });
 
-        const promise = http.put('/endpoint', { data });
-        (xhrMock.onload as any).call(xhrMock);
-        const result = await promise;
+            const promise = http.put('/endpoint', { data });
+            (xhrMock.onload as any).call(xhrMock);
+            const result = await promise;
 
-        expect(xhrMock.open).toHaveBeenCalledWith(METHODS.PUT, expectedUrl);
-        expect(xhrMock.setRequestHeader).toHaveBeenCalledWith('Content-Type', 'application/json');
-        expect(xhrMock.send).toHaveBeenCalledWith(JSON.stringify(data));
-        expect((result as any).updated).toBe(true);
+            expect(xhrMock.open).toHaveBeenCalledWith(METHODS.PUT, expectedUrl);
+            expect(xhrMock.setRequestHeader).toHaveBeenCalledWith('Content-Type', 'application/json');
+            expect(xhrMock.send).toHaveBeenCalledWith(JSON.stringify(data));
+            expect((result as any).updated).toBe(true);
         });
     });
 
     describe('delete method', () => {
-        it('should make DELETE request', async () => {
-        const expectedUrl = `${urls.apiUrl}${mockUrl}/endpoint`;
+        it('должен отправлять DELETE-запрос', async () => {
+            const expectedUrl = `${urls.apiUrl}${mockUrl}/endpoint`;
 
-        (xhrMock.getResponseHeader as jest.Mock).mockReturnValue('application/json');
-        (xhrMock as any).responseText = JSON.stringify({ deleted: true, id: 1 });
+            (xhrMock.getResponseHeader as jest.Mock).mockReturnValue('application/json');
+            (xhrMock as any).responseText = JSON.stringify({ deleted: true, id: 1 });
 
-        const promise = http.delete('/endpoint');
-        (xhrMock.onload as any).call(xhrMock);
-        const result = await promise;
+            const promise = http.delete('/endpoint');
+            (xhrMock.onload as any).call(xhrMock);
+            const result = await promise;
 
-        expect(xhrMock.open).toHaveBeenCalledWith(METHODS.DELETE, expectedUrl);
-        expect(xhrMock.send).toHaveBeenCalled();
-        expect(result).toEqual({ deleted: true, id: 1 });
+            expect(xhrMock.open).toHaveBeenCalledWith(METHODS.DELETE, expectedUrl);
+            expect(xhrMock.send).toHaveBeenCalled();
+            expect(result).toEqual({ deleted: true, id: 1 });
         });
     });
 
