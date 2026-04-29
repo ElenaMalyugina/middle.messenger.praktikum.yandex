@@ -14,7 +14,7 @@
     "lint": "eslint . && stylelint **/*.css && tsc --noEmit",
     "lint:css": "stylelint **/*.css",
     "test": "jest",
-    "prepare": "husky"
+    "prepare": "husky && husky install"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -27,7 +27,7 @@
     "autoprefixer": "^10.4.27",
     "eslint": "^10.1.0",
     "globals": "^17.4.0",
-    "husky": "^9.1.7",
+    "husky": "^8.0.0",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
     "postcss": "^8.5.8",
