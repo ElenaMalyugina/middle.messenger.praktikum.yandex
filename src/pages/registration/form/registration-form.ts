@@ -25,19 +25,23 @@ export default class RegistrationForm extends Form<RegistrationFormProps> {
 
     constructor(props: RegistrationFormProps){
         super(props);
-
-        Store.subscribe(()=>{
-           this.errorFormHandler();
-        })
     }
 
     protected componentDidMount(): void {
         this.setProps({
             data: {...initialUser}
         })
+
+        this.removeStoreListeners = Store.subscribe(
+           this.errorFormHandler
+        )
     }
 
     submitForm = (form: Form)=>{
         this.registrationController.submitFormHandler(form);
+    }
+
+    protected componentWillUnmount(): void {
+        this.removeStoreListeners()
     }
 }

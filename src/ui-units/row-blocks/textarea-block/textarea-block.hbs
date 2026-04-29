@@ -2,7 +2,9 @@
     {{{ Textarea name=name className=className id=id rows=rows
             placeholder=placeholder required=required value=value
             validators=validators
-            onValidate=onValidate cleanValidate=cleanValidate ref=id
+            onValidate=onValidate cleanValidate=cleanValidate
+            submitEmit=submitEmit
+            ref=id
     }}}
     {{{ ErrorMessage className="input-block__error js-error" id=(concat "js-error-" id) ref="error" }}}
 </div>

@@ -1,7 +1,11 @@
 <div class="messages-box">
     {{{ MessagesBoxHeader }}}
-    <div class="messages-box__messages-list-scroll">
+    <div class="messages-box__messages-list-scroll" id="chat-scroll">
         {{{ MessagesList }}}
     </div>
-    {{{ MessageSend }}}
+    <section class="message-send messages-box__message-send">
+        <h2 class="visually-hidden message-send__header">Отправить сообщение</h2>
+        {{{ MessageSendForm }}}
+    </section>
+    {{{ Loader className="messages-box__loader" text="" }}}
 </div>

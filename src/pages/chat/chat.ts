@@ -1,7 +1,7 @@
 import "./chat.css";
 import "../../components/chat/chat-sidebar/chat-sidebar.css";
 import Handlebars from "handlebars";
-import {getDayYearString, getTimeString} from "../../utils/datetime.ts";
+import {getDateOrTimeString, getDayYearString, getTimeString} from "../../utils/datetime.ts";
 import { registerComponent } from './../../framework/RegisterComponent';
 import chatTemplate from "./chat.hbs?raw";
 import NoMessages from "../../components/chat/no-messages/no-messages.ts";
@@ -15,8 +15,7 @@ import MessagesBox from "../../components/chat/messages-box/messages-box.ts";
 import ChatHeader from "../../components/chat/chat-header/chat-header.ts";
 import ChatSearch from "../../components/chat/chat-search/chat-search.ts";
 import MessagesBoxHeader from "../../components/chat/messages-box-header/messages-box-header.ts";
-import MessageSend from "../../components/chat/message-send/message-send.ts";
-import MessagesSendForm from "../../components/chat/message-send/form/messages-send-form.ts";
+import MessagesSendForm from "../../components/chat/message-send-form/messages-send-form.ts";
 import ChatSearchForm from "../../components/chat/chat-search/form/chat-search-form.ts";
 import PopupUser from "../../components/chat/popup-contents/popup-user/popup-user.ts";
 import ChatBody from "../../components/chat/chat-body/chat-body.ts";
@@ -38,7 +37,14 @@ Handlebars.registerHelper("getDayAndYear", function(dateString){
 
 //Получение даты в читаемом формате
 Handlebars.registerHelper("getTime", function(dateString){
+    if(!dateString) return;
     return getTimeString(dateString);
+})
+
+//Получение даты в читаемом формате
+Handlebars.registerHelper("getDateOrTime", function(dateString){
+    if(!dateString) return;
+    return getDateOrTimeString(dateString);
 })
 
 registerComponent(ChatsList);
@@ -53,7 +59,6 @@ registerComponent(MessagesBox);
 registerComponent(MessagesBoxHeader);
 registerComponent(MessagesList);
 registerComponent(MessageItem);
-registerComponent(MessageSend);
 registerComponent(MessagesSendForm);
 registerComponent(PopupFiles);
 registerComponent(PopupFilesForm);
@@ -68,14 +73,14 @@ registerComponent(MessageBoxAvatarForm);
 registerComponent(MessagesUsersList);
 
 
-interface ChatPageProps extends BlockOwnProps{
-    sidebarActive?: boolean;
-}
-
-export default class Chat extends Block<ChatPageProps>{
+export default class Chat extends Block<BlockOwnProps>{
     static componentName = 'Chat';
     protected template = chatTemplate;
     private activeSidebarClass = "chat__sidebar--active";
+
+    constructor(props?: BlockOwnProps) {
+        super(props);
+    }
 
     protected events={
         click: (event: Event) => {
@@ -89,7 +94,7 @@ export default class Chat extends Block<ChatPageProps>{
                 if(!sidebar || sidebar!=target) return;
                 this.showSidebar(sidebar);
             }
-        }
+        },
     }
 
     showSidebar = (sidebar:Element)=>{

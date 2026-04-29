@@ -1,4 +1,5 @@
 import Store from "../../../../../framework/store/Store";
+import { UserService } from "../../../../../services/userService";
 import type { AddDeleteUserFormProps } from "../../../../../types/addDeleteUser";
 import type { UserInfo } from "../../../../../types/userInfo";
 import BaseUserForm, { type actionType } from "../../base-user/base-user-form";
@@ -33,7 +34,7 @@ export default class DeleteUserForm extends BaseUserForm<AddDeleteUserFormProps>
         const existedUser = Store.getState().ActiveChatsUsers as UserInfo[];
         if(!existedUser || !Array.isArray(existedUser)) return;
 
-        const currentUserId = Store.getState().currentUser;
+        const currentUserId = UserService.getCurrentUser();
 
         //дропдаун куда вывести предлагемых пользователей
         const dataList = this.datalist;

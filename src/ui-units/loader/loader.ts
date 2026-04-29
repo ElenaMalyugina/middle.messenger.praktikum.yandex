@@ -6,6 +6,7 @@ import Store from "../../framework/store/Store";
 interface LoaderProps extends BlockOwnProps{
     activeClass: string;
     isActive: boolean;
+    text: string;
 }
 
 export default abstract class Loader extends Block<LoaderProps> {
@@ -17,9 +18,15 @@ export default abstract class Loader extends Block<LoaderProps> {
         super(props)
         this.props.activeClass = this.activeClass;
 
-        Store.subscribe(()=>{
-            this.loaderHandler();
-        })
+        if(!props.text){
+            this.props.text = "В процессе...";
+        }
+    }
+
+    protected componentDidMount(): void {
+        this.removeStoreListeners = Store.subscribe(
+            this.loaderHandler
+        )
     }
 
     private loaderHandler = ()=>{
@@ -29,7 +36,7 @@ export default abstract class Loader extends Block<LoaderProps> {
             this.show()
         }
         else{
-            this.hide();
+            this.loaderHide();
         }
     }
 
@@ -37,7 +44,11 @@ export default abstract class Loader extends Block<LoaderProps> {
         this.setProps({isActive: true});
     }
 
-    hide=()=>{
+    loaderHide=()=>{
         this.setProps({isActive: false});
+    }
+
+    protected componentWillUnmount(): void {
+        this.removeStoreListeners();
     }
 }

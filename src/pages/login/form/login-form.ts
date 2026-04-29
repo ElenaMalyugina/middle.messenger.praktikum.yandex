@@ -24,19 +24,23 @@ export default class LoginForm extends Form<LoginFormProps>{
 
     constructor(props: LoginFormProps){
         super(props);
-
-        Store.subscribe(()=>{
-            this.errorFormHandler();
-        })
     }
 
     protected componentDidMount(): void {
          this.setProps({
             data: {...initialData}
         })
+
+        this.removeStoreListeners = Store.subscribe(
+            this.errorFormHandler
+        )
     }
 
     submitForm = (form: Form)=>{
         this.loginController.submitFormHandler(form);
+    }
+
+    protected componentWillUnmount(): void {
+        this.removeStoreListeners();
     }
 }

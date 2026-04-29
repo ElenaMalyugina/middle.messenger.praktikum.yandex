@@ -1,11 +1,12 @@
-.chat-item{
+.chat-item__link{
     padding: 20px;
     border-top: var(--border);
     display: flex;
     gap: 16px;
-    cursor: pointer;
     position: relative;
     transition: 0.3s;
+    text-decoration: none;
+    color: inherit;
 
     &--hover{
         background-color: var(--border-color);
@@ -17,8 +18,8 @@
     }
 }
 
-.chat-item:hover{
-    @extend .chat-item--hover;
+.chat-item__link:hover{
+    @extend .chat-item__link--hover;
 }
 
 .chat-item__chat-avatar{
@@ -89,6 +90,6 @@
     }
 }
 
-.chat-item:not(.chat-item--active):hover .chat-item__delete-button{
+.chat-item__link:not(.chat-item__link--active):hover .chat-item__delete-button{
     @extend .chat-item__delete-button--active;
 }

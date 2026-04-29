@@ -190,11 +190,10 @@ body{
 .delete-button{
     @extend .round-button;
 
-    background: url("/img/plus.svg") center center no-repeat, var(--fourth-color);
-    transform: rotate(45deg);
+    background: url("/img/close.svg") center center no-repeat, var(--fourth-color);
 
     &--active{
-        background-image: url("/img/plus-hover.svg");
+        background-image: url("/img/close-hover.svg");
     }
 }
 

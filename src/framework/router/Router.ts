@@ -1,5 +1,6 @@
 import type { BlockOwnProps } from "../Block";
 import type Block from "../Block";
+import Store from "../store/Store";
 import { AllowedNoLoginMiddleware } from "./AllowedNoLogin";
 import { AuthGuardMiddleware } from "./AuthGuardMiddleware";
 import Route, { type RouteProps } from "./Route";
@@ -73,10 +74,11 @@ export default class Router {
         if (link.tagName !== 'A' || !link.getAttribute('href')) return;
 
         e.preventDefault();
+
         const url = new URL(link.href, window.location.href);
 
         if (url.origin !== window.location.origin) {
-            window.location.href = link.href;
+            window.open(link.href, '_blank');
             return;
         }
 
@@ -89,38 +91,65 @@ export default class Router {
         }
     }
 
-
     private async _onRoute(pathname: string) {
-        const route = this.getRoute(pathname);
+        // Ищем подходящий маршрут
+        const matchedRoute = this.routes.find(route => {
+            const matchResult = route.match(pathname);
+            return matchResult.matched;
+        });
 
-        if (!route) {
+        if (!matchedRoute) {
             this.replace("/404");
             return;
         }
 
-        for (const guardName of route.guards) {
-            const guard = this.guardsMap[guardName as string];
+        const matchResult = matchedRoute.match(pathname);
 
+        // Обновляем пропсы блока, добавляя параметры маршрута
+        const updatedBlockProps = {
+            ...matchedRoute._blockProps,
+            params: matchResult.params
+        };
+
+        // Применяем обновлённые пропсы
+        matchedRoute._blockProps = updatedBlockProps;
+
+        //пишем роут в стор
+        this.updateStoreWithRoute(pathname, matchResult.params);
+
+        // Проверяем guards
+        for (const guardName of matchedRoute.guards) {
+            const guard = this.guardsMap[guardName];
             if (!guard) {
                 console.error(`Unknown guard: ${guardName}`);
                 continue;
             }
 
             const isAllowed = await guard.isAllowed(this);
-            if (!isAllowed) return; // Прерываем выполнение маршрута
+            if (!isAllowed) return;
         }
 
-        if (this._currentRoute && this._currentRoute !== route) {
+        // Если текущий маршрут существует и отличается от нового
+        if (this._currentRoute && this._currentRoute !== matchedRoute ) {
             this._currentRoute.leave();
         }
 
-        this._currentRoute = route;
-        route.createBlock();
+        this._currentRoute = matchedRoute;
+        matchedRoute.createBlock();
     }
 
-    public go(pathname: string) {
+    private updateStoreWithRoute(path: string, params: Record<string, string>): void {
+        Store.setState('route', {
+            path,
+            params,
+            query: new URLSearchParams(window.location.search),
+        });
+    }
+
+
+    public async go(pathname: string) {
         this.history.pushState({}, '', pathname);
-        this._onRoute(pathname);
+        await this._onRoute(pathname);
     }
 
     public back() {
@@ -138,7 +167,7 @@ export default class Router {
     }
 
 
-    public getRoute(pathname: string) {
+    /*public getRoute(pathname: string) {
         return this.routes.find(route => route.match(pathname));
-    }
+    }*/
 }

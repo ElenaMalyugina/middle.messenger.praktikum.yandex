@@ -23,5 +23,4 @@ export default class AddChatForm extends Form<AddChatFormProps>{
     protected submitForm=(form: Form)=>{
         this.chatsController.submitFormHandler(form);
     };
-
 }

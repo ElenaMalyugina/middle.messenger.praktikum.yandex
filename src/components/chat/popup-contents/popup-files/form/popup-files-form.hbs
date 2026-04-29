@@ -1,16 +1,14 @@
 <form className="popup-files" action="/messenger" id="popup-form">
     <ul class="popup__list popup-files__list">
         <li class="popup__item popup-files__item">
-            {{{ UploadFile className="popup-files-label popup__row" for="upload-photo" name="photo"
-            icon="image-icon" text="Фото или Видео" }}}
-        </li>
-        <li class="popup__item popup-files__item">
-            {{{ UploadFile className="popup-files-label popup__row" for="upload-file" name="file"
-            icon="file-icon" text="Файл" }}}
-        </li>
-        <li class="popup__item popup-files__item">
-            {{{ UploadFile className="popup-files-label popup__row" for="upload-location" name="location"
-            icon="location-icon" text="Локация" }}}
+            <form id="upload-photo-form">
+                <label class="popup-files-label popup__row" for="upload-photo" title="Загрузить картинку или фото">
+                    {{{ renderIcon "image-icon" }}}
+                    <span class="popup__text">Картинка или фото</span>
+                    {{{ FileInput name="upload-photo" id="upload-photo" onChange=onChange ref="avatarInput" }}}
+                </label>
+                {{{ErrorMessage className="input-block__error popup__error js-error" ref="serverError" }}}
+            </form>
         </li>
     </ul>
 </form>

@@ -1,8 +1,9 @@
 import ChatsApi from "../api/chatsApi";
 import Store from "../framework/store/Store";
+import { ChatsService } from "../services/chatsService";
 import { errorHandler } from "../services/errorHandler";
 import type { AddChat } from "../types/addChat";
-import { ChatDataModel, type ChatData } from "../types/chatData";
+import {ChatDataModel, type ChatData } from "../types/chatData";
 import { modalHide } from "../utils/hideModal";
 import BaseFormController from "./baseFormController";
 
@@ -14,26 +15,15 @@ export default class ChatsController extends BaseFormController<AddChat>  {
         return this.createChat(data)
     };
 
-    public async getChats(){
-        try{
-            const chatsList = await this.chatsApi.request({});
-            Store.setState("chats", chatsList);
-        }
-        catch(_e){
-            console.log("Не получилось доставить чаты");
-        }
-    }
-
-    public async searchChats(queryString: string){
+    public async getChats(queryString: string = ""){
         try{
             const chatsList = await this.chatsApi.request({data:{title: queryString}});
             Store.setState("chats", chatsList);
         }
         catch(_e){
-            console.log("Чаты не найдены");
+            console.error(_e)
         }
     }
-
 
     private async createChat(chat: AddChat | null){
         try{
@@ -65,7 +55,20 @@ export default class ChatsController extends BaseFormController<AddChat>  {
             }
 
             if((newChat as ChatData).avatar){
-                Store.setState("activeChat",  new ChatDataModel(newChat as ChatData));
+                const activeChat = ChatsService.getActiveChat();
+
+                if(!activeChat || !(activeChat instanceof ChatDataModel)) return;
+                const chats = Store.getState().chats as ChatData[];
+
+                const updatedChats = chats.map(chat => {
+                        if (chat.id === activeChat.id) {
+                            return newChat; // заменяем на новый объект activeChat
+                        }
+                        return chat; // оставляем без изменений
+                    }
+                );
+
+                Store.setState("chats", updatedChats);
             }
         }
         catch(error){
@@ -92,5 +95,12 @@ export default class ChatsController extends BaseFormController<AddChat>  {
         }
     }
 
-
+    public async getUnreadMessagesCount(chatId: number){
+        try{
+            return await this.chatsApi.getUnreadCount(chatId);
+        }
+        catch(_e){
+            console.error(_e)
+        }
+    }
 }

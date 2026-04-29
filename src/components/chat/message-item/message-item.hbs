@@ -1,21 +1,28 @@
 {{#with message}}
 <li class="message-item {{block}}__message-item {{#if isAuthor}} message-item--self chat__message-item--self {{/if}}" tabindex="0">
-    {{#with message}}
+    <div class="message-item__top">
+        {{#unless isAuthor}}
+            <h3 class="message-item__user">{{userLogin}}</h3>
+        {{/unless}}
+    </div>
     <div class="message-item__content">
         {{#if file}}
         <figure class="message-item__file-block">
-            {{{ Img className="message-item__file" src=file.path alt="Прикрепленная картинка" }}}
+            {{{ Img className="message-item__file" src=(concat ../resourcePath file.path) alt="Прикрепленная картинка"  }}}
         </figure>
+        <a class="message-item__link" href="{{concat ../resourcePath file.path}}" target="_blank" rel="noopener noreferrer">
+            Прикрепленный файл {{{content}}}
+        </a>
+        {{else}}
+            {{{content}}}
         {{/if}}
-        {{{content}}}
     </div>
     <div class="message-item__bottom">
-        {{#if isAuthor }}
-            {{{ Img src=(concat (basePath) "/img/read.svg") alt=""}}}
+        {{#if isCheckIcon }}
+            {{{ Img src="/img/read.svg" alt=""}}}
         {{/if}}
-        <time class="time message-item__time {{#if isAuthor }}message-item__time--self{{/if}}" datetime="{{time}}">{{#getTime time}}{{/getTime}}</time>
+        <time class="time message-item__time {{#if isAuthor}}message-item__time--self{{/if}}" datetime="{{time}}">{{#getTime time}}{{/getTime}}</time>
     </div>
-    {{/with}}
 </li>
 {{/with}}
 

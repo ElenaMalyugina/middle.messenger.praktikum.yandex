@@ -5,8 +5,8 @@ import ErrorMessage from "../../../ui-units/error-message/error-message";
 import Block, { type BlockOwnProps } from "../../../framework/Block";
 import { validate } from "../../../services/validationService";
 import ChatsController from "../../../controllers/chatsController";
-import type { ChatData } from "../../../types/chatData";
-
+import { ChatsService } from "../../../services/chatsService";
+import { ChatDataModel } from "../../../types/chatData";
 
 interface MessageBoxAvatarProps extends BlockOwnProps{
     onChange: (file: File)=> void
@@ -20,15 +20,16 @@ export default class MessageBoxAvatarForm extends Block<MessageBoxAvatarProps>{
     constructor(props: MessageBoxAvatarProps){
         super(props);
         this.props.onChange = this.submitForm;
+    }
 
-        Store.subscribe(()=>{
-            //если ошибка на бэке
-            this.serverErrorHandler();
-        })
+    protected componentDidMount(): void {
+        this.removeStoreListeners= Store.subscribe(
+            this.serverErrorHandler
+        )
     }
 
     protected submitForm = (file: File)=>{
-        const validatorResult = validate(file, ["validatorFileImage"]);
+        const validatorResult = validate(file, ["validatorFileImage","validatorFileMaxSize"]);
 
         if(!validatorResult.isValid){
             if(validatorResult.text){
@@ -37,11 +38,10 @@ export default class MessageBoxAvatarForm extends Block<MessageBoxAvatarProps>{
             return;
         }
 
-        const activeChat = Store.getState().activeChat as ChatData;
-        if(activeChat){
+        const activeChat = ChatsService.getActiveChat();
+        if(activeChat && activeChat instanceof ChatDataModel){
             this.chatsController.updateAvatar(file, activeChat.id);
         }
-
     }
 
     protected serverErrorHandler = ()=>{
@@ -53,6 +53,10 @@ export default class MessageBoxAvatarForm extends Block<MessageBoxAvatarProps>{
         const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
         if(!errorMessageBlock) return;
         errorMessageBlock.setProps({message: errorText});
+    }
+
+    protected componentWillUnmount(): void {
+        this.removeStoreListeners()
     }
 
 }

@@ -3,7 +3,9 @@ import Block, { type BlockOwnProps } from "../../../framework/Block";
 import MessagesBoxHeaderTemplate from "./messages-box-header.hbs?raw";
 import PopupUser from "../popup-contents/popup-user/popup-user";
 import Store from "../../../framework/store/Store";
-import { type ChatData } from "../../../types/chatData";
+import { UserService } from "../../../services/userService";
+import { ChatsService } from "../../../services/chatsService";
+import { ChatDataModel } from "../../../types/chatData";
 
 
 interface MessagesBoxHeaderData{
@@ -23,14 +25,14 @@ export default class MessagesBoxHeader extends Block<MessagesBoxHeaderProps>{
 
     constructor(props: MessagesBoxHeaderProps){
         super(props);
+        this.props.popupUserShow = this.popupUserShow
 
-        this.setProps({
-            popupUserShow: this.popupUserShow
-        })
+    }
 
-        Store.subscribe(()=>{
-            this.updateData()
-        })
+    protected componentDidMount(): void {
+        this.removeStoreListeners =  Store.subscribe(
+            this.updateData
+        )
     }
 
     protected events={
@@ -40,15 +42,15 @@ export default class MessagesBoxHeader extends Block<MessagesBoxHeaderProps>{
     };
 
     updateData = ()=>{
-        const activeChat= Store.getState().activeChat as ChatData;
-        if(!activeChat) return;
+        const activeChat= ChatsService.getActiveChat();
+        if(!activeChat || !(activeChat instanceof ChatDataModel)) return;
 
         this.setProps({
             data:{
                 title: activeChat.title,
                 avatarUrl: activeChat.avatar,
             },
-            isOwnChat: activeChat.created_by === Store.getState().currentUser
+            isOwnChat: activeChat.created_by === UserService.getCurrentUser()
         })
     }
 
@@ -61,5 +63,9 @@ export default class MessagesBoxHeader extends Block<MessagesBoxHeaderProps>{
         if(popup){
             popup.popupShow(event, "#user-button", activeClass);
         }
+    }
+
+    protected componentWillUnmount(): void {
+        this.removeStoreListeners();
     }
 }

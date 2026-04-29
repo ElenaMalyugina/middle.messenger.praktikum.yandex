@@ -1,22 +1,24 @@
-<li class="chat-item js-chat-item">
-    {{#with chatData}}
-    {{{ ChatAvatar avatarUrl=avatar addClass="chat-item__chat-avatar"  }}}
-    <div class="chat-item__content">
-        <div class="chat-item__top">
-        <h3 class="chat-item__title">
-            {{title}}
-        </h3>
-        <time class="time chat-item__date" datetime="{{last_message.time}}">{{last_message.time}}</time>
+<li class="chat-item">
+    <a class="chat-item__link {{#if isActive}} chat-item__link--active{{/if}} js-chat-item" href="{{concat '/messenger/' chatData.id}}">
+        {{#with chatData}}
+        {{{ ChatAvatar avatarUrl=avatar addClass="chat-item__chat-avatar"  }}}
+        <div class="chat-item__content">
+            <div class="chat-item__top">
+                <h3 class="chat-item__title">
+                    {{title}}
+                </h3>
+                <time class="time chat-item__date" datetime="{{last_message.time}}">{{getDateOrTime last_message.time}}</time>
+            </div>
+            <p class="chat-item__message">
+                {{{last_message.content}}}
+            </p>
+            {{#if unread_count}}
+            <span class="chat-item__counter">
+                {{unread_count}}
+            </span>
+            {{/if}}
         </div>
-        <p class="chat-item__message">
-        {{{last_message.text}}}
-        </p>
-        {{#if unread_count}}
-        <span class="chat-item__counter">
-            {{unread_count}}
-        </span>
-        {{/if}}
-    </div>
-    {{/with}}
-    {{{ Button type="button" className="delete-button chat-item__delete-button" text="Удалить чат" onClick=deleteChatHandler }}}
+        {{/with}}
+        {{{ Button type="button" className="delete-button chat-item__delete-button" text="Удалить чат" onClick=deleteChatHandler }}}
+    </a>
 </li>

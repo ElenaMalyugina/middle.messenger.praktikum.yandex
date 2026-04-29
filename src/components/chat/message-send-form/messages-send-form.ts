@@ -1,0 +1,41 @@
+import "./message-send-form.css";
+import Form, { type FormProps } from "../../../ui-units/form/form";
+import PopupFiles from "../popup-contents/popup-files/popup-files";
+import MessagesSendFormTemplate from "./message-send-form.hbs?raw";
+import type { Message } from "../../../types/message";
+import MessagesController from "../../../controllers/messagesController";
+
+interface MessagesSendFormProps extends FormProps{
+    data: Message,
+    submitFormHandler: (form: Form)=>void;
+    modalFileShow: (event: Event, el:HTMLButtonElement)=>void;
+    submitEmit: (form: Form)=>void;
+}
+
+export default class MessageSendForm extends Form<MessagesSendFormProps>{
+    static componentName = 'MessageSendForm';
+    protected template = MessagesSendFormTemplate;
+    private messagesController = MessagesController;
+
+    constructor(props:MessagesSendFormProps){
+        super(props);
+        this.props.modalFileShow = this.modalFileShow;
+        this.props.submitEmit = this.submitForm.bind(this, this);
+    }
+
+    modalFileShow=(event: Event, el: HTMLButtonElement)=>{
+        if(!el) return;
+        const activeClass = "attache-button--active";
+        el.classList.add(activeClass);
+
+        const popup = this.children.find(el=> el instanceof PopupFiles);
+        if(popup){
+            popup.popupShow(event, "#attache-button", activeClass);
+        }
+    }
+
+    protected submitForm = (form: Form)=>{
+        this.messagesController.submitFormHandler(form);
+        form.reset();
+    };
+}

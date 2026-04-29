@@ -15,8 +15,10 @@ export default class ProfileInfoForm extends Form<ProfileInfoFormProps> {
 
     constructor(props:ProfileInfoFormProps){
         super(props);
+    }
 
-        Store.subscribe(()=>{
+    protected componentDidMount(): void {
+        this.removeStoreListeners= Store.subscribe(()=>{
             this.updateForm();
             this.errorFormHandler();
         })
@@ -31,4 +33,8 @@ export default class ProfileInfoForm extends Form<ProfileInfoFormProps> {
     protected submitForm = ()=>{
         this.profileController.submitFormHandler(this);
     };
+
+    protected componentWillUnmount(): void {
+        this.removeStoreListeners();
+    }
 }

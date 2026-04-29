@@ -18,15 +18,17 @@ export default class ProfileAvatarForm extends Block<ProfileAvatarProps>{
     constructor(props: ProfileAvatarProps){
         super(props);
         this.props.onChange = this.submitForm;
+    }
 
-        Store.subscribe(()=>{
+    protected componentDidMount(): void {
+        this.removeStoreListeners = Store.subscribe(
             //если ошибка на бэке
-            this.serverErrorHandler();
-        })
+            this.serverErrorHandler
+        )
     }
 
     protected submitForm = (file: File)=>{
-        const validatorResult = validate(file, ["validatorFileImage"]);
+        const validatorResult = validate(file, ["validatorFileImage","validatorFileMaxSize"]);
 
         if(!validatorResult.isValid){
             if(validatorResult.text){
@@ -47,6 +49,10 @@ export default class ProfileAvatarForm extends Block<ProfileAvatarProps>{
         const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
         if(!errorMessageBlock) return;
         errorMessageBlock.setProps({message: errorText});
+    }
+
+    protected componentWillUnmount(): void {
+        this.removeStoreListeners()
     }
 
 }

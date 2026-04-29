@@ -1,13 +1,59 @@
-import Form from "../../../../../ui-units/form/form";
+import MessagesController from "../../../../../controllers/messagesController";
+import type { BlockOwnProps } from "../../../../../framework/Block";
+import Block from "../../../../../framework/Block";
+import Store from "../../../../../framework/store/Store";
+import { validate } from "../../../../../services/validationService";
+import ErrorMessage from "../../../../../ui-units/error-message/error-message";
 import PopupFilesFormTemplate from "./popup-files-form.hbs?raw";
 
-export default class PopupFilesForm extends Form{
+interface PopupFilesProps extends BlockOwnProps{
+    onChange: (file: File)=>void;
+    sendFileHandler: (file: File)=>void;
+}
+
+export default class PopupFilesForm extends Block<PopupFilesProps>{
     static componentName = 'PopupFilesForm';
     protected template = PopupFilesFormTemplate;
+     private messagesController = MessagesController;
 
-    protected submitForm = (_form: Form)=>{
-        //реализуем в следующем спринте, но линтер требует функцию уже сейчас
-    };
+    constructor(props: PopupFilesProps){
+        super(props);
+        this.props.onChange = this.submitForm;
+    }
 
+    protected componentDidMount(): void {
+        this.removeStoreListeners = Store.subscribe(
+            this.serverErrorFormHandler
+        )
+    }
+
+    protected submitForm = (file: File)=>{
+        this.errorFormHandler("");
+        const validatorResult = validate(file, ["validatorFileImage","validatorFileMaxSize"]);
+
+        if(!validatorResult.isValid){
+            if(validatorResult.text){
+                this.errorFormHandler(validatorResult.text);
+            }
+            return;
+        }
+
+        this.messagesController.uploadFile(file);
+    }
+
+    protected serverErrorFormHandler = ()=>{
+        const error = Store.getState().MessageFileError as string;
+        this.errorFormHandler(error);
+    }
+
+    protected errorFormHandler = (errorText: string)=>{
+        const errorMessageBlock= this.children.find(el=> el instanceof ErrorMessage);
+        if(!errorMessageBlock) return;
+        errorMessageBlock.setProps({message: errorText});
+    }
+
+    protected componentWillUnmount(): void {
+        this.removeStoreListeners();
+    }
 
 }

@@ -7,12 +7,14 @@ export default [
   // Игнорирование служебных директорий
   {
     ignores: [
-      "**/node_modules/**",
-      "**/dist/**",
-      "**postcss.config.js",
-      "vite.config.ts"
-    ]
-  },
+        "**/node_modules/**",
+        "**/dist/**",
+        "**postcss.config.js",
+        "vite.config.ts",
+        "babel.config.js",
+        "jest.config.ts"
+        ]
+    },
 
   // Базовая конфигурация ESLint
   js.configs.recommended,

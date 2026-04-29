@@ -39,6 +39,8 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
     /** В этом объекте ключ — это название метода, а значение — обработчик */
     protected events: EventListType = {};
 
+    protected removeStoreListeners: ()=>void = ()=>{}
+
     /** Если у компонента нет свойств, задаём пустой объект */
     constructor(props: Props = {} as Props) {
         this.props = props;
@@ -120,16 +122,16 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
 
     private removeListeners() {
         for (const eventName of this.validEvents) {
-        const eventCallback = this.events[eventName];
-        if (typeof eventCallback === 'function' && this.domElement) {
-            this.domElement.removeEventListener(eventName, eventCallback);
-        }
+            const eventCallback = this.events[eventName];
+            if (typeof eventCallback === 'function' && this.domElement) {
+                this.domElement.removeEventListener(eventName, eventCallback);
+            }
         }
     }
 
 
     protected render() {
-        this.unmountComponent();
+        //this.unmountComponent();
         const fragment = this.compile();
 
         /** Если элемент уже существовал, обновляем его по имеющейся ссылке */
@@ -148,11 +150,11 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
         const fragment = templateElement.content;
 
         if (this.props.__children) {
-        this.children = this.props.__children.map((child) => child.component);
+            this.children = this.props.__children.map((child) => child.component);
 
-        this.props.__children.forEach((child) => {
-            child.embed(fragment);
-        });
+            this.props.__children.forEach((child) => {
+                child.embed(fragment);
+            });
         }
 
         const defaultRefs = this.props?.__refs ?? {};
@@ -169,16 +171,19 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
         return templateElement.content.firstElementChild;
     }
 
-    public hide(mode: RouteMode) {
+    public hide(mode?: RouteMode) {
         if (this.domElement) {
             if (this.domElement.parentNode) {
                 this.domElement.parentNode.removeChild(this.domElement);
             }
+            this.unmountComponent();
 
             // Очищаем все внутренние ссылки для последующего создания чистого компонента
             if(mode === "clean"){
-                //this.unmountComponent();
                 this.domElement = null;
+                this.removeListeners();
+                this.removeStoreListeners();
+
                 this.children = [];
                 this.refs = {};
                 if (this.props.__children) {

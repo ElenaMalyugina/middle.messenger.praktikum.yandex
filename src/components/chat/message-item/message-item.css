@@ -11,6 +11,16 @@
         border-bottom-right-radius:0;
     }
 
+    &__top{
+        margin-bottom: 4px;
+    }
+
+    &__user{
+        font-weight: 600;
+        font-size: 11px;
+        margin: 0;
+    }
+
     &__content{
         margin-bottom: 6px;
     }
@@ -27,12 +37,16 @@
     }
 
     &__file{
-        max-width: 100%;
+        max-width: 330px;
     }
 
     &__time{
         &--self{
             color: var(--second-color);
         }
+    }
+
+    &__link{
+        color: var(--second-color);
     }
 }

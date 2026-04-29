@@ -1,10 +1,35 @@
 import "./messages-box.css";
 import MessagesBoxTemplate from "./messages-box.hbs?raw";
-import Block from "../../../framework/Block";
+import Block, { type BlockOwnProps } from "../../../framework/Block";
+import MessagesController from "../../../controllers/messagesController";
+import Store from "../../../framework/store/Store";
+import { ChatDataModel } from "../../../types/chatData";
+import { ChatsService } from "../../../services/chatsService";
 
-export default class MessagesBox extends Block {
+export default class MessagesBox extends Block<BlockOwnProps>{
     static componentName = 'MessagesBox';
     protected template = MessagesBoxTemplate;
+    private messagesController = MessagesController;
+    private currentChatId = -1;
 
+
+    protected componentDidMount(): void {
+        this.removeStoreListeners = Store.subscribe(
+            this.socketConnect
+        )
+    }
+
+    socketConnect=()=>{
+        const activeChat = ChatsService.getActiveChat();
+        if(!activeChat || !(activeChat instanceof ChatDataModel) || this.currentChatId == activeChat.id) return;
+
+        this.messagesController.startConnection(activeChat.id);
+        this.currentChatId = activeChat.id
+    }
+
+    protected componentWillUnmount(): void {
+        this.removeStoreListeners();
+        this.messagesController.closeConnection();
+    }
 }
 
