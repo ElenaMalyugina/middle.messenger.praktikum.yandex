@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, jest } from "@jest/globals";
-import WebSocketApi from "./WebSocketApi";
+import WebSocketApi, { SocketRequest } from "./WebSocketApi";
 
 describe("WebSocketApi", () => {
     let ws: WebSocketApi;
@@ -145,7 +145,7 @@ describe("WebSocketApi", () => {
         window.WebSocket = OriginalWebSocket;
     });
 
-    it("closeConnection cleans up for closing state", async () => {
+    it("closeConnection запускает cleanup для closing state", async () => {
         const OriginalWebSocket = window.WebSocket as any;
         (window.WebSocket as any) = WS_STATES;
 
@@ -163,15 +163,16 @@ describe("WebSocketApi", () => {
         window.WebSocket = OriginalWebSocket;
     });
 
-    it("getInstance sets onMessagesReceived handler", () => {
+    it("getInstance принимает и устанавливает onMessagesReceived", () => {
         const cb = jest.fn();
         WebSocketApi.getInstance(cb);
         expect((WebSocketApi as any).onMessagesReceived).toBe(cb);
     });
 
-    /*
+    it("должен добавлять сообщения в буфер, если сокет пока/уже не открыт", async () => {
+        const OriginalWebSocket = window.WebSocket as any;
+        (window.WebSocket as any) = WS_STATES;
 
-    it("should buffer messages if socket is not open", async () => {
         ws['socket'] = {
             readyState: WebSocket.CONNECTING,  // not OPEN
             send: jest.fn(),
@@ -181,17 +182,16 @@ describe("WebSocketApi", () => {
 
         const req: SocketRequest = { content: "msg", type: "message" };
         ws['messageBuffer'] = [];
-        if (typeof ws['sendMessage'] === "function") {
-            ws['sendMessage'](req);
-        } else {
-            // прямой вызов по аналогии private с any
-            (ws as any).sendMessage(req);
-        }
+
+        ws.send(req);
+
         expect(ws['messageBuffer'].length).toBeGreaterThan(0);
         expect(ws['messageBuffer'][0]).toEqual(req);
+
+        window.WebSocket = OriginalWebSocket;
     });
 
-    it("should send buffered messages when socket is open", () => {
+    it("должен отправлять сообщщения из буфера, когда сокет открылся", () => {
         const mockSend = jest.fn();
         ws['socket'] = {
             readyState: WebSocket.OPEN,
@@ -204,32 +204,60 @@ describe("WebSocketApi", () => {
             { content: "1", type: "msg" },
             { content: "2", type: "msg" }
         ];
-        if (typeof ws['flushMessageBuffer'] === "function") {
-            ws['flushMessageBuffer']();
-        } else {
-            (ws as any).flushMessageBuffer();
-        }
+
+        ws.openHandler();
+
         expect(mockSend).toHaveBeenCalledTimes(2);
+        expect(mockSend).toHaveBeenNthCalledWith(1, JSON.stringify({ content: "1", type: "msg" }));
+        expect(mockSend).toHaveBeenNthCalledWith(2, JSON.stringify({ content: "2", type: "msg" }));
         expect(ws['messageBuffer']).toHaveLength(0);
     });
 
-    it("should not fail flush when socket is not open", () => {
+    it("длолжен сразу отправлять сообщения, если сокет открыт", () => {
+        const mockSend = jest.fn();
         ws['socket'] = {
-            readyState: WebSocket.CONNECTING,
-            send: jest.fn(), // will not be called
+            readyState: WebSocket.OPEN,
+            send: mockSend,
             addEventListener: jest.fn(),
             close: jest.fn(),
         } as any;
-        ws['messageBuffer'] = [{ content: "a", type: "b" }];
-        if (typeof ws['flushMessageBuffer'] === "function") {
-            ws['flushMessageBuffer']();
-        } else {
-            (ws as any).flushMessageBuffer();
-        }
-        expect(ws['messageBuffer'].length).toBe(1);
+
+        const req: SocketRequest = { content: "a", type: "b" };
+        ws['messageBuffer'] = [];
+
+        ws.send(req);
+
+        expect(mockSend).toHaveBeenCalledWith(JSON.stringify(req));
+        expect(ws['messageBuffer']).toHaveLength(0);
     });
 
-    it("should cleanup socket and clear interval", () => {
+    it("должен устанавливать пинг при открытии сокета", () => {
+        const mockSend = jest.fn();
+        ws['socket'] = {
+            readyState: WebSocket.OPEN,
+            send: mockSend,
+            addEventListener: jest.fn(),
+            close: jest.fn(),
+        } as any;
+
+        let intervalCallback: (() => void) | undefined;
+        const setIntervalSpy = jest.spyOn(window, "setInterval").mockImplementation(((cb: TimerHandler) => {
+            intervalCallback = cb as () => void;
+            return 123 as unknown as number;
+        }) as typeof window.setInterval);
+
+        ws.openHandler();
+
+        expect(setIntervalSpy).toHaveBeenCalledWith(expect.any(Function), 10000);
+        expect(ws['pingInterval']).toBe(123);
+
+        intervalCallback?.();
+        expect(mockSend).toHaveBeenCalledWith(JSON.stringify({ type: "ping" }));
+
+        setIntervalSpy.mockRestore();
+    });
+
+    it("Должен чистить соокеты и интервалы при закрытии сокета и уходе со страницы", () => {
         ws['pingInterval'] = setInterval(() => {}, 1000) as unknown as number;
         ws['socket'] = {
             removeEventListener: jest.fn(),
@@ -245,14 +273,14 @@ describe("WebSocketApi", () => {
         expect(ws['socket']).toBeNull();
     });
 
-    it("should attempt reconnect only up to max attempts", async () => {
+
+    it("Не должен пытаться переподключиться, если достигнуто максимальное количество попыток", () => {
         ws['reconnectAttempts'] = ws['maxReconnectAttempts'];
-        const connectSpy = jest.spyOn(ws as any, "connect").mockImplementation();
-        if (typeof ws['tryReconnect'] === "function") {
-            (ws as any).tryReconnect();
-        } else {
-            (ws as any).tryReconnect();
-        }
+        const connectSpy = jest.spyOn(ws as any, "connect").mockImplementation(() => undefined);
+
+        (ws as any).closeHandler({ wasClean: false } as CloseEvent);
+
         expect(connectSpy).not.toHaveBeenCalled();
-    });*/
+        expect(onMessagesReceived).toHaveBeenCalledWith({ type: "reconnect failed" });
+    });
 });
